@@ -13,7 +13,7 @@ body {
 
 /* Header */
 .header {
-    background-color: #000;
+    background: linear-gradient(135deg, #000 0%, #000 calc(100% - 90px), #FFD700 calc(100% - 90px), #FFD700 100%);
     padding: 20px 0;
     position: sticky;
     top: 0;
@@ -37,7 +37,7 @@ body {
 .nav {
     display: flex;
     gap: 30px;
-    margin-right: 60px;
+    margin-right: 50px;
 }
 
 .nav a {
