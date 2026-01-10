@@ -14,7 +14,7 @@ body {
 /* Header */
 .header {
     background-color: #000;
-    padding: 15px 0;
+    padding: 20px 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -30,7 +30,7 @@ body {
 }
 
 .logo img {
-    height: 50px;
+    height: 60px;
     width: auto;
 }
 
@@ -44,19 +44,22 @@ body {
     text-decoration: none;
     font-weight: bold;
     font-size: 14px;
-    transition: color 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
 }
 
 .nav a:hover {
     color: #ccc;
+    transform: scale(1.1);
 }
 
 /* Contenido principal */
 .main-content {
     flex: 1;
-    padding: 40px 20px;
+    padding: 80px 20px;
     max-width: 1200px;
     margin: 0 auto;
+    min-height: 60vh;
 }
 
 /* Footer */
@@ -79,11 +82,13 @@ body {
 }
 
 .social-media a {
-    transition: opacity 0.3s;
+    transition: all 0.3s;
+    cursor: pointer;
 }
 
 .social-media a:hover {
     opacity: 0.7;
+    transform: scale(1.2);
 }
 
 /* Responsive */
