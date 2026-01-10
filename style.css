@@ -13,7 +13,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(135deg, #000 0%, #000 calc(100% - 150px), #FFD700 calc(100% - 150px), #FFD700 100%);
+    background: linear-gradient(135deg, #000 0%, #000 calc(100% - 150px), #feed01 calc(100% - 150px), #feed01 100%);
     padding: 20px 0;
     position: sticky;
     top: 0;
@@ -30,7 +30,7 @@ body {
 }
 
 .logo img {
-    height: 80px;
+    height: 90px;
     width: auto;
 }
 
@@ -50,7 +50,7 @@ body {
 }
 
 .nav a:hover {
-    color: #FFD700;
+    color: #feed01;
     transform: scale(1.1);
 }
 
@@ -92,7 +92,7 @@ body {
 }
 
 .social-media a:hover svg {
-    fill: #FFD700;
+    fill: #feed01;
 }
 
 .social-media a:hover svg {
@@ -131,6 +131,10 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
+    .header {
+        background: linear-gradient(135deg, #000 0%, #000 calc(100% - 40px), #feed01 calc(100% - 40px), #feed01 100%);
+    }
+    
     .header-container {
         position: relative;
         justify-content: center;
