@@ -106,6 +106,18 @@ body {
     gap: 5px;
 }
 
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+}
+
 .hamburger span {
     width: 25px;
     height: 3px;
