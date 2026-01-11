@@ -13,7 +13,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(120deg, #000 0%, #000 calc(100% - 225px), #feed01 calc(100% - 225px), #feed01 100%);
+    background: linear-gradient(120deg, #000 0%, #000 calc(100% - 250px), #feed01 calc(100% - 250px), #feed01 100%);
     padding: 10px 0;
     position: sticky;
     top: 0;
@@ -128,7 +128,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .header {
-        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 100px), #feed01 calc(100% - 100px), #feed01 100%);
+        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 150px), #feed01 calc(100% - 150px), #feed01 100%);
     }
     
     .hamburger {
