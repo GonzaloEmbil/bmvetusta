@@ -13,7 +13,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(120deg, #000 0%, #000 calc(100% - 200px), #feed01 calc(100% - 200px), #feed01 100%);
+    background: linear-gradient(150deg, #000 0%, #000 calc(100% - 90px), #feed01 calc(100% - 90px), #feed01 100%);
     padding: 20px 0;
     position: sticky;
     top: 0;
@@ -95,10 +95,6 @@ body {
     fill: #feed01;
 }
 
-.social-media a:hover svg {
-    fill: #FFD700;
-}
-
 /* Hamburger Menu */
 .hamburger {
     display: none;
@@ -113,7 +109,7 @@ body {
 .hamburger span {
     width: 25px;
     height: 3px;
-    background-color: white;
+    background-color: #000;
     transition: all 0.3s;
 }
 
@@ -132,7 +128,8 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .header {
-        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 100px), #feed01 calc(100% - 100px), #feed01 100%);
+        background: linear-gradient(150deg, #000 0%, #000 calc(100% - 80px), #feed01 calc(100% - 80px), #feed01 100%);
+    } #000 0%, #000 calc(100% - 40px), #feed01 calc(100% - 40px), #feed01 100%);
     }
     
     .header-container {
