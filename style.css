@@ -63,12 +63,16 @@ body {
     transform: scale(1.1);
 }
 
-.streaming-icon:hover svg circle {
+.streaming-icon:hover svg rect,
+.streaming-icon:hover svg polygon,
+.streaming-icon:hover svg circle,
+.streaming-icon:hover svg path {
     stroke: #feed01;
+    fill: #feed01;
 }
 
-.streaming-icon:hover svg polygon {
-    fill: #feed01;
+.streaming-icon:hover svg rect[fill="none"] {
+    fill: none;
 }
 
 /* Contenido principal */
