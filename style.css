@@ -128,7 +128,7 @@ body {
 /* Ajustes para Desktop */
 @media (min-width: 769px) {
     .logo {
-        margin-left: -30px;
+        margin-left: -80px;
     }
 }
 
