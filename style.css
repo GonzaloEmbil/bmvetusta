@@ -54,6 +54,23 @@ body {
     transform: scale(1.1);
 }
 
+.streaming-icon {
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.streaming-icon:hover {
+    transform: scale(1.1);
+}
+
+.streaming-icon:hover svg circle {
+    stroke: #feed01;
+}
+
+.streaming-icon:hover svg polygon {
+    fill: #feed01;
+}
+
 /* Contenido principal */
 .main-content {
     flex: 1;
@@ -130,6 +147,10 @@ body {
     .logo {
         margin-left: -30px;
     }
+    
+    .streaming-icon {
+        margin-right: -30px;
+    }
 }
 
 /* Responsive */
@@ -141,6 +162,10 @@ body {
     
     .logo img {
         height: 60px;
+    }
+    
+    .streaming-icon {
+        display: none;
     }
     
     .hamburger {
@@ -172,8 +197,8 @@ body {
     }
     
     .nav a {
-        font-size: 16px;
-        padding: 10px;
+        font-size: 14px;
+        padding: 8px;
         text-align: center;
     }
 }
