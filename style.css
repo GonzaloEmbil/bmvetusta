@@ -37,7 +37,7 @@ body {
 .nav {
     display: flex;
     gap: 30px;
-    margin-right: 125px;
+    margin-right: 150px;
 }
 
 .nav a {
