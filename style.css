@@ -29,6 +29,10 @@ body {
     justify-content: space-between;
 }
 
+.logo {
+    transition: all 0.3s;
+}
+
 .logo img {
     height: 90px;
     width: auto;
@@ -37,7 +41,7 @@ body {
 .nav {
     display: flex;
     gap: 30px;
-    margin-right: 100px;
+    margin-right: 125px;
 }
 
 .nav a {
@@ -191,6 +195,7 @@ body {
         gap: 15px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         margin-right: 0;
+        align-items: flex-start;
     }
     
     .nav.active {
@@ -200,6 +205,7 @@ body {
     .nav a {
         font-size: 14px;
         padding: 8px;
-        text-align: center;
+        text-align: left;
+        padding-left: 20px;
     }
 }
