@@ -309,10 +309,6 @@ body {
         padding: 8px;
     }
     
-    .carousel-track {
-        animation: scroll 10s linear infinite;
-    }
-
     .carousel-container {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
@@ -320,11 +316,6 @@ body {
     }
     
     .carousel-track {
-        animation: none !important;
+        animation: scroll 30s linear infinite;
     }
-    
-    .carousel-track:hover {
-        animation-play-state: running;
-    }
-}
 }
