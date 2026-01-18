@@ -312,4 +312,19 @@ body {
     .carousel-track {
         animation: scroll 10s linear infinite;
     }
+
+    .carousel-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scroll-behavior: smooth;
+    }
+    
+    .carousel-track {
+        animation: none !important;
+    }
+    
+    .carousel-track:hover {
+        animation-play-state: running;
+    }
+}
 }
