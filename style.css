@@ -85,6 +85,7 @@ body {
     margin: 0 auto;
     min-height: calc(100vh - 110px - 400px);
     background-color: white;
+    position: relative;
 }
 
 /* Redes sociales en el body */
