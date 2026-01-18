@@ -146,7 +146,7 @@ body {
 }
 
 .carousel-title {
-    padding: 20px;
+    padding: 14px;
     text-align: center;
     color: white;
     font-size: 18px;
@@ -305,8 +305,8 @@ body {
     }
     
     .carousel-title {
-        font-size: 16px;
-        padding: 15px;
+        font-size: 14px;
+        padding: 8px;
     }
     
     .carousel-track {
