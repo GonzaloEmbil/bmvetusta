@@ -309,7 +309,7 @@ body {
         padding: 15px;
     }
     
-        .carousel-track {
+    .carousel-track {
         animation: scroll 30s linear infinite;
     }
 }
