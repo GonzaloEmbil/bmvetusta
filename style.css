@@ -308,4 +308,8 @@ body {
         font-size: 16px;
         padding: 15px;
     }
+    
+        .carousel-track {
+        animation: scroll 60s linear infinite;
+    }
 }
