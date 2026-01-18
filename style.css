@@ -84,7 +84,7 @@ body {
     max-width: 1200px;
     margin: 0 auto;
     min-height: calc(100vh - 110px - 400px);
-    background-color: white;
+    background-color: #000;
     position: relative;
 }
 
