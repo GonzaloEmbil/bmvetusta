@@ -349,4 +349,8 @@ body {
     .carousel-track {
         animation: scroll 30s linear infinite;
     }
+
+    .carousel-section {
+        margin-top: 180px;
+    }
 }
