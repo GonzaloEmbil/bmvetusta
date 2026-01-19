@@ -15,7 +15,7 @@ body {
 /* Header */
 .header {
     background: linear-gradient(120deg, #000 0%, #000 calc(100% - 250px), #feed01 calc(100% - 250px), #feed01 100%);
-    padding: 10px 0;
+    padding: 8px 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -35,7 +35,7 @@ body {
 }
 
 .logo img {
-    height: 90px;
+    height: 80px;
     width: auto;
 }
 
