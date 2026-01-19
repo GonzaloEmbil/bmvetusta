@@ -15,7 +15,7 @@ body {
 /* Header */
 .header {
     background: linear-gradient(120deg, #000 0%, #000 calc(100% - 250px), #feed01 calc(100% - 250px), #feed01 100%);
-    padding: 8px 0;
+    padding: 9px 0;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -35,7 +35,7 @@ body {
 }
 
 .logo img {
-    height: 80px;
+    height: 90px;
     width: auto;
 }
 
@@ -118,7 +118,7 @@ body {
     background-color: #000;
     padding: 40px 0;
     overflow: hidden;
-    margin-top: 374px;
+    margin-top: 375px;
     margin-bottom: auto;
 }
 
@@ -351,6 +351,6 @@ body {
     }
 
     .carousel-section {
-        margin-top: 180px;
+        margin-top: 300px;
     }
 }
