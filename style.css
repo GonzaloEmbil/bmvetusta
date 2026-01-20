@@ -201,16 +201,16 @@ body {
 .clasificacion-iframe-container {
     position: relative;
     width: 100%;
-    height: 650px;
+    height: 480px;
+    overflow: hidden;
     background-color: #111;
     border-radius: 12px;
-    overflow: hidden;
     box-shadow: 0 0 20px rgba(254, 237, 1, 0.15);
 }
 
 .clasificacion-iframe-container iframe {
     width: 100%;
-    height: 100%;
+    height: 900px;
     border: none;
 }
 
