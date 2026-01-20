@@ -201,7 +201,7 @@ body {
 .clasificacion-iframe-container {
     position: relative;
     width: 100%;
-    height: 480px;
+    height: 600px;
     overflow: hidden;
     background-color: #111;
     border-radius: 12px;
@@ -210,9 +210,9 @@ body {
 
 .clasificacion-iframe-container iframe {
     position: relative;
-    top: -150px;
+    top: -200px;
     width: 100%;
-    height: 900px;
+    height: 1000px;
     border: none;
 }
 
