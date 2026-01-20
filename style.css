@@ -209,6 +209,8 @@ body {
 }
 
 .clasificacion-iframe-container iframe {
+    position: relative;
+    top: -150px;
     width: 100%;
     height: 900px;
     border: none;
