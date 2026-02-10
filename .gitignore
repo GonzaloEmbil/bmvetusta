@@ -1,0 +1,13 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+bin/
+lib/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Datos y CSVs grandes (opcional, si no quieres subirlos a GitHub)
+*.csv

@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página cargada correctamente');
+
+    // Loading screen
+    const loadingScreen = document.getElementById('loading-screen');
+    if (loadingScreen) {
+        window.addEventListener('load', () => {
+            loadingScreen.classList.add('fade-out');
+            loadingScreen.addEventListener('transitionend', () => {
+                loadingScreen.style.display = 'none';
+            });
+        });
+    }
     
     // Menú hamburguesa
     const hamburger = document.querySelector('.hamburger');
