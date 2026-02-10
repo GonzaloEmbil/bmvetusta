@@ -30,16 +30,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 const imageHeight = cardWidth * (9 / 16); // 168.75px
                 
                 // Calcular el margin-top necesario
+                // Queremos que la separación imagen/título esté en el borde inferior
                 const marginTop = viewportHeight - paddingTop - imageHeight;
                 
-                // Aplicar el margin-top calculado
-                carouselSection.style.marginTop = `${marginTop}px`;
+                // Aplicar el margin-top calculado con !important para sobrescribir CSS
+                carouselSection.style.setProperty('margin-top', `${marginTop}px`, 'important');
+                
+                // Log para debug
+                console.log(`Viewport: ${viewportHeight}px, Calculated margin-top: ${marginTop}px`);
             }
         }
     }
     
-    // Ejecutar al cargar
-    adjustCarouselPosition();
+    // Ejecutar después de que todo el contenido esté cargado
+    window.addEventListener('load', adjustCarouselPosition);
     
     // Reajustar al cambiar el tamaño de la ventana
     window.addEventListener('resize', adjustCarouselPosition);
