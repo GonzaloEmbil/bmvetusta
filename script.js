@@ -53,6 +53,55 @@ document.addEventListener('DOMContentLoaded', function() {
     // Reajustar al cambiar el tamaño de la ventana
     window.addEventListener('resize', adjustCarouselPosition);
     
+    // Carrusel infinito suave con JavaScript
+    function setupInfiniteCarousel() {
+        const track = document.querySelector('.carousel-track');
+        const cards = document.querySelectorAll('.carousel-card');
+        
+        if (track && cards.length > 0) {
+            // Calcular el ancho de una tarjeta + gap
+            const cardWidth = 300; // ancho fijo de cada tarjeta
+            const gap = 30; // gap entre tarjetas
+            const cardTotalWidth = cardWidth + gap;
+            
+            // Número de tarjetas originales (mitad del total)
+            const originalCardsCount = cards.length / 2;
+            
+            // Ancho total a desplazar para volver al inicio
+            const resetPoint = originalCardsCount * cardTotalWidth;
+            
+            let currentTranslate = 0;
+            const speed = 0.5; // píxeles por frame (ajustar para velocidad)
+            
+            function animate() {
+                currentTranslate += speed;
+                
+                // Si llegamos al punto de reset, volver al inicio sin salto visible
+                if (currentTranslate >= resetPoint) {
+                    currentTranslate = 0;
+                }
+                
+                track.style.transform = `translateX(-${currentTranslate}px)`;
+                requestAnimationFrame(animate);
+            }
+            
+            // Iniciar la animación
+            animate();
+            
+            // Pausar al hacer hover
+            track.addEventListener('mouseenter', () => {
+                track.style.animationPlayState = 'paused';
+            });
+            
+            track.addEventListener('mouseleave', () => {
+                track.style.animationPlayState = 'running';
+            });
+        }
+    }
+    
+    // Iniciar carrusel infinito al cargar
+    window.addEventListener('load', setupInfiniteCarousel);
+    
     // Menú hamburguesa
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('.nav');

@@ -160,20 +160,7 @@ body {
 .carousel-track {
     display: flex;
     gap: 30px;
-    animation: scroll 30s linear infinite;
-}
-
-@keyframes scroll {
-    0% {
-        transform: translateX(0);
-    }
-    100% {
-        transform: translateX(-50%);
-    }
-}
-
-.carousel-track:hover {
-    animation-play-state: paused;
+    /* La animación ahora se maneja con JavaScript para un loop infinito perfecto */
 }
 
 .carousel-card {
@@ -411,10 +398,6 @@ body {
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
         scroll-behavior: smooth;
-    }
-    
-    .carousel-track {
-        animation: scroll 30s linear infinite;
     }
 
     .carousel-section {
