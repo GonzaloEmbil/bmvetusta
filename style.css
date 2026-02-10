@@ -146,7 +146,8 @@ body {
     background-color: #000;
     padding: 40px 0;
     overflow: hidden;
-    margin-top: 375px;
+    /* Ajuste para que la separación imagen/título esté en el borde inferior del viewport en desktop */
+    margin-top: calc(100vh - 270px);
     margin-bottom: auto;
 }
 
