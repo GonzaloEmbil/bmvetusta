@@ -12,6 +12,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
+    // Ajuste dinámico del carrusel para desktop
+    function adjustCarouselPosition() {
+        // Solo para pantallas desktop (> 768px)
+        if (window.innerWidth > 768) {
+            const carouselSection = document.querySelector('.carousel-section');
+            if (carouselSection) {
+                // Altura del viewport
+                const viewportHeight = window.innerHeight;
+                
+                // Obtener el padding-top de carousel-section (40px)
+                const paddingTop = 40;
+                
+                // Calcular la altura de la imagen del carrusel
+                // Las tarjetas tienen 300px de ancho y aspect-ratio 16/9
+                const cardWidth = 300;
+                const imageHeight = cardWidth * (9 / 16); // 168.75px
+                
+                // Calcular el margin-top necesario
+                const marginTop = viewportHeight - paddingTop - imageHeight;
+                
+                // Aplicar el margin-top calculado
+                carouselSection.style.marginTop = `${marginTop}px`;
+            }
+        }
+    }
+    
+    // Ejecutar al cargar
+    adjustCarouselPosition();
+    
+    // Reajustar al cambiar el tamaño de la ventana
+    window.addEventListener('resize', adjustCarouselPosition);
+    
     // Menú hamburguesa
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('.nav');

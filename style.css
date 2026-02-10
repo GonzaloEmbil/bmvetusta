@@ -146,9 +146,9 @@ body {
     background-color: #000;
     padding: 40px 0;
     overflow: hidden;
-    /* Cálculo exacto: 100vh - (padding-top 40px + altura imagen 168.75px) = 100vh - 208.75px */
-    /* La altura de la imagen es: 300px (ancho) × 9/16 (aspect-ratio) = 168.75px */
-    margin-top: calc(100vh - 209px);
+    /* El margin-top se calcula dinámicamente con JavaScript para ajustarse perfectamente a cada resolución */
+    /* Valor inicial conservador que será sobrescrito por JS */
+    margin-top: 300px;
     margin-bottom: auto;
 }
 
