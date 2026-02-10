@@ -17,9 +17,14 @@ document.addEventListener('DOMContentLoaded', function() {
         // Solo para pantallas desktop (> 768px)
         if (window.innerWidth > 768) {
             const carouselSection = document.querySelector('.carousel-section');
-            if (carouselSection) {
+            const header = document.querySelector('.header');
+            
+            if (carouselSection && header) {
                 // Altura del viewport
                 const viewportHeight = window.innerHeight;
+                
+                // Obtener la altura real del header sticky
+                const headerHeight = header.offsetHeight;
                 
                 // Obtener el padding-top de carousel-section (40px)
                 const paddingTop = 40;
@@ -30,14 +35,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const imageHeight = cardWidth * (9 / 16); // 168.75px
                 
                 // Calcular el margin-top necesario
-                // Queremos que la separación imagen/título esté en el borde inferior
-                const marginTop = viewportHeight - paddingTop - imageHeight;
+                // Restamos el header porque ocupa espacio en el viewport
+                const marginTop = viewportHeight - headerHeight - paddingTop - imageHeight;
                 
                 // Aplicar el margin-top calculado con !important para sobrescribir CSS
                 carouselSection.style.setProperty('margin-top', `${marginTop}px`, 'important');
                 
                 // Log para debug
-                console.log(`Viewport: ${viewportHeight}px, Calculated margin-top: ${marginTop}px`);
+                console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Calculated margin-top: ${marginTop}px`);
             }
         }
     }
