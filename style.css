@@ -466,4 +466,184 @@ body {
     .clasificacion-title {
         font-size: 22px;
     }
+
+    .patrocinadores-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .sponsor-logo-colaborador,
+    .sponsor-logo-institucion {
+        max-width: 200px;
+    }
+}
+
+/* ====================================
+   PATROCINADORES
+   ==================================== */
+
+.patrocinadores-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 60px 40px;
+    background-color: #000;
+}
+
+.patrocinador-section {
+    margin-bottom: 80px;
+}
+
+.patrocinador-section:last-child {
+    margin-bottom: 0;
+}
+
+.patrocinador-title {
+    color: #feed01;
+    font-size: 2.5rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 50px;
+    position: relative;
+}
+
+.patrocinador-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #feed01, transparent);
+    margin: 20px auto 0;
+}
+
+/* Patrocinador Principal */
+.patrocinador-principal {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
+    border-radius: 15px;
+    border: 2px solid #333;
+}
+
+.sponsor-logo-principal {
+    max-width: 600px;
+    width: 100%;
+    height: auto;
+}
+
+/* Grid de Colaboradores e Instituciones */
+.patrocinadores-grid {
+    display: grid;
+    gap: 40px;
+    align-items: center;
+    justify-items: center;
+}
+
+.patrocinadores-colaboradores {
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.patrocinadores-instituciones {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Enlaces y Logos */
+.sponsor-link {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    border: 2px solid #333;
+    transition: all 0.4s ease;
+    width: 100%;
+    height: 100%;
+    min-height: 180px;
+}
+
+.sponsor-link:hover {
+    border-color: #feed01;
+    box-shadow: 0 8px 25px rgba(254, 237, 1, 0.2);
+    transform: translateY(-5px);
+}
+
+/* Logos con efecto grayscale */
+.sponsor-logo {
+    max-width: 100%;
+    height: auto;
+    filter: grayscale(100%);
+    transition: filter 0.4s ease, transform 0.4s ease;
+    object-fit: contain;
+}
+
+.sponsor-link:hover .sponsor-logo {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+}
+
+.sponsor-logo-colaborador {
+    max-width: 250px;
+}
+
+.sponsor-logo-institucion {
+    max-width: 280px;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .patrocinadores-colaboradores {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .patrocinadores-instituciones {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .patrocinadores-container {
+        padding: 40px 20px;
+    }
+
+    .patrocinador-section {
+        margin-bottom: 60px;
+    }
+
+    .patrocinador-title {
+        font-size: 1.8rem;
+        letter-spacing: 2px;
+        margin-bottom: 35px;
+    }
+
+    .patrocinador-principal {
+        padding: 25px;
+    }
+
+    .sponsor-logo-principal {
+        max-width: 400px;
+    }
+
+    .patrocinadores-colaboradores {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+    }
+
+    .patrocinadores-instituciones {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .sponsor-link {
+        padding: 20px;
+        min-height: 150px;
+    }
+
+    .sponsor-logo-colaborador,
+    .sponsor-logo-institucion {
+        max-width: 180px;
+    }
 }
