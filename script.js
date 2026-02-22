@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (window.innerWidth > 768) {
             const carouselSection = document.querySelector('.carousel-section');
             const header = document.querySelector('.header');
+            const abonamientoBanner = document.querySelector('.abonamiento-banner');
             
             if (carouselSection && header) {
                 // Altura del viewport
@@ -25,6 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 // Obtener la altura real del header sticky
                 const headerHeight = header.offsetHeight;
+                
+                // Obtener la altura del banner de abonamiento (si existe)
+                const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
                 
                 // Obtener el padding-top de carousel-section (40px)
                 const paddingTop = 40;
@@ -35,14 +39,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 const imageHeight = cardWidth * (9 / 16); // 168.75px
                 
                 // Calcular el margin-top necesario
-                // Restamos el header porque ocupa espacio en el viewport
-                const marginTop = viewportHeight - headerHeight - paddingTop - imageHeight;
+                // Restamos el header y el banner porque ocupan espacio
+                const marginTop = viewportHeight - headerHeight - bannerHeight - paddingTop - imageHeight;
                 
                 // Aplicar el margin-top calculado con !important para sobrescribir CSS
                 carouselSection.style.setProperty('margin-top', `${marginTop}px`, 'important');
                 
                 // Log para debug
-                console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Calculated margin-top: ${marginTop}px`);
+                console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Banner: ${bannerHeight}px, Calculated margin-top: ${marginTop}px`);
             }
         }
     }
