@@ -251,7 +251,8 @@ body {
     max-width: 850px;  /* Aumentado de 750px a 850px */
     height: 1500px;    /* Aumentado de 1200px a 1500px (+300px para mostrar 16 equipos) */
     margin: 0;         /* Sin margin auto, alineado a la izquierda */
-    overflow: hidden;  /* recorte superior y todo lo que sobra */
+    overflow-x: auto;  /* Permitir scroll horizontal */
+    overflow-y: hidden; /* Bloquear scroll vertical */
     background-color: #111;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(254, 237, 1, 0.15);
