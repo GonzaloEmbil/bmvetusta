@@ -98,34 +98,9 @@ body {
 
 /* Abonamiento Banner */
 .abonamiento-banner {
-    background: linear-gradient(135deg, #1a1a1a 0%, #000 100%);
-    padding: 60px 20px;
     text-align: center;
-    border-top: 4px solid #feed01;
-    border-bottom: 4px solid #feed01;
-    margin: 40px 0;
-}
-
-.abonamiento-content {
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.abonamiento-title {
-    color: #feed01;
-    font-size: 2.5rem;
-    font-weight: bold;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-}
-
-.abonamiento-text {
-    color: #fff;
-    font-size: 1.2rem;
-    margin-bottom: 30px;
-    line-height: 1.6;
+    padding: 30px 20px;
+    background-color: #000;
 }
 
 .abonamiento-btn {
@@ -134,11 +109,11 @@ body {
     color: #000;
     padding: 18px 45px;
     text-decoration: none;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: bold;
     border-radius: 50px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(254, 237, 1, 0.3);
     border: 2px solid #feed01;
@@ -158,24 +133,13 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .abonamiento-banner {
-        padding: 40px 15px;
-        margin: 20px 0;
-    }
-
-    .abonamiento-title {
-        font-size: 1.8rem;
-        letter-spacing: 1px;
-    }
-
-    .abonamiento-text {
-        font-size: 1rem;
-        margin-bottom: 25px;
+        padding: 20px 15px;
     }
 
     .abonamiento-btn {
         padding: 15px 35px;
         font-size: 1rem;
-        letter-spacing: 1px;
+        letter-spacing: 1.5px;
     }
 }
 
