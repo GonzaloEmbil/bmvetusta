@@ -118,29 +118,6 @@ body {
     flex-direction: column;
 }
 
-/* Redes sociales en el body */
-.body-social-media {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    display: flex;
-    gap: 30px;
-    z-index: 50;
-}
-
-.body-social-media a {
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.body-social-media a:hover {
-    transform: scale(1.2);
-}
-
-.body-social-media a:hover svg {
-    fill: #feed01;
-}
-
 /* Carrusel de equipos */
 .carousel-section {
     background-color: #000;
