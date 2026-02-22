@@ -247,9 +247,9 @@ body {
 
 .clasificacion-iframe-container {
     position: relative;
-    width: 60%;        /* Aún más estrecho */
-    max-width: 750px;  /* Reducido de 850px */
-    height: 850px;     /* Más largo: aumentado de 750px a 850px */
+    width: 70%;        /* Un poco más ancho: de 60% a 70% */
+    max-width: 850px;  /* Aumentado de 750px a 850px */
+    height: 1000px;    /* Bastante más largo: de 850px a 1000px */
     margin: 0;         /* Sin margin auto, alineado a la izquierda */
     overflow: hidden;  /* recorte superior y todo lo que sobra */
     background-color: #111;
@@ -261,7 +261,7 @@ body {
     position: relative;
     top: -480px;       /* Ajustado de -500px a -480px para mostrar mejor "PRIMERA DIVISION..." */
     width: 100%;
-    height: 1330px;    /* Aumentado de 1250px para cubrir más contenido */
+    height: 1480px;    /* Aumentado de 1330px a 1480px para cubrir más contenido */
     border: none;
 }
 
