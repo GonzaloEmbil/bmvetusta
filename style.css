@@ -483,14 +483,14 @@ body {
    ==================================== */
 
 .patrocinadores-container {
-    max-width: 1800px;
+    max-width: 95%;
     margin: 0 auto;
-    padding: 60px 40px;
+    padding: 40px 20px;
     background-color: #000;
 }
 
 .patrocinador-section {
-    margin-bottom: 80px;
+    margin-bottom: 50px;
 }
 
 .patrocinador-section:last-child {
@@ -504,7 +504,7 @@ body {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     position: relative;
 }
 
