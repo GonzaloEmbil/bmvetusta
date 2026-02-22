@@ -247,9 +247,9 @@ body {
 
 .clasificacion-iframe-container {
     position: relative;
-    width: 75%;        /* Más estrecho como solicitado */
-    max-width: 850px;  /* Reducido de 1000px */
-    height: 750px;     /* Más alto para ver la tabla completa sin scrolling */
+    width: 60%;        /* Aún más estrecho */
+    max-width: 750px;  /* Reducido de 850px */
+    height: 850px;     /* Más largo: aumentado de 750px a 850px */
     margin: 0;         /* Sin margin auto, alineado a la izquierda */
     overflow: hidden;  /* recorte superior y todo lo que sobra */
     background-color: #111;
@@ -259,9 +259,9 @@ body {
 
 .clasificacion-iframe-container iframe {
     position: relative;
-    top: -500px;       /* Recorte superior mayor para ocultar más contenido hasta "PRIMERA DIVISION..." */
+    top: -480px;       /* Ajustado de -500px a -480px para mostrar mejor "PRIMERA DIVISION..." */
     width: 100%;
-    height: 1250px;    /* Mayor altura para cubrir toda la tabla */
+    height: 1330px;    /* Aumentado de 1250px para cubrir más contenido */
     border: none;
 }
 
