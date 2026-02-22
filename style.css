@@ -209,17 +209,46 @@ body {
 
 .clasificacion-title {
     text-align: left; /* Alineado a la izquierda */
-    font-size: 28px;
-    margin-bottom: 25px;
+    font-size: 32px;
+    margin-bottom: 30px;
     margin-left: 20px;
-    color: #feed01;
     font-weight: bold;
+}
+
+.clasificacion-title a {
+    color: #feed01;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(254, 237, 1, 0.1) 0%, rgba(254, 237, 1, 0.05) 100%);
+    border: 2px solid transparent;
+}
+
+.clasificacion-title a:hover {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(254, 237, 1, 0.2) 0%, rgba(254, 237, 1, 0.1) 100%);
+    border-color: #feed01;
+    transform: translateX(5px);
+}
+
+.external-link-icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease;
+}
+
+.clasificacion-title a:hover .external-link-icon {
+    transform: translate(3px, -3px);
 }
 
 .clasificacion-iframe-container {
     position: relative;
-    width: 90%;        /* Más ancho para aprovechar el espacio */
-    max-width: 1000px;
+    width: 75%;        /* Más estrecho como solicitado */
+    max-width: 850px;  /* Reducido de 1000px */
     height: 750px;     /* Más alto para ver la tabla completa sin scrolling */
     margin: 0;         /* Sin margin auto, alineado a la izquierda */
     overflow: hidden;  /* recorte superior y todo lo que sobra */
