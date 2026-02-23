@@ -460,12 +460,31 @@ body {
         margin-top: 300px;
     }
 
-    .clasificacion-iframe-container {
-        height: 520px;
+    .clasificacion-section {
+        margin: 40px auto;
+        padding: 0 15px;
     }
 
     .clasificacion-title {
         font-size: 22px;
+        text-align: center;
+    }
+
+    .clasificacion-title a {
+        justify-content: center;
+    }
+
+    .clasificacion-iframe-container {
+        width: 100%;
+        max-width: 100%;
+        height: 600px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .clasificacion-iframe-container iframe {
+        top: -120px;
+        height: 720px;
     }
 
     .patrocinadores-grid {
