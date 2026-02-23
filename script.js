@@ -12,13 +12,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Ajuste dinámico del carrusel para desktop y móvil
+    // Ajuste dinámico del espaciador para posicionar los botones justo encima del carrusel
     function adjustCarouselPosition() {
-        const carouselSection = document.querySelector('.carousel-section');
+        const spacer = document.querySelector('.carousel-spacer');
         const header = document.querySelector('.header');
         const abonamientoBanner = document.querySelector('.abonamiento-banner');
         
-        if (carouselSection && header) {
+        if (spacer && header) {
             // Altura del viewport
             const viewportHeight = window.innerHeight;
             
@@ -28,22 +28,19 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtener la altura del banner de abonamiento (si existe)
             const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
             
-            // Obtener el padding-top de carousel-section (40px)
+            // Padding-top del carousel-section (40px)
             const paddingTop = 40;
             
-            // Calcular la altura de la imagen del carrusel según el breakpoint
-            // Desktop: tarjetas de 300px de ancho; Móvil: 250px
+            // Altura de la imagen del carrusel según el breakpoint
             const cardWidth = window.innerWidth > 768 ? 300 : 250;
             const imageHeight = cardWidth * (9 / 16);
             
-            // Calcular el margin-top necesario
-            const marginTop = viewportHeight - headerHeight - bannerHeight - paddingTop - imageHeight;
+            // El espaciador ocupa todo el espacio disponible por encima de los botones+carrusel
+            const spacerHeight = viewportHeight - headerHeight - bannerHeight - paddingTop - imageHeight;
             
-            // Aplicar el margin-top calculado con !important para sobrescribir CSS
-            carouselSection.style.setProperty('margin-top', `${marginTop}px`, 'important');
+            spacer.style.height = `${Math.max(0, spacerHeight)}px`;
             
-            // Log para debug
-            console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Banner: ${bannerHeight}px, CardWidth: ${cardWidth}px, ImageHeight: ${imageHeight}px, Calculated margin-top: ${marginTop}px`);
+            console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Banner: ${bannerHeight}px, CardWidth: ${cardWidth}px, SpacerHeight: ${spacerHeight}px`);
         }
     }
     
