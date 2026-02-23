@@ -499,7 +499,7 @@ body {
 }
 
 .patrocinador-title {
-    color: #FDED3A;
+    color: #ffffff;
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
@@ -514,7 +514,7 @@ body {
     display: block;
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
+    background: linear-gradient(90deg, transparent, #ffffff, transparent);
     margin: 10px auto 0;
 }
 
