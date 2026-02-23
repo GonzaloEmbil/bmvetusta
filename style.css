@@ -301,8 +301,8 @@ body {
 
 .clasificacion-iframe-container {
     position: relative;
-    width: 70%;
-    max-width: 850px;
+    width: 63%;
+    max-width: 765px;
     height: 1500px;
     margin: 0;
     overflow: hidden;  /* Sin scroll exterior — solo el scroll interno del iframe */
