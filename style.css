@@ -491,7 +491,7 @@ body {
 }
 
 .patrocinador-section {
-    margin-bottom: 50px;
+    margin-bottom: 25px;
 }
 
 .patrocinador-section:last-child {
@@ -505,7 +505,7 @@ body {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
     position: relative;
 }
 
@@ -515,7 +515,7 @@ body {
     width: 100px;
     height: 4px;
     background: linear-gradient(90deg, transparent, #feed01, transparent);
-    margin: 20px auto 0;
+    margin: 10px auto 0;
 }
 
 /* Patrocinador Principal */
@@ -605,13 +605,13 @@ body {
     }
 
     .patrocinador-section {
-        margin-bottom: 60px;
+        margin-bottom: 30px;
     }
 
     .patrocinador-title {
         font-size: 1.8rem;
         letter-spacing: 2px;
-        margin-bottom: 35px;
+        margin-bottom: 15px;
     }
 
     .patrocinador-principal {
