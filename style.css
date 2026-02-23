@@ -194,7 +194,7 @@ body {
 /* Carrusel de equipos */
 .carousel-section {
     background-color: #000;
-    padding: 40px 0;
+    padding: 33px 0 40px;
     overflow: hidden;
     margin-top: 0;
     margin-bottom: auto;
@@ -545,7 +545,7 @@ body {
     width: 100px;
     height: 4px;
     background: linear-gradient(90deg, transparent, #FDED3A, transparent);
-    margin: 10px auto 40px;
+    margin: 10px auto 60px;
 }
 
 /* Layout de dos columnas: mapa izquierda, info derecha */

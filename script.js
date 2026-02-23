@@ -28,8 +28,8 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtener la altura del banner de abonamiento (si existe)
             const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
             
-            // Padding-top del carousel-section (40px)
-            const paddingTop = 40;
+            // Padding-top del carousel-section (33px)
+            const paddingTop = 33;
             
             // Altura de la imagen del carrusel según el breakpoint
             const cardWidth = window.innerWidth > 768 ? 300 : 250;
