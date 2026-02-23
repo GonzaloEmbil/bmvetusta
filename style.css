@@ -566,17 +566,17 @@ body {
     transform: translateY(-5px);
 }
 
-/* Logos con efecto grayscale */
+/* Logos con tinte amarillo por defecto, color original al hacer hover */
 .sponsor-logo {
     max-width: 100%;
     height: auto;
-    filter: grayscale(100%);
+    filter: sepia(100%) saturate(400%) hue-rotate(15deg) brightness(1.05);
     transition: filter 0.4s ease, transform 0.4s ease;
     object-fit: contain;
 }
 
 .sponsor-link:hover .sponsor-logo {
-    filter: grayscale(0%);
+    filter: none;
     transform: scale(1.05);
 }
 
