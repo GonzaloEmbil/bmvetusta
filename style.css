@@ -545,7 +545,7 @@ body {
     width: 100px;
     height: 4px;
     background: linear-gradient(90deg, transparent, #FDED3A, transparent);
-    margin: 10px auto 20px;
+    margin: 10px auto 40px;
 }
 
 /* Layout de dos columnas: mapa izquierda, info derecha */
