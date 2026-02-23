@@ -98,9 +98,13 @@ body {
 
 /* Abonamiento Banner */
 .abonamiento-banner {
-    text-align: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
     padding: 30px 40px;
     background-color: #000;
+    flex-wrap: wrap;
 }
 
 .abonamiento-btn {
@@ -120,7 +124,6 @@ body {
 }
 
 .abonamiento-btn:hover {
-    background: linear-gradient(135deg, #FDED3A 0%, #FDED3A 100%);
     transform: translateY(-3px);
     box-shadow: 0 6px 25px rgba(254, 237, 1, 0.5);
 }
@@ -130,11 +133,27 @@ body {
     box-shadow: 0 3px 15px rgba(254, 237, 1, 0.4);
 }
 
+/* Botón morado */
+.abonamiento-btn-purple {
+    background: linear-gradient(135deg, #F4DFF1 0%, #e8c8e4 100%);
+    color: #000;
+    border-color: #F4DFF1;
+    box-shadow: 0 4px 15px rgba(244, 223, 241, 0.3);
+}
+
+.abonamiento-btn-purple:hover {
+    box-shadow: 0 6px 25px rgba(244, 223, 241, 0.5);
+}
+
+.abonamiento-btn-purple:active {
+    box-shadow: 0 3px 15px rgba(244, 223, 241, 0.4);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .abonamiento-banner {
         padding: 20px 15px;
-        text-align: center;
+        gap: 14px;
     }
 
     .abonamiento-btn {
