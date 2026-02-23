@@ -484,20 +484,30 @@ body {
    ==================================== */
 
 .contacto-container {
-    max-width: 900px;
+    max-width: 100%;
     margin: 0 auto;
-    padding: 50px 20px 60px;
+    padding: 50px 30px 60px;
     color: white;
 }
 
 .contacto-title {
-    font-size: 2.5rem;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 4px;
     color: #FDED3A;
-    margin-bottom: 30px;
+    font-size: 1.9rem;
+    font-weight: bold;
     text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.contacto-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
+    margin: 10px auto 0;
 }
 
 .contacto-info {
@@ -526,17 +536,18 @@ body {
     overflow: hidden;
     box-shadow: 0 0 20px rgba(253, 237, 58, 0.15);
     border: 2px solid rgba(253, 237, 58, 0.3);
+    margin-top: 30px;
 }
 
 .contacto-mapa iframe {
     display: block;
     width: 100%;
-    height: 450px;
+    height: 500px;
 }
 
 @media (max-width: 768px) {
     .contacto-title {
-        font-size: 1.8rem;
+        font-size: 1.35rem;
         letter-spacing: 2px;
     }
 
