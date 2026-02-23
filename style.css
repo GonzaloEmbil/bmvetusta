@@ -42,7 +42,7 @@ body {
 
 /* Header */
 .header {
-    background: linear-gradient(120deg, #000 0%, #000 calc(100% - 250px), #feed01 calc(100% - 250px), #feed01 100%);
+    background: linear-gradient(120deg, #000 0%, #000 calc(100% - 250px), #FDED3A calc(100% - 250px), #FDED3A 100%);
     padding: 9px 0;
     position: sticky;
     top: 0;
@@ -83,7 +83,7 @@ body {
 }
 
 .nav a:hover {
-    color: #feed01;
+    color: #FDED3A;
     transform: scale(1.1);
 }
 
@@ -105,7 +105,7 @@ body {
 
 .abonamiento-btn {
     display: inline-block;
-    background: linear-gradient(135deg, #feed01 0%, #ffd700 100%);
+    background: linear-gradient(135deg, #FDED3A 0%, #FDED3A 100%);
     color: #000;
     padding: 14px 36px;
     text-decoration: none;
@@ -116,11 +116,11 @@ body {
     letter-spacing: 2px;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(254, 237, 1, 0.3);
-    border: 2px solid #feed01;
+    border: 2px solid #FDED3A;
 }
 
 .abonamiento-btn:hover {
-    background: linear-gradient(135deg, #ffd700 0%, #feed01 100%);
+    background: linear-gradient(135deg, #FDED3A 0%, #FDED3A 100%);
     transform: translateY(-3px);
     box-shadow: 0 6px 25px rgba(254, 237, 1, 0.5);
 }
@@ -241,7 +241,7 @@ body {
 }
 
 .clasificacion-title a {
-    color: #feed01;
+    color: #FDED3A;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
@@ -256,7 +256,7 @@ body {
 .clasificacion-title a:hover {
     color: #fff;
     background: linear-gradient(135deg, rgba(254, 237, 1, 0.2) 0%, rgba(254, 237, 1, 0.1) 100%);
-    border-color: #feed01;
+    border-color: #FDED3A;
     transform: translateX(5px);
 }
 
@@ -331,7 +331,7 @@ body {
 }
 
 .social-media a:hover svg {
-    fill: #feed01;
+    fill: #FDED3A;
 }
 
 /* Hamburger Menu */
@@ -378,7 +378,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .header {
-        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 120px), #feed01 calc(100% - 120px), #feed01 100%);
+        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 120px), #FDED3A calc(100% - 120px), #FDED3A 100%);
         padding: 8px 0;
     }
     
@@ -406,7 +406,7 @@ body {
         top: 100%;
         left: 0;
         right: 0;
-        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 248.5px), #feed01 calc(100% - 248.5px), #feed01 100%);
+        background: linear-gradient(120deg, #000 0%, #000 calc(100% - 248.5px), #FDED3A calc(100% - 248.5px), #FDED3A 100%);
         flex-direction: column;
         padding: 20px;
         gap: 15px;
@@ -499,7 +499,7 @@ body {
 }
 
 .patrocinador-title {
-    color: #feed01;
+    color: #FDED3A;
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
@@ -514,7 +514,7 @@ body {
     display: block;
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #feed01, transparent);
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
     margin: 10px auto 0;
 }
 
