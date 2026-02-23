@@ -531,12 +531,14 @@ body {
 }
 
 .contacto-mapa {
-    width: 100%;
+    width: calc(50% - 20px);
+    margin-left: 20px;
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(253, 237, 58, 0.15);
     border: 2px solid rgba(253, 237, 58, 0.3);
     margin-top: 30px;
+    margin-bottom: 60px;
 }
 
 .contacto-mapa iframe {
@@ -549,6 +551,11 @@ body {
     .contacto-title {
         font-size: 1.35rem;
         letter-spacing: 2px;
+    }
+
+    .contacto-mapa {
+        width: calc(100% - 40px);
+        margin-left: 20px;
     }
 
     .contacto-mapa iframe {
