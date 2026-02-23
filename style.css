@@ -499,7 +499,7 @@ body {
 }
 
 .patrocinador-title {
-    color: #ffffff;
+    color: #FDED3A;
     font-size: 2.5rem;
     font-weight: bold;
     text-align: center;
@@ -514,7 +514,7 @@ body {
     display: block;
     width: 100px;
     height: 4px;
-    background: linear-gradient(90deg, transparent, #ffffff, transparent);
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
     margin: 10px auto 0;
 }
 
@@ -566,11 +566,11 @@ body {
     transform: translateY(-5px);
 }
 
-/* Logos con tinte amarillo por defecto, color original al hacer hover */
+/* Logos en blanco por defecto, color original al hacer hover */
 .sponsor-logo {
     max-width: 100%;
     height: auto;
-    filter: sepia(100%) saturate(400%) hue-rotate(15deg) brightness(1.05);
+    filter: brightness(0) invert(1);
     transition: filter 0.4s ease, transform 0.4s ease;
     object-fit: contain;
 }
