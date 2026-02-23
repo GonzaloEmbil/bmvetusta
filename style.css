@@ -527,9 +527,9 @@ body {
     background-color: #000;
 }
 
-.sponsor-logo-principal {
-    max-width: 500px;
-    width: 100%;
+.patrocinador-principal .sponsor-logo-principal {
+    max-width: 420px;
+    width: 420px;
     height: auto;
 }
 
