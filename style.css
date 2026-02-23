@@ -552,6 +552,17 @@ body {
     margin-bottom: 6px;
 }
 
+.contacto-email {
+    color: #FDED3A;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+}
+
+.contacto-email:hover {
+    opacity: 0.8;
+    text-decoration: underline;
+}
+
 @media (max-width: 768px) {
     .contacto-title {
         font-size: 1.35rem;
