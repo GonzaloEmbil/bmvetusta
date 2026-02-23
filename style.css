@@ -4,6 +4,10 @@
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 /* Loading Screen */
 #loading-screen {
     position: fixed;
@@ -557,8 +561,8 @@ body {
 }
 
 .contacto-mapa {
-    flex: 0 0 calc(50vw - 20px);
-    width: calc(50vw - 20px);
+    flex: 0 0 calc(60vw - 20px);
+    width: calc(60vw - 20px);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(253, 237, 58, 0.15);
