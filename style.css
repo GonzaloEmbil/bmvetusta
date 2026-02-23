@@ -485,8 +485,8 @@ body {
 
 .contacto-container {
     max-width: 100%;
-    margin: 0 auto;
-    padding: 50px 20px 60px;
+    margin: 0;
+    padding: 50px 20px 60px 20px;
     color: white;
 }
 
@@ -518,7 +518,8 @@ body {
 }
 
 .contacto-mapa {
-    flex: 0 0 50%;
+    flex: 0 0 calc(50vw - 20px);
+    width: calc(50vw - 20px);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 0 20px rgba(253, 237, 58, 0.15);
