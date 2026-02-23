@@ -12,42 +12,38 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Ajuste dinámico del carrusel para desktop
+    // Ajuste dinámico del carrusel para desktop y móvil
     function adjustCarouselPosition() {
-        // Solo para pantallas desktop (> 768px)
-        if (window.innerWidth > 768) {
-            const carouselSection = document.querySelector('.carousel-section');
-            const header = document.querySelector('.header');
-            const abonamientoBanner = document.querySelector('.abonamiento-banner');
+        const carouselSection = document.querySelector('.carousel-section');
+        const header = document.querySelector('.header');
+        const abonamientoBanner = document.querySelector('.abonamiento-banner');
+        
+        if (carouselSection && header) {
+            // Altura del viewport
+            const viewportHeight = window.innerHeight;
             
-            if (carouselSection && header) {
-                // Altura del viewport
-                const viewportHeight = window.innerHeight;
-                
-                // Obtener la altura real del header sticky
-                const headerHeight = header.offsetHeight;
-                
-                // Obtener la altura del banner de abonamiento (si existe)
-                const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
-                
-                // Obtener el padding-top de carousel-section (40px)
-                const paddingTop = 40;
-                
-                // Calcular la altura de la imagen del carrusel
-                // Las tarjetas tienen 300px de ancho y aspect-ratio 16/9
-                const cardWidth = 300;
-                const imageHeight = cardWidth * (9 / 16); // 168.75px
-                
-                // Calcular el margin-top necesario
-                // Restamos el header y el banner porque ocupan espacio
-                const marginTop = viewportHeight - headerHeight - bannerHeight - paddingTop - imageHeight;
-                
-                // Aplicar el margin-top calculado con !important para sobrescribir CSS
-                carouselSection.style.setProperty('margin-top', `${marginTop}px`, 'important');
-                
-                // Log para debug
-                console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Banner: ${bannerHeight}px, Calculated margin-top: ${marginTop}px`);
-            }
+            // Obtener la altura real del header sticky
+            const headerHeight = header.offsetHeight;
+            
+            // Obtener la altura del banner de abonamiento (si existe)
+            const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
+            
+            // Obtener el padding-top de carousel-section (40px)
+            const paddingTop = 40;
+            
+            // Calcular la altura de la imagen del carrusel según el breakpoint
+            // Desktop: tarjetas de 300px de ancho; Móvil: 250px
+            const cardWidth = window.innerWidth > 768 ? 300 : 250;
+            const imageHeight = cardWidth * (9 / 16);
+            
+            // Calcular el margin-top necesario
+            const marginTop = viewportHeight - headerHeight - bannerHeight - paddingTop - imageHeight;
+            
+            // Aplicar el margin-top calculado con !important para sobrescribir CSS
+            carouselSection.style.setProperty('margin-top', `${marginTop}px`, 'important');
+            
+            // Log para debug
+            console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Banner: ${bannerHeight}px, CardWidth: ${cardWidth}px, ImageHeight: ${imageHeight}px, Calculated margin-top: ${marginTop}px`);
         }
     }
     
