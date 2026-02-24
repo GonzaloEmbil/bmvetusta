@@ -696,6 +696,12 @@ body {
     grid-template-columns: repeat(3, 1fr);
 }
 
+/* Tarjetas más pequeñas para Instituciones */
+.patrocinadores-instituciones .sponsor-link {
+    padding: 16px;
+    min-height: 110px;
+}
+
 /* Enlaces y Logos — tarjeta blanca en todos los logos */
 .sponsor-link {
     display: flex;
