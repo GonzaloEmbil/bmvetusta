@@ -696,13 +696,15 @@ body {
     grid-template-columns: repeat(3, 1fr);
 }
 
-/* Enlaces y Logos */
+/* Enlaces y Logos — tarjeta blanca en todos los logos */
 .sponsor-link {
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 30px;
-    background-color: transparent;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
     transition: all 0.4s ease;
     width: 100%;
     height: 100%;
@@ -711,16 +713,6 @@ body {
 
 .sponsor-link:hover {
     transform: translateY(-5px);
-}
-
-/* Tarjeta blanca para filas pares de colaboradores e instituciones */
-.sponsor-card {
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-}
-
-.sponsor-card:hover {
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
 
