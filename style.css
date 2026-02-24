@@ -684,8 +684,8 @@ body {
 .patrocinadores-grid {
     display: grid;
     gap: 40px;
-    align-items: center;
-    justify-items: center;
+    align-items: stretch;
+    justify-items: stretch;
 }
 
 .patrocinadores-colaboradores {
@@ -694,12 +694,6 @@ body {
 
 .patrocinadores-instituciones {
     grid-template-columns: repeat(3, 1fr);
-}
-
-/* Tarjetas más pequeñas para Instituciones */
-.patrocinadores-instituciones .sponsor-link {
-    padding: 16px;
-    min-height: 110px;
 }
 
 /* Enlaces y Logos — tarjeta blanca en todos los logos */
