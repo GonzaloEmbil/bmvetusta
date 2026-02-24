@@ -713,17 +713,16 @@ body {
     transform: translateY(-5px);
 }
 
-/* Logos en blanco por defecto, color original al hacer hover */
+/* Logos en color original */
 .sponsor-logo {
     max-width: 100%;
     height: auto;
-    filter: brightness(0) invert(1);
-    transition: filter 0.4s ease, transform 0.4s ease;
+    filter: none;
+    transition: transform 0.4s ease;
     object-fit: contain;
 }
 
 .sponsor-link:hover .sponsor-logo {
-    filter: none;
     transform: scale(1.05);
 }
 
