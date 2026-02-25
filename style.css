@@ -719,6 +719,8 @@ body {
 .patrocinador-principal .sponsor-link {
     padding: 20px;
     height: 160px;
+    max-width: 400px;
+    width: 400px;
 }
 
 /* Instituciones: mismo tamaño que Colaboradores */
