@@ -686,6 +686,7 @@ body {
     gap: 40px;
     align-items: stretch;
     justify-items: stretch;
+    justify-content: center;
 }
 
 .patrocinadores-colaboradores {
@@ -784,8 +785,8 @@ body {
     }
 
     .patrocinador-principal {
-        padding: 20px;
-        min-height: 200px;
+        padding: 0;
+        min-height: auto;
         display: flex;
         justify-content: center;
         align-items: center;
