@@ -797,9 +797,21 @@ body {
         gap: 25px;
     }
 
+    /* En móvil todas las tarjetas del mismo tamaño (180px como colaboradores desktop) */
+    .patrocinadores-colaboradores .sponsor-link {
+        height: 180px;
+    }
+
+    .patrocinador-principal .sponsor-link {
+        height: 180px;
+    }
+
+    .patrocinadores-instituciones .sponsor-link {
+        height: 180px;
+    }
+
     .sponsor-link {
         padding: 20px;
-        min-height: 150px;
     }
 
     .sponsor-logo-colaborador,
