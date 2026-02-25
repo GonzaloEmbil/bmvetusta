@@ -781,16 +781,25 @@ body {
 
     .patrocinador-principal {
         padding: 20px;
+        min-height: 200px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     .patrocinador-principal .sponsor-link {
         height: 180px !important;
         padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
     }
 
     .sponsor-logo-principal {
         max-width: 280px;
-        width: auto;
+        width: 100%;
+        height: auto;
     }
 
     .patrocinadores-colaboradores {
