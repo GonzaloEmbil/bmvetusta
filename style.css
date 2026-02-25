@@ -780,7 +780,12 @@ body {
     }
 
     .patrocinador-principal {
-        padding: 25px;
+        padding: 20px;
+    }
+
+    .patrocinador-principal .sponsor-link {
+        height: 180px !important;
+        padding: 20px;
     }
 
     .sponsor-logo-principal {
