@@ -674,10 +674,10 @@ body {
     background-color: #000;
 }
 
-.patrocinador-principal .sponsor-logo-principal {
-    max-width: 300px;
-    width: 300px;
-    height: auto;
+.patrocinador-principal .sponsor-link .sponsor-logo-principal {
+    max-width: 300px !important;
+    width: 300px !important;
+    height: auto !important;
 }
 
 /* Grid de Colaboradores e Instituciones */
