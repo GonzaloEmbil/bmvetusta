@@ -705,9 +705,11 @@ body {
     background-color: #ffffff;
     border-radius: 10px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
-    transition: all 0.4s ease;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
     width: 100%;
     box-sizing: border-box;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
 }
 
 /* Colaboradores: altura fija para uniformidad */
@@ -791,11 +793,12 @@ body {
 
     .patrocinador-principal .sponsor-link {
         height: 180px !important;
+        max-width: 100% !important;
+        width: 100% !important;
         padding: 20px;
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100%;
     }
 
     .sponsor-logo-principal {
@@ -830,5 +833,20 @@ body {
     .sponsor-logo-colaborador,
     .sponsor-logo-institucion {
         max-width: 180px;
+    }
+
+    /* Disable hover effects on mobile to prevent touch scroll glitches */
+    .sponsor-link:hover {
+        transform: none;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .sponsor-link:hover .sponsor-logo {
+        transform: none;
+    }
+
+    .sponsor-link {
+        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
     }
 }
