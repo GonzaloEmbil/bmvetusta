@@ -721,10 +721,10 @@ body {
     height: 160px;
 }
 
-/* Instituciones: más compacto */
+/* Instituciones: mismo tamaño que Colaboradores */
 .patrocinadores-instituciones .sponsor-link {
     padding: 16px;
-    height: 130px;
+    height: 180px;
 }
 
 .sponsor-link:hover {
@@ -789,7 +789,8 @@ body {
     }
 
     .sponsor-logo-principal {
-        max-width: 400px;
+        max-width: 280px;
+        width: auto;
     }
 
     .patrocinadores-colaboradores {
@@ -804,10 +805,6 @@ body {
 
     /* En móvil todas las tarjetas del mismo tamaño (180px como colaboradores desktop) */
     .patrocinadores-colaboradores .sponsor-link {
-        height: 180px;
-    }
-
-    .patrocinador-principal .sponsor-link {
         height: 180px;
     }
 
