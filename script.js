@@ -109,13 +109,32 @@ document.addEventListener('DOMContentLoaded', function() {
             nav.classList.toggle('active');
         });
         
-        // Cerrar menú al hacer clic en un enlace
+        // Cerrar menú al hacer clic en un enlace (excepto dropdown toggles)
         const navLinks = document.querySelectorAll('.nav a');
         navLinks.forEach(link => {
             link.addEventListener('click', function() {
                 hamburger.classList.remove('active');
                 nav.classList.remove('active');
             });
+        });
+    }
+
+    // Dropdown "El Club" en móvil (click toggle)
+    const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
+    const navDropdown = document.querySelector('.nav-dropdown');
+    
+    if (dropdownToggle && navDropdown) {
+        dropdownToggle.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navDropdown.classList.toggle('active');
+        });
+
+        // Cerrar dropdown al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (!navDropdown.contains(e.target)) {
+                navDropdown.classList.remove('active');
+            }
         });
     }
     

@@ -76,9 +76,11 @@ body {
     display: flex;
     gap: 40px;
     margin-right: 10px;
+    align-items: center;
 }
 
-.nav a {
+.nav a,
+.nav .nav-dropdown-toggle {
     color: white;
     text-decoration: none;
     font-weight: bold;
@@ -87,9 +89,65 @@ body {
     cursor: pointer;
 }
 
-.nav a:hover {
+.nav a:hover,
+.nav .nav-dropdown-toggle:hover {
     color: #FDED3A;
     transform: scale(1.1);
+}
+
+/* Dropdown "El Club" */
+.nav-dropdown {
+    position: relative;
+}
+
+.nav-dropdown-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    user-select: none;
+}
+
+.nav-dropdown-toggle::after {
+    content: '▾';
+    font-size: 10px;
+    transition: transform 0.3s;
+}
+
+.nav-dropdown:hover .nav-dropdown-toggle::after,
+.nav-dropdown.active .nav-dropdown-toggle::after {
+    transform: rotate(180deg);
+}
+
+.nav-dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    border: 1px solid rgba(253, 237, 58, 0.3);
+    border-radius: 8px;
+    padding: 10px 0;
+    min-width: 180px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+    z-index: 200;
+    margin-top: 10px;
+}
+
+.nav-dropdown:hover .nav-dropdown-menu {
+    display: flex;
+    flex-direction: column;
+}
+
+.nav-dropdown-menu a {
+    padding: 10px 20px;
+    white-space: nowrap;
+    font-size: 14px;
+}
+
+.nav-dropdown-menu a:hover {
+    background-color: rgba(253, 237, 58, 0.1);
+    transform: none;
 }
 
 .streaming-icon {
@@ -447,11 +505,51 @@ body {
         display: flex;
     }
     
-    .nav a {
+    .nav a,
+    .nav .nav-dropdown-toggle {
         font-size: 14px;
         padding: 8px;
         text-align: left;
         padding-left: 20px;
+    }
+
+    /* Mobile dropdown */
+    .nav-dropdown {
+        width: 100%;
+    }
+
+    .nav-dropdown-toggle {
+        display: flex;
+        width: 100%;
+    }
+
+    .nav-dropdown:hover .nav-dropdown-menu {
+        display: none;
+    }
+
+    .nav-dropdown.active .nav-dropdown-menu {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .nav-dropdown-menu {
+        position: static;
+        transform: none;
+        border: none;
+        border-left: 2px solid #FDED3A;
+        border-radius: 0;
+        box-shadow: none;
+        margin-top: 5px;
+        margin-left: 20px;
+        padding: 5px 0;
+        min-width: auto;
+        background-color: transparent;
+    }
+
+    .nav-dropdown-menu a {
+        font-size: 13px;
+        padding: 6px 15px;
+        padding-left: 15px;
     }
     
     .body-social-media {
