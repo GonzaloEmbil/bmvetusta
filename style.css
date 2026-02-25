@@ -809,6 +809,10 @@ body {
         height: auto;
     }
 
+    .patrocinadores-grid {
+        padding-top: 0;
+    }
+
     .patrocinadores-colaboradores {
         grid-template-columns: 1fr;
         gap: 25px;
