@@ -523,16 +523,9 @@ body {
         width: 100%;
     }
 
-    .nav-dropdown:hover .nav-dropdown-menu {
-        display: none;
-    }
-
-    .nav-dropdown.active .nav-dropdown-menu {
-        display: flex;
-        flex-direction: column;
-    }
-
     .nav-dropdown-menu {
+        display: flex !important;
+        flex-direction: column;
         position: static;
         transform: none;
         border: none;
@@ -547,9 +540,9 @@ body {
     }
 
     .nav-dropdown-menu a {
-        font-size: 13px;
-        padding: 6px 15px;
-        padding-left: 15px;
+        font-size: 14px;
+        padding: 8px 15px;
+        padding-left: 20px;
     }
     
     .body-social-media {

@@ -144,20 +144,22 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Dropdown "El Club" en móvil (click toggle)
+    // Dropdown "El Club" — toggle only on desktop (mobile is always expanded via CSS)
     const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
     const navDropdown = document.querySelector('.nav-dropdown');
     
     if (dropdownToggle && navDropdown) {
         dropdownToggle.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            navDropdown.classList.toggle('active');
+            if (window.innerWidth > 768) {
+                e.preventDefault();
+                e.stopPropagation();
+                navDropdown.classList.toggle('active');
+            }
         });
 
-        // Cerrar dropdown al hacer clic fuera
+        // Cerrar dropdown al hacer clic fuera (solo desktop)
         document.addEventListener('click', function(e) {
-            if (!navDropdown.contains(e.target)) {
+            if (window.innerWidth > 768 && !navDropdown.contains(e.target)) {
                 navDropdown.classList.remove('active');
             }
         });
