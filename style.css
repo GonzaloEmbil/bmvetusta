@@ -665,10 +665,13 @@ body {
         flex-direction: column;
     }
 
-    .clasificacion-column,
-    .calendario-column {
+    .clasificacion-column {
         flex: none;
         width: 100%;
+    }
+
+    .calendario-column {
+        display: none;
     }
 
     .clasificacion-iframe-container {
@@ -682,21 +685,6 @@ body {
     .clasificacion-iframe-container iframe {
         top: -120px;
         height: 720px;
-    }
-
-    .calendario-iframe-container {
-        width: 100%;
-        height: 800px;
-        overflow: auto;
-    }
-
-    .calendario-title {
-        font-size: 22px;
-    }
-
-    .calendario-iframe-container iframe {
-        top: 0;
-        height: 100%;
     }
 
     .patrocinadores-grid {
