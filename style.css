@@ -107,15 +107,15 @@ body {
     user-select: none;
 }
 
-.nav-dropdown-toggle::after {
-    content: '▾';
-    font-size: 10px;
-    transition: transform 0.3s;
-}
-
-.nav-dropdown:hover .nav-dropdown-toggle::after,
-.nav-dropdown.active .nav-dropdown-toggle::after {
-    transform: rotate(180deg);
+/* Active nav link underline (desktop) */
+@media (min-width: 769px) {
+    .nav > a.nav-active,
+    .nav .nav-dropdown.nav-active .nav-dropdown-toggle {
+        text-decoration: underline;
+        text-underline-offset: 6px;
+        text-decoration-thickness: 2px;
+        color: #FDED3A;
+    }
 }
 
 .nav-dropdown-menu {

@@ -1,6 +1,31 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página cargada correctamente');
 
+    // Highlight active nav link based on current page (desktop underline)
+    (function highlightActiveNav() {
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const clubPages = ['noticias.html', 'historia.html', 'organigrama.html', 'enprensa.html'];
+
+        // Direct nav links (EQUIPOS, ABÓNATE, PATROCINADORES, CONTACTO)
+        document.querySelectorAll('.nav > a').forEach(function(link) {
+            const href = link.getAttribute('href');
+            if (href) {
+                const linkPage = href.split('/').pop();
+                if (linkPage === currentPage) {
+                    link.classList.add('nav-active');
+                }
+            }
+        });
+
+        // If current page is under CLUB dropdown, highlight the CLUB toggle
+        if (clubPages.indexOf(currentPage) !== -1) {
+            var dropdown = document.querySelector('.nav-dropdown');
+            if (dropdown) {
+                dropdown.classList.add('nav-active');
+            }
+        }
+    })();
+
     // Loading screen
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
