@@ -323,18 +323,20 @@ body {
 .clasificacion-section {
     width: 100%;
     max-width: 1200px;
-    margin: 60px 40px 40px 40px;
-    padding: 0 20px;
+    margin: 60px 40px 40px 15px;
+    padding: 0;
     color: white;
     overflow-x: hidden;
 }
 
 .clasificacion-title {
-    text-align: left; /* Alineado a la izquierda */
+    text-align: center;
     font-size: 32px;
     margin-bottom: 30px;
-    margin-left: 20px;
+    margin-left: 0;
     font-weight: bold;
+    width: 69%;
+    max-width: 843px;
 }
 
 .clasificacion-title a {
