@@ -1,6 +1,23 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página cargada correctamente');
 
+    // On mobile, swap calendario iframe for equipo iframe
+    if (window.innerWidth <= 768) {
+        var calendarioIframe = document.querySelector('.calendario-iframe-container iframe');
+        var calendarioTitle = document.querySelector('.calendario-title a');
+        if (calendarioIframe) {
+            calendarioIframe.src = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1';
+        }
+        if (calendarioTitle) {
+            calendarioTitle.href = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1';
+            // Update the text node (first child before the SVG)
+            var textNode = calendarioTitle.firstChild;
+            if (textNode && textNode.nodeType === 3) {
+                textNode.textContent = 'Equipo ';
+            }
+        }
+    }
+
     // Highlight active nav link based on current page (desktop underline)
     (function highlightActiveNav() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';
