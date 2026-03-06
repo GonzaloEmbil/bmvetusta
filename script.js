@@ -2,21 +2,30 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Página cargada correctamente');
 
     // On mobile, swap calendario iframe for equipo iframe
-    if (window.innerWidth <= 768) {
-        var calendarioIframe = document.querySelector('.calendario-iframe-container iframe');
-        var calendarioTitle = document.querySelector('.calendario-title a');
-        if (calendarioIframe) {
-            calendarioIframe.src = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1';
-        }
-        if (calendarioTitle) {
-            calendarioTitle.href = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1';
-            // Update the text node (first child before the SVG)
-            var textNode = calendarioTitle.firstChild;
-            if (textNode && textNode.nodeType === 3) {
-                textNode.textContent = 'Equipo ';
+    function swapCalendarioForEquipo() {
+        if (window.innerWidth <= 768) {
+            var calendarioIframe = document.querySelector('.calendario-iframe-container iframe');
+            var calendarioTitle = document.querySelector('.calendario-title a');
+            var equipoUrl = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1';
+            if (calendarioIframe && !calendarioIframe.src.includes('equipo.php')) {
+                calendarioIframe.src = equipoUrl;
+            }
+            if (calendarioTitle) {
+                calendarioTitle.href = equipoUrl;
+                // Update visible text
+                var walker = document.createTreeWalker(calendarioTitle, NodeFilter.SHOW_TEXT, null, false);
+                var node;
+                while (node = walker.nextNode()) {
+                    if (node.textContent.trim().length > 0) {
+                        node.textContent = node.textContent.replace(/Calendario/i, 'Equipo');
+                        break;
+                    }
+                }
             }
         }
     }
+    swapCalendarioForEquipo();
+    window.addEventListener('load', swapCalendarioForEquipo);
 
     // Highlight active nav link based on current page (desktop underline)
     (function highlightActiveNav() {
