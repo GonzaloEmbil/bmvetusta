@@ -369,9 +369,16 @@ body {
     transform: translate(3px, -3px);
 }
 
+.iframes-row {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    width: 100%;
+}
+
 .clasificacion-iframe-container {
     position: relative;
-    width: 69%;
+    flex: 0 0 69%;
     max-width: 843px;
     height: 1500px;
     margin: 0;
@@ -387,6 +394,50 @@ body {
     width: 100%;
     height: 1980px;    /* Aumentado de 1680px a 1980px (+300px = aumento anterior + 50%) */
     border: none;
+}
+
+.calendario-iframe-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.calendario-title {
+    text-align: center;
+    font-size: 32px;
+    margin-bottom: 30px;
+    font-weight: bold;
+    color: white;
+}
+
+.calendario-title a {
+    color: #FDED3A;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    transition: all 0.3s ease;
+    padding: 10px 20px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, rgba(254, 237, 1, 0.1) 0%, rgba(254, 237, 1, 0.05) 100%);
+    border: 2px solid transparent;
+}
+
+.calendario-title a:hover {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(254, 237, 1, 0.2) 0%, rgba(254, 237, 1, 0.1) 100%);
+    border-color: #FDED3A;
+    transform: translateX(5px);
+}
+
+.calendario-iframe-container iframe {
+    width: 100%;
+    height: 1500px;
+    border: none;
+    background-color: #111;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(254, 237, 1, 0.15);
 }
 
 /* Footer */
@@ -595,13 +646,20 @@ body {
     .clasificacion-title {
         font-size: 22px;
         text-align: center;
+        width: 100%;
+        max-width: 100%;
     }
 
     .clasificacion-title a {
         justify-content: center;
     }
 
+    .iframes-row {
+        flex-direction: column;
+    }
+
     .clasificacion-iframe-container {
+        flex: none;
         width: 100%;
         max-width: 100%;
         height: 600px;
@@ -612,6 +670,18 @@ body {
     .clasificacion-iframe-container iframe {
         top: -120px;
         height: 720px;
+    }
+
+    .calendario-iframe-container {
+        width: 100%;
+    }
+
+    .calendario-title {
+        font-size: 22px;
+    }
+
+    .calendario-iframe-container iframe {
+        height: 600px;
     }
 
     .patrocinadores-grid {
