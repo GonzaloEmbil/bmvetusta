@@ -139,6 +139,16 @@ body {
     flex-direction: column;
 }
 
+/* Invisible bridge to keep hover active when moving cursor from toggle to menu */
+.nav-dropdown-menu::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    height: 8px;
+}
+
 .nav-dropdown-menu a {
     padding: 10px 20px;
     white-space: nowrap;
