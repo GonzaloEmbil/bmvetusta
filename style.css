@@ -244,6 +244,111 @@ body {
     }
 }
 
+/* ====================================
+   MATCH BANNER — Próximo partido
+   ==================================== */
+
+.match-banner {
+    background-color: #000;
+    border-bottom: 3px solid #FDED3A;
+    padding: 0;
+}
+
+.match-banner-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 30px;
+}
+
+.match-team {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex: 1;
+}
+
+.match-team-home {
+    justify-content: flex-start;
+}
+
+.match-team-away {
+    justify-content: flex-end;
+}
+
+.match-team-badge {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.match-team-name {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.05rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.match-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    flex: 1.2;
+    text-align: center;
+    background: linear-gradient(135deg, #FDED3A 0%, #e6d630 100%);
+    padding: 10px 24px;
+    border-radius: 6px;
+}
+
+.match-venue {
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.match-datetime {
+    color: #000;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+}
+
+@media (max-width: 768px) {
+    .match-banner-inner {
+        padding: 10px 12px;
+        gap: 8px;
+    }
+
+    .match-team-badge {
+        width: 36px;
+        height: 36px;
+    }
+
+    .match-team-name {
+        font-size: 0.7rem;
+        letter-spacing: 0.5px;
+    }
+
+    .match-center {
+        padding: 8px 10px;
+        flex: 1.5;
+    }
+
+    .match-venue {
+        font-size: 0.6rem;
+    }
+
+    .match-datetime {
+        font-size: 0.75rem;
+    }
+}
+
 /* Contenido principal */
 .main-content {
     flex: 1;
