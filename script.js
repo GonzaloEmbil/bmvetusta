@@ -41,45 +41,43 @@ document.addEventListener('DOMContentLoaded', function() {
     // del carrusel quede justo en el límite inferior del viewport
     function adjustCarouselPosition() {
         const spacer = document.querySelector('.carousel-spacer');
-        const header = document.querySelector('.header');
-        const matchBanner = document.querySelector('.match-banner');
-        const newsCarousel = document.querySelector('.news-carousel-section');
-        const abonamientoBanner = document.querySelector('.abonamiento-banner');
         const carouselSection = document.querySelector('.carousel-section');
-        
-        if (spacer && header) {
-            // Altura del viewport
-            const viewportHeight = window.innerHeight;
-            
-            // Obtener la altura real del header sticky
-            const headerHeight = header.offsetHeight;
-            
-            // Obtener la altura del banner de próximo partido (si existe)
-            const matchBannerHeight = matchBanner ? matchBanner.offsetHeight : 0;
-            
-            // Obtener la altura del carrusel de noticias (si existe)
-            const newsCarouselHeight = newsCarousel ? newsCarousel.offsetHeight : 0;
-            
-            // Obtener la altura del banner de abonamiento (si existe)
-            const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
-            
-            // Padding-top del carousel-section
-            const paddingTop = carouselSection ? parseInt(getComputedStyle(carouselSection).paddingTop) || 0 : 0;
-            
-            // El área visible debajo del header sticky = viewportHeight - headerHeight
-            // Esa área debe contener: matchBanner + spacer + newsCarousel + buttons + carousel padding
-            // El borde superior de las imágenes queda justo al final del viewport
-            const spacerHeight = viewportHeight - headerHeight - matchBannerHeight - newsCarouselHeight - bannerHeight - paddingTop;
-            
-            spacer.style.height = `${Math.max(0, spacerHeight)}px`;
-        }
+
+        if (!spacer || !carouselSection) return;
+
+        // Temporarily collapse spacer to measure natural position of carousel
+        spacer.style.height = '0px';
+
+        // Force layout recalc
+        void spacer.offsetHeight;
+
+        // The carousel's top position relative to the document
+        const carouselTop = carouselSection.getBoundingClientRect().top + window.scrollY;
+
+        // Where we want the carousel top to be: exactly at the bottom of the viewport
+        const desiredTop = window.innerHeight + window.scrollY;
+
+        // The spacer needs to push the carousel down by the difference
+        const spacerHeight = desiredTop - carouselTop;
+
+        spacer.style.height = `${Math.max(0, spacerHeight)}px`;
     }
     
-    // Ejecutar después de que todo el contenido esté cargado
-    window.addEventListener('load', adjustCarouselPosition);
+    // Run after full page load (images, fonts, etc.)
+    window.addEventListener('load', function() {
+        adjustCarouselPosition();
+        // Run again after a short delay to catch any late layout shifts
+        setTimeout(adjustCarouselPosition, 100);
+        setTimeout(adjustCarouselPosition, 500);
+    });
     
     // Reajustar al cambiar el tamaño de la ventana
     window.addEventListener('resize', adjustCarouselPosition);
+
+    // Also recalculate when any image inside the page loads
+    document.querySelectorAll('img').forEach(function(img) {
+        img.addEventListener('load', adjustCarouselPosition);
+    });
     
     // Carrusel infinito suave con JavaScript
     function setupInfiniteCarousel() {
