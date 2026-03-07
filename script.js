@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const spacer = document.querySelector('.carousel-spacer');
         const header = document.querySelector('.header');
         const matchBanner = document.querySelector('.match-banner');
+        const newsCarousel = document.querySelector('.news-carousel-section');
         const abonamientoBanner = document.querySelector('.abonamiento-banner');
         const carouselSection = document.querySelector('.carousel-section');
         
@@ -56,6 +57,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtener la altura del banner de próximo partido (si existe)
             const matchBannerHeight = matchBanner ? matchBanner.offsetHeight : 0;
             
+            // Obtener la altura del carrusel de noticias (si existe)
+            const newsCarouselHeight = newsCarousel ? newsCarousel.offsetHeight : 0;
+            
             // Obtener la altura del banner de abonamiento (si existe)
             const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
             
@@ -63,9 +67,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const paddingTop = carouselSection ? parseInt(getComputedStyle(carouselSection).paddingTop) || 0 : 0;
             
             // El área visible debajo del header sticky = viewportHeight - headerHeight
-            // Esa área debe contener: matchBanner + spacer + buttons + carousel padding
+            // Esa área debe contener: matchBanner + spacer + newsCarousel + buttons + carousel padding
             // El borde superior de las imágenes queda justo al final del viewport
-            const spacerHeight = viewportHeight - headerHeight - matchBannerHeight - bannerHeight - paddingTop;
+            const spacerHeight = viewportHeight - headerHeight - matchBannerHeight - newsCarouselHeight - bannerHeight - paddingTop;
             
             spacer.style.height = `${Math.max(0, spacerHeight)}px`;
         }
