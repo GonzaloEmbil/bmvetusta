@@ -1562,7 +1562,7 @@ body {
 
 .news-carousel-slide-image {
     width: 45%;
-    min-height: 220px;
+    min-height: 300px;
     overflow: hidden;
     background-color: #222;
     flex-shrink: 0;
@@ -1671,17 +1671,13 @@ body {
         padding: 25px 15px 20px;
     }
 
-    .news-carousel-title {
-        font-size: 1.4rem;
-    }
-
     .news-carousel-slide {
         flex-direction: column;
     }
 
     .news-carousel-slide-image {
         width: 100%;
-        min-height: 180px;
+        min-height: 200px;
         aspect-ratio: 16 / 9;
     }
 
@@ -1694,8 +1690,6 @@ body {
     }
 
     .news-carousel-arrow {
-        width: 34px;
-        height: 34px;
-        font-size: 1.5rem;
+        display: none;
     }
 }
