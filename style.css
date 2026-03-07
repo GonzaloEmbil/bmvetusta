@@ -171,12 +171,12 @@ body {
 /* Abonamiento Banner */
 .abonamiento-banner {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 20px;
+    gap: 14px;
     padding: 10px 40px;
     background-color: #000;
-    flex-wrap: wrap;
 }
 
 .abonamiento-btn {
