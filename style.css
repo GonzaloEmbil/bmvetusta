@@ -254,13 +254,13 @@ body {
 }
 
 .match-banner-inner {
-    max-width: 1400px;
+    max-width: 960px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #111;
-    border: 2px solid #FDED3A;
+    border: 1.5px solid #FDED3A;
     border-radius: 10px;
     padding: 0 24px;
     height: 58px;
