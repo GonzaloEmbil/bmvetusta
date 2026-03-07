@@ -224,6 +224,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .abonamiento-banner {
+        flex-direction: column;
         padding: 20px 15px;
         gap: 14px;
     }
