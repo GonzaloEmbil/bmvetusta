@@ -65,8 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // El área visible debajo del header sticky = viewportHeight - headerHeight
             // Esa área debe contener: matchBanner + spacer + buttons + carousel padding
             // El borde superior de las imágenes queda justo al final del viewport
-            // Reducir espacer por 50px para acercar los botones al carrusel
-            const spacerHeight = viewportHeight - headerHeight - matchBannerHeight - bannerHeight - paddingTop - 50;
+            const spacerHeight = viewportHeight - headerHeight - matchBannerHeight - bannerHeight - paddingTop;
             
             spacer.style.height = `${Math.max(0, spacerHeight)}px`;
         }
