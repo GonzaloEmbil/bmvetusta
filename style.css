@@ -297,30 +297,25 @@ body {
     letter-spacing: 0.3px;
 }
 
-/* Periodic pulse animation on team badges and names */
-@keyframes match-team-pulse {
-    0%, 85%, 100% {
-        transform: scale(1);
-        opacity: 1;
+/* Periodic horizontal spin animation on team badges */
+@keyframes match-badge-spin {
+    0%, 80% {
+        transform: rotateY(0deg);
     }
     90% {
-        transform: scale(1.12);
-        opacity: 0.85;
+        transform: rotateY(360deg);
     }
-    95% {
-        transform: scale(1);
-        opacity: 1;
+    100% {
+        transform: rotateY(360deg);
     }
 }
 
-.match-team-badge,
-.match-team-name {
-    animation: match-team-pulse 5s ease-in-out infinite;
+.match-team-badge {
+    animation: match-badge-spin 6s ease-in-out infinite;
 }
 
-.match-team-away .match-team-badge,
-.match-team-away .match-team-name {
-    animation-delay: 0.15s;
+.match-team-away .match-team-badge {
+    animation-delay: 0.3s;
 }
 
 .match-center {
