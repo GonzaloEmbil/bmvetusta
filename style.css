@@ -249,24 +249,27 @@ body {
    ==================================== */
 
 .match-banner {
-    background-color: #000;
-    border-bottom: 3px solid #FDED3A;
+    background-color: #fff;
+    border-top: 3px solid #FDED3A;
+    border-bottom: 1px solid #ddd;
     padding: 0;
 }
 
 .match-banner-inner {
-    max-width: 1200px;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 12px 30px;
+    padding: 0 30px;
+    height: 56px;
+    position: relative;
 }
 
 .match-team {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
     flex: 1;
 }
 
@@ -279,73 +282,79 @@ body {
 }
 
 .match-team-badge {
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     object-fit: contain;
 }
 
 .match-team-name {
-    color: #fff;
+    color: #1a1a1a;
     font-weight: bold;
-    font-size: 1.05rem;
+    font-size: 0.95rem;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 .match-center {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    flex: 1.2;
+    justify-content: center;
+    gap: 1px;
     text-align: center;
-    background: linear-gradient(135deg, #FDED3A 0%, #e6d630 100%);
-    padding: 10px 24px;
-    border-radius: 6px;
+    background-color: #FDED3A;
+    padding: 8px 36px;
+    clip-path: polygon(8% 0%, 92% 0%, 100% 50%, 92% 100%, 8% 100%, 0% 50%);
+    min-width: 260px;
+    height: 56px;
 }
 
 .match-venue {
     color: #000;
-    font-size: 0.8rem;
-    font-weight: 600;
+    font-size: 0.65rem;
+    font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
 }
 
 .match-datetime {
     color: #000;
-    font-size: 1rem;
-    font-weight: bold;
+    font-size: 0.95rem;
+    font-weight: 900;
+    font-style: italic;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
 }
 
 @media (max-width: 768px) {
     .match-banner-inner {
-        padding: 10px 12px;
-        gap: 8px;
+        padding: 0 10px;
+        height: 48px;
     }
 
     .match-team-badge {
-        width: 36px;
-        height: 36px;
+        width: 30px;
+        height: 30px;
     }
 
     .match-team-name {
-        font-size: 0.7rem;
-        letter-spacing: 0.5px;
+        font-size: 0.6rem;
+        letter-spacing: 0;
     }
 
     .match-center {
-        padding: 8px 10px;
-        flex: 1.5;
+        padding: 6px 14px;
+        min-width: 140px;
+        height: 48px;
     }
 
     .match-venue {
-        font-size: 0.6rem;
+        font-size: 0.5rem;
+        letter-spacing: 0.5px;
     }
 
     .match-datetime {
-        font-size: 0.75rem;
+        font-size: 0.65rem;
     }
 }
 
