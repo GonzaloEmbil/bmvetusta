@@ -1032,3 +1032,119 @@ body {
         overflow: hidden;
     }
 }
+
+/* ====================================
+   EQUIPOS PAGE — Static grid
+   ==================================== */
+
+.equipos-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 50px 30px 60px;
+}
+
+.equipos-page-title {
+    color: #FDED3A;
+    font-size: 1.9rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.equipos-page-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
+    margin: 10px auto 50px;
+}
+
+.equipos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px;
+}
+
+.equipo-card {
+    background-color: #111;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.equipo-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 8px 30px rgba(253, 237, 58, 0.15);
+}
+
+.equipo-card-image {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    background-color: #222;
+}
+
+.equipo-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+}
+
+.equipo-card:hover .equipo-card-image img {
+    transform: scale(1.03);
+}
+
+.equipo-card-info {
+    padding: 16px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.equipo-card-club {
+    color: #aaa;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.equipo-card-name {
+    color: #FDED3A;
+    font-size: 1.1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Responsive — single column on mobile */
+@media (max-width: 768px) {
+    .equipos-section {
+        padding: 30px 15px 40px;
+    }
+
+    .equipos-page-title {
+        font-size: 1.35rem;
+        letter-spacing: 2px;
+    }
+
+    .equipos-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+    }
+
+    .equipo-card:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .equipo-card:hover .equipo-card-image img {
+        transform: none;
+    }
+}
