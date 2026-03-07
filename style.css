@@ -376,8 +376,8 @@ body {
     }
 
     .match-center {
-        padding: 0 10px;
-        min-width: 90px;
+        padding: 0 6px;
+        min-width: 70px;
         clip-path: none;
     }
 
