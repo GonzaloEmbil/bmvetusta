@@ -378,7 +378,7 @@ body {
     .match-center {
         padding: 0 10px;
         min-width: 90px;
-        clip-path: polygon(5% 0%, 95% 0%, 100% 100%, 0% 100%);
+        clip-path: none;
     }
 
     .match-center-line1 {
