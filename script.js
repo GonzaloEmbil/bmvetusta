@@ -37,11 +37,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Ajuste dinámico del espaciador para posicionar los botones justo encima del carrusel
+    // Ajuste dinámico del espaciador para que el borde superior de las imágenes
+    // del carrusel quede justo en el límite inferior del viewport
     function adjustCarouselPosition() {
         const spacer = document.querySelector('.carousel-spacer');
         const header = document.querySelector('.header');
+        const matchBanner = document.querySelector('.match-banner');
         const abonamientoBanner = document.querySelector('.abonamiento-banner');
+        const carouselSection = document.querySelector('.carousel-section');
         
         if (spacer && header) {
             // Altura del viewport
@@ -50,22 +53,21 @@ document.addEventListener('DOMContentLoaded', function() {
             // Obtener la altura real del header sticky
             const headerHeight = header.offsetHeight;
             
+            // Obtener la altura del banner de próximo partido (si existe)
+            const matchBannerHeight = matchBanner ? matchBanner.offsetHeight : 0;
+            
             // Obtener la altura del banner de abonamiento (si existe)
             const bannerHeight = abonamientoBanner ? abonamientoBanner.offsetHeight : 0;
             
-            // Padding-top del carousel-section (33px)
-            const paddingTop = 33;
+            // Padding-top del carousel-section
+            const paddingTop = carouselSection ? parseInt(getComputedStyle(carouselSection).paddingTop) || 0 : 0;
             
-            // Altura de la imagen del carrusel según el breakpoint
-            const cardWidth = window.innerWidth > 768 ? 300 : 250;
-            const imageHeight = cardWidth * (9 / 16);
-            
-            // El espaciador ocupa todo el espacio disponible por encima de los botones+carrusel
-            const spacerHeight = viewportHeight - headerHeight - bannerHeight - paddingTop - imageHeight;
+            // El área visible debajo del header sticky = viewportHeight - headerHeight
+            // Esa área debe contener: matchBanner + spacer + buttons + carousel padding
+            // El borde superior de las imágenes queda justo al final del viewport
+            const spacerHeight = viewportHeight - headerHeight - matchBannerHeight - bannerHeight - paddingTop;
             
             spacer.style.height = `${Math.max(0, spacerHeight)}px`;
-            
-            console.log(`Viewport: ${viewportHeight}px, Header: ${headerHeight}px, Banner: ${bannerHeight}px, CardWidth: ${cardWidth}px, SpacerHeight: ${spacerHeight}px`);
         }
     }
     
