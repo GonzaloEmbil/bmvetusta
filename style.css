@@ -1511,7 +1511,7 @@ body {
 /* ========================= */
 
 .news-carousel-section {
-    max-width: 900px;
+    max-width: 600px;
     margin: 0 auto;
     padding: 40px 20px 30px;
     text-align: center;
@@ -1562,7 +1562,7 @@ body {
 
 .news-carousel-slide-image {
     width: 100%;
-    min-height: 350px;
+    aspect-ratio: 16 / 9;
     overflow: hidden;
     background-color: #222;
     flex-shrink: 0;
