@@ -76,7 +76,10 @@ document.addEventListener('DOMContentLoaded', function() {
         _adjustTimer = setTimeout(adjustCarouselPosition, 50);
     }
 
-    // Run on full load (all images, fonts, iframes done)
+    // Run immediately on DOMContentLoaded (now)
+    adjustCarouselPosition();
+
+    // Run again on full load (all images, fonts, iframes done)
     window.addEventListener('load', function() {
         adjustCarouselPosition();
         // Safety re-runs to catch late layout shifts
