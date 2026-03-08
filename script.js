@@ -42,9 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Esto debe funcionar en cualquier navegador y resolución desktop.
     function adjustCarouselPosition() {
         const spacer = document.querySelector('.carousel-spacer');
-        const carouselSection = document.querySelector('.carousel-section');
+        // Target the container where images actually begin (not the section with padding)
+        const carouselContainer = document.querySelector('.carousel-container');
 
-        if (!spacer || !carouselSection) return;
+        if (!spacer || !carouselContainer) return;
 
         // 1. Collapse spacer completely
         spacer.style.height = '0px';
@@ -53,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // 2. Measure how tall everything ABOVE the carousel is (without spacer)
         //    This gives us the natural distance from document top to carousel top.
-        const rect = carouselSection.getBoundingClientRect();
+        const rect = carouselContainer.getBoundingClientRect();
         const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
         const carouselDocTop = rect.top + currentScrollY;
 
