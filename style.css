@@ -1621,26 +1621,24 @@ body {
 }
 
 .news-carousel-arrow {
-    background: rgba(253, 237, 58, 0.15);
-    border: 1.5px solid #FDED3A;
+    background: none;
+    border: none;
     color: #FDED3A;
-    font-size: 2rem;
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
+    font-size: 2.4rem;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: background 0.2s, transform 0.2s;
+    transition: color 0.2s, transform 0.2s;
     flex-shrink: 0;
     align-self: center;
     line-height: 1;
+    padding: 0 4px;
 }
 
 .news-carousel-arrow:hover {
-    background: rgba(253, 237, 58, 0.3);
-    transform: scale(1.1);
+    color: #fff;
+    transform: scale(1.15);
 }
 
 .news-carousel-dots {
