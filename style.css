@@ -1511,7 +1511,7 @@ body {
 /* ========================= */
 
 .news-carousel-section {
-    max-width: 576px;  /* 60% of match-banner-inner (960px) */
+    max-width: 768px;  /* 80% of match-banner-inner (960px) */
     margin: 0 auto;
     padding: 40px 20px 30px;
     text-align: center;
