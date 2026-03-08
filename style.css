@@ -1527,10 +1527,7 @@ body {
     margin: 0 auto;
     padding: 15px 20px 10px;
     text-align: center;
-    flex-shrink: 1;
-    min-height: 0;
-    display: flex;
-    flex-direction: column;
+    flex-shrink: 0;
 }
 
 .news-carousel-title {
@@ -1545,26 +1542,19 @@ body {
 .news-carousel {
     position: relative;
     display: flex;
-    align-items: stretch;
+    align-items: center;
     gap: 10px;
-    flex: 1 1 0;
-    min-height: 0;
 }
 
 .news-carousel-viewport {
-    flex: 1 1 0;
-    min-height: 0;
+    flex: 1;
     overflow: hidden;
     border-radius: 12px;
-    display: flex;
-    flex-direction: column;
 }
 
 .news-carousel-slides {
     display: flex;
     transition: transform 0.5s ease;
-    flex: 1 1 0;
-    min-height: 0;
 }
 
 .news-carousel-slide {
@@ -1577,7 +1567,6 @@ body {
     overflow: hidden;
     text-decoration: none;
     transition: border-color 0.3s ease;
-    min-height: 0;
 }
 
 .news-carousel-slide:hover {
@@ -1586,11 +1575,10 @@ body {
 
 .news-carousel-slide-image {
     width: 100%;
-    /* No fixed aspect-ratio — image shrinks via flex to respect above-fold constraint */
+    height: 250px;  /* Fixed height — breaks 16:9 to respect the PERMANENT RULE */
     overflow: hidden;
     background-color: #222;
-    flex: 1 1 0;
-    min-height: 0;
+    flex-shrink: 0;
 }
 
 .news-carousel-slide-image img {
@@ -1600,7 +1588,7 @@ body {
 }
 
 .news-carousel-slide-content {
-    flex: 0 0 auto;
+    flex: 1;
     padding: 18px 24px;
     display: flex;
     flex-direction: column;
@@ -1700,9 +1688,9 @@ body {
 
     .news-carousel-slide-image {
         width: 100%;
+        height: auto;
         min-height: 200px;
         aspect-ratio: 16 / 9;
-        flex: 0 0 auto;
     }
 
     .news-carousel-slide-content {
