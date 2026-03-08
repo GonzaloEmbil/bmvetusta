@@ -268,7 +268,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let currentIndex = 0;
         const totalSlides = slides.length;
-        const autoPlayInterval = 5000; // 5 seconds
+        const autoPlayInterval = 8000; // 8 seconds
         let autoPlayTimer;
 
         // Create dots
