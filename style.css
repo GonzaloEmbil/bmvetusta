@@ -432,7 +432,7 @@ body {
 
 .carousel-card {
     flex: 0 0 300px;
-    background-color: #1a1a1a;
+    background-color: #232323;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -462,7 +462,7 @@ body {
     color: white;
     font-size: 18px;
     font-weight: bold;
-    background-color: #1a1a1a;
+    background-color: #232323;
 }
 
 /* Clasificación */
@@ -1217,7 +1217,7 @@ body {
 }
 
 .equipo-card {
-    background-color: #111;
+    background-color: #232323;
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -1324,7 +1324,7 @@ body {
 
 .news-card {
     display: block;
-    background-color: #111;
+    background-color: #232323;
     border: 1.5px solid #222;
     border-radius: 12px;
     overflow: hidden;
