@@ -208,18 +208,18 @@ body {
 
 /* Botón morado */
 .abonamiento-btn-purple {
-    background: linear-gradient(135deg, #F4DFF1 0%, #e8c8e4 100%);
-    color: #000;
-    border-color: #F4DFF1;
-    box-shadow: 0 4px 15px rgba(244, 223, 241, 0.3);
+    background: linear-gradient(135deg, #7a60bd 0%, #6a50ad 100%);
+    color: #fff;
+    border-color: #7a60bd;
+    box-shadow: 0 4px 15px rgba(122, 96, 189, 0.3);
 }
 
 .abonamiento-btn-purple:hover {
-    box-shadow: 0 6px 25px rgba(244, 223, 241, 0.5);
+    box-shadow: 0 6px 25px rgba(122, 96, 189, 0.5);
 }
 
 .abonamiento-btn-purple:active {
-    box-shadow: 0 3px 15px rgba(244, 223, 241, 0.4);
+    box-shadow: 0 3px 15px rgba(122, 96, 189, 0.4);
 }
 
 /* Responsive */
@@ -505,7 +505,7 @@ body {
 .prensa-featured {
     display: flex;
     flex-direction: column;
-    background: #1a1a2e;
+    background: #7a60bd;
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
@@ -514,7 +514,7 @@ body {
 
 .prensa-featured:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 25px rgba(253, 237, 58, 0.15);
+    box-shadow: 0 8px 25px rgba(122, 96, 189, 0.3);
 }
 
 .prensa-featured-image {
@@ -560,7 +560,7 @@ body {
 .prensa-thumb {
     display: flex;
     gap: 15px;
-    background: #1a1a2e;
+    background: #7a60bd;
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
@@ -570,7 +570,7 @@ body {
 
 .prensa-thumb:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(253, 237, 58, 0.1);
+    box-shadow: 0 4px 15px rgba(122, 96, 189, 0.2);
 }
 
 .prensa-thumb-image {
@@ -610,11 +610,11 @@ body {
 }
 
 .prensa-ver-todas {
-    color: #FDED3A;
+    color: #7a60bd;
     font-size: 1rem;
     font-weight: 600;
     text-decoration: none;
-    border: 2px solid #FDED3A;
+    border: 2px solid #7a60bd;
     padding: 10px 25px;
     border-radius: 25px;
     transition: all 0.3s ease;
@@ -622,8 +622,8 @@ body {
 }
 
 .prensa-ver-todas:hover {
-    background: #FDED3A;
-    color: #0a0a1a;
+    background: #7a60bd;
+    color: #fff;
 }
 
 /* Clasificación */
