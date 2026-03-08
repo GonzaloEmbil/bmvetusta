@@ -37,47 +37,60 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Ajuste dinámico del espaciador para que el borde superior de las imágenes
-    // del carrusel quede justo en el límite inferior del viewport
+    // REGLA PERMANENTE: El borde superior de las imágenes del carrusel de equipos
+    // debe quedar EXACTAMENTE en el límite inferior del viewport al cargar la página.
+    // Esto debe funcionar en cualquier navegador y resolución desktop.
     function adjustCarouselPosition() {
         const spacer = document.querySelector('.carousel-spacer');
         const carouselSection = document.querySelector('.carousel-section');
 
         if (!spacer || !carouselSection) return;
 
-        // Temporarily collapse spacer to measure natural position of carousel
+        // 1. Collapse spacer completely
         spacer.style.height = '0px';
+        // Force synchronous layout
+        spacer.offsetHeight;
 
-        // Force layout recalc
-        void spacer.offsetHeight;
+        // 2. Measure how tall everything ABOVE the carousel is (without spacer)
+        //    This gives us the natural distance from document top to carousel top.
+        const rect = carouselSection.getBoundingClientRect();
+        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const carouselDocTop = rect.top + currentScrollY;
 
-        // The carousel's top position relative to the document
-        const carouselTop = carouselSection.getBoundingClientRect().top + window.scrollY;
+        // 3. We want carousel doc top == window.innerHeight (just below fold)
+        //    The spacer fills the gap.
+        const needed = window.innerHeight - carouselDocTop;
 
-        // Where we want the carousel top to be: exactly at the bottom of the viewport
-        const desiredTop = window.innerHeight + window.scrollY;
-
-        // The spacer needs to push the carousel down by the difference
-        const spacerHeight = desiredTop - carouselTop;
-
-        spacer.style.height = `${Math.max(0, spacerHeight)}px`;
+        spacer.style.height = Math.max(0, needed) + 'px';
     }
-    
-    // Run after full page load (images, fonts, etc.)
+
+    // Run on full load (all images, fonts, iframes done)
     window.addEventListener('load', function() {
         adjustCarouselPosition();
-        // Run again after a short delay to catch any late layout shifts
-        setTimeout(adjustCarouselPosition, 100);
-        setTimeout(adjustCarouselPosition, 500);
+        // Safety re-runs in case of lazy images or late layout shifts
+        setTimeout(adjustCarouselPosition, 200);
+        setTimeout(adjustCarouselPosition, 600);
+        setTimeout(adjustCarouselPosition, 1500);
     });
-    
-    // Reajustar al cambiar el tamaño de la ventana
+
+    // Re-run on resize
     window.addEventListener('resize', adjustCarouselPosition);
 
-    // Also recalculate when any image inside the page loads
+    // Re-run whenever any image finishes loading
     document.querySelectorAll('img').forEach(function(img) {
-        img.addEventListener('load', adjustCarouselPosition);
+        if (!img.complete) {
+            img.addEventListener('load', adjustCarouselPosition);
+        }
     });
+
+    // Use ResizeObserver if available for maximum reliability
+    if (typeof ResizeObserver !== 'undefined') {
+        var mainContent = document.querySelector('.main-content');
+        if (mainContent) {
+            var ro = new ResizeObserver(adjustCarouselPosition);
+            ro.observe(mainContent);
+        }
+    }
     
     // Carrusel infinito suave con JavaScript
     function setupInfiniteCarousel() {
