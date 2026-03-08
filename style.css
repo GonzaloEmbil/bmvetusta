@@ -499,6 +499,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 20px;
+    align-items: stretch;
 }
 
 .prensa-featured {
@@ -553,6 +554,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 15px;
+    height: 100%;
 }
 
 .prensa-thumb {
@@ -563,7 +565,7 @@ body {
     overflow: hidden;
     text-decoration: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    min-height: 100px;
+    flex: 1;
 }
 
 .prensa-thumb:hover {
