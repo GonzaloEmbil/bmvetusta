@@ -1921,3 +1921,24 @@ body {
         font-size: 1.4rem;
     }
 }
+
+/* Cantera Page */
+.cantera-section {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.cantera-intro {
+    font-size: 1.2rem;
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 40px;
+}
+
+.cantera-contact {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
