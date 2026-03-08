@@ -40,31 +40,44 @@ document.addEventListener('DOMContentLoaded', function() {
     // REGLA PERMANENTE: El borde superior de las imágenes del carrusel de equipos
     // debe quedar EXACTAMENTE en el límite inferior del viewport al cargar la página.
     // Esto debe funcionar en cualquier navegador y resolución desktop.
+    //
+    // Approach: The .above-fold div contains the news carousel + buttons.
+    // We set its height so that the .carousel-container starts right at
+    // window.innerHeight (below the sticky header + match banner).
     var _adjusting = false;
     function adjustCarouselPosition() {
         if (_adjusting) return;
         _adjusting = true;
 
-        var spacer = document.querySelector('.carousel-spacer');
-        // Target the container where images actually begin (not the section with padding)
+        var aboveFold = document.querySelector('.above-fold');
         var carouselContainer = document.querySelector('.carousel-container');
+        var header = document.querySelector('.header');
+        var matchBanner = document.querySelector('.match-banner');
 
-        if (!spacer || !carouselContainer) { _adjusting = false; return; }
+        if (!aboveFold || !carouselContainer) { _adjusting = false; return; }
 
-        // 1. Collapse spacer completely
-        spacer.style.height = '0px';
-        // Force synchronous layout reflow
-        spacer.offsetHeight;
+        // Only apply the fixed-height constraint on desktop (>768px).
+        // On mobile the rule doesn't apply — use natural flow.
+        if (window.innerWidth <= 768) {
+            aboveFold.style.height = 'auto';
+            _adjusting = false;
+            return;
+        }
 
-        // 2. Measure: with spacer at 0, where is carouselContainer in the document?
-        var rect = carouselContainer.getBoundingClientRect();
-        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
-        var carouselDocTop = rect.top + scrollY;
+        // Reset to auto to measure natural content height
+        aboveFold.style.height = 'auto';
+        aboveFold.offsetHeight; // force reflow
 
-        // 3. We want carouselDocTop == window.innerHeight (first pixel below the fold)
-        var needed = window.innerHeight - carouselDocTop;
+        // Available space = viewport - header (sticky) - matchBanner - carousel-section padding-top
+        var headerH = header ? header.offsetHeight : 0;
+        var matchH = matchBanner ? matchBanner.offsetHeight : 0;
+        var carouselSection = document.querySelector('.carousel-section');
+        var csPadTop = carouselSection ? parseInt(getComputedStyle(carouselSection).paddingTop) || 0 : 0;
+        var available = window.innerHeight - headerH - matchH - csPadTop;
 
-        spacer.style.height = Math.max(0, needed) + 'px';
+        // ALWAYS set to exactly 'available' so the team carousel top sits at the viewport bottom.
+        // The flex-shrink chain inside above-fold will compress the news image to fit.
+        aboveFold.style.height = Math.max(0, available) + 'px';
 
         _adjusting = false;
     }
@@ -82,7 +95,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Run again on full load (all images, fonts, iframes done)
     window.addEventListener('load', function() {
         adjustCarouselPosition();
-        // Safety re-runs to catch late layout shifts
         setTimeout(adjustCarouselPosition, 300);
         setTimeout(adjustCarouselPosition, 800);
         setTimeout(adjustCarouselPosition, 2000);
@@ -97,17 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
             img.addEventListener('load', adjustCarouselPosition);
         }
     });
-
-    // Use ResizeObserver with debounce to avoid feedback loops
-    if (typeof ResizeObserver !== 'undefined') {
-        var newsSection = document.querySelector('.news-carousel-section');
-        var matchBanner = document.querySelector('.match-banner');
-        var abonBanner = document.querySelector('.abonamiento-banner');
-        var ro = new ResizeObserver(debouncedAdjust);
-        if (newsSection) ro.observe(newsSection);
-        if (matchBanner) ro.observe(matchBanner);
-        if (abonBanner) ro.observe(abonBanner);
-    }
     
     // Carrusel infinito suave con JavaScript
     function setupInfiniteCarousel() {
