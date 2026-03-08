@@ -40,42 +40,53 @@ document.addEventListener('DOMContentLoaded', function() {
     // REGLA PERMANENTE: El borde superior de las imágenes del carrusel de equipos
     // debe quedar EXACTAMENTE en el límite inferior del viewport al cargar la página.
     // Esto debe funcionar en cualquier navegador y resolución desktop.
+    var _adjusting = false;
     function adjustCarouselPosition() {
-        const spacer = document.querySelector('.carousel-spacer');
-        // Target the container where images actually begin (not the section with padding)
-        const carouselContainer = document.querySelector('.carousel-container');
+        if (_adjusting) return;
+        _adjusting = true;
 
-        if (!spacer || !carouselContainer) return;
+        var spacer = document.querySelector('.carousel-spacer');
+        // Target the container where images actually begin (not the section with padding)
+        var carouselContainer = document.querySelector('.carousel-container');
+
+        if (!spacer || !carouselContainer) { _adjusting = false; return; }
 
         // 1. Collapse spacer completely
         spacer.style.height = '0px';
-        // Force synchronous layout
+        // Force synchronous layout reflow
         spacer.offsetHeight;
 
-        // 2. Measure how tall everything ABOVE the carousel is (without spacer)
-        //    This gives us the natural distance from document top to carousel top.
-        const rect = carouselContainer.getBoundingClientRect();
-        const currentScrollY = window.pageYOffset || document.documentElement.scrollTop;
-        const carouselDocTop = rect.top + currentScrollY;
+        // 2. Measure: with spacer at 0, where is carouselContainer in the document?
+        var rect = carouselContainer.getBoundingClientRect();
+        var scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        var carouselDocTop = rect.top + scrollY;
 
-        // 3. We want carousel doc top == window.innerHeight (just below fold)
-        //    The spacer fills the gap.
-        const needed = window.innerHeight - carouselDocTop;
+        // 3. We want carouselDocTop == window.innerHeight (first pixel below the fold)
+        var needed = window.innerHeight - carouselDocTop;
 
         spacer.style.height = Math.max(0, needed) + 'px';
+
+        _adjusting = false;
+    }
+
+    // Debounced version for observers
+    var _adjustTimer = null;
+    function debouncedAdjust() {
+        clearTimeout(_adjustTimer);
+        _adjustTimer = setTimeout(adjustCarouselPosition, 50);
     }
 
     // Run on full load (all images, fonts, iframes done)
     window.addEventListener('load', function() {
         adjustCarouselPosition();
-        // Safety re-runs in case of lazy images or late layout shifts
-        setTimeout(adjustCarouselPosition, 200);
-        setTimeout(adjustCarouselPosition, 600);
-        setTimeout(adjustCarouselPosition, 1500);
+        // Safety re-runs to catch late layout shifts
+        setTimeout(adjustCarouselPosition, 300);
+        setTimeout(adjustCarouselPosition, 800);
+        setTimeout(adjustCarouselPosition, 2000);
     });
 
-    // Re-run on resize
-    window.addEventListener('resize', adjustCarouselPosition);
+    // Re-run on resize (debounced)
+    window.addEventListener('resize', debouncedAdjust);
 
     // Re-run whenever any image finishes loading
     document.querySelectorAll('img').forEach(function(img) {
@@ -84,13 +95,15 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Use ResizeObserver if available for maximum reliability
+    // Use ResizeObserver with debounce to avoid feedback loops
     if (typeof ResizeObserver !== 'undefined') {
-        var mainContent = document.querySelector('.main-content');
-        if (mainContent) {
-            var ro = new ResizeObserver(adjustCarouselPosition);
-            ro.observe(mainContent);
-        }
+        var newsSection = document.querySelector('.news-carousel-section');
+        var matchBanner = document.querySelector('.match-banner');
+        var abonBanner = document.querySelector('.abonamiento-banner');
+        var ro = new ResizeObserver(debouncedAdjust);
+        if (newsSection) ro.observe(newsSection);
+        if (matchBanner) ro.observe(matchBanner);
+        if (abonBanner) ro.observe(abonBanner);
     }
     
     // Carrusel infinito suave con JavaScript
