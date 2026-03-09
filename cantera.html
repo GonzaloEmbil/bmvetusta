@@ -155,7 +155,7 @@
     <script>
         // Mapa de escuelas del BM Vetusta
         (function() {
-            var map = L.map('cantera-map').setView([43.3630, -5.8500], 13);
+            var map = L.map('cantera-map').setView([43.3750, -5.8400], 12);
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -179,15 +179,15 @@
             });
 
             var schools = [
-                { name: 'C.P. Germán Fernández Ramos', schedule: 'Martes y Jueves, 16:00 - 17:00', lat: 43.3717, lng: -5.8714 },
-                { name: 'Colegio Amor de Dios', schedule: 'Lunes y Miércoles, 17:00 - 18:00', lat: 43.3613, lng: -5.8486 },
-                { name: 'C.E.I.P Ventanielles', schedule: 'Martes, Jueves y Viernes, 16:00 - 17:00', lat: 43.3669, lng: -5.8277 },
-                { name: 'C.P. Veneranda Manzano', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3545, lng: -5.8690 },
-                { name: 'C.P. La Gesta', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3597, lng: -5.8550 },
-                { name: 'C.E.I.P Juan Rodríguez Muñiz', schedule: 'Miércoles y Viernes, 16:00 - 17:00', lat: 43.3502, lng: -5.8445 },
-                { name: 'C.E.I.P. Carmen Ruiz Tilve', schedule: 'Lunes y Miércoles, 16:30 - 17:30', lat: 43.3647, lng: -5.8323 },
-                { name: 'C.E.I.P Villafría', schedule: 'Lunes y Miércoles, 16:00 - 17:00', lat: 43.3732, lng: -5.8267 },
-                { name: 'C.P. La Fresneda', schedule: 'Miércoles y Jueves, 17:00 - 18:00', lat: 43.3895, lng: -5.8055 }
+                { name: 'C.P. Germán Fernández Ramos', schedule: 'Martes y Jueves, 16:00 - 17:00', lat: 43.3728687, lng: -5.8402921 },
+                { name: 'Colegio Amor de Dios', schedule: 'Lunes y Miércoles, 17:00 - 18:00', lat: 43.3707553, lng: -5.8457390 },
+                { name: 'C.E.I.P Ventanielles', schedule: 'Martes, Jueves y Viernes, 16:00 - 17:00', lat: 43.3697274, lng: -5.8242886 },
+                { name: 'C.P. Veneranda Manzano', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3528263, lng: -5.8457374 },
+                { name: 'C.P. La Gesta', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3572660, lng: -5.8548935 },
+                { name: 'C.E.I.P Juan Rodríguez Muñiz', schedule: 'Miércoles y Viernes, 16:00 - 17:00', lat: 43.3657465, lng: -5.8882583 },
+                { name: 'C.E.I.P. Carmen Ruiz Tilve', schedule: 'Lunes y Miércoles, 16:30 - 17:30', lat: 43.3803315, lng: -5.8153694 },
+                { name: 'C.E.I.P Villafría', schedule: 'Lunes y Miércoles, 16:00 - 17:00', lat: 43.3568555, lng: -5.8340997 },
+                { name: 'C.P. La Fresneda', schedule: 'Miércoles y Jueves, 17:00 - 18:00', lat: 43.4115842, lng: -5.7919704 }
             ];
 
             schools.forEach(function(school) {
@@ -197,7 +197,7 @@
             });
 
             // CDT marker
-            L.marker([43.3717, -5.8714], { icon: cdtIcon })
+            L.marker([43.3728687, -5.8402921], { icon: cdtIcon })
                 .addTo(map)
                 .bindPopup('<strong>CDT - C.P. Germán Fernández Ramos</strong><br>Viernes, 17:00 - 18:00<br><em>Abierto a todos los colegios</em>');
         })();
