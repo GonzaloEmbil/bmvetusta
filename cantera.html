@@ -6,6 +6,7 @@
     <title>BM Vetusta - Cantera</title>
     <link rel="icon" type="image/png" href="assets/escudo.png">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <!-- Header -->
@@ -45,7 +46,6 @@
     <main class="main-content">
         <section class="cantera-section">
             <h1 class="section-title">CANTERA</h1>
-            <p class="cantera-intro">¡Únete a la familia del Balonmano Vetusta! Si quieres que tu hijo o hija juegue al balonmano, no dudes en ponerte en contacto con nosotros.</p>
 
             <h2 class="cantera-subtitle">ESCUELAS Y HORARIOS DE ENTRENAMIENTO</h2>
 
@@ -115,6 +115,9 @@
                 </div>
             </div>
 
+            <h2 class="cantera-subtitle">MAPA DE ESCUELAS</h2>
+            <div id="cantera-map"></div>
+
             <div class="cantera-contact">
                 <a href="./contacto.html" class="abonamiento-btn abonamiento-btn-purple">CONTACTA CON NOSOTROS</a>
             </div>
@@ -147,6 +150,57 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="script.js"></script>
+    <script>
+        // Mapa de escuelas del BM Vetusta
+        (function() {
+            var map = L.map('cantera-map').setView([43.3630, -5.8500], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+                maxZoom: 18
+            }).addTo(map);
+
+            var purpleIcon = L.divIcon({
+                className: 'cantera-map-marker',
+                html: '<div style="background:#9c27b0;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.5);"></div>',
+                iconSize: [14, 14],
+                iconAnchor: [7, 7],
+                popupAnchor: [0, -10]
+            });
+
+            var cdtIcon = L.divIcon({
+                className: 'cantera-map-marker',
+                html: '<div style="background:#ffab40;width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,0.5);"></div>',
+                iconSize: [14, 14],
+                iconAnchor: [7, 7],
+                popupAnchor: [0, -10]
+            });
+
+            var schools = [
+                { name: 'C.P. Germán Fernández Ramos', schedule: 'Martes y Jueves, 16:00 - 17:00', lat: 43.3717, lng: -5.8714 },
+                { name: 'Colegio Amor de Dios', schedule: 'Lunes y Miércoles, 17:00 - 18:00', lat: 43.3613, lng: -5.8486 },
+                { name: 'C.E.I.P Ventanielles', schedule: 'Martes, Jueves y Viernes, 16:00 - 17:00', lat: 43.3669, lng: -5.8277 },
+                { name: 'C.P. Veneranda Manzano', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3545, lng: -5.8690 },
+                { name: 'C.P. La Gesta', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3597, lng: -5.8550 },
+                { name: 'C.E.I.P Juan Rodríguez Muñiz', schedule: 'Miércoles y Viernes, 16:00 - 17:00', lat: 43.3502, lng: -5.8445 },
+                { name: 'C.E.I.P. Carmen Ruiz Tilve', schedule: 'Lunes y Miércoles, 16:30 - 17:30', lat: 43.3647, lng: -5.8323 },
+                { name: 'C.E.I.P Villafría', schedule: 'Lunes y Miércoles, 16:00 - 17:00', lat: 43.3732, lng: -5.8267 },
+                { name: 'C.P. La Fresneda', schedule: 'Miércoles y Jueves, 17:00 - 18:00', lat: 43.3895, lng: -5.8055 }
+            ];
+
+            schools.forEach(function(school) {
+                L.marker([school.lat, school.lng], { icon: purpleIcon })
+                    .addTo(map)
+                    .bindPopup('<strong>' + school.name + '</strong><br>' + school.schedule);
+            });
+
+            // CDT marker
+            L.marker([43.3717, -5.8714], { icon: cdtIcon })
+                .addTo(map)
+                .bindPopup('<strong>CDT - C.P. Germán Fernández Ramos</strong><br>Viernes, 17:00 - 18:00<br><em>Abierto a todos los colegios</em>');
+        })();
+    </script>
 </body>
 </html>
