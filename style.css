@@ -2028,6 +2028,31 @@ body {
     border-color: rgba(128, 0, 128, 0.3);
 }
 
+.cantera-disclaimer {
+    background: rgba(255, 171, 64, 0.1);
+    border: 1px solid rgba(255, 171, 64, 0.3);
+    border-radius: 10px;
+    padding: 20px 25px;
+    margin-bottom: 40px;
+    text-align: left;
+}
+
+.cantera-disclaimer p {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.7;
+}
+
+.cantera-disclaimer a {
+    color: #ffab40;
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.cantera-disclaimer a:hover {
+    color: #ffd600;
+}
+
 .cantera-contact {
     display: flex;
     justify-content: center;
