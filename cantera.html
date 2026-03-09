@@ -52,6 +52,9 @@
                     <h3 class="school-name">C.P. Germán Fernández Ramos</h3>
                     <p class="school-schedule">Martes y Jueves</p>
                     <p class="school-time">16:00 - 17:00</p>
+                    <p class="school-schedule" style="margin-top:10px;">CDT - Viernes</p>
+                    <p class="school-time">17:00 - 18:00</p>
+                    <p class="school-note">CDT abierto a niños/as de todos los colegios</p>
                 </div>
 
                 <div class="cantera-school-card">
@@ -103,16 +106,6 @@
                 </div>
             </div>
 
-            <div class="cantera-cdt">
-                <h2 class="cantera-subtitle">CENTRO DE TECNIFICACIÓN (CDT)</h2>
-                <div class="cantera-school-card cantera-cdt-card">
-                    <h3 class="school-name">C.P. Germán Fernández Ramos</h3>
-                    <p class="school-schedule">Viernes</p>
-                    <p class="school-time">17:00 - 18:00</p>
-                    <p class="school-note">Abierto a niños/as de todos los colegios</p>
-                </div>
-            </div>
-
             <h2 class="cantera-subtitle">MAPA DE ESCUELAS</h2>
             <div id="cantera-map"></div>
 
@@ -153,14 +146,14 @@
     <script>
         // Mapa de escuelas del BM Vetusta
         (function() {
-            var map = L.map('cantera-map').setView([43.3750, -5.8400], 12);
+            var map = L.map('cantera-map', { scrollWheelZoom: false });
 
             L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                 maxZoom: 18
             }).addTo(map);
 
-            var purpleIcon = L.divIcon({
+            var markerIcon = L.divIcon({
                 className: 'cantera-map-marker',
                 html: '<div style="background:#e91e63;width:24px;height:24px;border-radius:50%;border:4px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,0.6);"></div>',
                 iconSize: [24, 24],
@@ -168,16 +161,8 @@
                 popupAnchor: [0, -14]
             });
 
-            var cdtIcon = L.divIcon({
-                className: 'cantera-map-marker',
-                html: '<div style="background:#ffd600;width:28px;height:28px;border-radius:50%;border:4px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,0.6);"></div>',
-                iconSize: [28, 28],
-                iconAnchor: [14, 14],
-                popupAnchor: [0, -16]
-            });
-
             var schools = [
-                { name: 'C.P. Germán Fernández Ramos', schedule: 'Martes y Jueves, 16:00 - 17:00', lat: 43.3728687, lng: -5.8402921 },
+                { name: 'C.P. Germán Fernández Ramos', schedule: 'Martes y Jueves, 16:00 - 17:00<br><strong>CDT (Viernes):</strong> 17:00 - 18:00<br><em>CDT abierto a todos los colegios</em>', lat: 43.3728687, lng: -5.8402921 },
                 { name: 'Colegio Amor de Dios', schedule: 'Lunes y Miércoles, 17:00 - 18:00', lat: 43.3707553, lng: -5.8457390 },
                 { name: 'C.E.I.P Ventanielles', schedule: 'Martes, Jueves y Viernes, 16:00 - 17:00', lat: 43.3697274, lng: -5.8242886 },
                 { name: 'C.P. Veneranda Manzano', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3528263, lng: -5.8457374 },
@@ -188,16 +173,17 @@
                 { name: 'C.P. La Fresneda', schedule: 'Miércoles y Jueves, 17:00 - 18:00', lat: 43.4115842, lng: -5.7919704 }
             ];
 
+            var bounds = [];
             schools.forEach(function(school) {
-                L.marker([school.lat, school.lng], { icon: purpleIcon })
+                var latlng = [school.lat, school.lng];
+                bounds.push(latlng);
+                L.marker(latlng, { icon: markerIcon })
                     .addTo(map)
                     .bindPopup('<strong>' + school.name + '</strong><br>' + school.schedule);
             });
 
-            // CDT marker
-            L.marker([43.3728687, -5.8402921], { icon: cdtIcon })
-                .addTo(map)
-                .bindPopup('<strong>CDT - C.P. Germán Fernández Ramos</strong><br>Viernes, 17:00 - 18:00<br><em>Abierto a todos los colegios</em>');
+            // Fit map to show all markers with some padding
+            map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
         })();
     </script>
 </body>
