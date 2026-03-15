@@ -299,6 +299,10 @@ body {
     letter-spacing: 0.3px;
 }
 
+.match-team-name-short {
+    display: none;
+}
+
 /* Periodic horizontal spin animation on team badges */
 @keyframes match-badge-spin {
     0%, 80% {
@@ -374,6 +378,14 @@ body {
 
     .match-team-name {
         font-size: 0.6rem;
+    }
+
+    .match-team-name-full {
+        display: none;
+    }
+
+    .match-team-name-short {
+        display: inline;
     }
 
     .match-center {
