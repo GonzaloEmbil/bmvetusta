@@ -237,6 +237,20 @@ body {
     }
 }
 
+/* Desktop: botones iguales */
+@media (min-width: 769px) {
+    .abonamiento-banner {
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+    }
+
+    .abonamiento-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
 @keyframes bounce {
     0%, 100% {
         transform: translateY(0);
