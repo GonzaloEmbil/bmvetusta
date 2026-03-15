@@ -242,12 +242,14 @@ body {
     .abonamiento-banner {
         display: flex;
         flex-direction: row;
+        justify-content: center;
         gap: 14px;
     }
 
     .abonamiento-btn {
-        flex: 1;
+        width: 280px;
         text-align: center;
+        box-sizing: border-box;
     }
 }
 
