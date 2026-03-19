@@ -156,8 +156,51 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Iniciar carrusel infinito al cargar
-    window.addEventListener('load', setupInfiniteCarousel);
+    // Carrusel infinito de patrocinadores (sentido inverso)
+    function setupSponsorsCarousel() {
+        const track = document.querySelector('.sponsors-carousel-track');
+        const cards = track ? track.querySelectorAll('.sponsor-carousel-card') : [];
+        
+        if (track && cards.length > 0) {
+            const cardWidth = 200; // ancho fijo de cada tarjeta
+            const gap = 30; // gap entre tarjetas
+            const cardTotalWidth = cardWidth + gap;
+            
+            const originalCardsCount = cards.length / 2;
+            const resetPoint = originalCardsCount * cardTotalWidth;
+            
+            // Empezar desplazado (para moverse hacia la derecha)
+            let currentTranslate = resetPoint;
+            const speed = 0.5; // misma velocidad que el carrusel de equipos
+            
+            function animate() {
+                currentTranslate -= speed; // sentido inverso (derecha a izquierda → izquierda a derecha)
+                
+                if (currentTranslate <= 0) {
+                    currentTranslate = resetPoint;
+                }
+                
+                track.style.transform = `translateX(-${currentTranslate}px)`;
+                requestAnimationFrame(animate);
+            }
+            
+            animate();
+            
+            track.addEventListener('mouseenter', () => {
+                track.style.animationPlayState = 'paused';
+            });
+            
+            track.addEventListener('mouseleave', () => {
+                track.style.animationPlayState = 'running';
+            });
+        }
+    }
+
+    // Iniciar carruseles infinitos al cargar
+    window.addEventListener('load', function() {
+        setupInfiniteCarousel();
+        setupSponsorsCarousel();
+    });
     
     // Menú hamburguesa
     const hamburger = document.querySelector('.hamburger');
