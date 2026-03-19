@@ -1,34 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Página cargada correctamente');
 
-    // Theme Toggle (Day/Night mode)
-    (function setupThemeToggle() {
-        const toggle = document.getElementById('theme-toggle');
-        if (!toggle) return;
-
-        const sunIcon = toggle.querySelector('.theme-icon-sun');
-        const moonIcon = toggle.querySelector('.theme-icon-moon');
-
-        // Check saved preference
-        const savedTheme = localStorage.getItem('bmvetusta-theme');
-        if (savedTheme === 'light') {
-            document.body.classList.add('light-theme');
-            if (sunIcon) sunIcon.style.display = 'none';
-            if (moonIcon) moonIcon.style.display = 'block';
-        }
-
-        toggle.addEventListener('click', function() {
-            document.body.classList.toggle('light-theme');
-            const isLight = document.body.classList.contains('light-theme');
-            localStorage.setItem('bmvetusta-theme', isLight ? 'light' : 'dark');
-
-            if (sunIcon && moonIcon) {
-                sunIcon.style.display = isLight ? 'none' : 'block';
-                moonIcon.style.display = isLight ? 'block' : 'none';
-            }
-        });
-    })();
-
     // Highlight active nav link based on current page (desktop underline)
     (function highlightActiveNav() {
         const currentPage = window.location.pathname.split('/').pop() || 'index.html';

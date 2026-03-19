@@ -159,26 +159,13 @@ body {
     transform: none;
 }
 
-/* Theme Toggle Button */
-.theme-toggle {
-    background: none;
-    border: none;
+.streaming-icon {
+    transition: all 0.3s;
     cursor: pointer;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.theme-toggle svg {
-    fill: #000;
-}
-
-.theme-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.15);
-    transform: scale(1.1);
+.streaming-icon:hover {
+    animation: bounce 0.8s ease infinite;
 }
 
 /* Abonamiento Banner */
@@ -910,7 +897,7 @@ body {
         margin-left: -130px;
     }
     
-    .theme-toggle {
+    .streaming-icon {
         margin-right: -130px;
     }
 }
@@ -926,7 +913,7 @@ body {
         height: 60px;
     }
     
-    .theme-toggle {
+    .streaming-icon {
         display: none;
     }
     
@@ -2184,196 +2171,4 @@ body {
     .cantera-subtitle {
         font-size: 1.2rem;
     }
-}
-
-/* ============================== */
-/* LIGHT THEME (Day Mode)         */
-/* ============================== */
-/* Background + text colors change. Header never changes. */
-
-body.light-theme {
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-body.light-theme .main-content {
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-body.light-theme .above-fold {
-    background-color: #f0f0f0;
-}
-
-body.light-theme #loading-screen {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .carousel-section {
-    background-color: #e8e8e8;
-}
-
-body.light-theme .sponsors-carousel-section {
-    background-color: #e8e8e8;
-}
-
-/* Global text overrides for light mode (excluding header & footer) */
-body.light-theme .main-content h1,
-body.light-theme .main-content h2,
-body.light-theme .main-content h3,
-body.light-theme .main-content h4,
-body.light-theme .main-content h5 {
-    color: #222;
-}
-
-body.light-theme .main-content p,
-body.light-theme .main-content span,
-body.light-theme .main-content li {
-    color: #333;
-}
-
-body.light-theme .main-content a {
-    color: #1a1a2e;
-}
-
-/* Carousel titles */
-body.light-theme .carousel-title {
-    color: #222;
-    background-color: #fff;
-}
-
-body.light-theme .carousel-card {
-    background-color: #fff;
-}
-
-/* Match banner */
-body.light-theme .match-banner {
-    background-color: #e8e8e8;
-    color: #222;
-}
-
-body.light-theme .match-banner * {
-    color: #222;
-}
-
-/* Abonamiento banner text */
-body.light-theme .abonamiento-banner {
-    background-color: #e0e0e0;
-}
-
-body.light-theme .abonamiento-banner span,
-body.light-theme .abonamiento-banner a {
-    color: #222;
-}
-
-/* News carousel */
-body.light-theme .news-carousel-slide-content {
-    background-color: #fff;
-}
-
-body.light-theme .news-carousel-slide-title {
-    color: #222;
-}
-
-body.light-theme .news-carousel-slide-excerpt {
-    color: #555;
-}
-
-body.light-theme .news-carousel-slide-date {
-    color: #888;
-}
-
-/* Clasificación / Calendario */
-body.light-theme .clasificacion-title,
-body.light-theme .calendario-title {
-    color: #222;
-}
-
-body.light-theme .clasificacion-title a,
-body.light-theme .calendario-title a {
-    color: #222;
-}
-
-/* Equipos page */
-body.light-theme .equipo-card {
-    background-color: #fff;
-}
-
-body.light-theme .equipo-card-club {
-    color: #888;
-}
-
-body.light-theme .equipo-card-name {
-    color: #222;
-}
-
-body.light-theme .equipo-download-btn {
-    background-color: rgba(0, 0, 0, 0.08);
-    color: #222;
-}
-
-body.light-theme .equipos-page-title {
-    color: #222;
-}
-
-body.light-theme .equipos-page-title::after {
-    background-color: #222;
-}
-
-/* Patrocinadores */
-body.light-theme .patrocinador-title {
-    color: #222;
-}
-
-/* News cards */
-body.light-theme .news-card {
-    background-color: #fff;
-}
-
-body.light-theme .news-card-title {
-    color: #222;
-}
-
-body.light-theme .news-card-date {
-    color: #888;
-}
-
-body.light-theme .news-card-excerpt {
-    color: #555;
-}
-
-/* Cantera */
-body.light-theme .cantera-school-card {
-    background-color: #fff;
-}
-
-body.light-theme .cantera-school-name {
-    color: #222;
-}
-
-/* Prensa */
-body.light-theme .prensa-card {
-    background-color: #fff;
-}
-
-body.light-theme .prensa-card-title {
-    color: #222;
-}
-
-body.light-theme .prensa-card-date {
-    color: #888;
-}
-
-/* Article pages */
-body.light-theme .article-title {
-    color: #222;
-}
-
-body.light-theme .article-date {
-    color: #888;
-}
-
-body.light-theme .article-content,
-body.light-theme .article-content p {
-    color: #333;
 }
