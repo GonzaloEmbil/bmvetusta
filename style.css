@@ -164,7 +164,7 @@ body {
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px;
+    padding: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -172,8 +172,12 @@ body {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.theme-toggle svg {
+    fill: #000;
+}
+
 .theme-toggle:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.15);
     transform: scale(1.1);
 }
 
@@ -2185,347 +2189,28 @@ body {
 /* ============================== */
 /* LIGHT THEME (Day Mode)         */
 /* ============================== */
+/* Only the page background changes. Header never changes. */
 
 body.light-theme {
     background-color: #f0f0f0;
-    color: #222;
 }
 
-/* Header stays dark in light mode for contrast */
-body.light-theme .header {
-    background: linear-gradient(120deg, #1a1a2e 0%, #1a1a2e calc(100% - 180px), #FDED3A calc(100% - 180px), #FDED3A 100%);
-}
-
-body.light-theme .theme-toggle:hover {
-    background-color: rgba(0, 0, 0, 0.15);
-}
-
-body.light-theme .theme-toggle svg {
-    fill: #fff;
-}
-
-/* Main content */
 body.light-theme .main-content {
     background-color: #f0f0f0;
-    color: #222;
 }
 
-/* Loading screen */
-body.light-theme #loading-screen {
-    background-color: #f0f0f0;
-}
-
-/* Above fold / match banner */
 body.light-theme .above-fold {
     background-color: #f0f0f0;
 }
 
-body.light-theme .match-banner {
-    background-color: #e8e8e8;
-    color: #222;
+body.light-theme #loading-screen {
+    background-color: #f0f0f0;
 }
 
-body.light-theme .match-banner .match-team-name {
-    color: #222;
-}
-
-body.light-theme .match-banner .match-score {
-    color: #222;
-}
-
-body.light-theme .match-banner .match-date {
-    color: #555;
-}
-
-/* Carousel sections */
 body.light-theme .carousel-section {
-    background-color: #e0e0e0;
+    background-color: #e8e8e8;
 }
 
-body.light-theme .carousel-card {
-    background-color: #fff;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-body.light-theme .carousel-title {
-    background-color: #fff;
-    color: #222;
-}
-
-body.light-theme .carousel-image {
-    background-color: #eee;
-}
-
-/* Sponsors carousel */
 body.light-theme .sponsors-carousel-section {
-    background-color: #e0e0e0;
-}
-
-/* News carousel */
-body.light-theme .news-carousel-slide {
-    background-color: #fff;
-    color: #222;
-}
-
-body.light-theme .news-carousel-slide-content {
-    background-color: #fff;
-}
-
-body.light-theme .news-carousel-slide-title {
-    color: #222;
-}
-
-body.light-theme .news-carousel-slide-excerpt {
-    color: #555;
-}
-
-body.light-theme .news-carousel-slide-date {
-    color: #888;
-}
-
-body.light-theme .news-carousel-arrow {
-    background-color: rgba(0,0,0,0.4);
-    color: #fff;
-}
-
-/* Abonamiento banner */
-body.light-theme .abonamiento-banner {
-    background-color: #e0e0e0;
-}
-
-body.light-theme .abonamiento-banner span {
-    color: #222;
-}
-
-/* En Prensa preview */
-body.light-theme .prensa-preview-section {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .prensa-title {
-    color: #222;
-}
-
-body.light-theme .prensa-card {
-    background-color: #fff;
-    border-color: #ddd;
-}
-
-body.light-theme .prensa-card-title {
-    color: #222;
-}
-
-body.light-theme .prensa-card-date {
-    color: #888;
-}
-
-/* Clasificación / Calendario */
-body.light-theme .clasificacion-section {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .clasificacion-title,
-body.light-theme .calendario-title {
-    color: #222;
-}
-
-body.light-theme .clasificacion-title a,
-body.light-theme .calendario-title a {
-    color: #222;
-}
-
-body.light-theme .clasificacion-iframe-container,
-body.light-theme .calendario-iframe-container {
-    background-color: #fff;
-    border-color: #ddd;
-}
-
-/* News section (noticias page) */
-body.light-theme .news-section {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .news-section-title {
-    color: #222;
-}
-
-body.light-theme .news-card {
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-body.light-theme .news-card-title {
-    color: #222;
-}
-
-body.light-theme .news-card-date {
-    color: #888;
-}
-
-body.light-theme .news-card-excerpt {
-    color: #555;
-}
-
-/* Equipos page */
-body.light-theme .equipos-section {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .equipos-page-title {
-    color: #222;
-}
-
-body.light-theme .equipos-page-title::after {
-    background-color: #222;
-}
-
-body.light-theme .equipo-card {
-    background-color: #fff;
-}
-
-body.light-theme .equipo-card-image {
-    background-color: #eee;
-}
-
-body.light-theme .equipo-card-club {
-    color: #888;
-}
-
-body.light-theme .equipo-card-name {
-    color: #222;
-}
-
-body.light-theme .equipo-download-btn {
-    background-color: rgba(0, 0, 0, 0.08);
-    color: #222;
-}
-
-body.light-theme .equipo-download-btn:hover {
-    background-color: rgba(0, 0, 0, 0.15);
-}
-
-/* Patrocinadores page */
-body.light-theme .patrocinadores-container {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .patrocinador-title {
-    color: #222;
-}
-
-/* Historia / El Club / Organigrama pages */
-body.light-theme .historia-section,
-body.light-theme .club-section,
-body.light-theme .organigrama-section {
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-body.light-theme .historia-title,
-body.light-theme .club-title,
-body.light-theme .organigrama-title {
-    color: #222;
-}
-
-/* Contacto page */
-body.light-theme .contacto-section {
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-body.light-theme .contacto-title {
-    color: #222;
-}
-
-/* Cantera page */
-body.light-theme .cantera-section {
-    background-color: #f0f0f0;
-}
-
-body.light-theme .cantera-title {
-    color: #222;
-}
-
-body.light-theme .cantera-subtitle {
-    color: #555;
-}
-
-body.light-theme .cantera-school-card {
-    background-color: #fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-}
-
-body.light-theme .cantera-school-name {
-    color: #222;
-}
-
-/* Abonate page */
-body.light-theme .abonate-section {
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-/* Footer stays dark */
-body.light-theme .footer {
-    background-color: #111;
-    color: #fff;
-}
-
-/* Noticias article pages */
-body.light-theme .article-section {
-    background-color: #f0f0f0;
-    color: #222;
-}
-
-body.light-theme .article-title {
-    color: #222;
-}
-
-body.light-theme .article-date {
-    color: #888;
-}
-
-body.light-theme .article-content {
-    color: #333;
-}
-
-body.light-theme .article-content p {
-    color: #333;
-}
-
-/* Generic text overrides */
-body.light-theme h1,
-body.light-theme h2,
-body.light-theme h3,
-body.light-theme h4 {
-    color: #222;
-}
-
-body.light-theme p {
-    color: #444;
-}
-
-body.light-theme a {
-    color: #1a1a2e;
-}
-
-/* Mobile header in light mode */
-@media (max-width: 768px) {
-    body.light-theme .header {
-        background: linear-gradient(120deg, #1a1a2e 0%, #1a1a2e calc(100% - 120px), #FDED3A calc(100% - 120px), #FDED3A 100%);
-    }
-
-    body.light-theme .nav {
-        background-color: #f0f0f0;
-    }
-
-    body.light-theme .nav a,
-    body.light-theme .nav-dropdown-toggle {
-        color: #222;
-    }
-
-    body.light-theme .nav a:hover,
-    body.light-theme .nav-dropdown-toggle:hover {
-        color: #FDED3A;
-    }
+    background-color: #e8e8e8;
 }
