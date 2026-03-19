@@ -1278,8 +1278,17 @@ body {
     max-width: 280px;
 }
 
+/* Spacer to center cards in the two middle columns of a 4-col row */
+.sponsor-spacer {
+    display: block;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
+    .sponsor-spacer {
+        display: none;
+    }
+
     .patrocinadores-colaboradores {
         grid-template-columns: repeat(3, 1fr);
     }
@@ -1434,7 +1443,7 @@ body {
 .equipo-card-image img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
     transition: transform 0.4s ease;
 }
@@ -1446,8 +1455,17 @@ body {
 .equipo-card-info {
     padding: 16px 20px;
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.equipo-card-text {
+    display: flex;
     flex-direction: column;
     gap: 4px;
+    min-width: 0;
 }
 
 .equipo-card-club {
@@ -1464,6 +1482,25 @@ body {
     font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 1px;
+}
+
+.equipo-download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    border-radius: 50%;
+    background-color: rgba(253, 237, 58, 0.15);
+    color: #FDED3A;
+    text-decoration: none;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.equipo-download-btn:hover {
+    background-color: rgba(253, 237, 58, 0.35);
+    transform: scale(1.1);
 }
 
 /* Responsive — single column on mobile */
