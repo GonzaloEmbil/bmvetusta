@@ -1,0 +1,16 @@
+name: Cloudflare Cache Purge
+
+on:
+  push:
+    branches:
+      - main  # Asegúrate de que tu rama se llame 'main'. Si es 'master', cámbialo aquí.
+
+jobs:
+  purge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Purge cache
+        uses: jakejarvis/cloudflare-purge-action@master
+        env:
+          CLOUDFLARE_ZONE: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
