@@ -508,6 +508,10 @@ body {
     font-size: 18px;
     font-weight: bold;
     background-color: #232323;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70px;
 }
 
 /* En Prensa Preview */
