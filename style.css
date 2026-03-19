@@ -532,29 +532,12 @@ body {
     gap: 30px;
 }
 
-.sponsor-carousel-card {
-    flex: 0 0 200px;
-    height: 120px;
-    background-color: #fff;
-    border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    transition: transform 0.3s;
-    text-decoration: none;
-}
-
-.sponsor-carousel-card:hover {
-    transform: translateY(-5px);
-}
-
-.sponsor-carousel-card img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
+/* Override sponsor-link inside carousel to have fixed width instead of 100% */
+.sponsors-carousel-track .sponsor-link {
+    flex: 0 0 220px;
+    width: 220px;
+    height: 140px;
+    padding: 20px;
 }
 
 /* En Prensa Preview */

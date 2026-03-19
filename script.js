@@ -159,10 +159,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Carrusel infinito de patrocinadores (sentido inverso)
     function setupSponsorsCarousel() {
         const track = document.querySelector('.sponsors-carousel-track');
-        const cards = track ? track.querySelectorAll('.sponsor-carousel-card') : [];
+        const cards = track ? track.querySelectorAll('.sponsor-link') : [];
         
         if (track && cards.length > 0) {
-            const cardWidth = 200; // ancho fijo de cada tarjeta
+            const cardWidth = 220; // ancho fijo de cada tarjeta (matches CSS)
             const gap = 30; // gap entre tarjetas
             const cardTotalWidth = cardWidth + gap;
             
