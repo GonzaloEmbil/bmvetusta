@@ -683,25 +683,21 @@ body {
     color: #0a0a1a;
 }
 
-/* Clasificación */
-.clasificacion-section {
-    width: calc(100% - 30px);
-    margin: 60px 15px 40px 15px;
-    padding: 0;
-    color: white;
-    overflow-x: hidden;
-}
+/* ====================================
+   DATA-DRIVEN SECTIONS — Clasificación, Próximos, Goleadores
+   ==================================== */
 
-.clasificacion-title {
+/* Shared section title */
+.section-title {
     text-align: center;
     font-size: 32px;
     margin-bottom: 30px;
-    margin-left: 0;
     font-weight: bold;
+    color: white;
     width: 100%;
 }
 
-.clasificacion-title a {
+.section-title a {
     color: #FDED3A;
     text-decoration: none;
     display: inline-flex;
@@ -714,11 +710,15 @@ body {
     border: 2px solid transparent;
 }
 
-.clasificacion-title a:hover {
+.section-title a:hover {
     color: #fff;
     background: linear-gradient(135deg, rgba(254, 237, 1, 0.2) 0%, rgba(254, 237, 1, 0.1) 100%);
     border-color: #FDED3A;
     transform: translateX(5px);
+}
+
+.section-title a:hover .external-link-icon {
+    transform: translate(3px, -3px);
 }
 
 .external-link-icon {
@@ -727,89 +727,299 @@ body {
     transition: transform 0.3s ease;
 }
 
-.clasificacion-title a:hover .external-link-icon {
-    transform: translate(3px, -3px);
+/* ── Clasificación ── */
+.clasificacion-section {
+    width: calc(100% - 30px);
+    max-width: 1200px;
+    margin: 60px auto 40px;
+    padding: 0 15px;
+    color: white;
+    overflow-x: hidden;
 }
 
-.iframes-row {
-    display: flex;
-    gap: 20px;
-    align-items: flex-start;
-    width: 100%;
-}
-
-.clasificacion-column {
-    flex: 0 0 69%;
-    max-width: 843px;
-}
-
-.calendario-column {
-    flex: 1;
-}
-
-.clasificacion-iframe-container {
-    position: relative;
-    width: 100%;
-    height: 1500px;
-    margin: 0;
-    overflow: hidden;  /* Sin scroll exterior — solo el scroll interno del iframe */
-    background-color: #111;
+.standings-table-wrapper {
+    overflow-x: auto;
     border-radius: 12px;
     box-shadow: 0 0 20px rgba(254, 237, 1, 0.15);
 }
 
-.clasificacion-iframe-container iframe {
-    position: relative;
-    top: -480px;       /* Ajustado de -500px a -480px para mostrar mejor "PRIMERA DIVISION..." */
+.standings-table {
     width: 100%;
-    height: 1980px;    /* Aumentado de 1680px a 1980px (+300px = aumento anterior + 50%) */
-    border: none;
-}
-
-.calendario-iframe-container {
-    position: relative;
-    width: 100%;
-    height: 1500px;
-    overflow: hidden;
+    border-collapse: collapse;
     background-color: #111;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(254, 237, 1, 0.15);
+    font-size: 0.95rem;
 }
 
-.calendario-title {
+.standings-table thead {
+    background-color: #1a1a2e;
+}
+
+.standings-table th {
+    padding: 12px 10px;
     text-align: center;
-    font-size: 32px;
-    margin-bottom: 30px;
-    font-weight: bold;
+    color: #FDED3A;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    border-bottom: 2px solid #FDED3A;
+}
+
+.standings-table th.st-team {
+    text-align: left;
+    padding-left: 14px;
+}
+
+.standings-table td {
+    padding: 10px 8px;
+    text-align: center;
+    color: #ccc;
+    border-bottom: 1px solid #222;
+    white-space: nowrap;
+}
+
+.standings-table .st-pos {
+    width: 40px;
+    min-width: 40px;
+}
+
+.standings-table .st-team-cell {
+    text-align: left;
+    padding-left: 14px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.standings-table .st-team-badge {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
+.standings-table .st-team-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 260px;
+}
+
+.standings-table tbody tr:hover {
+    background-color: rgba(253, 237, 58, 0.05);
+}
+
+/* Vetusta highlighted row */
+.standings-table tbody tr.st-highlight {
+    background-color: rgba(253, 237, 58, 0.12);
+    border-left: 3px solid #FDED3A;
+}
+
+.standings-table tbody tr.st-highlight td {
+    color: #fff;
+    font-weight: 600;
+}
+
+.standings-table tbody tr.st-highlight .st-team-name {
+    color: #FDED3A;
+}
+
+/* ── Próximos Partidos ── */
+.proximos-section {
+    width: calc(100% - 30px);
+    max-width: 900px;
+    margin: 50px auto 40px;
+    padding: 0 15px;
     color: white;
 }
 
-.calendario-title a {
+.proximos-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.proximos-card {
+    display: flex;
+    align-items: center;
+    background-color: #111;
+    border-radius: 12px;
+    padding: 16px 20px;
+    gap: 16px;
+    border: 1.5px solid #222;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.proximos-card:hover {
+    border-color: rgba(253, 237, 58, 0.3);
+    box-shadow: 0 4px 15px rgba(254, 237, 1, 0.08);
+}
+
+.proximos-jornada {
+    flex-shrink: 0;
+    width: 50px;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #FDED3A;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    line-height: 1.2;
+}
+
+.proximos-jornada span {
+    display: block;
+    font-size: 1.4rem;
+}
+
+.proximos-badge {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 6px;
+    background-color: #1a1a2e;
+    padding: 4px;
+}
+
+.proximos-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.proximos-rival {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 4px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.proximos-localidad {
+    font-size: 0.8rem;
+    color: #FDED3A;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.proximos-datetime {
+    flex-shrink: 0;
+    text-align: right;
+    min-width: 100px;
+}
+
+.proximos-date {
+    font-size: 0.9rem;
+    color: #fff;
+    font-weight: 600;
+    display: block;
+}
+
+.proximos-time {
+    font-size: 0.85rem;
+    color: #aaa;
+    display: block;
+    margin-top: 2px;
+}
+
+.proximos-streaming {
+    flex-shrink: 0;
+}
+
+.proximos-streaming a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background-color: rgba(253, 237, 58, 0.15);
     color: #FDED3A;
     text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 12px;
-    transition: all 0.3s ease;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background: linear-gradient(135deg, rgba(254, 237, 1, 0.1) 0%, rgba(254, 237, 1, 0.05) 100%);
-    border: 2px solid transparent;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-.calendario-title a:hover {
-    color: #fff;
-    background: linear-gradient(135deg, rgba(254, 237, 1, 0.2) 0%, rgba(254, 237, 1, 0.1) 100%);
-    border-color: #FDED3A;
-    transform: translateX(5px);
+.proximos-streaming a:hover {
+    background-color: rgba(253, 237, 58, 0.35);
+    transform: scale(1.1);
 }
 
-.calendario-iframe-container iframe {
-    position: relative;
-    top: -480px;
+/* ── Goleadores ── */
+.goleadores-section {
+    width: calc(100% - 30px);
+    max-width: 800px;
+    margin: 50px auto 60px;
+    padding: 0 15px;
+    color: white;
+}
+
+.goleadores-table-wrapper {
+    overflow-x: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(254, 237, 1, 0.15);
+}
+
+.goleadores-table {
     width: 100%;
-    height: 1980px;
-    border: none;
+    border-collapse: collapse;
+    background-color: #111;
+    font-size: 0.95rem;
+}
+
+.goleadores-table thead {
+    background-color: #1a1a2e;
+}
+
+.goleadores-table th {
+    padding: 12px 10px;
+    text-align: center;
+    color: #FDED3A;
+    font-weight: 700;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    border-bottom: 2px solid #FDED3A;
+}
+
+.goleadores-table th.gl-name {
+    text-align: left;
+    padding-left: 14px;
+}
+
+.goleadores-table td {
+    padding: 10px 8px;
+    text-align: center;
+    color: #ccc;
+    border-bottom: 1px solid #222;
+    white-space: nowrap;
+}
+
+.goleadores-table td.gl-name-cell {
+    text-align: left;
+    padding-left: 14px;
+    color: #fff;
+    font-weight: 600;
+}
+
+.goleadores-table .gl-pos {
+    width: 40px;
+    min-width: 40px;
+}
+
+.goleadores-table tbody tr:hover {
+    background-color: rgba(253, 237, 58, 0.05);
+}
+
+/* Top 3 scorers highlight */
+.goleadores-table tbody tr:nth-child(1) td.gl-name-cell,
+.goleadores-table tbody tr:nth-child(2) td.gl-name-cell,
+.goleadores-table tbody tr:nth-child(3) td.gl-name-cell {
+    color: #FDED3A;
 }
 
 /* Footer */
@@ -999,44 +1209,96 @@ body {
 
     .clasificacion-section {
         margin: 40px auto;
-        padding: 0 15px;
+        padding: 0 10px;
     }
 
-    .clasificacion-title {
+    .section-title {
         font-size: 22px;
-        text-align: center;
-        width: 100%;
-        max-width: 100%;
     }
 
-    .clasificacion-title a {
+    .section-title a {
         justify-content: center;
+        font-size: 20px;
+        padding: 8px 14px;
     }
 
-    .iframes-row {
-        flex-direction: column;
+    /* Standings table mobile */
+    .standings-table {
+        font-size: 0.8rem;
     }
 
-    .clasificacion-column {
-        flex: none;
-        width: 100%;
+    .standings-table th,
+    .standings-table td {
+        padding: 8px 4px;
     }
 
-    .calendario-column {
+    .st-hide-mobile {
         display: none;
     }
 
-    .clasificacion-iframe-container {
-        width: 100%;
-        max-width: 100%;
-        height: 600px;
-        margin: 0 auto;
-        overflow: hidden;
+    .standings-table .st-team-name {
+        max-width: 120px;
+        font-size: 0.75rem;
     }
 
-    .clasificacion-iframe-container iframe {
-        top: -120px;
-        height: 720px;
+    .standings-table .st-team-badge {
+        width: 20px;
+        height: 20px;
+    }
+
+    /* Proximos mobile */
+    .proximos-section {
+        padding: 0 10px;
+    }
+
+    .proximos-card {
+        flex-wrap: wrap;
+        padding: 12px 14px;
+        gap: 10px;
+    }
+
+    .proximos-jornada {
+        width: 40px;
+        font-size: 0.65rem;
+    }
+
+    .proximos-jornada span {
+        font-size: 1.1rem;
+    }
+
+    .proximos-badge {
+        width: 38px;
+        height: 38px;
+    }
+
+    .proximos-rival {
+        font-size: 0.9rem;
+    }
+
+    .proximos-datetime {
+        min-width: auto;
+    }
+
+    .proximos-date {
+        font-size: 0.8rem;
+    }
+
+    .proximos-time {
+        font-size: 0.75rem;
+    }
+
+    /* Goleadores mobile */
+    .goleadores-section {
+        padding: 0 10px;
+    }
+
+    .goleadores-table {
+        font-size: 0.8rem;
+    }
+
+    .goleadores-table th,
+    .goleadores-table td {
+        padding: 8px 4px;
     }
 
     .patrocinadores-grid {

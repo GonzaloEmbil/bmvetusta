@@ -359,51 +359,67 @@
             </div>
         </section>
 
-        <!-- Clasificación -->
+        <!-- Clasificación (data-driven) -->
         <section class="clasificacion-section">
-            <div class="iframes-row">
-                <div class="clasificacion-column">
-                    <h2 class="clasificacion-title">
-                        <a href="https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1" target="_blank" rel="noopener noreferrer">
-                            Clasificación
-                            <svg class="external-link-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
-                        </a>
-                    </h2>
-                    <div class="clasificacion-iframe-container">
-                        <iframe
-                            src="https://resultadosbalonmano.isquad.es/clasificacion.php?seleccion=0&id=1031242&id_ambito=1&id_territorial=9999&id_superficie=1&iframe=1&id_categoria=2526&id_competicion=209266"
-                            loading="lazy"
-                            frameborder="0"
-                            scrolling="auto"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
-                <div class="calendario-column">
-                    <h2 class="calendario-title">
-                        <a href="https://resultadosbalonmano.isquad.es/calendario2.php?seleccion=0&id=1031242&id_superficie=1" target="_blank" rel="noopener noreferrer">
-                            Calendario
-                            <svg class="external-link-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                <polyline points="15 3 21 3 21 9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
-                        </a>
-                    </h2>
-                    <div class="calendario-iframe-container">
-                        <iframe
-                            src="https://resultadosbalonmano.isquad.es/calendario2.php?seleccion=0&id=1031242&id_superficie=1"
-                            loading="lazy"
-                            frameborder="0"
-                            scrolling="auto"
-                            allowfullscreen>
-                        </iframe>
-                    </div>
-                </div>
+            <h2 class="section-title">
+                <a href="https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1" target="_blank" rel="noopener noreferrer">
+                    Clasificación
+                    <svg class="external-link-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </a>
+            </h2>
+            <div class="standings-table-wrapper">
+                <table class="standings-table" id="standings-table">
+                    <thead>
+                        <tr>
+                            <th class="st-pos">#</th>
+                            <th class="st-team">Equipo</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th class="st-hide-mobile">GF</th>
+                            <th class="st-hide-mobile">GC</th>
+                            <th>DIF</th>
+                            <th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Próximos partidos (data-driven) -->
+        <section class="proximos-section">
+            <h2 class="section-title">Próximos Partidos</h2>
+            <div class="proximos-list" id="proximos-list">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Máximos goleadores (data-driven) -->
+        <section class="goleadores-section">
+            <h2 class="section-title">Máximos Goleadores</h2>
+            <div class="goleadores-table-wrapper">
+                <table class="goleadores-table" id="goleadores-table">
+                    <thead>
+                        <tr>
+                            <th class="gl-pos">#</th>
+                            <th class="gl-name">Jugador</th>
+                            <th>Goles</th>
+                            <th>PJ</th>
+                            <th>Media</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Populated by JS -->
+                    </tbody>
+                </table>
             </div>
         </section>
 

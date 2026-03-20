@@ -305,6 +305,163 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // ── Data-driven components: Clasificación, Próximos, Goleadores ──
+    (function loadLeagueData() {
+        var TEAM_NAME = 'AUTO-CENTER PRINCIPADO';
+
+        function normaliseName(name) {
+            return (name || '').trim().toUpperCase();
+        }
+
+        /**
+         * Format "SURNAME, NAME" → "N. Surname" for compact display
+         */
+        function formatPlayerName(raw) {
+            var parts = raw.split(',');
+            if (parts.length < 2) return raw;
+            var surname = parts[0].trim();
+            var firstName = parts[1].trim();
+            // Capitalize properly
+            function capitalize(s) {
+                return s.charAt(0).toUpperCase() + s.slice(1).toLowerCase();
+            }
+            var surnameFormatted = surname.split(/\s+/).map(capitalize).join(' ');
+            var initial = firstName.charAt(0).toUpperCase();
+            return initial + '. ' + surnameFormatted;
+        }
+
+        /**
+         * Format date string "2026-03-21 17:30:00" to Spanish display.
+         */
+        function formatDateSpanish(dateStr) {
+            if (!dateStr || dateStr.trim() === '') return { date: 'Por definir', time: '' };
+            var d = new Date(dateStr.replace(' ', 'T'));
+            if (isNaN(d.getTime())) return { date: dateStr, time: '' };
+
+            var days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            var months = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+
+            var dayName = days[d.getDay()];
+            var dayNum = d.getDate();
+            var month = months[d.getMonth()];
+            var hours = String(d.getHours()).padStart(2, '0');
+            var mins = String(d.getMinutes()).padStart(2, '0');
+
+            return {
+                date: dayName + ' ' + dayNum + ' ' + month,
+                time: hours + ':' + mins + 'h'
+            };
+        }
+
+        // ── Standings ──
+        function renderStandings(data) {
+            var tbody = document.querySelector('#standings-table tbody');
+            if (!tbody || !Array.isArray(data)) return;
+
+            tbody.innerHTML = '';
+            data.forEach(function(team) {
+                var tr = document.createElement('tr');
+                var isVetusta = normaliseName(team.nombre) === normaliseName(TEAM_NAME);
+                if (isVetusta) tr.classList.add('st-highlight');
+
+                tr.innerHTML =
+                    '<td class="st-pos">' + team.posicion + '</td>' +
+                    '<td><div class="st-team-cell">' +
+                        (team.escudo ? '<img src="' + team.escudo + '" alt="" class="st-team-badge" loading="lazy">' : '') +
+                        '<span class="st-team-name">' + (team.nombre || '') + '</span>' +
+                    '</div></td>' +
+                    '<td>' + team.PJ + '</td>' +
+                    '<td>' + team.PG + '</td>' +
+                    '<td>' + team.PE + '</td>' +
+                    '<td>' + team.PP + '</td>' +
+                    '<td class="st-hide-mobile">' + team.GF + '</td>' +
+                    '<td class="st-hide-mobile">' + team.GC + '</td>' +
+                    '<td>' + (team.DIF > 0 ? '+' : '') + team.DIF + '</td>' +
+                    '<td><strong>' + team.puntos + '</strong></td>';
+
+                tbody.appendChild(tr);
+            });
+        }
+
+        // ── Upcoming matches ──
+        function renderProximos(data) {
+            var container = document.getElementById('proximos-list');
+            if (!container || !Array.isArray(data)) return;
+
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<p style="color:#aaa;text-align:center;">No hay partidos próximos programados.</p>';
+                return;
+            }
+
+            data.forEach(function(match) {
+                var dt = formatDateSpanish(match.fecha);
+                var localidad = match.es_local ? 'Local' : 'Visitante';
+
+                var card = document.createElement('div');
+                card.className = 'proximos-card';
+
+                var streamingHTML = '';
+                if (match.url_streaming) {
+                    streamingHTML =
+                        '<div class="proximos-streaming">' +
+                            '<a href="' + match.url_streaming + '" target="_blank" rel="noopener noreferrer" title="Ver en directo">' +
+                                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"/><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/></svg>' +
+                            '</a>' +
+                        '</div>';
+                }
+
+                card.innerHTML =
+                    '<div class="proximos-jornada">J<span>' + (match.jornada || '') + '</span></div>' +
+                    '<img src="' + (match.escudo_rival || 'src/assets/escudo.png') + '" alt="" class="proximos-badge" loading="lazy">' +
+                    '<div class="proximos-info">' +
+                        '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
+                        '<div class="proximos-localidad">' + localidad + '</div>' +
+                    '</div>' +
+                    '<div class="proximos-datetime">' +
+                        '<span class="proximos-date">' + dt.date + '</span>' +
+                        '<span class="proximos-time">' + dt.time + '</span>' +
+                    '</div>' +
+                    streamingHTML;
+
+                container.appendChild(card);
+            });
+        }
+
+        // ── Top scorers ──
+        function renderGoleadores(data) {
+            var tbody = document.querySelector('#goleadores-table tbody');
+            if (!tbody || !Array.isArray(data)) return;
+
+            tbody.innerHTML = '';
+            data.forEach(function(player, i) {
+                var tr = document.createElement('tr');
+                tr.innerHTML =
+                    '<td class="gl-pos">' + (i + 1) + '</td>' +
+                    '<td class="gl-name-cell">' + formatPlayerName(player.nombre) + '</td>' +
+                    '<td><strong>' + player.goles + '</strong></td>' +
+                    '<td>' + player.partidos + '</td>' +
+                    '<td>' + player.media + '</td>';
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Fetch all three JSON files
+        var basePath = './data/';
+        Promise.all([
+            fetch(basePath + 'clasificacion.json').then(function(r) { return r.ok ? r.json() : []; }),
+            fetch(basePath + 'calendario.json').then(function(r) { return r.ok ? r.json() : []; }),
+            fetch(basePath + 'goleadores.json').then(function(r) { return r.ok ? r.json() : []; })
+        ]).then(function(results) {
+            renderStandings(results[0]);
+            renderProximos(results[1]);
+            renderGoleadores(results[2]);
+        }).catch(function(err) {
+            console.warn('Failed to load league data:', err);
+        });
+    })();
+
     // News Carousel (Homepage)
     (function setupNewsCarousel() {
         const viewport = document.querySelector('.news-carousel-viewport');
