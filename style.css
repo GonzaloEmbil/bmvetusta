@@ -61,6 +61,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .logo {
@@ -75,8 +76,10 @@ body {
 .nav {
     display: flex;
     gap: 40px;
-    margin-right: 10px;
     align-items: center;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .nav a,
@@ -157,15 +160,6 @@ body {
 .nav-dropdown-menu a:hover {
     background-color: rgba(253, 237, 58, 0.1);
     transform: none;
-}
-
-.streaming-icon {
-    transition: all 0.3s;
-    cursor: pointer;
-}
-
-.streaming-icon:hover {
-    animation: bounce 0.8s ease infinite;
 }
 
 /* Abonamiento Banner */
@@ -891,16 +885,6 @@ body {
     transform: rotate(-45deg) translate(7px, -7px);
 }
 
-/* Ajustes para Desktop */
-@media (min-width: 769px) {
-    .logo {
-        margin-left: -130px;
-    }
-    
-    .streaming-icon {
-        margin-right: -130px;
-    }
-}
 
 /* Responsive */
 @media (max-width: 768px) {
@@ -911,10 +895,6 @@ body {
     
     .logo img {
         height: 60px;
-    }
-    
-    .streaming-icon {
-        display: none;
     }
     
     .hamburger {
@@ -933,6 +913,7 @@ body {
         top: 100%;
         left: 0;
         right: 0;
+        transform: none;
         background: #000;
         flex-direction: column;
         padding: 20px;
