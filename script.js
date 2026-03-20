@@ -580,4 +580,33 @@ document.addEventListener('DOMContentLoaded', function() {
             }, { passive: true });
         }
     })();
+
+    // ── Header Streaming Button: show if next match has url_streaming ──
+    (function loadHeaderStreaming() {
+        var btn = document.getElementById('header-streaming-btn');
+        if (!btn) return;
+
+        // Determine base path to data/ depending on page depth
+        var scriptTags = document.querySelectorAll('script[src*="script.js"]');
+        var basePath = './';
+        if (scriptTags.length > 0) {
+            var src = scriptTags[0].getAttribute('src');
+            if (src && src.indexOf('../') === 0) {
+                basePath = '../';
+            }
+        }
+
+        fetch(basePath + 'data/calendario.json')
+            .then(function(r) { return r.ok ? r.json() : []; })
+            .then(function(data) {
+                if (!Array.isArray(data) || data.length === 0) return;
+                // Only show for the very next match (first in the sorted list)
+                var nextMatch = data[0];
+                if (nextMatch.url_streaming) {
+                    btn.href = nextMatch.url_streaming;
+                    btn.style.display = '';
+                }
+            })
+            .catch(function() { /* silently ignore */ });
+    })();
 });
