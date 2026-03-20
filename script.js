@@ -364,6 +364,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 var isVetusta = normaliseName(team.nombre) === normaliseName(TEAM_NAME);
                 if (isVetusta) tr.classList.add('st-highlight');
 
+                // Color-coded DIF class
+                var difClass = 'st-dif-zero';
+                var difText = '0';
+                if (team.DIF > 0) { difClass = 'st-dif-pos'; difText = '+' + team.DIF; }
+                else if (team.DIF < 0) { difClass = 'st-dif-neg'; difText = '' + team.DIF; }
+
                 tr.innerHTML =
                     '<td class="st-pos">' + team.posicion + '</td>' +
                     '<td><div class="st-team-cell">' +
@@ -376,14 +382,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<td>' + team.PP + '</td>' +
                     '<td class="st-hide-mobile">' + team.GF + '</td>' +
                     '<td class="st-hide-mobile">' + team.GC + '</td>' +
-                    '<td>' + (team.DIF > 0 ? '+' : '') + team.DIF + '</td>' +
+                    '<td class="' + difClass + '">' + difText + '</td>' +
                     '<td><strong>' + team.puntos + '</strong></td>';
 
                 tbody.appendChild(tr);
             });
         }
 
-        // ── Upcoming matches (max 3 for side panel) ──
+        // ── Upcoming matches (max 5 for side panel) ──
         function renderProximos(data) {
             var container = document.getElementById('proximos-list');
             if (!container || !Array.isArray(data)) return;
@@ -391,7 +397,7 @@ document.addEventListener('DOMContentLoaded', function() {
             container.innerHTML = '';
 
             if (data.length === 0) {
-                container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">No hay partidos próximos programados.</p>';
+                container.innerHTML = '<p style="color:#555;text-align:center;padding:30px 20px;font-size:0.85rem;">No hay partidos próximos programados.</p>';
                 return;
             }
 
@@ -400,16 +406,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 var dt = formatDateSpanish(match.fecha);
                 var localidad = match.es_local ? 'Local' : 'Visitante';
                 var localidadClass = match.es_local ? 'proximos-localidad-local' : 'proximos-localidad-away';
+                var cardSideClass = match.es_local ? 'proximos-card-local' : 'proximos-card-away';
 
                 var card = document.createElement('div');
-                card.className = 'proximos-card';
+                card.className = 'proximos-card ' + cardSideClass;
 
                 var streamingHTML = '';
                 if (match.url_streaming) {
                     streamingHTML =
                         '<div class="proximos-streaming">' +
                             '<a href="' + match.url_streaming + '" target="_blank" rel="noopener noreferrer" title="Ver en directo">' +
-                                '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"/><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/></svg>' +
+                                '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
                             '</a>' +
                         '</div>';
                 }
@@ -423,7 +430,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     '</div>' +
                     '<div class="proximos-datetime">' +
                         '<span class="proximos-date">' + dt.date + '</span>' +
-                        '<span class="proximos-time">' + dt.time + '</span>' +
+                        (dt.time ? '<span class="proximos-time">' + dt.time + '</span>' : '') +
                     '</div>' +
                     streamingHTML;
 
@@ -437,13 +444,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!tbody || !Array.isArray(data)) return;
 
             var maxItems = 10;
+            var maxGoals = data.length > 0 ? data[0].goles : 1;
             tbody.innerHTML = '';
             data.slice(0, maxItems).forEach(function(player, i) {
+                var barWidth = Math.round((player.goles / maxGoals) * 100);
                 var tr = document.createElement('tr');
                 tr.innerHTML =
                     '<td class="gl-pos">' + (i + 1) + '</td>' +
                     '<td class="gl-name-cell">' + formatPlayerName(player.nombre) + '</td>' +
-                    '<td>' + player.goles + '</td>' +
+                    '<td class="gl-goals-cell">' + player.goles + '<div class="gl-goals-bar" style="width:' + barWidth + '%"></div></td>' +
                     '<td>' + player.partidos + '</td>' +
                     '<td>' + player.media + '</td>';
                 tbody.appendChild(tr);

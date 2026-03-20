@@ -688,6 +688,12 @@ body {
    Clasificación (left) + Próximos & Goleadores (right)
    ==================================== */
 
+/* Fade-in animation for data panels */
+@keyframes ligaFadeIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
 .liga-section {
     width: 100%;
     max-width: 1300px;
@@ -696,9 +702,32 @@ body {
     color: white;
 }
 
+.liga-section-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.liga-section-title {
+    font-size: 1.4rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: #fff;
+    margin: 0 0 6px;
+}
+
+.liga-section-subtitle {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(253, 237, 58, 0.5);
+    margin: 0;
+}
+
 .liga-row {
     display: flex;
-    gap: 20px;
+    gap: 22px;
     align-items: stretch;
 }
 
@@ -714,30 +743,48 @@ body {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 22px;
 }
 
 /* ── Panel (shared card container) ── */
 .liga-panel {
     background: #0c0c18;
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 14px;
     overflow: hidden;
     flex: 1;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+    position: relative;
+    opacity: 0;
+    animation: ligaFadeIn 0.5s ease forwards;
+}
+
+.liga-panel:nth-child(1) { animation-delay: 0.1s; }
+.liga-panel:nth-child(2) { animation-delay: 0.25s; }
+
+/* Top accent line */
+.liga-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(253, 237, 58, 0.5), transparent);
+    z-index: 2;
 }
 
 .liga-panel-title {
-    font-size: 0.95rem;
+    font-size: 0.88rem;
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 2px;
     padding: 14px 18px;
     margin: 0;
-    background: rgba(255, 255, 255, 0.02);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 100%);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -763,15 +810,37 @@ body {
 
 .liga-panel-icon {
     flex-shrink: 0;
-    opacity: 0.5;
+    opacity: 0.45;
 }
 
 .external-link-icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     transition: transform 0.3s ease;
-    opacity: 0.35;
+    opacity: 0.3;
     flex-shrink: 0;
+}
+
+/* ── Loading spinner inside panels ── */
+.liga-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    flex: 1;
+}
+
+.liga-loading-spinner {
+    width: 28px;
+    height: 28px;
+    border: 3px solid rgba(253, 237, 58, 0.15);
+    border-top-color: rgba(253, 237, 58, 0.6);
+    border-radius: 50%;
+    animation: ligaSpin 0.7s linear infinite;
+}
+
+@keyframes ligaSpin {
+    to { transform: rotate(360deg); }
 }
 
 /* ── Standings Table ── */
@@ -787,7 +856,7 @@ body {
 }
 
 .standings-table thead {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.025);
     position: sticky;
     top: 0;
     z-index: 1;
@@ -796,13 +865,13 @@ body {
 .standings-table th {
     padding: 10px 5px;
     text-align: center;
-    color: rgba(253, 237, 58, 0.6);
+    color: rgba(253, 237, 58, 0.55);
     font-weight: 600;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     white-space: nowrap;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .standings-table th.st-team {
@@ -813,23 +882,24 @@ body {
 .standings-table td {
     padding: 7px 4px;
     text-align: center;
-    color: #888;
+    color: #777;
     border-bottom: none;
     white-space: nowrap;
     font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Alternating row background */
 .standings-table tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.015);
+    background-color: rgba(255, 255, 255, 0.018);
 }
 
 .standings-table .st-pos {
-    width: 30px;
-    min-width: 30px;
-    color: #555;
+    width: 28px;
+    min-width: 28px;
+    color: #4a4a5a;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.73rem;
 }
 
 .standings-table .st-team-cell {
@@ -853,7 +923,7 @@ body {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 200px;
-    color: #bbb;
+    color: #aaa;
     font-weight: 500;
     font-size: 0.78rem;
 }
@@ -868,15 +938,16 @@ body {
 
 /* Vetusta highlighted row */
 .standings-table tbody tr.st-highlight {
-    background: linear-gradient(90deg, rgba(253, 237, 58, 0.12) 0%, rgba(253, 237, 58, 0.03) 100%);
+    background: linear-gradient(90deg, rgba(253, 237, 58, 0.10) 0%, rgba(253, 237, 58, 0.02) 100%);
+    border-left: 3px solid rgba(253, 237, 58, 0.6);
 }
 
 .standings-table tbody tr.st-highlight:nth-child(even) {
-    background: linear-gradient(90deg, rgba(253, 237, 58, 0.12) 0%, rgba(253, 237, 58, 0.03) 100%);
+    background: linear-gradient(90deg, rgba(253, 237, 58, 0.10) 0%, rgba(253, 237, 58, 0.02) 100%);
 }
 
 .standings-table tbody tr.st-highlight td {
-    color: #eee;
+    color: #ddd;
     font-weight: 600;
 }
 
@@ -892,7 +963,20 @@ body {
 /* PTS column bold for all */
 .standings-table td:last-child {
     font-weight: 700;
-    color: #ccc;
+    color: #bbb;
+}
+
+/* Color-coded DIF column */
+.standings-table .st-dif-pos {
+    color: #4CAF50;
+}
+
+.standings-table .st-dif-neg {
+    color: #e57373;
+}
+
+.standings-table .st-dif-zero {
+    color: #666;
 }
 
 /* ── Próximos Partidos ── */
@@ -908,8 +992,18 @@ body {
     align-items: center;
     padding: 12px 16px;
     gap: 12px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.035);
     transition: background-color 0.2s ease;
+    position: relative;
+}
+
+/* Left accent border based on local/away */
+.proximos-card.proximos-card-local {
+    border-left: 3px solid rgba(76, 175, 80, 0.5);
+}
+
+.proximos-card.proximos-card-away {
+    border-left: 3px solid rgba(255, 152, 0, 0.4);
 }
 
 .proximos-card:last-child {
@@ -917,16 +1011,16 @@ body {
 }
 
 .proximos-card:hover {
-    background-color: rgba(253, 237, 58, 0.04);
+    background-color: rgba(255, 255, 255, 0.025);
 }
 
 .proximos-jornada {
     flex-shrink: 0;
-    width: 38px;
+    width: 36px;
     text-align: center;
-    font-size: 0.6rem;
+    font-size: 0.58rem;
     font-weight: 700;
-    color: rgba(253, 237, 58, 0.5);
+    color: rgba(253, 237, 58, 0.45);
     text-transform: uppercase;
     letter-spacing: 0.5px;
     line-height: 1.2;
@@ -934,17 +1028,18 @@ body {
 
 .proximos-jornada span {
     display: block;
-    font-size: 1.2rem;
-    color: #FDED3A;
+    font-size: 1.15rem;
+    color: rgba(253, 237, 58, 0.8);
+    font-weight: 800;
 }
 
 .proximos-badge {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     object-fit: contain;
     flex-shrink: 0;
     border-radius: 6px;
-    background-color: rgba(255, 255, 255, 0.05);
+    background-color: rgba(255, 255, 255, 0.04);
     padding: 3px;
 }
 
@@ -954,9 +1049,9 @@ body {
 }
 
 .proximos-rival {
-    font-size: 0.88rem;
+    font-size: 0.85rem;
     font-weight: 600;
-    color: #eee;
+    color: #ddd;
     margin-bottom: 2px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -964,7 +1059,7 @@ body {
 }
 
 .proximos-localidad {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -981,19 +1076,19 @@ body {
 .proximos-datetime {
     flex-shrink: 0;
     text-align: right;
-    min-width: 80px;
+    min-width: 78px;
 }
 
 .proximos-date {
-    font-size: 0.82rem;
-    color: #ccc;
+    font-size: 0.8rem;
+    color: #bbb;
     font-weight: 600;
     display: block;
 }
 
 .proximos-time {
-    font-size: 0.78rem;
-    color: #777;
+    font-size: 0.75rem;
+    color: #666;
     display: block;
     margin-top: 1px;
 }
@@ -1006,18 +1101,25 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    background: rgba(255, 0, 0, 0.15);
+    background: rgba(255, 0, 0, 0.12);
     color: #ff4444;
     text-decoration: none;
     transition: all 0.3s ease;
+    animation: streamPulse 2s ease-in-out infinite;
+}
+
+@keyframes streamPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(255, 68, 68, 0.3); }
+    50%      { box-shadow: 0 0 0 6px rgba(255, 68, 68, 0); }
 }
 
 .proximos-streaming a:hover {
-    background: rgba(255, 0, 0, 0.3);
+    background: rgba(255, 0, 0, 0.25);
     transform: scale(1.15);
+    animation: none;
 }
 
 /* ── Goleadores Table ── */
@@ -1033,19 +1135,19 @@ body {
 }
 
 .goleadores-table thead {
-    background: rgba(255, 255, 255, 0.03);
+    background: rgba(255, 255, 255, 0.025);
 }
 
 .goleadores-table th {
     padding: 10px 6px;
     text-align: center;
-    color: rgba(253, 237, 58, 0.6);
+    color: rgba(253, 237, 58, 0.55);
     font-weight: 600;
-    font-size: 0.68rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
     letter-spacing: 0.8px;
     white-space: nowrap;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .goleadores-table th.gl-name {
@@ -1056,30 +1158,31 @@ body {
 .goleadores-table td {
     padding: 8px 5px;
     text-align: center;
-    color: #888;
+    color: #777;
     border-bottom: none;
     white-space: nowrap;
     font-size: 0.8rem;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Alternating row background */
 .goleadores-table tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.015);
+    background-color: rgba(255, 255, 255, 0.018);
 }
 
 .goleadores-table td.gl-name-cell {
     text-align: left;
     padding-left: 14px;
-    color: #bbb;
+    color: #aaa;
     font-weight: 500;
 }
 
 .goleadores-table .gl-pos {
-    width: 30px;
-    min-width: 30px;
-    color: #555;
+    width: 28px;
+    min-width: 28px;
+    color: #4a4a5a;
     font-weight: 700;
-    font-size: 0.75rem;
+    font-size: 0.73rem;
 }
 
 .goleadores-table tbody tr {
@@ -1093,7 +1196,22 @@ body {
 /* Goals column bold */
 .goleadores-table td:nth-child(3) {
     font-weight: 700;
-    color: #ccc;
+    color: #bbb;
+}
+
+/* Goals bar indicator */
+.gl-goals-cell {
+    position: relative;
+}
+
+.gl-goals-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(253, 237, 58, 0.4), rgba(253, 237, 58, 0.1));
+    border-radius: 1px;
+    transition: width 0.4s ease;
 }
 
 /* Footer */
@@ -1287,6 +1405,15 @@ body {
         padding: 0 10px;
     }
 
+    .liga-section-title {
+        font-size: 1.1rem;
+        letter-spacing: 2px;
+    }
+
+    .liga-section-subtitle {
+        font-size: 0.65rem;
+    }
+
     .liga-row {
         flex-direction: column;
         gap: 16px;
@@ -1302,8 +1429,9 @@ body {
     }
 
     .liga-panel-title {
-        font-size: 0.95rem;
+        font-size: 0.82rem;
         padding: 12px 14px;
+        letter-spacing: 1.5px;
     }
 
     /* Standings table mobile */
@@ -1336,8 +1464,13 @@ body {
         gap: 8px;
     }
 
+    .proximos-card.proximos-card-local,
+    .proximos-card.proximos-card-away {
+        border-left-width: 2px;
+    }
+
     .proximos-jornada {
-        width: 30px;
+        width: 28px;
         font-size: 0.55rem;
     }
 
@@ -1346,8 +1479,8 @@ body {
     }
 
     .proximos-badge {
-        width: 30px;
-        height: 30px;
+        width: 28px;
+        height: 28px;
     }
 
     .proximos-rival {
