@@ -359,67 +359,78 @@
             </div>
         </section>
 
-        <!-- Clasificación (data-driven) -->
-        <section class="clasificacion-section">
-            <h2 class="section-title">
-                <a href="https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1" target="_blank" rel="noopener noreferrer">
-                    Clasificación
-                    <svg class="external-link-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                </a>
-            </h2>
-            <div class="standings-table-wrapper">
-                <table class="standings-table" id="standings-table">
-                    <thead>
-                        <tr>
-                            <th class="st-pos">#</th>
-                            <th class="st-team">Equipo</th>
-                            <th>PJ</th>
-                            <th>PG</th>
-                            <th>PE</th>
-                            <th>PP</th>
-                            <th class="st-hide-mobile">GF</th>
-                            <th class="st-hide-mobile">GC</th>
-                            <th>DIF</th>
-                            <th>PTS</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- Próximos partidos (data-driven) -->
-        <section class="proximos-section">
-            <h2 class="section-title">Próximos Partidos</h2>
-            <div class="proximos-list" id="proximos-list">
-                <!-- Populated by JS -->
-            </div>
-        </section>
-
-        <!-- Máximos goleadores (data-driven) -->
-        <section class="goleadores-section">
-            <h2 class="section-title">Máximos Goleadores</h2>
-            <div class="goleadores-table-wrapper">
-                <table class="goleadores-table" id="goleadores-table">
-                    <thead>
-                        <tr>
-                            <th class="gl-pos">#</th>
-                            <th class="gl-name">Jugador</th>
-                            <th>Goles</th>
-                            <th>PJ</th>
-                            <th>Media</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Populated by JS -->
-                    </tbody>
-                </table>
+        <!-- Liga: Clasificación + Próximos + Goleadores (two-column layout) -->
+        <section class="liga-section">
+            <div class="liga-row">
+                <!-- LEFT: Clasificación -->
+                <div class="liga-col-left">
+                    <div class="liga-panel">
+                        <h2 class="liga-panel-title">
+                            <a href="https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=1031242&id_superficie=1" target="_blank" rel="noopener noreferrer">
+                                <svg class="liga-panel-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                                Clasificación
+                                <svg class="external-link-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                            </a>
+                        </h2>
+                        <div class="standings-table-wrapper">
+                            <table class="standings-table" id="standings-table">
+                                <thead>
+                                    <tr>
+                                        <th class="st-pos">#</th>
+                                        <th class="st-team">Equipo</th>
+                                        <th>PJ</th>
+                                        <th>PG</th>
+                                        <th>PE</th>
+                                        <th>PP</th>
+                                        <th class="st-hide-mobile">GF</th>
+                                        <th class="st-hide-mobile">GC</th>
+                                        <th>DIF</th>
+                                        <th>PTS</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- RIGHT: Próximos + Goleadores -->
+                <div class="liga-col-right">
+                    <!-- Próximos partidos -->
+                    <div class="liga-panel">
+                        <h2 class="liga-panel-title">
+                            <svg class="liga-panel-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            Próximos Partidos
+                        </h2>
+                        <div class="proximos-list" id="proximos-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                    <!-- Máximos goleadores -->
+                    <div class="liga-panel">
+                        <h2 class="liga-panel-title">
+                            <svg class="liga-panel-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                            Máximos Goleadores
+                        </h2>
+                        <div class="goleadores-table-wrapper">
+                            <table class="goleadores-table" id="goleadores-table">
+                                <thead>
+                                    <tr>
+                                        <th class="gl-pos">#</th>
+                                        <th class="gl-name">Jugador</th>
+                                        <th>Goles</th>
+                                        <th>PJ</th>
+                                        <th>Media</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 

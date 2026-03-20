@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // ── Upcoming matches ──
+        // ── Upcoming matches (max 3 for side panel) ──
         function renderProximos(data) {
             var container = document.getElementById('proximos-list');
             if (!container || !Array.isArray(data)) return;
@@ -391,13 +391,15 @@ document.addEventListener('DOMContentLoaded', function() {
             container.innerHTML = '';
 
             if (data.length === 0) {
-                container.innerHTML = '<p style="color:#aaa;text-align:center;">No hay partidos próximos programados.</p>';
+                container.innerHTML = '<p style="color:#666;text-align:center;padding:20px;">No hay partidos próximos programados.</p>';
                 return;
             }
 
-            data.forEach(function(match) {
+            var maxItems = 3;
+            data.slice(0, maxItems).forEach(function(match) {
                 var dt = formatDateSpanish(match.fecha);
                 var localidad = match.es_local ? 'Local' : 'Visitante';
+                var localidadClass = match.es_local ? 'proximos-localidad-local' : 'proximos-localidad-away';
 
                 var card = document.createElement('div');
                 card.className = 'proximos-card';
@@ -407,7 +409,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     streamingHTML =
                         '<div class="proximos-streaming">' +
                             '<a href="' + match.url_streaming + '" target="_blank" rel="noopener noreferrer" title="Ver en directo">' +
-                                '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"/><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/></svg>' +
+                                '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M9.545 15.568V8.432L15.818 12l-6.273 3.568z"/><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z"/></svg>' +
                             '</a>' +
                         '</div>';
                 }
@@ -417,7 +419,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<img src="' + (match.escudo_rival || 'src/assets/escudo.png') + '" alt="" class="proximos-badge" loading="lazy">' +
                     '<div class="proximos-info">' +
                         '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
-                        '<div class="proximos-localidad">' + localidad + '</div>' +
+                        '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
                     '</div>' +
                     '<div class="proximos-datetime">' +
                         '<span class="proximos-date">' + dt.date + '</span>' +
@@ -429,18 +431,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // ── Top scorers ──
+        // ── Top scorers (max 10 for side panel) ──
         function renderGoleadores(data) {
             var tbody = document.querySelector('#goleadores-table tbody');
             if (!tbody || !Array.isArray(data)) return;
 
+            var maxItems = 10;
             tbody.innerHTML = '';
-            data.forEach(function(player, i) {
+            data.slice(0, maxItems).forEach(function(player, i) {
                 var tr = document.createElement('tr');
                 tr.innerHTML =
                     '<td class="gl-pos">' + (i + 1) + '</td>' +
                     '<td class="gl-name-cell">' + formatPlayerName(player.nombre) + '</td>' +
-                    '<td><strong>' + player.goles + '</strong></td>' +
+                    '<td>' + player.goles + '</td>' +
                     '<td>' + player.partidos + '</td>' +
                     '<td>' + player.media + '</td>';
                 tbody.appendChild(tr);
