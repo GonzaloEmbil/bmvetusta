@@ -698,12 +698,12 @@ body {
 
 .liga-row {
     display: flex;
-    gap: 24px;
+    gap: 20px;
     align-items: stretch;
 }
 
 .liga-col-left {
-    flex: 0 0 58%;
+    flex: 0 0 60%;
     min-width: 0;
     display: flex;
     flex-direction: column;
@@ -714,29 +714,30 @@ body {
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 20px;
 }
 
 /* ── Panel (shared card container) ── */
 .liga-panel {
-    background: linear-gradient(145deg, #0d0d1a 0%, #111122 100%);
-    border: 1px solid rgba(253, 237, 58, 0.12);
-    border-radius: 16px;
+    background: #0c0c18;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
     overflow: hidden;
     flex: 1;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
 }
 
 .liga-panel-title {
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
-    padding: 16px 20px;
+    letter-spacing: 2px;
+    padding: 14px 18px;
     margin: 0;
-    background: linear-gradient(135deg, rgba(253, 237, 58, 0.08) 0%, rgba(253, 237, 58, 0.02) 100%);
-    border-bottom: 1px solid rgba(253, 237, 58, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
     align-items: center;
     gap: 10px;
@@ -762,14 +763,14 @@ body {
 
 .liga-panel-icon {
     flex-shrink: 0;
-    opacity: 0.7;
+    opacity: 0.5;
 }
 
 .external-link-icon {
     width: 16px;
     height: 16px;
     transition: transform 0.3s ease;
-    opacity: 0.5;
+    opacity: 0.35;
     flex-shrink: 0;
 }
 
@@ -782,26 +783,26 @@ body {
 .standings-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
 }
 
 .standings-table thead {
-    background: rgba(253, 237, 58, 0.06);
+    background: rgba(255, 255, 255, 0.03);
     position: sticky;
     top: 0;
     z-index: 1;
 }
 
 .standings-table th {
-    padding: 10px 6px;
+    padding: 10px 5px;
     text-align: center;
-    color: rgba(253, 237, 58, 0.7);
-    font-weight: 700;
-    font-size: 0.7rem;
+    color: rgba(253, 237, 58, 0.6);
+    font-weight: 600;
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     white-space: nowrap;
-    border-bottom: 1px solid rgba(253, 237, 58, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .standings-table th.st-team {
@@ -810,32 +811,38 @@ body {
 }
 
 .standings-table td {
-    padding: 8px 5px;
+    padding: 7px 4px;
     text-align: center;
-    color: #999;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: #888;
+    border-bottom: none;
     white-space: nowrap;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
+}
+
+/* Alternating row background */
+.standings-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.015);
 }
 
 .standings-table .st-pos {
-    width: 32px;
-    min-width: 32px;
+    width: 30px;
+    min-width: 30px;
     color: #555;
     font-weight: 700;
+    font-size: 0.75rem;
 }
 
 .standings-table .st-team-cell {
     text-align: left;
-    padding-left: 12px;
+    padding-left: 10px;
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
 .standings-table .st-team-badge {
-    width: 22px;
-    height: 22px;
+    width: 20px;
+    height: 20px;
     object-fit: contain;
     flex-shrink: 0;
     border-radius: 3px;
@@ -845,26 +852,31 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 220px;
-    color: #ccc;
+    max-width: 200px;
+    color: #bbb;
     font-weight: 500;
+    font-size: 0.78rem;
 }
 
 .standings-table tbody tr {
-    transition: background-color 0.2s ease;
+    transition: background-color 0.15s ease;
 }
 
 .standings-table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 /* Vetusta highlighted row */
 .standings-table tbody tr.st-highlight {
-    background: linear-gradient(90deg, rgba(253, 237, 58, 0.15) 0%, rgba(253, 237, 58, 0.05) 100%);
+    background: linear-gradient(90deg, rgba(253, 237, 58, 0.12) 0%, rgba(253, 237, 58, 0.03) 100%);
+}
+
+.standings-table tbody tr.st-highlight:nth-child(even) {
+    background: linear-gradient(90deg, rgba(253, 237, 58, 0.12) 0%, rgba(253, 237, 58, 0.03) 100%);
 }
 
 .standings-table tbody tr.st-highlight td {
-    color: #fff;
+    color: #eee;
     font-weight: 600;
 }
 
@@ -880,7 +892,7 @@ body {
 /* PTS column bold for all */
 .standings-table td:last-child {
     font-weight: 700;
-    color: #ddd;
+    color: #ccc;
 }
 
 /* ── Próximos Partidos ── */
@@ -1017,23 +1029,23 @@ body {
 .goleadores-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.85rem;
+    font-size: 0.82rem;
 }
 
 .goleadores-table thead {
-    background: rgba(253, 237, 58, 0.06);
+    background: rgba(255, 255, 255, 0.03);
 }
 
 .goleadores-table th {
-    padding: 10px 8px;
+    padding: 10px 6px;
     text-align: center;
-    color: rgba(253, 237, 58, 0.7);
-    font-weight: 700;
-    font-size: 0.7rem;
+    color: rgba(253, 237, 58, 0.6);
+    font-weight: 600;
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.8px;
     white-space: nowrap;
-    border-bottom: 1px solid rgba(253, 237, 58, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .goleadores-table th.gl-name {
@@ -1042,58 +1054,46 @@ body {
 }
 
 .goleadores-table td {
-    padding: 9px 6px;
+    padding: 8px 5px;
     text-align: center;
-    color: #999;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: #888;
+    border-bottom: none;
     white-space: nowrap;
-    font-size: 0.82rem;
+    font-size: 0.8rem;
+}
+
+/* Alternating row background */
+.goleadores-table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.015);
 }
 
 .goleadores-table td.gl-name-cell {
     text-align: left;
     padding-left: 14px;
-    color: #ddd;
+    color: #bbb;
     font-weight: 500;
 }
 
 .goleadores-table .gl-pos {
-    width: 32px;
-    min-width: 32px;
+    width: 30px;
+    min-width: 30px;
     color: #555;
     font-weight: 700;
+    font-size: 0.75rem;
 }
 
 .goleadores-table tbody tr {
-    transition: background-color 0.2s ease;
+    transition: background-color 0.15s ease;
 }
 
 .goleadores-table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.03);
+    background-color: rgba(255, 255, 255, 0.04);
 }
 
 /* Goals column bold */
 .goleadores-table td:nth-child(3) {
     font-weight: 700;
-    color: #eee;
-}
-
-/* Top 3 scorers highlight */
-.goleadores-table tbody tr:nth-child(1) .gl-pos,
-.goleadores-table tbody tr:nth-child(2) .gl-pos,
-.goleadores-table tbody tr:nth-child(3) .gl-pos {
-    color: #FDED3A;
-}
-
-.goleadores-table tbody tr:nth-child(1) td.gl-name-cell {
-    color: #FDED3A;
-    font-weight: 700;
-}
-
-.goleadores-table tbody tr:nth-child(2) td.gl-name-cell,
-.goleadores-table tbody tr:nth-child(3) td.gl-name-cell {
-    color: rgba(253, 237, 58, 0.75);
-    font-weight: 600;
+    color: #ccc;
 }
 
 /* Footer */

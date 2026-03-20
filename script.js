@@ -395,7 +395,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            var maxItems = 3;
+            var maxItems = 5;
             data.slice(0, maxItems).forEach(function(match) {
                 var dt = formatDateSpanish(match.fecha);
                 var localidad = match.es_local ? 'Local' : 'Visitante';
