@@ -1,0 +1,42 @@
+[
+  {
+    "fecha": "2026-03-21 17:30:00",
+    "jornada": "26",
+    "es_local": true,
+    "rival": "BM CAJA RURAL DE ZAMORA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/437/square_63636e32723372766336.jpg",
+    "url_streaming": "https://www.youtube.com/watch?v=qjwwGVF8vcg"
+  },
+  {
+    "fecha": "2026-03-29 12:00:00",
+    "jornada": "27",
+    "es_local": false,
+    "rival": "UNIVERSIDAD DE LEON ADEMAR",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/126/square_70636d736b6d31387577.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "2026-04-11 18:00:00",
+    "jornada": "28",
+    "es_local": true,
+    "rival": "CAJA VIVA -  BALONMANO CAMARGO",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "",
+    "jornada": "29",
+    "es_local": false,
+    "rival": "CONGESA XXI CIUDAD DE SALAMANCA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "2026-04-25 19:00:00",
+    "jornada": "30",
+    "es_local": true,
+    "rival": "LAFUENTE PEREDA CIUDAD DE SANTANDER",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "url_streaming": null
+  }
+]

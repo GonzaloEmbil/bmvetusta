@@ -1,0 +1,104 @@
+[
+  {
+    "nombre": "DE MIGUEL TORRECILLA, SAUL",
+    "goles": 140,
+    "partidos": 21,
+    "media": 6.7
+  },
+  {
+    "nombre": "SOLIÑO HERMELO, MANUEL",
+    "goles": 107,
+    "partidos": 24,
+    "media": 4.5
+  },
+  {
+    "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+    "goles": 74,
+    "partidos": 21,
+    "media": 3.5
+  },
+  {
+    "nombre": "CANO COTO, MARTIN",
+    "goles": 58,
+    "partidos": 22,
+    "media": 2.6
+  },
+  {
+    "nombre": "ONDO NSUA, CRISTIAN",
+    "goles": 57,
+    "partidos": 23,
+    "media": 2.5
+  },
+  {
+    "nombre": "GARCIA CID, CARLOS",
+    "goles": 51,
+    "partidos": 18,
+    "media": 2.8
+  },
+  {
+    "nombre": "BARONETTO, SANTIAGO",
+    "goles": 46,
+    "partidos": 11,
+    "media": 4.2
+  },
+  {
+    "nombre": "GAMONAL MENENDEZ, LUIS",
+    "goles": 31,
+    "partidos": 12,
+    "media": 2.6
+  },
+  {
+    "nombre": "GARCIA JONES, MARTIN",
+    "goles": 26,
+    "partidos": 15,
+    "media": 1.7
+  },
+  {
+    "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+    "goles": 18,
+    "partidos": 10,
+    "media": 1.8
+  },
+  {
+    "nombre": "SANTOS GARCIA, MANUEL",
+    "goles": 8,
+    "partidos": 7,
+    "media": 1.1
+  },
+  {
+    "nombre": "FRANCISCO PALACIO, DARIO",
+    "goles": 7,
+    "partidos": 4,
+    "media": 1.8
+  },
+  {
+    "nombre": "WERMBTER, FEDERICO",
+    "goles": 6,
+    "partidos": 5,
+    "media": 1.2
+  },
+  {
+    "nombre": "ARECES NORNIELLA, JORGE",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1
+  },
+  {
+    "nombre": "CARBAJO DEAN, JOSE MARIA",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1
+  },
+  {
+    "nombre": "REVIN, MIKHAIL",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1
+  },
+  {
+    "nombre": "FERNANDEZ SUAREZ, DANIEL",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1
+  }
+]
