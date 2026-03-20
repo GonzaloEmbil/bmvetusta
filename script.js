@@ -3,22 +3,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Highlight active nav link based on current page (desktop underline)
     (function highlightActiveNav() {
-        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
-        const clubPages = ['noticias.html', 'historia.html', 'organigrama.html', 'enprensa.html'];
+        // Extract the folder name from the URL path (e.g. /equipos/ → 'equipos', /noticias/article.html → 'noticias')
+        var pathParts = window.location.pathname.replace(/\/+$/, '').split('/');
+        var currentFolder = pathParts[pathParts.length - 1] || '';
+        // If we're on a specific article page inside noticias/, detect the parent folder
+        if (pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'noticias' && currentFolder !== 'noticias') {
+            currentFolder = 'noticias';
+        }
+        var clubPages = ['noticias', 'historia', 'organigrama', 'enprensa'];
 
         // Direct nav links (EQUIPOS, ABÓNATE, PATROCINADORES, CONTACTO)
         document.querySelectorAll('.nav > a').forEach(function(link) {
-            const href = link.getAttribute('href');
+            var href = link.getAttribute('href');
             if (href) {
-                const linkPage = href.split('/').pop();
-                if (linkPage === currentPage) {
+                var hrefParts = href.replace(/\/+$/, '').split('/');
+                var linkFolder = hrefParts[hrefParts.length - 1] || '';
+                if (linkFolder && linkFolder === currentFolder) {
                     link.classList.add('nav-active');
                 }
             }
         });
 
         // If current page is under CLUB dropdown, highlight the CLUB toggle
-        if (clubPages.indexOf(currentPage) !== -1) {
+        if (clubPages.indexOf(currentFolder) !== -1) {
             var dropdown = document.querySelector('.nav-dropdown');
             if (dropdown) {
                 dropdown.classList.add('nav-active');
