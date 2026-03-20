@@ -584,7 +584,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ── Header Streaming Button: show if next match has url_streaming ──
     (function loadHeaderStreaming() {
         var btn = document.getElementById('header-streaming-btn');
-        if (!btn) return;
+        var bannerLink = document.getElementById('match-banner-link');
+        if (!btn && !bannerLink) return;
 
         // Determine base path to data/ depending on page depth
         var scriptTags = document.querySelectorAll('script[src*="script.js"]');
@@ -603,8 +604,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Only show for the very next match (first in the sorted list)
                 var nextMatch = data[0];
                 if (nextMatch.url_streaming) {
-                    btn.href = nextMatch.url_streaming;
-                    btn.style.display = '';
+                    if (btn) {
+                        btn.href = nextMatch.url_streaming;
+                        btn.style.display = '';
+                    }
+                    if (bannerLink) {
+                        bannerLink.href = nextMatch.url_streaming;
+                    }
+                } else {
+                    // No streaming URL: make banner link non-clickable
+                    if (bannerLink) {
+                        bannerLink.removeAttribute('href');
+                        bannerLink.style.cursor = 'default';
+                    }
                 }
             })
             .catch(function() { /* silently ignore */ });

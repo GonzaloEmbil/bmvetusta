@@ -1276,9 +1276,10 @@ body {
     white-space: nowrap;
     animation: streaming-pulse 2s ease-in-out infinite;
     transition: background 0.2s, transform 0.2s;
-    z-index: 10;
-    position: absolute;
-    right: 0;
+    position: fixed;
+    top: 14px;
+    right: 24px;
+    z-index: 101;
 }
 
 .header-streaming-btn:hover {
