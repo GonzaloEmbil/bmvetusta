@@ -16,14 +16,14 @@
     "posicion": 2,
     "nombre": "BATHCO BM. TORRELAVEGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "PJ": 25,
-    "PG": 19,
+    "PJ": 26,
+    "PG": 20,
     "PE": 1,
     "PP": 5,
-    "GF": 763,
-    "GC": 648,
-    "DIF": 115,
-    "puntos": 39
+    "GF": 800,
+    "GC": 676,
+    "DIF": 124,
+    "puntos": 41
   },
   {
     "posicion": 3,
@@ -40,6 +40,19 @@
   },
   {
     "posicion": 4,
+    "nombre": "LAFUENTE PEREDA CIUDAD DE SANTANDER",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "PJ": 26,
+    "PG": 14,
+    "PE": 3,
+    "PP": 9,
+    "GF": 799,
+    "GC": 770,
+    "DIF": 29,
+    "puntos": 31
+  },
+  {
+    "posicion": 5,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "PJ": 26,
@@ -50,19 +63,6 @@
     "GC": 786,
     "DIF": 60,
     "puntos": 30
-  },
-  {
-    "posicion": 5,
-    "nombre": "LAFUENTE PEREDA CIUDAD DE SANTANDER",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
-    "PJ": 25,
-    "PG": 13,
-    "PE": 3,
-    "PP": 9,
-    "GF": 761,
-    "GC": 745,
-    "DIF": 16,
-    "puntos": 29
   },
   {
     "posicion": 6,
@@ -85,22 +85,22 @@
     "PG": 12,
     "PE": 4,
     "PP": 10,
-    "GF": 842,
-    "GC": 814,
-    "DIF": 28,
+    "GF": 844,
+    "GC": 815,
+    "DIF": 29,
     "puntos": 28
   },
   {
     "posicion": 8,
     "nombre": "CONGESA XXI CIUDAD DE SALAMANCA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
-    "PJ": 25,
+    "PJ": 26,
     "PG": 12,
     "PE": 2,
-    "PP": 11,
-    "GF": 791,
-    "GC": 807,
-    "DIF": -16,
+    "PP": 12,
+    "GF": 816,
+    "GC": 845,
+    "DIF": -29,
     "puntos": 26
   },
   {
@@ -111,9 +111,9 @@
     "PG": 10,
     "PE": 2,
     "PP": 14,
-    "GF": 787,
-    "GC": 799,
-    "DIF": -12,
+    "GF": 788,
+    "GC": 801,
+    "DIF": -13,
     "puntos": 22
   },
   {
@@ -131,19 +131,6 @@
   },
   {
     "posicion": 11,
-    "nombre": "SDC ASTANDER ASTILLERO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
-    "PJ": 25,
-    "PG": 9,
-    "PE": 3,
-    "PP": 13,
-    "GF": 784,
-    "GC": 824,
-    "DIF": -40,
-    "puntos": 21
-  },
-  {
-    "posicion": 12,
     "nombre": "SAFA - MADRID",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/285/square_3068676f666f61337039.jpg",
     "PJ": 26,
@@ -153,6 +140,19 @@
     "GF": 753,
     "GC": 797,
     "DIF": -44,
+    "puntos": 21
+  },
+  {
+    "posicion": 12,
+    "nombre": "SDC ASTANDER ASTILLERO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
+    "PJ": 26,
+    "PG": 9,
+    "PE": 3,
+    "PP": 14,
+    "GF": 812,
+    "GC": 861,
+    "DIF": -49,
     "puntos": 21
   },
   {
