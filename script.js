@@ -203,6 +203,73 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Inject sponsors carousel on all pages except patrocinadores
+    function injectSponsorsCarousel() {
+        // Skip if already present or if on patrocinadores page
+        if (document.querySelector('.sponsors-carousel-section')) return;
+        var path = window.location.pathname.toLowerCase();
+        if (path.indexOf('/patrocinadores') !== -1) return;
+
+        // Determine asset base path
+        var scriptTags = document.querySelectorAll('script[src*="script.js"]');
+        var assetBase = 'src/assets/';
+        if (scriptTags.length > 0) {
+            var src = scriptTags[0].getAttribute('src');
+            if (src && src.indexOf('../') === 0) {
+                assetBase = '../src/assets/';
+            }
+        }
+
+        var sponsors = [
+            { href: 'https://www.autocenterprincipado.com/', img: 'autocenterprincipado.png', alt: 'Autocenter Principado' },
+            { href: 'https://go-fit.es/centros/go-fit-oviedo/', img: 'gofit1.jpeg', alt: 'GoFit' },
+            { href: 'https://www.cajaruraldeasturias.com/es', img: 'cajarural.jpg', alt: 'Caja Rural' },
+            { href: 'https://seinte.es/', img: 'seinteenergia.png', alt: 'Seinte Energía' },
+            { href: 'https://www.autocaresepifanio.com/', img: 'autocaresepifanio.webp', alt: 'Autocares Epifanio' },
+            { href: 'https://legea.com/es', img: 'legea.svg', alt: 'Legea' },
+            { href: 'https://cluber.es/', img: 'cluber.svg', alt: 'Cluber' },
+            { href: 'https://www.dominospizza.es/es/', img: 'dominospizza.svg', alt: "Domino's Pizza" },
+            { href: 'https://asadoselmaizal.com/', img: 'elmaizal.png', alt: 'El Maizal' },
+            { href: 'https://elpichote.com/', img: 'elpichote.webp', alt: 'El Pichote' },
+            { href: 'https://loscorzos.com/', img: 'loscorzoslogo.png', alt: 'Los Corzos' },
+            { href: 'https://lasguelas.com/', img: 'sidrerialasguelas.png', alt: 'Sidrería Las Güelas' },
+            { href: 'https://www.instagram.com/ovicentfisioterapia/', img: 'ovicent.jpg', alt: 'Ovicent Fisioterapia' },
+            { href: 'https://braserialokal.com/', img: 'lokalcerveceria.jpg', alt: 'Lokal Cervecería' },
+            { href: 'https://tabernazingara.es/', img: 'latabernazingara.png', alt: 'La Taberna Zíngara' },
+            { href: 'https://elpiguena.com/', img: 'elpigueña.png', alt: 'El Pigüeña' },
+            { href: 'https://www.administraciones-lorca.es/', img: 'administracioneslorca.png', alt: 'Administraciones Lorca' },
+            { href: 'https://maps.app.goo.gl/gmJEMYNMoNBPEAov5', img: 'cafegernika.jpg', alt: 'Café Gernika' },
+            { href: 'https://www.instagram.com/continentallugones/', img: 'cafecontinental.jpg', alt: 'Café Continental' }
+        ];
+
+        function buildLinks() {
+            return sponsors.map(function(s) {
+                return '<a href="' + s.href + '" target="_blank" rel="noopener noreferrer" class="sponsor-link sponsor-card">' +
+                    '<img src="' + assetBase + s.img + '" alt="' + s.alt + '" class="sponsor-logo sponsor-logo-colaborador">' +
+                '</a>';
+            }).join('\n');
+        }
+
+        var linksHTML = buildLinks();
+        var html = '<section class="sponsors-carousel-section">' +
+            '<div class="sponsors-carousel-container">' +
+                '<div class="sponsors-carousel-track">' +
+                    linksHTML +
+                    '<!-- Duplicado para efecto infinito -->' +
+                    linksHTML +
+                '</div>' +
+            '</div>' +
+        '</section>';
+
+        var footer = document.querySelector('.footer');
+        if (footer) {
+            footer.insertAdjacentHTML('beforebegin', html);
+        }
+    }
+
+    // Inject sponsors carousel on non-homepage pages, then start all carousels
+    injectSponsorsCarousel();
+
     // Iniciar carruseles infinitos al cargar
     window.addEventListener('load', function() {
         setupInfiniteCarousel();
