@@ -2187,11 +2187,14 @@ body {
 }
 
 .news-article-subtitle {
-    color: #fff;
-    font-size: 1.2rem;
+    color: #b0b0b0;
+    font-size: 1.15rem;
     font-weight: 400;
-    line-height: 1.4;
+    font-style: italic;
+    line-height: 1.5;
     margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
 }
 
 .news-article-image {
@@ -2205,6 +2208,12 @@ body {
     width: 100%;
     height: auto;
     display: block;
+}
+
+.news-article-image video {
+    width: 100%;
+    display: block;
+    border-radius: 10px;
 }
 
 .news-article-body {
@@ -2224,8 +2233,56 @@ body {
     margin: 30px 0 15px;
 }
 
+.news-article-body h3 {
+    color: #FDED3A;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 28px 0 12px;
+}
+
 .news-article-body strong {
     color: #fff;
+}
+
+.news-article-body blockquote {
+    border-left: 3px solid #FDED3A;
+    margin: 20px 0;
+    padding: 12px 20px;
+    background-color: rgba(253, 237, 58, 0.05);
+    border-radius: 0 8px 8px 0;
+}
+
+.news-article-body blockquote p {
+    margin-bottom: 0;
+    color: #ddd;
+    font-style: italic;
+}
+
+.news-article-body ul {
+    margin: 16px 0;
+    padding-left: 24px;
+}
+
+.news-article-body li {
+    margin-bottom: 10px;
+    color: #ccc;
+    line-height: 1.7;
+}
+
+.news-article-body li::marker {
+    color: #FDED3A;
+}
+
+.news-article-body .news-article-image {
+    margin: 24px 0;
+}
+
+.news-article-body .news-article-scorers {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid #333;
+    font-size: 0.95rem;
+    color: #999;
 }
 
 /* Noticias responsive */
@@ -2268,6 +2325,19 @@ body {
 
     .news-article-body {
         font-size: 0.95rem;
+    }
+
+    .news-article-subtitle {
+        font-size: 1rem;
+    }
+
+    .news-article-body h3 {
+        font-size: 1.05rem;
+    }
+
+    .news-article-body blockquote {
+        padding: 10px 16px;
+        margin: 16px 0;
     }
 }
 
