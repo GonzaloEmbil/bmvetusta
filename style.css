@@ -2212,6 +2212,7 @@ body {
 
 .news-article-image video {
     width: 100%;
+    max-width: 100%;
     display: block;
     border-radius: 10px;
 }
@@ -2242,6 +2243,18 @@ body {
 
 .news-article-body strong {
     color: #fff;
+}
+
+.news-article-body a {
+    color: #fff;
+    text-decoration: underline;
+    text-decoration-color: #FDED3A;
+    text-underline-offset: 2px;
+    transition: opacity 0.2s;
+}
+
+.news-article-body a:hover {
+    opacity: 0.8;
 }
 
 .news-article-body blockquote {
