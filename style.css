@@ -2217,7 +2217,7 @@ body {
 }
 
 .news-article-body {
-    color: #ccc;
+    color: #fff;
     font-size: 1.05rem;
     line-height: 1.8;
 }
@@ -2254,7 +2254,7 @@ body {
 
 .news-article-body blockquote p {
     margin-bottom: 0;
-    color: #ddd;
+    color: #fff;
     font-style: italic;
 }
 
@@ -2265,7 +2265,7 @@ body {
 
 .news-article-body li {
     margin-bottom: 10px;
-    color: #ccc;
+    color: #fff;
     line-height: 1.7;
 }
 
