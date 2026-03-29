@@ -1,0 +1,20 @@
+{
+  "fecha": "2026-04-11 18:00:00",
+  "fecha_display": "Sáb 11 Abr · 18:00h",
+  "jornada": "28",
+  "es_local": true,
+  "local": {
+    "nombre": "Balonmano Vetusta",
+    "nombre_corto": "BM Vetusta",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+    "es_vetusta": true
+  },
+  "visitante": {
+    "nombre": "Caja Viva - Balonmano Camargo",
+    "nombre_corto": "BM Camargo",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
+    "es_vetusta": false
+  },
+  "sede": "Polideportivo Municipal Florida Arena · Oviedo",
+  "url_streaming": null
+}

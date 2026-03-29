@@ -62,6 +62,81 @@ function isVetusta(name) {
   return normaliseName(name) === normaliseName(TEAM_NAME);
 }
 
+/**
+ * Title-case a team name, keeping Spanish prepositions lowercase.
+ */
+function titleCase(str) {
+  const lower = new Set(['de', 'del', 'la', 'las', 'los', 'el', 'y', 'e']);
+  return str
+    .split(/\s+/)
+    .map((w, i) => {
+      const lc = w.toLowerCase();
+      if (i > 0 && lower.has(lc)) return lc;
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
+/**
+ * Generate a short display name from an ALL-CAPS team name.
+ *   "UNIVERSIDAD DE LEON ADEMAR" → "León Ademar"
+ *   "CAJA VIVA -  BALONMANO CAMARGO" → "BM Camargo"
+ */
+function shortName(raw) {
+  let name = raw.replace(/\s*-+\s*/g, ' ').trim();
+  // Replace BALONMANO → BM before processing
+  name = name.replace(/\bBALONMANO\b/gi, 'BM');
+  const lower = new Set(['de', 'del', 'la', 'las', 'los', 'el', 'y', 'e']);
+  const acronyms = new Set(['BM', 'SD', 'CD', 'CF', 'SDC', 'CB', 'AD']);
+  const words = name.split(/\s+/);
+  const significant = words.filter((w) => !lower.has(w.toLowerCase()));
+  if (significant.length <= 2) {
+    return significant.map((w) => {
+      if (acronyms.has(w.toUpperCase())) return w.toUpperCase();
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    }).join(' ');
+  }
+  return significant
+    .slice(-2)
+    .map((w) => {
+      if (acronyms.has(w.toUpperCase())) return w.toUpperCase();
+      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+    })
+    .join(' ');
+}
+
+/**
+ * Extract city from a stadium address string.
+ *   "C. Valdés, 2, 33012 Oviedo, Asturias, España" → "Oviedo"
+ */
+function extractCity(address) {
+  if (!address) return null;
+  // Look for 5-digit postal code followed by city name
+  const m = address.match(/\d{5}\s+([^,]+)/);
+  return m ? m[1].trim() : null;
+}
+
+/**
+ * Format a date string to Spanish display for the banner.
+ *   "2026-03-29 12:00:00" → "Dom 29 Mar · 12:00h"
+ */
+function formatDateForBanner(dateStr) {
+  if (!dateStr || dateStr.trim() === '') return 'Por definir';
+  const d = new Date(dateStr.replace(' ', 'T'));
+  if (isNaN(d.getTime())) return dateStr;
+
+  const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+  const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+
+  const dayName = days[d.getDay()];
+  const dayNum = d.getDate();
+  const month = months[d.getMonth()];
+  const hours = String(d.getHours()).padStart(2, '0');
+  const mins = String(d.getMinutes()).padStart(2, '0');
+
+  return `${dayName} ${dayNum} ${month} · ${hours}:${mins}h`;
+}
+
 // ── Data fetching ────────────────────────────────────────────────────────────
 
 async function fetchCalendar() {
@@ -80,6 +155,14 @@ async function fetchActa(matchId) {
   });
   // Response: { status: "OK", acta: { goles: [...], jugadores: [...], ... } }
   return data.acta || null;
+}
+
+async function fetchStadium(stadiumId) {
+  const data = await apiPost('/ws/estadio', {
+    id_estadio: String(stadiumId),
+  });
+  // Response: { status: "OK", estadio: { nombre_estadio, direccion, ... } }
+  return data.estadio || null;
 }
 
 // ── Processors ───────────────────────────────────────────────────────────────
@@ -249,6 +332,72 @@ function buildGoleadores(actas) {
     .sort((a, b) => b.goles - a.goles);
 }
 
+/**
+ * Build data/proximo-partido.json — next match banner data.
+ * Includes stadium info fetched from /ws/estadio.
+ */
+async function buildProximoPartido(matches) {
+  const pending = matches
+    .filter((m) => {
+      const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
+      const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
+      return isPending && involvesVetusta;
+    })
+    .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+
+  if (pending.length === 0) return null;
+
+  const m = pending[0];
+  const esLocal = isVetusta(m.nombre_local);
+
+  // Fetch stadium info for venue name and city
+  let venueName = null;
+  let venueCity = null;
+  if (m.id_estadio) {
+    try {
+      console.log(`   🏟️  Fetching stadium ${m.id_estadio} …`);
+      const stadium = await fetchStadium(m.id_estadio);
+      if (stadium) {
+        venueName = stadium.nombre_estadio || null;
+        venueCity = extractCity(stadium.direccion) || null;
+      }
+    } catch (err) {
+      console.warn(`   ⚠ Failed to fetch stadium: ${err.message}`);
+    }
+  }
+
+  // Build venue line: "Stadium Name · City" or just one of them
+  let venue = null;
+  if (venueName && venueCity) {
+    venue = `${titleCase(venueName)} · ${venueCity}`;
+  } else if (venueName) {
+    venue = titleCase(venueName);
+  } else if (venueCity) {
+    venue = venueCity;
+  }
+
+  return {
+    fecha: m.fecha,
+    fecha_display: formatDateForBanner(m.fecha),
+    jornada: m.jornada,
+    es_local: esLocal,
+    local: {
+      nombre: isVetusta(m.nombre_local) ? 'Balonmano Vetusta' : titleCase(m.nombre_local),
+      nombre_corto: isVetusta(m.nombre_local) ? 'BM Vetusta' : shortName(m.nombre_local),
+      escudo: m.url_escudo_local || null,
+      es_vetusta: isVetusta(m.nombre_local),
+    },
+    visitante: {
+      nombre: isVetusta(m.nombre_visitante) ? 'Balonmano Vetusta' : titleCase(m.nombre_visitante),
+      nombre_corto: isVetusta(m.nombre_visitante) ? 'BM Vetusta' : shortName(m.nombre_visitante),
+      escudo: m.url_escudo_visitante || null,
+      es_vetusta: isVetusta(m.nombre_visitante),
+    },
+    sede: venue,
+    url_streaming: m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null,
+  };
+}
+
 // ── Main ─────────────────────────────────────────────────────────────────────
 
 async function main() {
@@ -294,10 +443,12 @@ async function main() {
   const calendario = buildCalendario(matches);
   const clasificacion = buildClasificacion(matches);
   const goleadores = buildGoleadores(actas);
+  const proximoPartido = await buildProximoPartido(matches);
 
   console.log(`   → calendario.json: ${calendario.length} upcoming matches`);
   console.log(`   → clasificacion.json: ${clasificacion.length} teams`);
   console.log(`   → goleadores.json: ${goleadores.length} scorers`);
+  console.log(`   → proximo-partido.json: ${proximoPartido ? 'match found' : 'no upcoming match'}`);
 
   // 4. Write to data/
   if (!fs.existsSync(DATA_DIR)) {
@@ -317,6 +468,11 @@ async function main() {
   fs.writeFileSync(
     path.join(DATA_DIR, 'goleadores.json'),
     JSON.stringify(goleadores, null, 2),
+    'utf-8'
+  );
+  fs.writeFileSync(
+    path.join(DATA_DIR, 'proximo-partido.json'),
+    JSON.stringify(proximoPartido, null, 2),
     'utf-8'
   );
 

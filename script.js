@@ -648,11 +648,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })();
 
-    // ── Header Streaming Button: show if next match has url_streaming ──
-    (function loadHeaderStreaming() {
-        var btn = document.getElementById('header-streaming-btn');
+    // ── Next Match Banner: populate from proximo-partido.json ──
+    (function loadNextMatchBanner() {
+        var banner = document.getElementById('match-banner');
         var bannerLink = document.getElementById('match-banner-link');
-        if (!btn && !bannerLink) return;
+        var btn = document.getElementById('header-streaming-btn');
 
         // Determine base path to data/ depending on page depth
         var scriptTags = document.querySelectorAll('script[src*="script.js"]');
@@ -664,19 +664,53 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        fetch(basePath + 'data/calendario.json')
-            .then(function(r) { return r.ok ? r.json() : []; })
-            .then(function(data) {
-                if (!Array.isArray(data) || data.length === 0) return;
-                // Only show for the very next match (first in the sorted list)
-                var nextMatch = data[0];
-                if (nextMatch.url_streaming) {
+        // Only the homepage has the full banner; subpages only get streaming btn
+        var isHomepage = !!banner;
+
+        fetch(basePath + 'data/proximo-partido.json')
+            .then(function(r) { return r.ok ? r.json() : null; })
+            .then(function(match) {
+                if (!match) {
+                    // No upcoming match — hide the banner
+                    if (banner) banner.style.display = 'none';
+                    return;
+                }
+
+                // ── Populate banner (homepage only) ──
+                if (isHomepage) {
+                    var vetustaEscudo = 'src/assets/escudo.png';
+
+                    // Home team
+                    var homeBadge = document.getElementById('match-home-badge');
+                    var homeNameFull = document.getElementById('match-home-name-full');
+                    var homeNameShort = document.getElementById('match-home-name-short');
+                    if (homeBadge) homeBadge.src = match.local.es_vetusta ? vetustaEscudo : (match.local.escudo || '');
+                    if (homeNameFull) homeNameFull.textContent = match.local.nombre || '';
+                    if (homeNameShort) homeNameShort.textContent = match.local.nombre_corto || '';
+
+                    // Away team
+                    var awayBadge = document.getElementById('match-away-badge');
+                    var awayNameFull = document.getElementById('match-away-name-full');
+                    var awayNameShort = document.getElementById('match-away-name-short');
+                    if (awayBadge) awayBadge.src = match.visitante.es_vetusta ? vetustaEscudo : (match.visitante.escudo || '');
+                    if (awayNameFull) awayNameFull.textContent = match.visitante.nombre || '';
+                    if (awayNameShort) awayNameShort.textContent = match.visitante.nombre_corto || '';
+
+                    // Center info
+                    var venue = document.getElementById('match-venue');
+                    var datetime = document.getElementById('match-datetime');
+                    if (venue) venue.textContent = match.sede || '';
+                    if (datetime) datetime.textContent = match.fecha_display || '';
+                }
+
+                // ── Streaming link (banner + header button) ──
+                if (match.url_streaming) {
                     if (btn) {
-                        btn.href = nextMatch.url_streaming;
+                        btn.href = match.url_streaming;
                         btn.style.display = '';
                     }
                     if (bannerLink) {
-                        bannerLink.href = nextMatch.url_streaming;
+                        bannerLink.href = match.url_streaming;
                     }
                 } else {
                     // No streaming URL: make banner link non-clickable

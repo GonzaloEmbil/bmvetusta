@@ -56,22 +56,22 @@
         </div>
     </header>
 
-    <!-- Banner próximo partido -->
-    <section class="match-banner">
+    <!-- Banner próximo partido (populated dynamically from data/proximo-partido.json) -->
+    <section class="match-banner" id="match-banner">
         <a id="match-banner-link" class="match-banner-inner" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;">
             <div class="match-team match-team-home">
-                <img src="src/assets/escudo_ademar.png" alt="Local" class="match-team-badge">
-                <span class="match-team-name match-team-name-full">Universidad de León Ademar</span>
-                <span class="match-team-name match-team-name-short">ULE Ademar</span>
+                <img id="match-home-badge" src="" alt="Local" class="match-team-badge">
+                <span class="match-team-name match-team-name-full" id="match-home-name-full"></span>
+                <span class="match-team-name match-team-name-short" id="match-home-name-short"></span>
             </div>
             <div class="match-center">
-                <span class="match-center-line1">Palacio de Deportes · León</span>
-                <span class="match-center-line2">Dom 29 Mar · 12:00h</span>
+                <span class="match-center-line1" id="match-venue"></span>
+                <span class="match-center-line2" id="match-datetime"></span>
             </div>
             <div class="match-team match-team-away">
-                <span class="match-team-name match-team-name-full">Balonmano Vetusta</span>
-                <span class="match-team-name match-team-name-short">BM Vetusta</span>
-                <img src="src/assets/escudo.png" alt="Visitante" class="match-team-badge">
+                <span class="match-team-name match-team-name-full" id="match-away-name-full"></span>
+                <span class="match-team-name match-team-name-short" id="match-away-name-short"></span>
+                <img id="match-away-badge" src="" alt="Visitante" class="match-team-badge">
             </div>
         </a>
     </section>
