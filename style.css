@@ -310,6 +310,9 @@ body {
     font-weight: bold;
     font-size: 0.95rem;
     letter-spacing: 0.3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .match-team-name-short {
@@ -351,9 +354,12 @@ body {
     text-align: center;
     background-color: #FDED3A;
     padding: 0 50px;
+    width: 280px;
     min-width: 280px;
+    max-width: 280px;
     clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
     z-index: 2;
+    overflow: hidden;
 }
 
 .match-center-line1 {
@@ -362,6 +368,10 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 1.5px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .match-center-line2 {
@@ -371,6 +381,10 @@ body {
     font-style: italic;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 @media (max-width: 768px) {
@@ -403,7 +417,9 @@ body {
 
     .match-center {
         padding: 0 6px;
-        min-width: 70px;
+        width: 120px;
+        min-width: 120px;
+        max-width: 120px;
         clip-path: none;
     }
 

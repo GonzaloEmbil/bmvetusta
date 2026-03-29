@@ -117,6 +117,33 @@ function extractCity(address) {
 }
 
 /**
+ * Shorten a stadium name for the banner.
+ *   "POLIDEPORTIVO MUNICIPAL FLORIDA ARENA" → "Florida Arena"
+ */
+function shortVenueName(raw) {
+  if (!raw) return null;
+  // Strip common prefixes (case-insensitive)
+  const prefixes = [
+    /^POLIDEPORTIVO\s+MUNICIPAL\s+/i,
+    /^POLIDEPORTIVO\s+/i,
+    /^PABELLON\s+MUNICIPAL\s+DE\s+DEPORTES\s+/i,
+    /^PABELLON\s+MUNICIPAL\s+/i,
+    /^PABELLON\s+DE\s+DEPORTES\s+/i,
+    /^PABELLON\s+/i,
+    /^COMPLEJO\s+DEPORTIVO\s+MUNICIPAL\s+/i,
+    /^COMPLEJO\s+DEPORTIVO\s+/i,
+    /^CENTRO\s+DEPORTIVO\s+MUNICIPAL\s+/i,
+    /^CENTRO\s+DEPORTIVO\s+/i,
+    /^INSTALACIONES\s+DEPORTIVAS\s+/i,
+  ];
+  let name = raw.trim();
+  for (const re of prefixes) {
+    name = name.replace(re, '');
+  }
+  return titleCase(name.trim());
+}
+
+/**
  * Format a date string to Spanish display for the banner.
  *   "2026-03-29 12:00:00" → "Dom 29 Mar · 12:00h"
  */
@@ -368,10 +395,11 @@ async function buildProximoPartido(matches) {
 
   // Build venue line: "Stadium Name · City" or just one of them
   let venue = null;
-  if (venueName && venueCity) {
-    venue = `${titleCase(venueName)} · ${venueCity}`;
-  } else if (venueName) {
-    venue = titleCase(venueName);
+  const shortVenue = shortVenueName(venueName);
+  if (shortVenue && venueCity) {
+    venue = `${shortVenue} · ${venueCity}`;
+  } else if (shortVenue) {
+    venue = shortVenue;
   } else if (venueCity) {
     venue = venueCity;
   }
