@@ -2429,6 +2429,8 @@ body {
     display: flex;
     align-items: center;
     gap: 10px;
+    overflow: hidden;
+    width: 100%;
 }
 
 .news-carousel-viewport {
