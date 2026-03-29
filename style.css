@@ -2440,6 +2440,7 @@ body {
 
 .news-carousel-slide {
     min-width: 100%;
+    flex-shrink: 0;
     display: flex;
     flex-direction: column;
     background-color: #232323;
