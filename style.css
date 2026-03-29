@@ -2569,6 +2569,18 @@ body {
 @media (max-width: 768px) {
     .news-carousel-section {
         padding: 15px 12px 10px;
+        max-width: 100%;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .news-carousel {
+        max-width: 100%;
+    }
+
+    .news-carousel-viewport {
+        min-width: 0;
+        max-width: 100%;
     }
 
     .news-carousel-slide-image {
