@@ -323,19 +323,20 @@ function buildClasificacion(matches) {
 function buildGoleadores(actas) {
   const scorers = {}; // keyed by player name → total goals
   const matchesByPlayer = {}; // player name → Set of matchIds
-  const playerPhotos = {}; // player name → photo URL
+  const playerPhotosById = {}; // player id → photo URL
 
   for (const { matchId, acta } of actas) {
     if (!acta) continue;
 
-    // Collect player photos from jugadores array (if available)
+    // Collect player photos from jugadores array, keyed by player ID
     if (Array.isArray(acta.jugadores)) {
       for (const j of acta.jugadores) {
         if (String(j.id_equipo) !== TEAM_ID) continue;
-        const name = (j.nombre || '').trim();
-        const foto = j.url_foto || j.foto || j.imagen || null;
-        if (name && foto && foto.trim() !== '') {
-          playerPhotos[name] = foto.trim();
+        const playerId = String(j.id || '').trim();
+        const foto = (j.imagen || '').trim();
+        if (playerId && foto) {
+          // Convert http to https for security
+          playerPhotosById[playerId] = foto.replace(/^http:\/\//, 'https://');
         }
       }
     }
@@ -350,26 +351,28 @@ function buildGoleadores(actas) {
       if (String(g.es_propia) === '1') continue;
 
       const name = (g.nombre || '').trim();
+      const playerId = String(g.id || '').trim();
       if (!name) continue;
 
       if (!scorers[name]) {
-        scorers[name] = 0;
-        matchesByPlayer[name] = new Set();
+        scorers[name] = { goals: 0, playerId, matches: new Set() };
       }
-      scorers[name]++;
-      matchesByPlayer[name].add(matchId);
+      scorers[name].goals++;
+      scorers[name].matches.add(matchId);
+      // Keep latest playerId (in case of discrepancies)
+      if (playerId) scorers[name].playerId = playerId;
     }
   }
 
   return Object.entries(scorers)
-    .map(([nombre, goles]) => {
-      const partidos = matchesByPlayer[nombre]?.size || 0;
+    .map(([nombre, data]) => {
+      const partidos = data.matches.size || 0;
       return {
         nombre,
-        goles,
+        goles: data.goals,
         partidos,
-        media: partidos > 0 ? Math.round((goles / partidos) * 10) / 10 : 0,
-        foto: playerPhotos[nombre] || null,
+        media: partidos > 0 ? Math.round((data.goals / partidos) * 10) / 10 : 0,
+        foto: playerPhotosById[data.playerId] || null,
       };
     })
     .sort((a, b) => b.goles - a.goles);

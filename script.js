@@ -523,7 +523,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             data.slice(0, maxItems).forEach(function(player, i) {
                 var card = document.createElement('div');
-                card.className = 'goleadores-card';
+                card.className = 'goleadores-card' + (i < 3 ? ' goleadores-card-top3' : '');
 
                 var photoSrc = player.foto || defaultPhoto;
 
@@ -532,7 +532,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<img src="' + photoSrc + '" alt="" class="goleadores-photo" loading="lazy">' +
                     '<div class="goleadores-info">' +
                         '<div class="goleadores-name">' + formatPlayerName(player.nombre) + '</div>' +
-                        '<div class="goleadores-stats">' + player.partidos + ' PJ · Media ' + player.media + '</div>' +
+                        '<div class="goleadores-stats">' + player.partidos + ' partidos · ' + player.media + ' goles/partido</div>' +
                     '</div>' +
                     '<div class="goleadores-goals">' +
                         '<span class="goleadores-goals-count">' + player.goles + '</span>' +
