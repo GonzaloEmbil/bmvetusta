@@ -1167,11 +1167,6 @@ body {
     background-color: rgba(255, 255, 255, 0.025);
 }
 
-/* Top 3 highlight — subtle gold left border */
-.goleadores-card-top3 {
-    border-left: 3px solid rgba(253, 237, 58, 0.5);
-}
-
 .goleadores-pos {
     flex-shrink: 0;
     width: 24px;
@@ -1186,11 +1181,6 @@ body {
     font-weight: 800;
 }
 
-/* Top 3 get brighter position numbers */
-.goleadores-card-top3 .goleadores-pos span {
-    color: #FDED3A;
-}
-
 .goleadores-photo {
     width: 36px;
     height: 36px;
@@ -1199,11 +1189,6 @@ body {
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.06);
     border: 2px solid rgba(255, 255, 255, 0.08);
-}
-
-/* Top 3 get gold photo border */
-.goleadores-card-top3 .goleadores-photo {
-    border-color: rgba(253, 237, 58, 0.35);
 }
 
 .goleadores-info {
@@ -1580,10 +1565,6 @@ body {
     .goleadores-card {
         padding: 8px 12px;
         gap: 8px;
-    }
-
-    .goleadores-card-top3 {
-        border-left-width: 2px;
     }
 
     .goleadores-pos {

@@ -517,13 +517,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            var maxItems = 10;
+            var maxItems = 5;
             // Default placeholder photo — generic user silhouette SVG as data URI
             var defaultPhoto = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6 0-8 3-8 4v2h16v-2c0-1-2-4-8-4z"/></svg>');
 
             data.slice(0, maxItems).forEach(function(player, i) {
                 var card = document.createElement('div');
-                card.className = 'goleadores-card' + (i < 3 ? ' goleadores-card-top3' : '');
+                card.className = 'goleadores-card';
 
                 var photoSrc = player.foto || defaultPhoto;
 
