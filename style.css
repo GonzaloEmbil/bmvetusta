@@ -2452,18 +2452,21 @@ body {
 
 .news-carousel-viewport {
     flex: 1;
+    min-width: 0;
     overflow: hidden;
     border-radius: 12px;
 }
 
 .news-carousel-slides {
     display: flex;
+    width: 100%;
     transition: transform 0.5s ease;
 }
 
 .news-carousel-slide {
-    min-width: 100%;
-    flex-shrink: 0;
+    flex: 0 0 100%;
+    width: 100%;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     background-color: #232323;
@@ -2472,6 +2475,7 @@ body {
     overflow: hidden;
     text-decoration: none;
     transition: border-color 0.3s ease;
+    box-sizing: border-box;
 }
 
 .news-carousel-slide:hover {
