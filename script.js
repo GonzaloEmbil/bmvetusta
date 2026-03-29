@@ -526,12 +526,13 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Fetch all three JSON files
+        // Fetch all three JSON files (cache-busted)
         var basePath = './data/';
+        var cacheBust = '?v=' + Date.now();
         Promise.all([
-            fetch(basePath + 'clasificacion.json').then(function(r) { return r.ok ? r.json() : []; }),
-            fetch(basePath + 'calendario.json').then(function(r) { return r.ok ? r.json() : []; }),
-            fetch(basePath + 'goleadores.json').then(function(r) { return r.ok ? r.json() : []; })
+            fetch(basePath + 'clasificacion.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
+            fetch(basePath + 'calendario.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
+            fetch(basePath + 'goleadores.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; })
         ]).then(function(results) {
             renderStandings(results[0]);
             renderProximos(results[1]);
@@ -667,7 +668,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Only the homepage has the full banner; subpages only get streaming btn
         var isHomepage = !!banner;
 
-        fetch(basePath + 'data/proximo-partido.json')
+        fetch(basePath + 'data/proximo-partido.json?v=' + Date.now())
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(match) {
                 if (!match) {
