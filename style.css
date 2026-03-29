@@ -1141,96 +1141,103 @@ body {
     animation: none;
 }
 
-/* ── Goleadores Table ── */
-.goleadores-table-wrapper {
-    overflow-x: auto;
+/* ── Goleadores List (card-based, matching próximos) ── */
+.goleadores-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
     flex: 1;
 }
 
-.goleadores-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.82rem;
-}
-
-.goleadores-table thead {
-    background: rgba(255, 255, 255, 0.025);
-}
-
-.goleadores-table th {
-    padding: 10px 6px;
-    text-align: center;
-    color: rgba(253, 237, 58, 0.55);
-    font-weight: 600;
-    font-size: 0.65rem;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    white-space: nowrap;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-}
-
-.goleadores-table th.gl-name {
-    text-align: left;
-    padding-left: 14px;
-}
-
-.goleadores-table td {
-    padding: 8px 5px;
-    text-align: center;
-    color: #777;
-    border-bottom: none;
-    white-space: nowrap;
-    font-size: 0.8rem;
-    font-variant-numeric: tabular-nums;
-}
-
-/* Alternating row background */
-.goleadores-table tbody tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.018);
-}
-
-.goleadores-table td.gl-name-cell {
-    text-align: left;
-    padding-left: 14px;
-    color: #aaa;
-    font-weight: 500;
-}
-
-.goleadores-table .gl-pos {
-    width: 28px;
-    min-width: 28px;
-    color: #4a4a5a;
-    font-weight: 700;
-    font-size: 0.73rem;
-}
-
-.goleadores-table tbody tr {
-    transition: background-color 0.15s ease;
-}
-
-.goleadores-table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.04);
-}
-
-/* Goals column bold */
-.goleadores-table td:nth-child(3) {
-    font-weight: 700;
-    color: #bbb;
-}
-
-/* Goals bar indicator */
-.gl-goals-cell {
+.goleadores-card {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+    transition: background-color 0.2s ease;
     position: relative;
 }
 
-.gl-goals-bar {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(253, 237, 58, 0.4), rgba(253, 237, 58, 0.1));
-    border-radius: 1px;
-    transition: width 0.4s ease;
+.goleadores-card:last-child {
+    border-bottom: none;
+}
+
+.goleadores-card:hover {
+    background-color: rgba(255, 255, 255, 0.025);
+}
+
+.goleadores-pos {
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+    font-size: 0.58rem;
+    font-weight: 700;
+    color: rgba(253, 237, 58, 0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1.2;
+}
+
+.goleadores-pos span {
+    display: block;
+    font-size: 1.15rem;
+    color: rgba(253, 237, 58, 0.8);
+    font-weight: 800;
+}
+
+.goleadores-photo {
+    width: 34px;
+    height: 34px;
+    object-fit: cover;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.04);
+}
+
+.goleadores-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.goleadores-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ddd;
+    margin-bottom: 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.goleadores-stats {
+    font-size: 0.65rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #666;
+}
+
+.goleadores-goals {
+    flex-shrink: 0;
+    text-align: right;
+    min-width: 58px;
+}
+
+.goleadores-goals-count {
+    font-size: 0.95rem;
+    color: #FDED3A;
+    font-weight: 800;
+    display: block;
+}
+
+.goleadores-goals-label {
+    font-size: 0.6rem;
+    color: #555;
+    display: block;
+    margin-top: 1px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 /* Footer */
@@ -1559,13 +1566,35 @@ body {
     }
 
     /* Goleadores mobile */
-    .goleadores-table {
-        font-size: 0.75rem;
+    .goleadores-card {
+        padding: 10px 12px;
+        gap: 8px;
     }
 
-    .goleadores-table th,
-    .goleadores-table td {
-        padding: 7px 4px;
+    .goleadores-pos {
+        width: 28px;
+        font-size: 0.55rem;
+    }
+
+    .goleadores-pos span {
+        font-size: 1rem;
+    }
+
+    .goleadores-photo {
+        width: 28px;
+        height: 28px;
+    }
+
+    .goleadores-name {
+        font-size: 0.8rem;
+    }
+
+    .goleadores-goals {
+        min-width: auto;
+    }
+
+    .goleadores-goals-count {
+        font-size: 0.85rem;
     }
 
     .patrocinadores-grid {

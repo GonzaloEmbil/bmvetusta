@@ -323,9 +323,24 @@ function buildClasificacion(matches) {
 function buildGoleadores(actas) {
   const scorers = {}; // keyed by player name → total goals
   const matchesByPlayer = {}; // player name → Set of matchIds
+  const playerPhotos = {}; // player name → photo URL
 
   for (const { matchId, acta } of actas) {
-    if (!acta || !Array.isArray(acta.goles)) continue;
+    if (!acta) continue;
+
+    // Collect player photos from jugadores array (if available)
+    if (Array.isArray(acta.jugadores)) {
+      for (const j of acta.jugadores) {
+        if (String(j.id_equipo) !== TEAM_ID) continue;
+        const name = (j.nombre || '').trim();
+        const foto = j.url_foto || j.foto || j.imagen || null;
+        if (name && foto && foto.trim() !== '') {
+          playerPhotos[name] = foto.trim();
+        }
+      }
+    }
+
+    if (!Array.isArray(acta.goles)) continue;
 
     for (const g of acta.goles) {
       // Only count goals from our team
@@ -354,6 +369,7 @@ function buildGoleadores(actas) {
         goles,
         partidos,
         media: partidos > 0 ? Math.round((goles / partidos) * 10) / 10 : 0,
+        foto: playerPhotos[nombre] || null,
       };
     })
     .sort((a, b) => b.goles - a.goles);

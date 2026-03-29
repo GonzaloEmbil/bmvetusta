@@ -507,22 +507,39 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // ── Top scorers (max 10 for side panel) ──
         function renderGoleadores(data) {
-            var tbody = document.querySelector('#goleadores-table tbody');
-            if (!tbody || !Array.isArray(data)) return;
+            var container = document.getElementById('goleadores-list');
+            if (!container || !Array.isArray(data)) return;
+
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<p style="color:#555;text-align:center;padding:30px 20px;font-size:0.85rem;">No hay datos de goleadores disponibles.</p>';
+                return;
+            }
 
             var maxItems = 10;
-            var maxGoals = data.length > 0 ? data[0].goles : 1;
-            tbody.innerHTML = '';
+            // Default placeholder photo — generic user silhouette SVG as data URI
+            var defaultPhoto = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="%23555"><circle cx="12" cy="8" r="4"/><path d="M12 14c-6 0-8 3-8 4v2h16v-2c0-1-2-4-8-4z"/></svg>');
+
             data.slice(0, maxItems).forEach(function(player, i) {
-                var barWidth = Math.round((player.goles / maxGoals) * 100);
-                var tr = document.createElement('tr');
-                tr.innerHTML =
-                    '<td class="gl-pos">' + (i + 1) + '</td>' +
-                    '<td class="gl-name-cell">' + formatPlayerName(player.nombre) + '</td>' +
-                    '<td class="gl-goals-cell">' + player.goles + '<div class="gl-goals-bar" style="width:' + barWidth + '%"></div></td>' +
-                    '<td>' + player.partidos + '</td>' +
-                    '<td>' + player.media + '</td>';
-                tbody.appendChild(tr);
+                var card = document.createElement('div');
+                card.className = 'goleadores-card';
+
+                var photoSrc = player.foto || defaultPhoto;
+
+                card.innerHTML =
+                    '<div class="goleadores-pos"><span>' + (i + 1) + '</span></div>' +
+                    '<img src="' + photoSrc + '" alt="" class="goleadores-photo" loading="lazy">' +
+                    '<div class="goleadores-info">' +
+                        '<div class="goleadores-name">' + formatPlayerName(player.nombre) + '</div>' +
+                        '<div class="goleadores-stats">' + player.partidos + ' PJ · Media ' + player.media + '</div>' +
+                    '</div>' +
+                    '<div class="goleadores-goals">' +
+                        '<span class="goleadores-goals-count">' + player.goles + '</span>' +
+                        '<span class="goleadores-goals-label">goles</span>' +
+                    '</div>';
+
+                container.appendChild(card);
             });
         }
 
