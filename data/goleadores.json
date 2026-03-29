@@ -1,33 +1,39 @@
 [
   {
     "nombre": "DE MIGUEL TORRECILLA, SAUL",
-    "goles": 143,
-    "partidos": 22,
-    "media": 6.5
+    "goles": 145,
+    "partidos": 23,
+    "media": 6.3
   },
   {
     "nombre": "SOLIÑO HERMELO, MANUEL",
-    "goles": 108,
-    "partidos": 25,
+    "goles": 112,
+    "partidos": 26,
     "media": 4.3
   },
   {
     "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
-    "goles": 77,
-    "partidos": 22,
-    "media": 3.5
+    "goles": 82,
+    "partidos": 23,
+    "media": 3.6
   },
   {
     "nombre": "ONDO NSUA, CRISTIAN",
-    "goles": 61,
-    "partidos": 24,
-    "media": 2.5
+    "goles": 64,
+    "partidos": 25,
+    "media": 2.6
   },
   {
     "nombre": "CANO COTO, MARTIN",
-    "goles": 59,
-    "partidos": 23,
+    "goles": 62,
+    "partidos": 24,
     "media": 2.6
+  },
+  {
+    "nombre": "BARONETTO, SANTIAGO",
+    "goles": 51,
+    "partidos": 13,
+    "media": 3.9
   },
   {
     "nombre": "GARCIA CID, CARLOS",
@@ -36,21 +42,15 @@
     "media": 2.8
   },
   {
-    "nombre": "BARONETTO, SANTIAGO",
-    "goles": 48,
-    "partidos": 12,
-    "media": 4
-  },
-  {
     "nombre": "GAMONAL MENENDEZ, LUIS",
-    "goles": 35,
-    "partidos": 13,
-    "media": 2.7
+    "goles": 36,
+    "partidos": 14,
+    "media": 2.6
   },
   {
     "nombre": "GARCIA JONES, MARTIN",
-    "goles": 28,
-    "partidos": 16,
+    "goles": 31,
+    "partidos": 17,
     "media": 1.8
   },
   {

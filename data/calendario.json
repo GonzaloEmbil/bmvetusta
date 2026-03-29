@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-03-29 12:00:00",
-    "jornada": "27",
-    "es_local": false,
-    "rival": "UNIVERSIDAD DE LEON ADEMAR",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/126/square_70636d736b6d31387577.jpg",
-    "url_streaming": "https://youtube.com/live/SonOIEmhGB8?feature=share"
-  },
-  {
     "fecha": "2026-04-11 18:00:00",
     "jornada": "28",
     "es_local": true,
