@@ -706,6 +706,7 @@ body {
     line-height: 1.7;
     color: #fff;
     margin: 0;
+    text-align: justify;
 }
 
 @media (max-width: 768px) {
