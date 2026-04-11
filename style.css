@@ -578,7 +578,7 @@ body {
 .prensa-featured {
     display: flex;
     flex-direction: column;
-    background: #0c0c18;
+    background: #10101c;
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
@@ -633,7 +633,7 @@ body {
 .prensa-thumb {
     display: flex;
     gap: 15px;
-    background: #0c0c18;
+    background: #10101c;
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
