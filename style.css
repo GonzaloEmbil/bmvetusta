@@ -1032,6 +1032,10 @@ body {
     border-left: 3px solid rgba(255, 152, 0, 0.4);
 }
 
+.proximos-card:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.018);
+}
+
 .proximos-card:last-child {
     border-bottom: none;
 }
@@ -1198,6 +1202,10 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.035);
     transition: background-color 0.2s ease;
     position: relative;
+}
+
+.goleadores-card:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.018);
 }
 
 .goleadores-card:last-child {
