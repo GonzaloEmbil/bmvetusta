@@ -673,7 +673,7 @@ body {
 
 .about-section {
     width: 100%;
-    max-width: 1100px;
+    max-width: 1300px;
     margin: 25px auto;
     padding: 0 20px;
     color: white;
@@ -681,7 +681,7 @@ body {
 
 .about-row {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 2fr 3fr;
     gap: 40px;
     align-items: stretch;
 }
