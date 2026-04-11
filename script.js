@@ -792,4 +792,57 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(function() { /* silently ignore */ });
     })();
+
+    // ── Scroll animations (IntersectionObserver) ──
+    (function setupScrollAnimations() {
+        if (!('IntersectionObserver' in window)) return;
+
+        // Fade in for about section
+        var aboutSection = document.querySelector('.about-section');
+        if (aboutSection) {
+            aboutSection.style.opacity = '0';
+            aboutSection.style.transform = 'translateY(30px)';
+            aboutSection.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+
+            var aboutObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        aboutObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.15 });
+
+            aboutObserver.observe(aboutSection);
+        }
+
+        // Stagger for prensa cards
+        var prensaCards = document.querySelectorAll('.prensa-featured, .prensa-thumb');
+        if (prensaCards.length > 0) {
+            prensaCards.forEach(function(card) {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(25px)';
+                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+            });
+
+            var prensaObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var cards = entry.target.querySelectorAll('.prensa-featured, .prensa-thumb');
+                        cards.forEach(function(card, i) {
+                            setTimeout(function() {
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, i * 120);
+                        });
+                        prensaObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            var prensaGrid = document.querySelector('.prensa-preview-grid');
+            if (prensaGrid) prensaObserver.observe(prensaGrid);
+        }
+    })();
 });
