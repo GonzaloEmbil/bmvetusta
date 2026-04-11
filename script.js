@@ -117,15 +117,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
-    // Fit carousel titles to one line
+    // Fit carousel titles to one line using fixed size steps
+    var titleSteps = [18, 14, 11];
     document.querySelectorAll('.carousel-title').forEach(function(el) {
-        var maxSize = 18;
-        var minSize = 11;
-        var size = maxSize;
-        el.style.fontSize = size + 'px';
-        while (el.scrollWidth > el.clientWidth && size > minSize) {
-            size -= 0.5;
-            el.style.fontSize = size + 'px';
+        for (var i = 0; i < titleSteps.length; i++) {
+            el.style.fontSize = titleSteps[i] + 'px';
+            if (el.scrollWidth <= el.clientWidth) break;
         }
     });
 
