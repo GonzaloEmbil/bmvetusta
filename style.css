@@ -485,7 +485,7 @@ body {
 
 .carousel-card {
     flex: 0 0 300px;
-    background-color: #1a1a2e;
+    background-color: #232323;
     border-radius: 10px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
@@ -517,7 +517,7 @@ body {
     color: white;
     font-size: 18px;
     font-weight: bold;
-    background-color: #1a1a2e;
+    background-color: #232323;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -578,7 +578,7 @@ body {
 .prensa-featured {
     display: flex;
     flex-direction: column;
-    background: #1a1a2e;
+    background: #232323;
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
@@ -633,7 +633,7 @@ body {
 .prensa-thumb {
     display: flex;
     gap: 15px;
-    background: #1a1a2e;
+    background: #232323;
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
@@ -2498,7 +2498,7 @@ body {
     min-width: 100%;
     display: flex;
     flex-direction: column;
-    background-color: #1a1a2e;
+    background-color: #232323;
     border: 1.5px solid #222;
     border-radius: 12px;
     overflow: hidden;
