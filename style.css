@@ -744,7 +744,7 @@ body {
 .liga-row {
     display: flex;
     gap: 22px;
-    align-items: start;
+    align-items: stretch;
 }
 
 .liga-col-left {
@@ -778,6 +778,11 @@ body {
 
 .liga-panel:nth-child(1) { animation-delay: 0.1s; }
 .liga-panel:nth-child(2) { animation-delay: 0.25s; }
+
+/* Only the last panel in the right column stretches to fill remaining space */
+.liga-col-right .liga-panel:last-child {
+    flex: 1;
+}
 
 /* Top accent line */
 .liga-panel::before {
