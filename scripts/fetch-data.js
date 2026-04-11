@@ -205,7 +205,7 @@ function buildCalendario(matches) {
       return isPending && involvesVetusta;
     })
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
-    .slice(0, 5);
+    .slice(0, 3);
 
   return pending.map((m) => {
     const esLocal = isVetusta(m.nombre_local);
