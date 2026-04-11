@@ -1,20 +1,20 @@
 {
-  "fecha": "2026-04-11 18:00:00",
-  "fecha_display": "Sáb 11 Abr · 18:00h",
-  "jornada": "28",
-  "es_local": true,
+  "fecha": "2026-04-18 19:00:00",
+  "fecha_display": "Sáb 18 Abr · 19:00h",
+  "jornada": "29",
+  "es_local": false,
   "local": {
+    "nombre": "Congesa Xxi Ciudad de Salamanca",
+    "nombre_corto": "Ciudad Salamanca",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
+    "es_vetusta": false
+  },
+  "visitante": {
     "nombre": "Balonmano Vetusta",
     "nombre_corto": "BM Vetusta",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
     "es_vetusta": true
   },
-  "visitante": {
-    "nombre": "Caja Viva - Balonmano Camargo",
-    "nombre_corto": "BM Camargo",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
-    "es_vetusta": false
-  },
-  "sede": "Florida Arena · Oviedo",
-  "url_streaming": "https://www.youtube.com/watch?v=6IF7KuxdYoA"
+  "sede": "P.m. Rio Tormes · Salamanca",
+  "url_streaming": null
 }

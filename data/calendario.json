@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-04-11 18:00:00",
-    "jornada": "28",
-    "es_local": true,
-    "rival": "CAJA VIVA -  BALONMANO CAMARGO",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
-    "url_streaming": "https://www.youtube.com/watch?v=6IF7KuxdYoA"
-  },
-  {
     "fecha": "2026-04-18 19:00:00",
     "jornada": "29",
     "es_local": false,

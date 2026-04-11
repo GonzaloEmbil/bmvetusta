@@ -224,6 +224,193 @@ function buildCalendario(matches) {
   });
 }
 
+// ── Tiebreaker helpers (Art. 152, RPC RFEBM Feb 2025) ───────────────────
+
+/**
+ * Group a sorted array into sub-arrays where adjacent elements share
+ * the same value (as returned by valueFn).
+ */
+function groupByValue(arr, valueFn) {
+  const groups = [];
+  for (const item of arr) {
+    const val = valueFn(item);
+    if (groups.length === 0 || valueFn(groups[groups.length - 1][0]) !== val) {
+      groups.push([item]);
+    } else {
+      groups[groups.length - 1].push(item);
+    }
+  }
+  return groups;
+}
+
+/**
+ * Get finished matches played exclusively among a set of teams.
+ */
+function getGroupH2HMatches(teamNorms, finishedMatches) {
+  return finishedMatches.filter((m) => {
+    const local = normaliseName(m.nombre_local);
+    const visit = normaliseName(m.nombre_visitante);
+    return teamNorms.includes(local) && teamNorms.includes(visit);
+  });
+}
+
+/**
+ * Compute mini-league stats (pts, gf, gc, dif) for each team within a group.
+ */
+function computeGroupH2HStats(teamNorms, h2hMatches) {
+  const stats = {};
+  for (const n of teamNorms) {
+    stats[n] = { pts: 0, gf: 0, gc: 0, dif: 0 };
+  }
+  for (const m of h2hMatches) {
+    const gl = parseInt(m.resultado_local, 10);
+    const gv = parseInt(m.resultado_visitante, 10);
+    if (isNaN(gl) || isNaN(gv)) continue;
+    const local = normaliseName(m.nombre_local);
+    const visit = normaliseName(m.nombre_visitante);
+    if (!stats[local] || !stats[visit]) continue;
+    stats[local].gf += gl;
+    stats[local].gc += gv;
+    stats[visit].gf += gv;
+    stats[visit].gc += gl;
+    if (gl > gv) {
+      stats[local].pts += 2;
+    } else if (gl < gv) {
+      stats[visit].pts += 2;
+    } else {
+      stats[local].pts += 1;
+      stats[visit].pts += 1;
+    }
+  }
+  for (const n of teamNorms) {
+    stats[n].dif = stats[n].gf - stats[n].gc;
+  }
+  return stats;
+}
+
+/**
+ * Check whether every pair among the given teams has at least `min` h2h matches.
+ */
+function allPairsHaveMinMatches(teamNorms, h2hMatches, min) {
+  for (let i = 0; i < teamNorms.length; i++) {
+    for (let j = i + 1; j < teamNorms.length; j++) {
+      const count = h2hMatches.filter((m) => {
+        const l = normaliseName(m.nombre_local);
+        const v = normaliseName(m.nombre_visitante);
+        return (l === teamNorms[i] && v === teamNorms[j]) ||
+               (l === teamNorms[j] && v === teamNorms[i]);
+      }).length;
+      if (count < min) return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Sort teams by valueFn (desc), group by equal values, and recursively
+ * resolve each sub-group.  Returns null if all values are equal (no split).
+ */
+function splitAndResolve(teams, valueFn, finishedMatches) {
+  const sorted = [...teams].sort((a, b) => valueFn(b) - valueFn(a));
+  const groups = groupByValue(sorted, valueFn);
+  if (groups.length <= 1) return null;
+  return groups.flatMap((g) => resolveTiedGroup(g, finishedMatches));
+}
+
+/**
+ * Resolve tie between exactly 2 teams — Art. 152 a).
+ */
+function resolveTwoTeamTie(a, b, finishedMatches) {
+  const normA = normaliseName(a.nombre);
+  const normB = normaliseName(b.nombre);
+  const h2h = getGroupH2HMatches([normA, normB], finishedMatches);
+  const hasH2H = h2h.length > 0;
+
+  if (hasH2H) {
+    const s = computeGroupH2HStats([normA, normB], h2h);
+    // 1º H2H goal difference
+    if (s[normA].dif !== s[normB].dif)
+      return s[normA].dif > s[normB].dif ? [a, b] : [b, a];
+  }
+
+  // 2º Overall goal difference
+  if (a.DIF !== b.DIF) return a.DIF > b.DIF ? [a, b] : [b, a];
+
+  // 3º Overall goals scored
+  if (a.GF !== b.GF) return a.GF > b.GF ? [a, b] : [b, a];
+
+  if (hasH2H) {
+    const s = computeGroupH2HStats([normA, normB], h2h);
+    // 4º H2H GF/GC ratio
+    const rA = s[normA].gc > 0 ? s[normA].gf / s[normA].gc : s[normA].gf;
+    const rB = s[normB].gc > 0 ? s[normB].gf / s[normB].gc : s[normB].gf;
+    if (Math.abs(rA - rB) > 1e-9) return rA > rB ? [a, b] : [b, a];
+  }
+
+  // 5º Overall GF/GC ratio
+  const rA = a.GC > 0 ? a.GF / a.GC : a.GF;
+  const rB = b.GC > 0 ? b.GF / b.GC : b.GF;
+  if (Math.abs(rA - rB) > 1e-9) return rA > rB ? [a, b] : [b, a];
+
+  return [a, b]; // 6º would be a tiebreaker match
+}
+
+/**
+ * Resolve tie among 3+ teams — Art. 152 b).
+ */
+function resolveMultiTeamTie(teams, finishedMatches) {
+  const norms = teams.map((t) => normaliseName(t.nombre));
+  const h2h = getGroupH2HMatches(norms, finishedMatches);
+  const canUseH2H = allPairsHaveMinMatches(norms, h2h, 1);
+  const norm = (t) => normaliseName(t.nombre);
+
+  if (canUseH2H) {
+    const s = computeGroupH2HStats(norms, h2h);
+    // 1º H2H points
+    let r = splitAndResolve(teams, (t) => s[norm(t)].pts, finishedMatches);
+    if (r) return r;
+    // 2º H2H goal difference
+    r = splitAndResolve(teams, (t) => s[norm(t)].dif, finishedMatches);
+    if (r) return r;
+  }
+
+  // 3º Overall goal difference
+  let r = splitAndResolve(teams, (t) => t.DIF, finishedMatches);
+  if (r) return r;
+
+  if (canUseH2H) {
+    const s = computeGroupH2HStats(norms, h2h);
+    // 4º H2H goals scored
+    r = splitAndResolve(teams, (t) => s[norm(t)].gf, finishedMatches);
+    if (r) return r;
+  }
+
+  // 5º Overall goals scored
+  r = splitAndResolve(teams, (t) => t.GF, finishedMatches);
+  if (r) return r;
+
+  // 6º Overall GF/GC ratio (scaled to integer for safe comparison)
+  const ratio = (t) => {
+    if (t.GC === 0) return t.GF > 0 ? 1e9 : 0;
+    return Math.round((t.GF / t.GC) * 100000);
+  };
+  r = splitAndResolve(teams, ratio, finishedMatches);
+  if (r) return r;
+
+  return teams;
+}
+
+/**
+ * Dispatch tiebreaker resolution based on group size.
+ */
+function resolveTiedGroup(tiedTeams, finishedMatches) {
+  if (tiedTeams.length <= 1) return tiedTeams;
+  if (tiedTeams.length === 2) {
+    return resolveTwoTeamTie(tiedTeams[0], tiedTeams[1], finishedMatches);
+  }
+  return resolveMultiTeamTie(tiedTeams, finishedMatches);
+}
+
 /**
  * Build data/clasificacion.json — full standings computed from results.
  */
@@ -284,33 +471,31 @@ function buildClasificacion(matches) {
     }
   }
 
-  // Sort by points desc, then goal difference desc, then goals for desc
-  const sorted = Object.values(teams)
-    .map((t) => ({
-      ...t,
-      DIF: t.GF - t.GC,
-      puntos: t.PG * 2 + t.PE,
-    }))
-    .sort((a, b) => {
-      if (b.puntos !== a.puntos) return b.puntos - a.puntos;
-      if (b.DIF !== a.DIF) return b.DIF - a.DIF;
-      return b.GF - a.GF;
-    })
-    .map((t, i) => ({
-      posicion: i + 1,
-      nombre: t.nombre,
-      escudo: t.escudo,
-      PJ: t.PJ,
-      PG: t.PG,
-      PE: t.PE,
-      PP: t.PP,
-      GF: t.GF,
-      GC: t.GC,
-      DIF: t.DIF,
-      puntos: t.puntos,
-    }));
+  // Classify using Art. 152 tiebreaker rules (RPC RFEBM Feb 2025)
+  const teamsArray = Object.values(teams).map((t) => ({
+    ...t,
+    DIF: t.GF - t.GC,
+    puntos: t.PG * 2 + t.PE,
+  }));
+  teamsArray.sort((a, b) => b.puntos - a.puntos);
+  const groups = groupByValue(teamsArray, (t) => t.puntos);
+  const sorted = groups.flatMap((g) =>
+    g.length === 1 ? g : resolveTiedGroup(g, finished)
+  );
 
-  return sorted;
+  return sorted.map((t, i) => ({
+    posicion: i + 1,
+    nombre: t.nombre,
+    escudo: t.escudo,
+    PJ: t.PJ,
+    PG: t.PG,
+    PE: t.PE,
+    PP: t.PP,
+    GF: t.GF,
+    GC: t.GC,
+    DIF: t.DIF,
+    puntos: t.puntos,
+  }));
 }
 
 /**
