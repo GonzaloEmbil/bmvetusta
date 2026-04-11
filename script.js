@@ -117,6 +117,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Fit carousel titles to one line
+    document.querySelectorAll('.carousel-title').forEach(function(el) {
+        var maxSize = 18;
+        var minSize = 11;
+        var size = maxSize;
+        el.style.fontSize = size + 'px';
+        while (el.scrollWidth > el.clientWidth && size > minSize) {
+            size -= 0.5;
+            el.style.fontSize = size + 'px';
+        }
+    });
+
     // Carrusel infinito suave con JavaScript
     function setupInfiniteCarousel() {
         const track = document.querySelector('.carousel-track');

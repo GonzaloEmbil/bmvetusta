@@ -521,8 +521,8 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 70px;
-    text-transform: uppercase;
+    min-height: 50px;
+    white-space: nowrap;
 }
 
 /* Carrusel de patrocinadores */
