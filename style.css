@@ -681,9 +681,9 @@ body {
 
 .about-row {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 40px;
-    align-items: stretch;
+    align-items: center;
 }
 
 .about-image {
@@ -692,8 +692,7 @@ body {
 }
 
 .about-image img {
-    height: 100%;
-    width: auto;
+    width: 100%;
     display: block;
 }
 
