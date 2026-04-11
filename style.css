@@ -164,10 +164,9 @@ body {
 
 /* Abonamiento Banner */
 .abonamiento-banner {
-    display: grid;
-    grid-auto-columns: 1fr;
-    grid-auto-flow: column;
+    display: flex;
     justify-content: center;
+    align-items: center;
     gap: 16px;
     padding: 10px 40px;
     background-color: #000;
@@ -211,7 +210,7 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .abonamiento-banner {
-        grid-auto-flow: row;
+        flex-direction: column;
         padding: 20px 15px;
         gap: 12px;
     }
@@ -219,7 +218,9 @@ body {
     .abonamiento-btn {
         padding: 11px 26px;
         font-size: 0.88rem;
+        width: 100%;
         text-align: center;
+        box-sizing: border-box;
     }
 }
 
