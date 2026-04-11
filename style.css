@@ -683,7 +683,7 @@ body {
     display: grid;
     grid-template-columns: 2fr 3fr;
     gap: 40px;
-    align-items: center;
+    align-items: stretch;
 }
 
 .about-image {
@@ -693,6 +693,8 @@ body {
 
 .about-image img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
 }
 
