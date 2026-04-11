@@ -512,14 +512,12 @@ body {
 }
 
 .carousel-title {
-    padding: 14px 20px;
+    padding: 12px 20px;
     text-align: center;
     color: white;
     font-size: 18px;
     font-weight: bold;
     background-color: #232323;
-    min-height: 50px;
-    line-height: 50px;
     white-space: nowrap;
     overflow: hidden;
 }
