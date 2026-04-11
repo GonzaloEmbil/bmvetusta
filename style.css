@@ -760,6 +760,7 @@ body {
     display: flex;
     flex-direction: column;
     gap: 22px;
+    align-self: start;
 }
 
 /* ── Panel (shared card container) ── */
@@ -768,7 +769,6 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.05);
     border-radius: 14px;
     overflow: hidden;
-    flex: 1;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
