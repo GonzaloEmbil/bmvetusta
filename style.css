@@ -165,10 +165,9 @@ body {
 /* Abonamiento Banner */
 .abonamiento-banner {
     display: flex;
-    flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 14px;
+    gap: 16px;
     padding: 10px 40px;
     background-color: #000;
     flex-shrink: 0;
@@ -176,44 +175,36 @@ body {
 
 .abonamiento-btn {
     display: inline-block;
-    background: linear-gradient(135deg, #FDED3A 0%, #FDED3A 100%);
-    color: #000;
-    padding: 14px 36px;
+    background: transparent;
+    color: #FDED3A;
+    padding: 12px 32px;
     text-decoration: none;
-    font-size: 1.05rem;
-    font-weight: bold;
-    border-radius: 50px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 8px;
+    letter-spacing: 1px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(254, 237, 1, 0.3);
     border: 2px solid #FDED3A;
 }
 
 .abonamiento-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(254, 237, 1, 0.5);
+    background: #FDED3A;
+    color: #0a0a1a;
 }
 
 .abonamiento-btn:active {
     transform: translateY(-1px);
-    box-shadow: 0 3px 15px rgba(254, 237, 1, 0.4);
 }
 
 /* Botón morado */
 .abonamiento-btn-purple {
-    background: linear-gradient(135deg, #7a60bd 0%, #6a50ad 100%);
-    color: #fff;
+    color: #c4b5e3;
     border-color: #7a60bd;
-    box-shadow: 0 4px 15px rgba(122, 96, 189, 0.3);
 }
 
 .abonamiento-btn-purple:hover {
-    box-shadow: 0 6px 25px rgba(122, 96, 189, 0.5);
-}
-
-.abonamiento-btn-purple:active {
-    box-shadow: 0 3px 15px rgba(122, 96, 189, 0.4);
+    background: #7a60bd;
+    color: #fff;
 }
 
 /* Responsive */
@@ -221,32 +212,15 @@ body {
     .abonamiento-banner {
         flex-direction: column;
         padding: 20px 15px;
-        gap: 14px;
+        gap: 12px;
     }
 
     .abonamiento-btn {
         padding: 11px 26px;
         font-size: 0.88rem;
-        letter-spacing: 1.5px;
-    }
-}
-
-/* Desktop: botones iguales */
-@media (min-width: 769px) {
-    .abonamiento-banner {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 20px;
-    }
-
-    .abonamiento-btn {
-        width: 350px;
-        height: auto;
-        padding: 14px 20px;
+        width: 100%;
         text-align: center;
         box-sizing: border-box;
-        white-space: nowrap;
     }
 }
 
