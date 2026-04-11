@@ -744,7 +744,7 @@ body {
 .liga-row {
     display: flex;
     gap: 22px;
-    align-items: stretch;
+    align-items: start;
 }
 
 .liga-col-left {
@@ -760,7 +760,6 @@ body {
     display: flex;
     flex-direction: column;
     gap: 22px;
-    align-self: start;
 }
 
 /* ── Panel (shared card container) ── */
