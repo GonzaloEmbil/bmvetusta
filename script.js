@@ -804,7 +804,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (aboutSection) {
             aboutSection.style.opacity = '0';
             aboutSection.style.transform = 'translateY(30px)';
-            aboutSection.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            aboutSection.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
 
             var aboutObserver = new IntersectionObserver(function(entries) {
                 entries.forEach(function(entry) {
@@ -825,7 +825,7 @@ document.addEventListener('DOMContentLoaded', function() {
             prensaCards.forEach(function(card) {
                 card.style.opacity = '0';
                 card.style.transform = 'translateY(25px)';
-                card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                card.style.transition = 'opacity 1s ease, transform 1s ease';
             });
 
             var prensaObserver = new IntersectionObserver(function(entries) {
@@ -836,7 +836,7 @@ document.addEventListener('DOMContentLoaded', function() {
                             setTimeout(function() {
                                 card.style.opacity = '1';
                                 card.style.transform = 'translateY(0)';
-                            }, i * 120);
+                            }, i * 200);
                         });
                         prensaObserver.unobserve(entry.target);
                     }
