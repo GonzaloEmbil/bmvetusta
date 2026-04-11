@@ -673,17 +673,16 @@ body {
 
 .about-section {
     width: 100%;
-    max-width: 1300px;
+    max-width: 900px;
     margin: 60px auto 50px;
     padding: 0 20px;
     color: white;
 }
 
 .about-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
 }
 
 .about-image {
@@ -712,11 +711,6 @@ body {
 @media (max-width: 768px) {
     .about-section {
         margin: 40px auto 30px;
-    }
-
-    .about-row {
-        grid-template-columns: 1fr;
-        gap: 24px;
     }
 
     .about-text p {
