@@ -794,7 +794,9 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     // ── Scroll animations (IntersectionObserver) ──
-    (function setupScrollAnimations() {
+    // Delay setup until loading screen is gone so elements aren't
+    // detected as visible while the page is still covered.
+    function setupScrollAnimations() {
         if (!('IntersectionObserver' in window)) return;
 
         // Fade in for about section
@@ -844,5 +846,13 @@ document.addEventListener('DOMContentLoaded', function() {
             var prensaGrid = document.querySelector('.prensa-preview-grid');
             if (prensaGrid) prensaObserver.observe(prensaGrid);
         }
-    })();
+    }
+
+    // Start scroll animations after loading screen fades out
+    var loadingDone = document.getElementById('loading-screen');
+    if (loadingDone) {
+        loadingDone.addEventListener('transitionend', setupScrollAnimations);
+    } else {
+        setupScrollAnimations();
+    }
 });
