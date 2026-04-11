@@ -456,7 +456,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // ── Upcoming matches (max 5 for side panel) ──
+        // ── Upcoming matches (max 3 for side panel) ──
         function renderProximos(data) {
             var container = document.getElementById('proximos-list');
             if (!container || !Array.isArray(data)) return;
@@ -468,7 +468,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            var maxItems = 5;
+            var maxItems = 3;
             data.slice(0, maxItems).forEach(function(match) {
                 var dt = formatDateSpanish(match.fecha);
                 var localidad = match.es_local ? 'Local' : 'Visitante';
@@ -500,6 +500,47 @@ document.addEventListener('DOMContentLoaded', function() {
                         (dt.time ? '<span class="proximos-time">' + dt.time + '</span>' : '') +
                     '</div>' +
                     streamingHTML;
+
+                container.appendChild(card);
+            });
+        }
+
+        // ── Recent results (max 3 for side panel) ──
+        function renderResultados(data) {
+            var container = document.getElementById('resultados-list');
+            if (!container || !Array.isArray(data)) return;
+
+            container.innerHTML = '';
+
+            if (data.length === 0) {
+                container.innerHTML = '<p style="color:#555;text-align:center;padding:30px 20px;font-size:0.85rem;">No hay resultados disponibles.</p>';
+                return;
+            }
+
+            data.forEach(function(match) {
+                var localidad = match.es_local ? 'Local' : 'Visitante';
+                var localidadClass = match.es_local ? 'proximos-localidad-local' : 'proximos-localidad-away';
+                var cardSideClass = match.es_local ? 'proximos-card-local' : 'proximos-card-away';
+
+                var resultClass = 'resultados-score-empate';
+                if (match.resultado === 'V') resultClass = 'resultados-score-victoria';
+                else if (match.resultado === 'D') resultClass = 'resultados-score-derrota';
+
+                var scoreText = match.es_local
+                    ? match.goles_vetusta + ' - ' + match.goles_rival
+                    : match.goles_rival + ' - ' + match.goles_vetusta;
+
+                var card = document.createElement('div');
+                card.className = 'proximos-card ' + cardSideClass;
+
+                card.innerHTML =
+                    '<div class="proximos-jornada">J<span>' + (match.jornada || '') + '</span></div>' +
+                    '<img src="' + (match.escudo_rival || 'src/assets/escudo.png') + '" alt="" class="proximos-badge" loading="lazy">' +
+                    '<div class="proximos-info">' +
+                        '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
+                        '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
+                    '</div>' +
+                    '<div class="resultados-score ' + resultClass + '">' + scoreText + '</div>';
 
                 container.appendChild(card);
             });
@@ -549,11 +590,13 @@ document.addEventListener('DOMContentLoaded', function() {
         Promise.all([
             fetch(basePath + 'clasificacion.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
             fetch(basePath + 'calendario.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
+            fetch(basePath + 'resultados.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
             fetch(basePath + 'goleadores.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; })
         ]).then(function(results) {
             renderStandings(results[0]);
             renderProximos(results[1]);
-            renderGoleadores(results[2]);
+            renderResultados(results[2]);
+            renderGoleadores(results[3]);
         }).catch(function(err) {
             console.warn('Failed to load league data:', err);
         });

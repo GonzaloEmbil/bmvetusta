@@ -1,0 +1,32 @@
+[
+  {
+    "fecha": "2026-04-11 18:00:00",
+    "jornada": "28",
+    "es_local": true,
+    "rival": "CAJA VIVA -  BALONMANO CAMARGO",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
+    "goles_vetusta": 25,
+    "goles_rival": 28,
+    "resultado": "D"
+  },
+  {
+    "fecha": "2026-03-29 12:00:00",
+    "jornada": "27",
+    "es_local": false,
+    "rival": "UNIVERSIDAD DE LEON ADEMAR",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/126/square_70636d736b6d31387577.jpg",
+    "goles_vetusta": 24,
+    "goles_rival": 23,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2026-03-21 17:30:00",
+    "jornada": "26",
+    "es_local": true,
+    "rival": "BM CAJA RURAL DE ZAMORA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/437/square_63636e32723372766336.jpg",
+    "goles_vetusta": 22,
+    "goles_rival": 28,
+    "resultado": "D"
+  }
+]

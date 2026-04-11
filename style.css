@@ -1141,6 +1141,40 @@ body {
     animation: none;
 }
 
+/* ── Resultados score badge ── */
+.resultados-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 1;
+}
+
+.resultados-score {
+    flex-shrink: 0;
+    font-size: 0.95rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    padding: 4px 10px;
+    border-radius: 6px;
+    text-align: center;
+    min-width: 52px;
+}
+
+.resultados-score-victoria {
+    color: #4CAF50;
+    background: rgba(76, 175, 80, 0.1);
+}
+
+.resultados-score-derrota {
+    color: #ef5350;
+    background: rgba(239, 83, 80, 0.1);
+}
+
+.resultados-score-empate {
+    color: #FF9800;
+    background: rgba(255, 152, 0, 0.1);
+}
+
 /* ── Goleadores List (card-based, matching próximos) ── */
 .goleadores-list {
     display: flex;

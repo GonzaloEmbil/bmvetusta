@@ -564,6 +564,42 @@ function buildGoleadores(actas) {
 }
 
 /**
+ * Build data/resultados.json — last 3 finished Vetusta matches.
+ */
+function buildResultados(matches) {
+  const finished = matches
+    .filter((m) => {
+      const isFin = (m.estado_partido || '').toLowerCase() === 'finalizado';
+      const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
+      return isFin && involvesVetusta;
+    })
+    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
+    .slice(0, 3);
+
+  return finished.map((m) => {
+    const esLocal = isVetusta(m.nombre_local);
+    const rival = esLocal ? m.nombre_visitante : m.nombre_local;
+    const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
+    const golesVetusta = esLocal ? parseInt(m.resultado_local, 10) : parseInt(m.resultado_visitante, 10);
+    const golesRival = esLocal ? parseInt(m.resultado_visitante, 10) : parseInt(m.resultado_local, 10);
+    let resultado = 'E';
+    if (golesVetusta > golesRival) resultado = 'V';
+    else if (golesVetusta < golesRival) resultado = 'D';
+
+    return {
+      fecha: m.fecha,
+      jornada: m.jornada,
+      es_local: esLocal,
+      rival: rival,
+      escudo_rival: escudoRival || null,
+      goles_vetusta: golesVetusta,
+      goles_rival: golesRival,
+      resultado: resultado,
+    };
+  });
+}
+
+/**
  * Build data/proximo-partido.json — next match banner data.
  * Includes stadium info fetched from /ws/estadio.
  */
@@ -673,11 +709,13 @@ async function main() {
   console.log('\n🔧 Building JSON files …');
 
   const calendario = buildCalendario(matches);
+  const resultados = buildResultados(matches);
   const clasificacion = buildClasificacion(matches);
   const goleadores = buildGoleadores(actas);
   const proximoPartido = await buildProximoPartido(matches);
 
   console.log(`   → calendario.json: ${calendario.length} upcoming matches`);
+  console.log(`   → resultados.json: ${resultados.length} recent results`);
   console.log(`   → clasificacion.json: ${clasificacion.length} teams`);
   console.log(`   → goleadores.json: ${goleadores.length} scorers`);
   console.log(`   → proximo-partido.json: ${proximoPartido ? 'match found' : 'no upcoming match'}`);
@@ -690,6 +728,11 @@ async function main() {
   fs.writeFileSync(
     path.join(DATA_DIR, 'calendario.json'),
     JSON.stringify(calendario, null, 2),
+    'utf-8'
+  );
+  fs.writeFileSync(
+    path.join(DATA_DIR, 'resultados.json'),
+    JSON.stringify(resultados, null, 2),
     'utf-8'
   );
   fs.writeFileSync(
