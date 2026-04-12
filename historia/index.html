@@ -67,13 +67,13 @@
                             <th rowspan="2">Temporada</th>
                             <th rowspan="2">Pos</th>
                             <th rowspan="2">PTS</th>
-                            <th rowspan="2">PJ</th>
+                            <th rowspan="2" class="historia-hide-mobile">PJ</th>
                             <th rowspan="2" class="historia-hide-mobile">PG</th>
                             <th rowspan="2" class="historia-hide-mobile">PE</th>
                             <th rowspan="2" class="historia-hide-mobile">PP</th>
-                            <th rowspan="2">GF</th>
-                            <th rowspan="2">GC</th>
-                            <th rowspan="2">DIF</th>
+                            <th rowspan="2" class="historia-hide-mobile">GF</th>
+                            <th rowspan="2" class="historia-hide-mobile">GC</th>
+                            <th rowspan="2" class="historia-hide-mobile">DIF</th>
                             <th colspan="2">Categoría</th>
                         </tr>
                         <tr>
@@ -150,13 +150,13 @@
                         temporadaCell +
                         '<td class="historia-highlight">' + s.pos + 'º</td>' +
                         '<td class="historia-highlight">' + s.puntos + '</td>' +
-                        '<td>' + s.PJ + '</td>' +
+                        '<td class="historia-hide-mobile">' + s.PJ + '</td>' +
                         '<td class="historia-hide-mobile">' + s.PG + '</td>' +
                         '<td class="historia-hide-mobile">' + s.PE + '</td>' +
                         '<td class="historia-hide-mobile">' + s.PP + '</td>' +
-                        '<td>' + s.GF + '</td>' +
-                        '<td>' + s.GC + '</td>' +
-                        '<td class="' + difClass + '">' + difText + '</td>' +
+                        '<td class="historia-hide-mobile">' + s.GF + '</td>' +
+                        '<td class="historia-hide-mobile">' + s.GC + '</td>' +
+                        '<td class="historia-hide-mobile ' + difClass + '">' + difText + '</td>' +
                         '<td>' + (s.division || '') + '</td>' +
                         '<td>' + (s.fase || '') + (s.ascenso ? ' <span class="historia-ascenso">&#9650;</span>' : '') + '</td>';
                     tbody.appendChild(tr);
