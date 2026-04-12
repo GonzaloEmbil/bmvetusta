@@ -1690,8 +1690,8 @@ body {
    ==================================== */
 
 .contacto-container {
-    max-width: 100%;
-    margin: 0;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 50px 20px 60px 20px;
     color: white;
 }
@@ -2040,7 +2040,7 @@ body {
    ==================================== */
 
 .historia-section {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 60px auto;
     padding: 0 20px;
     color: white;
@@ -2342,7 +2342,7 @@ body {
 /* ==================== */
 
 .news-section {
-    max-width: 1100px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 40px 20px;
 }
@@ -2440,7 +2440,7 @@ body {
 /* ==================== */
 
 .news-article {
-    max-width: 800px;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 30px 20px 50px;
 }
