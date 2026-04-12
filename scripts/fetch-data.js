@@ -571,10 +571,10 @@ function buildGoleadores(actas) {
 function buildHistoria(matches) {
   // Historical seasons (complete, won't change)
   const pastSeasons = [
-    { temporada: '2021/2022', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
-    { temporada: '2022/2023', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
-    { temporada: '2023/2024', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
-    { temporada: '2024/2025', pos: 4, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 38, GF: 770, GC: 669, DIF: 101, en_curso: false },
+    { temporada: '2021/2022', categoria: '1ª Nacional', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
+    { temporada: '2022/2023', categoria: '1ª Nacional', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
+    { temporada: '2023/2024', categoria: '1ª Nacional', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
+    { temporada: '2024/2025', categoria: '1ª Nacional', pos: 4, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 38, GF: 770, GC: 669, DIF: 101, en_curso: false },
   ];
 
   // Current season — compute from live data
@@ -629,6 +629,7 @@ function buildHistoria(matches) {
 
   const currentSeason = {
     temporada: '2025/2026',
+    categoria: '1ª Nacional',
     pos,
     equipos: sorted.length,
     PJ: pj, PG: pg, PE: pe, PP: pp,

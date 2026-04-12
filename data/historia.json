@@ -1,6 +1,7 @@
 [
   {
     "temporada": "2021/2022",
+    "categoria": "1ª Nacional",
     "pos": 7,
     "equipos": 15,
     "PJ": 28,
@@ -15,6 +16,7 @@
   },
   {
     "temporada": "2022/2023",
+    "categoria": "1ª Nacional",
     "pos": 7,
     "equipos": 16,
     "PJ": 30,
@@ -29,6 +31,7 @@
   },
   {
     "temporada": "2023/2024",
+    "categoria": "1ª Nacional",
     "pos": 5,
     "equipos": 16,
     "PJ": 30,
@@ -43,6 +46,7 @@
   },
   {
     "temporada": "2024/2025",
+    "categoria": "1ª Nacional",
     "pos": 4,
     "equipos": 16,
     "PJ": 28,
@@ -57,6 +61,7 @@
   },
   {
     "temporada": "2025/2026",
+    "categoria": "1ª Nacional",
     "pos": 13,
     "equipos": 16,
     "PJ": 28,
