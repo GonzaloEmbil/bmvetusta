@@ -2087,10 +2087,10 @@ body {
 .historia-table th {
     padding: 12px 8px;
     font-size: 0.72rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: rgba(255, 255, 255, 0.5);
+    color: rgba(255, 255, 255, 0.85);
     text-align: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
