@@ -577,7 +577,7 @@ function buildHistoria(matches) {
     { temporada: '2015/2016', division: '2ª Nacional', fase: 'Liga Regular', pos: 3, equipos: 8, PJ: 18, PG: 11, PE: 2, PP: 5, puntos: 24, GF: 398, GC: 376, DIF: 22, en_curso: false },
     { temporada: '2016/2017', division: '2ª Nacional', fase: 'Liga Regular', pos: 3, equipos: 8, PJ: 21, PG: 15, PE: 1, PP: 5, puntos: 31, GF: 543, GC: 457, DIF: 86, en_curso: false },
     { temporada: '2017/2018', division: '2ª Nacional', fase: 'Liga Regular', pos: 2, equipos: 9, PJ: 16, PG: 12, PE: 2, PP: 2, puntos: 26, GF: 460, GC: 332, DIF: 128, en_curso: false, sub: true },
-    { temporada: '2017/2018', division: '2ª Nacional', fase: 'F. Final Asturias', pos: 2, equipos: 4, PJ: 3, PG: 1, PE: 1, PP: 1, puntos: 3, GF: 65, GC: 67, DIF: -2, en_curso: false, sub: true },
+    { temporada: '2017/2018', division: '2ª Nacional', fase: 'Fase Final Ast.', pos: 2, equipos: 4, PJ: 3, PG: 1, PE: 1, PP: 1, puntos: 3, GF: 65, GC: 67, DIF: -2, en_curso: false, sub: true },
     { temporada: '2018/2019', division: '2ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 8, PJ: 14, PG: 3, PE: 2, PP: 9, puntos: 8, GF: 284, GC: 334, DIF: -50, en_curso: false },
     { temporada: '2019/2020', division: '2ª Nacional', fase: 'Liga Regular', pos: 2, equipos: 8, PJ: 11, PG: 9, PE: 0, PP: 2, puntos: 18, GF: 289, GC: 231, DIF: 58, en_curso: false },
     { temporada: '2020/2021', division: '2ª Nacional', fase: 'Liga Regular', pos: 1, equipos: 4, PJ: 6, PG: 5, PE: 0, PP: 1, puntos: 10, GF: 170, GC: 116, DIF: 54, en_curso: false, sub: true },
