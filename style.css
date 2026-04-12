@@ -2048,12 +2048,22 @@ body {
 
 .historia-title {
     color: #FDED3A;
-    font-size: 1.8rem;
-    font-weight: 800;
+    font-size: 1.9rem;
+    font-weight: bold;
     text-transform: uppercase;
     letter-spacing: 3px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.historia-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
+    margin: 10px auto 40px;
 }
 
 .historia-table-wrapper {
@@ -2293,12 +2303,22 @@ body {
 
 .news-section-title {
     color: #FDED3A;
-    font-size: 2rem;
-    font-weight: 900;
+    font-size: 1.9rem;
+    font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.news-section-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
+    margin: 10px auto 40px;
 }
 
 .news-grid {
@@ -2533,7 +2553,7 @@ body {
     }
 
     .news-section-title {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     .news-grid {
