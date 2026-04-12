@@ -129,7 +129,8 @@
                     var tr = document.createElement('tr');
                     var difClass = s.DIF > 0 ? 'st-dif-pos' : s.DIF < 0 ? 'st-dif-neg' : 'st-dif-zero';
                     var difText = (s.DIF > 0 ? '+' : '') + s.DIF;
-                    if (s.sub) tr.className = 'historia-sub';
+                    var divClass = (s.division || '').indexOf('2') >= 0 ? 'historia-div-2' : 'historia-div-1';
+                    tr.className = divClass + (s.sub ? ' historia-sub' : '');
 
                     // Count how many consecutive rows share this temporada
                     var sameTemp = idx > 0 && data[idx - 1].temporada === s.temporada;
