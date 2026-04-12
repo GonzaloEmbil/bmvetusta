@@ -121,14 +121,29 @@
                 var tbody = document.querySelector('#historia-table tbody');
                 if (!tbody || !data.length) return;
                 tbody.innerHTML = '';
-                data.forEach(function(s) {
+                data.forEach(function(s, idx) {
                     var tr = document.createElement('tr');
                     var difClass = s.DIF > 0 ? 'st-dif-pos' : s.DIF < 0 ? 'st-dif-neg' : 'st-dif-zero';
                     var difText = (s.DIF > 0 ? '+' : '') + s.DIF;
-                    var temporada = s.sub ? '' : s.temporada + (s.en_curso ? ' *' : '');
                     if (s.sub) tr.className = 'historia-sub';
+
+                    // Count how many consecutive rows share this temporada
+                    var sameTemp = idx > 0 && data[idx - 1].temporada === s.temporada;
+                    var temporadaCell;
+                    if (s.sub && sameTemp) {
+                        temporadaCell = '';
+                    } else if (s.sub) {
+                        // First sub-row of a group: count rowspan
+                        var span = 1;
+                        for (var j = idx + 1; j < data.length && data[j].temporada === s.temporada; j++) span++;
+                        var label = s.temporada + (s.en_curso ? ' *' : '');
+                        temporadaCell = '<td class="historia-season" rowspan="' + span + '">' + label + '</td>';
+                    } else {
+                        temporadaCell = '<td class="historia-season">' + s.temporada + (s.en_curso ? ' *' : '') + '</td>';
+                    }
+
                     tr.innerHTML =
-                        '<td class="historia-season">' + temporada + '</td>' +
+                        temporadaCell +
                         '<td class="historia-highlight">' + s.pos + 'º</td>' +
                         '<td class="historia-highlight">' + s.puntos + '</td>' +
                         '<td>' + s.PJ + '</td>' +

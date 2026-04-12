@@ -87,7 +87,24 @@
     "GF": 460,
     "GC": 332,
     "DIF": 128,
-    "en_curso": false
+    "en_curso": false,
+    "sub": true
+  },
+  {
+    "temporada": "2017/2018",
+    "categoria": "2ª Nacional - Fase Final",
+    "pos": 2,
+    "equipos": 4,
+    "PJ": 3,
+    "PG": 1,
+    "PE": 1,
+    "PP": 1,
+    "puntos": 3,
+    "GF": 65,
+    "GC": 67,
+    "DIF": -2,
+    "en_curso": false,
+    "sub": true
   },
   {
     "temporada": "2018/2019",
