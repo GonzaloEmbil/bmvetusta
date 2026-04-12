@@ -65,8 +65,8 @@
                     <thead>
                         <tr>
                             <th>Temporada</th>
-                            <th>Categoría</th>
                             <th>Pos</th>
+                            <th>PTS</th>
                             <th>PJ</th>
                             <th>PG</th>
                             <th>PE</th>
@@ -74,7 +74,7 @@
                             <th>GF</th>
                             <th>GC</th>
                             <th>DIF</th>
-                            <th>PTS</th>
+                            <th>Categoría</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -128,8 +128,8 @@
                     var temporada = s.temporada + (s.en_curso ? ' *' : '');
                     tr.innerHTML =
                         '<td class="historia-season">' + temporada + '</td>' +
-                        '<td>' + (s.categoria || '') + '</td>' +
-                        '<td>' + s.pos + 'º/' + s.equipos + '</td>' +
+                        '<td class="historia-highlight">' + s.pos + 'º</td>' +
+                        '<td class="historia-highlight">' + s.puntos + '</td>' +
                         '<td>' + s.PJ + '</td>' +
                         '<td>' + s.PG + '</td>' +
                         '<td>' + s.PE + '</td>' +
@@ -137,7 +137,7 @@
                         '<td>' + s.GF + '</td>' +
                         '<td>' + s.GC + '</td>' +
                         '<td class="' + difClass + '">' + difText + '</td>' +
-                        '<td class="historia-pts">' + s.puntos + '</td>';
+                        '<td>' + (s.categoria || '') + '</td>';
                     tbody.appendChild(tr);
                 });
                 // Add footnote if any season is en_curso
