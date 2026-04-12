@@ -158,7 +158,7 @@
                         '<td>' + s.GC + '</td>' +
                         '<td class="' + difClass + '">' + difText + '</td>' +
                         '<td>' + (s.division || '') + '</td>' +
-                        '<td>' + (s.fase || '') + '</td>';
+                        '<td>' + (s.fase || '') + (s.ascenso ? ' <span class="historia-ascenso">&#9650;</span>' : '') + '</td>';
                     tbody.appendChild(tr);
                 });
                 // Add footnote if any season is en_curso

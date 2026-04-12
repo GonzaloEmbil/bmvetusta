@@ -2123,15 +2123,10 @@ body {
     font-size: 1rem;
 }
 
-.historia-table tbody tr.historia-sub td {
-    font-size: 0.8rem;
-    color: #888;
-    font-style: italic;
-}
-
-.historia-table tbody tr.historia-sub td.historia-highlight {
-    color: rgba(253, 237, 58, 0.6);
-    font-size: 0.85rem;
+.historia-ascenso {
+    color: #4CAF50;
+    font-size: 0.75rem;
+    margin-left: 4px;
 }
 
 .historia-note {

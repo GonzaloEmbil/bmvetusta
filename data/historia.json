@@ -177,7 +177,8 @@
     "GC": 61,
     "DIF": 2,
     "en_curso": false,
-    "sub": true
+    "sub": true,
+    "ascenso": true
   },
   {
     "temporada": "2021/2022",
