@@ -135,6 +135,22 @@
     "en_curso": false
   },
   {
+    "temporada": "2020/2021",
+    "categoria": "2ª Nacional - Fase Estatal",
+    "pos": 1,
+    "equipos": 4,
+    "PJ": 3,
+    "PG": 2,
+    "PE": 0,
+    "PP": 1,
+    "puntos": 4,
+    "GF": 63,
+    "GC": 61,
+    "DIF": 2,
+    "en_curso": false,
+    "sub": true
+  },
+  {
     "temporada": "2021/2022",
     "categoria": "1ª Nacional",
     "pos": 7,
