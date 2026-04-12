@@ -2123,6 +2123,11 @@ body {
     font-size: 1rem;
 }
 
+.historia-table td:last-child,
+.historia-table thead tr:last-child th:last-child {
+    text-align: left;
+}
+
 .historia-ascenso {
     color: #4CAF50;
     font-size: 0.75rem;
