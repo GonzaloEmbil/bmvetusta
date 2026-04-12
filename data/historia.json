@@ -1,7 +1,8 @@
 [
   {
     "temporada": "2012/2013",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 6,
     "equipos": 10,
     "PJ": 10,
@@ -16,7 +17,8 @@
   },
   {
     "temporada": "2013/2014",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 8,
     "equipos": 10,
     "PJ": 18,
@@ -31,7 +33,8 @@
   },
   {
     "temporada": "2014/2015",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 5,
     "equipos": 8,
     "PJ": 14,
@@ -46,7 +49,8 @@
   },
   {
     "temporada": "2015/2016",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 3,
     "equipos": 8,
     "PJ": 18,
@@ -61,7 +65,8 @@
   },
   {
     "temporada": "2016/2017",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 3,
     "equipos": 8,
     "PJ": 21,
@@ -76,7 +81,8 @@
   },
   {
     "temporada": "2017/2018",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 2,
     "equipos": 9,
     "PJ": 16,
@@ -92,7 +98,8 @@
   },
   {
     "temporada": "2017/2018",
-    "categoria": "2ª Nacional - Fase Final",
+    "division": "2ª Nacional",
+    "fase": "Fase Final Asturias",
     "pos": 2,
     "equipos": 4,
     "PJ": 3,
@@ -108,7 +115,8 @@
   },
   {
     "temporada": "2018/2019",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 7,
     "equipos": 8,
     "PJ": 14,
@@ -123,7 +131,8 @@
   },
   {
     "temporada": "2019/2020",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 2,
     "equipos": 8,
     "PJ": 11,
@@ -138,7 +147,8 @@
   },
   {
     "temporada": "2020/2021",
-    "categoria": "2ª Nacional",
+    "division": "2ª Nacional",
+    "fase": "Liga Regular",
     "pos": 1,
     "equipos": 4,
     "PJ": 6,
@@ -149,11 +159,13 @@
     "GF": 170,
     "GC": 116,
     "DIF": 54,
-    "en_curso": false
+    "en_curso": false,
+    "sub": true
   },
   {
     "temporada": "2020/2021",
-    "categoria": "2ª Nacional - Fase Estatal",
+    "division": "2ª Nacional",
+    "fase": "Fase Estatal",
     "pos": 1,
     "equipos": 4,
     "PJ": 3,
@@ -169,7 +181,8 @@
   },
   {
     "temporada": "2021/2022",
-    "categoria": "1ª Nacional",
+    "division": "1ª Nacional",
+    "fase": "Liga Regular",
     "pos": 7,
     "equipos": 15,
     "PJ": 28,
@@ -184,7 +197,8 @@
   },
   {
     "temporada": "2022/2023",
-    "categoria": "1ª Nacional",
+    "division": "1ª Nacional",
+    "fase": "Liga Regular",
     "pos": 7,
     "equipos": 16,
     "PJ": 30,
@@ -199,7 +213,8 @@
   },
   {
     "temporada": "2023/2024",
-    "categoria": "1ª Nacional",
+    "division": "1ª Nacional",
+    "fase": "Liga Regular",
     "pos": 5,
     "equipos": 16,
     "PJ": 30,
@@ -214,7 +229,8 @@
   },
   {
     "temporada": "2024/2025",
-    "categoria": "1ª Nacional",
+    "division": "1ª Nacional",
+    "fase": "Liga Regular",
     "pos": 4,
     "equipos": 16,
     "PJ": 28,
@@ -229,7 +245,8 @@
   },
   {
     "temporada": "2025/2026",
-    "categoria": "1ª Nacional",
+    "division": "1ª Nacional",
+    "fase": "Liga Regular",
     "pos": 13,
     "equipos": 16,
     "PJ": 28,

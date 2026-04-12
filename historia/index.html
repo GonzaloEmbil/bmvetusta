@@ -64,21 +64,25 @@
                 <table class="historia-table" id="historia-table">
                     <thead>
                         <tr>
-                            <th>Temporada</th>
-                            <th>Pos</th>
-                            <th>PTS</th>
-                            <th>PJ</th>
-                            <th class="historia-hide-mobile">PG</th>
-                            <th class="historia-hide-mobile">PE</th>
-                            <th class="historia-hide-mobile">PP</th>
-                            <th>GF</th>
-                            <th>GC</th>
-                            <th>DIF</th>
-                            <th>Categoría</th>
+                            <th rowspan="2">Temporada</th>
+                            <th rowspan="2">Pos</th>
+                            <th rowspan="2">PTS</th>
+                            <th rowspan="2">PJ</th>
+                            <th rowspan="2" class="historia-hide-mobile">PG</th>
+                            <th rowspan="2" class="historia-hide-mobile">PE</th>
+                            <th rowspan="2" class="historia-hide-mobile">PP</th>
+                            <th rowspan="2">GF</th>
+                            <th rowspan="2">GC</th>
+                            <th rowspan="2">DIF</th>
+                            <th colspan="2">Categoría</th>
+                        </tr>
+                        <tr>
+                            <th>División</th>
+                            <th>Fase</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td colspan="11"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></td></tr>
+                        <tr><td colspan="12"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -153,7 +157,8 @@
                         '<td>' + s.GF + '</td>' +
                         '<td>' + s.GC + '</td>' +
                         '<td class="' + difClass + '">' + difText + '</td>' +
-                        '<td>' + (s.categoria || '') + '</td>';
+                        '<td>' + (s.division || '') + '</td>' +
+                        '<td>' + (s.fase || '') + '</td>';
                     tbody.appendChild(tr);
                 });
                 // Add footnote if any season is en_curso

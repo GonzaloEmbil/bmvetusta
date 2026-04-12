@@ -571,21 +571,21 @@ function buildGoleadores(actas) {
 function buildHistoria(matches) {
   // Historical seasons (complete, won't change)
   const pastSeasons = [
-    { temporada: '2012/2013', categoria: '2ª Nacional', pos: 6, equipos: 10, PJ: 10, PG: 1, PE: 0, PP: 9, puntos: 2, GF: 225, GC: 278, DIF: -53, en_curso: false },
-    { temporada: '2013/2014', categoria: '2ª Nacional', pos: 8, equipos: 10, PJ: 18, PG: 6, PE: 0, PP: 12, puntos: 12, GF: 444, GC: 494, DIF: -50, en_curso: false },
-    { temporada: '2014/2015', categoria: '2ª Nacional', pos: 5, equipos: 8, PJ: 14, PG: 6, PE: 1, PP: 7, puntos: 13, GF: 314, GC: 331, DIF: -17, en_curso: false },
-    { temporada: '2015/2016', categoria: '2ª Nacional', pos: 3, equipos: 8, PJ: 18, PG: 11, PE: 2, PP: 5, puntos: 24, GF: 398, GC: 376, DIF: 22, en_curso: false },
-    { temporada: '2016/2017', categoria: '2ª Nacional', pos: 3, equipos: 8, PJ: 21, PG: 15, PE: 1, PP: 5, puntos: 31, GF: 543, GC: 457, DIF: 86, en_curso: false },
-    { temporada: '2017/2018', categoria: '2ª Nacional', pos: 2, equipos: 9, PJ: 16, PG: 12, PE: 2, PP: 2, puntos: 26, GF: 460, GC: 332, DIF: 128, en_curso: false, sub: true },
-    { temporada: '2017/2018', categoria: '2ª Nacional - Fase Final', pos: 2, equipos: 4, PJ: 3, PG: 1, PE: 1, PP: 1, puntos: 3, GF: 65, GC: 67, DIF: -2, en_curso: false, sub: true },
-    { temporada: '2018/2019', categoria: '2ª Nacional', pos: 7, equipos: 8, PJ: 14, PG: 3, PE: 2, PP: 9, puntos: 8, GF: 284, GC: 334, DIF: -50, en_curso: false },
-    { temporada: '2019/2020', categoria: '2ª Nacional', pos: 2, equipos: 8, PJ: 11, PG: 9, PE: 0, PP: 2, puntos: 18, GF: 289, GC: 231, DIF: 58, en_curso: false },
-    { temporada: '2020/2021', categoria: '2ª Nacional', pos: 1, equipos: 4, PJ: 6, PG: 5, PE: 0, PP: 1, puntos: 10, GF: 170, GC: 116, DIF: 54, en_curso: false },
-    { temporada: '2020/2021', categoria: '2ª Nacional - Fase Estatal', pos: 1, equipos: 4, PJ: 3, PG: 2, PE: 0, PP: 1, puntos: 4, GF: 63, GC: 61, DIF: 2, en_curso: false, sub: true },
-    { temporada: '2021/2022', categoria: '1ª Nacional', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
-    { temporada: '2022/2023', categoria: '1ª Nacional', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
-    { temporada: '2023/2024', categoria: '1ª Nacional', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
-    { temporada: '2024/2025', categoria: '1ª Nacional', pos: 4, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 38, GF: 770, GC: 669, DIF: 101, en_curso: false },
+    { temporada: '2012/2013', division: '2ª Nacional', fase: 'Liga Regular', pos: 6, equipos: 10, PJ: 10, PG: 1, PE: 0, PP: 9, puntos: 2, GF: 225, GC: 278, DIF: -53, en_curso: false },
+    { temporada: '2013/2014', division: '2ª Nacional', fase: 'Liga Regular', pos: 8, equipos: 10, PJ: 18, PG: 6, PE: 0, PP: 12, puntos: 12, GF: 444, GC: 494, DIF: -50, en_curso: false },
+    { temporada: '2014/2015', division: '2ª Nacional', fase: 'Liga Regular', pos: 5, equipos: 8, PJ: 14, PG: 6, PE: 1, PP: 7, puntos: 13, GF: 314, GC: 331, DIF: -17, en_curso: false },
+    { temporada: '2015/2016', division: '2ª Nacional', fase: 'Liga Regular', pos: 3, equipos: 8, PJ: 18, PG: 11, PE: 2, PP: 5, puntos: 24, GF: 398, GC: 376, DIF: 22, en_curso: false },
+    { temporada: '2016/2017', division: '2ª Nacional', fase: 'Liga Regular', pos: 3, equipos: 8, PJ: 21, PG: 15, PE: 1, PP: 5, puntos: 31, GF: 543, GC: 457, DIF: 86, en_curso: false },
+    { temporada: '2017/2018', division: '2ª Nacional', fase: 'Liga Regular', pos: 2, equipos: 9, PJ: 16, PG: 12, PE: 2, PP: 2, puntos: 26, GF: 460, GC: 332, DIF: 128, en_curso: false, sub: true },
+    { temporada: '2017/2018', division: '2ª Nacional', fase: 'Fase Final Asturias', pos: 2, equipos: 4, PJ: 3, PG: 1, PE: 1, PP: 1, puntos: 3, GF: 65, GC: 67, DIF: -2, en_curso: false, sub: true },
+    { temporada: '2018/2019', division: '2ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 8, PJ: 14, PG: 3, PE: 2, PP: 9, puntos: 8, GF: 284, GC: 334, DIF: -50, en_curso: false },
+    { temporada: '2019/2020', division: '2ª Nacional', fase: 'Liga Regular', pos: 2, equipos: 8, PJ: 11, PG: 9, PE: 0, PP: 2, puntos: 18, GF: 289, GC: 231, DIF: 58, en_curso: false },
+    { temporada: '2020/2021', division: '2ª Nacional', fase: 'Liga Regular', pos: 1, equipos: 4, PJ: 6, PG: 5, PE: 0, PP: 1, puntos: 10, GF: 170, GC: 116, DIF: 54, en_curso: false, sub: true },
+    { temporada: '2020/2021', division: '2ª Nacional', fase: 'Fase Estatal', pos: 1, equipos: 4, PJ: 3, PG: 2, PE: 0, PP: 1, puntos: 4, GF: 63, GC: 61, DIF: 2, en_curso: false, sub: true },
+    { temporada: '2021/2022', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
+    { temporada: '2022/2023', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
+    { temporada: '2023/2024', division: '1ª Nacional', fase: 'Liga Regular', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
+    { temporada: '2024/2025', division: '1ª Nacional', fase: 'Liga Regular', pos: 4, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 38, GF: 770, GC: 669, DIF: 101, en_curso: false },
   ];
 
   // Current season — compute from live data
@@ -640,7 +640,8 @@ function buildHistoria(matches) {
 
   const currentSeason = {
     temporada: '2025/2026',
-    categoria: '1ª Nacional',
+    division: '1ª Nacional',
+    fase: 'Liga Regular',
     pos,
     equipos: sorted.length,
     PJ: pj, PG: pg, PE: pe, PP: pp,
