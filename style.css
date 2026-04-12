@@ -2116,9 +2116,10 @@ body {
     white-space: nowrap;
 }
 
-.historia-highlight {
-    font-weight: 700;
+.historia-table td.historia-highlight {
+    font-weight: 800;
     color: #FDED3A;
+    font-size: 1rem;
 }
 
 .historia-note {
@@ -2126,6 +2127,11 @@ body {
     color: #666;
     padding: 10px 16px;
     margin: 0;
+}
+
+.historia-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 768px) {
@@ -2138,12 +2144,21 @@ body {
     }
 
     .historia-table {
-        font-size: 0.78rem;
+        font-size: 0.75rem;
     }
 
     .historia-table th,
     .historia-table td {
         padding: 8px 4px;
+        white-space: nowrap;
+    }
+
+    .historia-table td.historia-highlight {
+        font-size: 0.85rem;
+    }
+
+    .historia-hide-mobile {
+        display: none;
     }
 }
 
