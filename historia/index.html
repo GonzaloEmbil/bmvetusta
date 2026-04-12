@@ -58,6 +58,30 @@
 
     <!-- Contenido principal -->
     <main class="main-content">
+        <section class="historia-section">
+            <h1 class="historia-title">Historia</h1>
+            <div class="historia-table-wrapper">
+                <table class="historia-table" id="historia-table">
+                    <thead>
+                        <tr>
+                            <th>Temporada</th>
+                            <th>Pos</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DIF</th>
+                            <th>PTS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="10"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -87,5 +111,42 @@
     </footer>
 
     <script src="../script.js"></script>
+    <script>
+    (function() {
+        var cacheBust = '?v=' + Date.now();
+        fetch('../data/historia.json' + cacheBust)
+            .then(function(r) { return r.ok ? r.json() : []; })
+            .then(function(data) {
+                var tbody = document.querySelector('#historia-table tbody');
+                if (!tbody || !data.length) return;
+                tbody.innerHTML = '';
+                data.forEach(function(s) {
+                    var tr = document.createElement('tr');
+                    var difClass = s.DIF > 0 ? 'st-dif-pos' : s.DIF < 0 ? 'st-dif-neg' : 'st-dif-zero';
+                    var difText = (s.DIF > 0 ? '+' : '') + s.DIF;
+                    var temporada = s.temporada + (s.en_curso ? ' *' : '');
+                    tr.innerHTML =
+                        '<td class="historia-season">' + temporada + '</td>' +
+                        '<td>' + s.pos + 'º/' + s.equipos + '</td>' +
+                        '<td>' + s.PJ + '</td>' +
+                        '<td>' + s.PG + '</td>' +
+                        '<td>' + s.PE + '</td>' +
+                        '<td>' + s.PP + '</td>' +
+                        '<td>' + s.GF + '</td>' +
+                        '<td>' + s.GC + '</td>' +
+                        '<td class="' + difClass + '">' + difText + '</td>' +
+                        '<td class="historia-pts">' + s.puntos + '</td>';
+                    tbody.appendChild(tr);
+                });
+                // Add footnote if any season is en_curso
+                if (data.some(function(s) { return s.en_curso; })) {
+                    var note = document.createElement('p');
+                    note.className = 'historia-note';
+                    note.textContent = '* Temporada en curso';
+                    document.querySelector('.historia-table-wrapper').appendChild(note);
+                }
+            });
+    })();
+    </script>
 </body>
 </html>

@@ -564,6 +564,83 @@ function buildGoleadores(actas) {
 }
 
 /**
+ * Build data/historia.json — season-by-season stats for Vetusta.
+ * Past seasons are hardcoded (static). Current season is computed
+ * from live calendar data and marked "en_curso" if matches remain.
+ */
+function buildHistoria(matches) {
+  // Historical seasons (complete, won't change)
+  const pastSeasons = [
+    { temporada: '2021/2022', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
+    { temporada: '2022/2023', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
+    { temporada: '2023/2024', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
+    { temporada: '2024/2025', pos: 4, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 38, GF: 770, GC: 669, DIF: 101, en_curso: false },
+  ];
+
+  // Current season — compute from live data
+  const finished = matches.filter(
+    (m) => (m.estado_partido || '').toLowerCase() === 'finalizado'
+  );
+  const pending = matches.filter((m) => {
+    const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
+    const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
+    return isPending && involvesVetusta;
+  });
+
+  // Build standings to find position
+  const teams = {};
+  for (const m of matches) {
+    const ln = normaliseName(m.nombre_local), vn = normaliseName(m.nombre_visitante);
+    if (!teams[ln]) teams[ln] = { PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
+    if (!teams[vn]) teams[vn] = { PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
+  }
+  for (const m of finished) {
+    const gl = parseInt(m.resultado_local, 10), gv = parseInt(m.resultado_visitante, 10);
+    if (isNaN(gl) || isNaN(gv)) continue;
+    const l = teams[normaliseName(m.nombre_local)], v = teams[normaliseName(m.nombre_visitante)];
+    if (!l || !v) continue;
+    l.GF += gl; l.GC += gv; v.GF += gv; v.GC += gl;
+    if (gl > gv) { l.PG++; v.PP++; }
+    else if (gl < gv) { v.PG++; l.PP++; }
+    else { l.PE++; v.PE++; }
+  }
+
+  const sorted = Object.entries(teams)
+    .map(([name, t]) => ({ name, pts: t.PG * 2 + t.PE, dif: t.GF - t.GC, gf: t.GF }))
+    .sort((a, b) => b.pts - a.pts || b.dif - a.dif || b.gf - a.gf);
+
+  const vetustaName = normaliseName(TEAM_NAME);
+  const pos = sorted.findIndex((t) => t.name === vetustaName) + 1;
+  const vetustaFinished = finished.filter(
+    (m) => isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante)
+  );
+  let pj = 0, pg = 0, pe = 0, pp = 0, gf = 0, gc = 0;
+  for (const m of vetustaFinished) {
+    const gl = parseInt(m.resultado_local, 10), gv = parseInt(m.resultado_visitante, 10);
+    if (isNaN(gl) || isNaN(gv)) continue;
+    pj++;
+    const esLocal = isVetusta(m.nombre_local);
+    const gVetusta = esLocal ? gl : gv, gRival = esLocal ? gv : gl;
+    gf += gVetusta; gc += gRival;
+    if (gVetusta > gRival) pg++;
+    else if (gVetusta < gRival) pp++;
+    else pe++;
+  }
+
+  const currentSeason = {
+    temporada: '2025/2026',
+    pos,
+    equipos: sorted.length,
+    PJ: pj, PG: pg, PE: pe, PP: pp,
+    puntos: pg * 2 + pe,
+    GF: gf, GC: gc, DIF: gf - gc,
+    en_curso: pending.length > 0,
+  };
+
+  return [...pastSeasons, currentSeason];
+}
+
+/**
  * Build data/resultados.json — last 3 finished Vetusta matches.
  */
 function buildResultados(matches) {
@@ -710,12 +787,14 @@ async function main() {
 
   const calendario = buildCalendario(matches);
   const resultados = buildResultados(matches);
+  const historia = buildHistoria(matches);
   const clasificacion = buildClasificacion(matches);
   const goleadores = buildGoleadores(actas);
   const proximoPartido = await buildProximoPartido(matches);
 
   console.log(`   → calendario.json: ${calendario.length} upcoming matches`);
   console.log(`   → resultados.json: ${resultados.length} recent results`);
+  console.log(`   → historia.json: ${historia.length} seasons`);
   console.log(`   → clasificacion.json: ${clasificacion.length} teams`);
   console.log(`   → goleadores.json: ${goleadores.length} scorers`);
   console.log(`   → proximo-partido.json: ${proximoPartido ? 'match found' : 'no upcoming match'}`);
@@ -733,6 +812,11 @@ async function main() {
   fs.writeFileSync(
     path.join(DATA_DIR, 'resultados.json'),
     JSON.stringify(resultados, null, 2),
+    'utf-8'
+  );
+  fs.writeFileSync(
+    path.join(DATA_DIR, 'historia.json'),
+    JSON.stringify(historia, null, 2),
     'utf-8'
   );
   fs.writeFileSync(
