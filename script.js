@@ -819,6 +819,34 @@ document.addEventListener('DOMContentLoaded', function() {
             aboutObserver.observe(aboutSection);
         }
 
+        // Stagger for liga panels
+        var ligaPanels = document.querySelectorAll('.liga-section .liga-panel');
+        if (ligaPanels.length > 0) {
+            ligaPanels.forEach(function(panel) {
+                panel.style.opacity = '0';
+                panel.style.transform = 'translateY(25px)';
+                panel.style.transition = 'opacity 1s ease, transform 1s ease';
+            });
+
+            var ligaObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        var panels = entry.target.querySelectorAll('.liga-panel');
+                        panels.forEach(function(panel, i) {
+                            setTimeout(function() {
+                                panel.style.opacity = '1';
+                                panel.style.transform = 'translateY(0)';
+                            }, i * 200);
+                        });
+                        ligaObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.05 });
+
+            var ligaSection = document.querySelector('.liga-section');
+            if (ligaSection) ligaObserver.observe(ligaSection);
+        }
+
         // Stagger for prensa cards
         var prensaCards = document.querySelectorAll('.prensa-featured, .prensa-thumb');
         if (prensaCards.length > 0) {

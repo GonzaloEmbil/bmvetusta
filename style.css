@@ -798,12 +798,7 @@ body {
     flex-direction: column;
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
     position: relative;
-    opacity: 0;
-    animation: ligaFadeIn 0.5s ease forwards;
 }
-
-.liga-panel:nth-child(1) { animation-delay: 0.1s; }
-.liga-panel:nth-child(2) { animation-delay: 0.25s; }
 
 /* Clasificación panel fills the full left column height */
 .liga-col-left .liga-panel {
