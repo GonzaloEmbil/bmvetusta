@@ -2081,7 +2081,7 @@ body {
 }
 
 .historia-table thead {
-    background: rgba(255, 255, 255, 0.025);
+    background: #232323;
 }
 
 .historia-table th {
@@ -2103,11 +2103,11 @@ body {
 }
 
 .historia-table tbody tr.historia-div-2 {
-    background-color: rgba(59, 130, 246, 0.08);
+    background-color: rgba(14, 165, 133, 0.08);
 }
 
 .historia-table tbody tr.historia-div-1 {
-    background-color: rgba(14, 165, 133, 0.08);
+    background-color: rgba(59, 130, 246, 0.08);
 }
 
 .historia-table tbody tr:hover {
