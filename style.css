@@ -2103,11 +2103,11 @@ body {
 }
 
 .historia-table tbody tr.historia-div-2 {
-    background-color: rgba(100, 149, 237, 0.08);
+    background-color: rgba(139, 92, 246, 0.08);
 }
 
 .historia-table tbody tr.historia-div-1 {
-    background-color: rgba(253, 237, 58, 0.06);
+    background-color: rgba(14, 165, 133, 0.08);
 }
 
 .historia-table tbody tr:hover {
@@ -2136,6 +2136,11 @@ body {
     color: #4CAF50;
     font-size: 0.75rem;
     margin-left: 4px;
+}
+
+.historia-medal {
+    font-size: 0.85rem;
+    margin-left: 2px;
 }
 
 .historia-note {

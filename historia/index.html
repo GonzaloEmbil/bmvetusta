@@ -149,7 +149,11 @@
 
                     tr.innerHTML =
                         temporadaCell +
-                        '<td class="historia-highlight">' + s.pos + 'º</td>' +
+                        '<td class="historia-highlight">' + s.pos + 'º' +
+                            (s.pos === 1 ? ' <span class="historia-medal">&#127941;</span>' :
+                             s.pos === 2 ? ' <span class="historia-medal">&#129352;</span>' :
+                             s.pos === 3 ? ' <span class="historia-medal">&#129353;</span>' : '') +
+                        '</td>' +
                         '<td class="historia-highlight">' + s.puntos + '</td>' +
                         '<td class="historia-hide-mobile">' + s.PJ + '</td>' +
                         '<td class="historia-hide-mobile">' + s.PG + '</td>' +
