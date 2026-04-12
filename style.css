@@ -2151,6 +2151,15 @@ body {
     background: #232323;
 }
 
+.historia-subtitle {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 35px 0 15px;
+    padding-left: 14px;
+    border-left: 3px solid #FDED3A;
+}
+
 .historia-table-wrapper {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
