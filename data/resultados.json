@@ -1,5 +1,15 @@
 [
   {
+    "fecha": "2026-04-18 19:00:00",
+    "jornada": "29",
+    "es_local": false,
+    "rival": "CONGESA XXI CIUDAD DE SALAMANCA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
+    "goles_vetusta": 15,
+    "goles_rival": 27,
+    "resultado": "D"
+  },
+  {
     "fecha": "2026-04-11 18:00:00",
     "jornada": "28",
     "es_local": true,
@@ -18,15 +28,5 @@
     "goles_vetusta": 24,
     "goles_rival": 23,
     "resultado": "V"
-  },
-  {
-    "fecha": "2026-03-21 17:30:00",
-    "jornada": "26",
-    "es_local": true,
-    "rival": "BM CAJA RURAL DE ZAMORA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/437/square_63636e32723372766336.jpg",
-    "goles_vetusta": 22,
-    "goles_rival": 28,
-    "resultado": "D"
   }
 ]

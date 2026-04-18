@@ -8,8 +8,8 @@
   },
   {
     "nombre": "SOLIÑO HERMELO, MANUEL",
-    "goles": 113,
-    "partidos": 27,
+    "goles": 118,
+    "partidos": 28,
     "media": 4.2,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_66793974777933746874.jpg"
   },
@@ -50,16 +50,16 @@
   },
   {
     "nombre": "GAMONAL MENENDEZ, LUIS",
-    "goles": 36,
-    "partidos": 14,
-    "media": 2.6,
+    "goles": 40,
+    "partidos": 15,
+    "media": 2.7,
     "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_671f619263028.jpeg"
   },
   {
     "nombre": "GARCIA JONES, MARTIN",
-    "goles": 33,
-    "partidos": 18,
-    "media": 1.8,
+    "goles": 36,
+    "partidos": 19,
+    "media": 1.9,
     "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_67300a3febc45.jpeg"
   },
   {
@@ -70,18 +70,18 @@
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
   },
   {
+    "nombre": "SANTOS GARCIA, MANUEL",
+    "goles": 10,
+    "partidos": 9,
+    "media": 1.1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a6a7637303277317172.jpg"
+  },
+  {
     "nombre": "FRANCISCO PALACIO, DARIO",
     "goles": 9,
     "partidos": 5,
     "media": 1.8,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
-  },
-  {
-    "nombre": "SANTOS GARCIA, MANUEL",
-    "goles": 9,
-    "partidos": 8,
-    "media": 1.1,
-    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a6a7637303277317172.jpg"
   },
   {
     "nombre": "WERMBTER, FEDERICO",
@@ -92,15 +92,15 @@
   },
   {
     "nombre": "CARBAJO DEAN, JOSE MARIA",
-    "goles": 2,
-    "partidos": 2,
+    "goles": 3,
+    "partidos": 3,
     "media": 1,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
   },
   {
     "nombre": "ARECES NORNIELLA, JORGE",
-    "goles": 1,
-    "partidos": 1,
+    "goles": 2,
+    "partidos": 2,
     "media": 1,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_35776362636339366975.jpg"
   },

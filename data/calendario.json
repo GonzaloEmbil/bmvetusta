@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-04-18 19:00:00",
-    "jornada": "29",
-    "es_local": false,
-    "rival": "CONGESA XXI CIUDAD DE SALAMANCA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
-    "url_streaming": "https://youtube.com/live/XUyv0vbLKtQ?feature=share"
-  },
-  {
     "fecha": "2026-04-25 19:00:00",
     "jornada": "30",
     "es_local": true,
