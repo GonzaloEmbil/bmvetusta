@@ -133,13 +133,13 @@
     "posicion": 11,
     "nombre": "SDC ASTANDER ASTILLERO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
-    "PJ": 28,
+    "PJ": 29,
     "PG": 10,
     "PE": 3,
-    "PP": 15,
-    "GF": 875,
-    "GC": 935,
-    "DIF": -60,
+    "PP": 16,
+    "GF": 904,
+    "GC": 967,
+    "DIF": -63,
     "puntos": 23
   },
   {
@@ -170,6 +170,19 @@
   },
   {
     "posicion": 14,
+    "nombre": "CLINISORD MARAVILLAS",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
+    "PJ": 29,
+    "PG": 9,
+    "PE": 1,
+    "PP": 19,
+    "GF": 764,
+    "GC": 860,
+    "DIF": -96,
+    "puntos": 19
+  },
+  {
+    "posicion": 15,
     "nombre": "CAJA VIVA -  BALONMANO CAMARGO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
     "PJ": 29,
@@ -182,7 +195,7 @@
     "puntos": 18
   },
   {
-    "posicion": 15,
+    "posicion": 16,
     "nombre": "UNIVERSIDAD DE LEON ADEMAR",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/126/square_70636d736b6d31387577.jpg",
     "PJ": 29,
@@ -192,19 +205,6 @@
     "GF": 837,
     "GC": 896,
     "DIF": -59,
-    "puntos": 17
-  },
-  {
-    "posicion": 16,
-    "nombre": "CLINISORD MARAVILLAS",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
-    "PJ": 28,
-    "PG": 8,
-    "PE": 1,
-    "PP": 19,
-    "GF": 732,
-    "GC": 831,
-    "DIF": -99,
     "puntos": 17
   }
 ]
