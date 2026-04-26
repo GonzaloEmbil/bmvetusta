@@ -598,30 +598,36 @@ function buildHistoria(matches) {
     return isPending && involvesVetusta;
   });
 
-  // Build standings to find position
+  // Build standings using the same Art. 152 tiebreaker rules as buildClasificacion
   const teams = {};
   for (const m of matches) {
     const ln = normaliseName(m.nombre_local), vn = normaliseName(m.nombre_visitante);
-    if (!teams[ln]) teams[ln] = { PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
-    if (!teams[vn]) teams[vn] = { PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
+    if (!teams[ln]) teams[ln] = { nombre: m.nombre_local?.trim(), PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
+    if (!teams[vn]) teams[vn] = { nombre: m.nombre_visitante?.trim(), PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
   }
   for (const m of finished) {
     const gl = parseInt(m.resultado_local, 10), gv = parseInt(m.resultado_visitante, 10);
     if (isNaN(gl) || isNaN(gv)) continue;
     const l = teams[normaliseName(m.nombre_local)], v = teams[normaliseName(m.nombre_visitante)];
     if (!l || !v) continue;
-    l.GF += gl; l.GC += gv; v.GF += gv; v.GC += gl;
+    l.PJ++; v.PJ++; l.GF += gl; l.GC += gv; v.GF += gv; v.GC += gl;
     if (gl > gv) { l.PG++; v.PP++; }
     else if (gl < gv) { v.PG++; l.PP++; }
     else { l.PE++; v.PE++; }
   }
 
-  const sorted = Object.entries(teams)
-    .map(([name, t]) => ({ name, pts: t.PG * 2 + t.PE, dif: t.GF - t.GC, gf: t.GF }))
-    .sort((a, b) => b.pts - a.pts || b.dif - a.dif || b.gf - a.gf);
+  const teamsArray = Object.values(teams).map((t) => ({
+    ...t,
+    DIF: t.GF - t.GC,
+    puntos: t.PG * 2 + t.PE,
+  }));
+  teamsArray.sort((a, b) => b.puntos - a.puntos);
+  const groups = groupByValue(teamsArray, (t) => t.puntos);
+  const sorted = groups.flatMap((g) =>
+    g.length === 1 ? g : resolveTiedGroup(g, finished)
+  );
 
-  const vetustaName = normaliseName(TEAM_NAME);
-  const pos = sorted.findIndex((t) => t.name === vetustaName) + 1;
+  const pos = sorted.findIndex((t) => isVetusta(t.nombre)) + 1;
   const vetustaFinished = finished.filter(
     (m) => isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante)
   );
