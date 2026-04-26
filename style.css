@@ -2494,6 +2494,7 @@ body {
 .news-article-image {
     width: 100%;
     max-width: 800px;
+    max-height: 500px;
     margin: 0 auto 30px;
     border-radius: 10px;
     overflow: hidden;
@@ -2501,7 +2502,9 @@ body {
 
 .news-article-image img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    max-height: 500px;
+    object-fit: cover;
     display: block;
 }
 
