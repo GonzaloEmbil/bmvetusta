@@ -580,7 +580,7 @@ function buildHistoria(matches) {
     { temporada: '2017/2018', division: '2ª Nacional', fase: 'Fase Final Asturias', pos: 2, equipos: 4, PJ: 3, PG: 1, PE: 1, PP: 1, puntos: 3, GF: 65, GC: 67, DIF: -2, en_curso: false, sub: true },
     { temporada: '2018/2019', division: '2ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 8, PJ: 14, PG: 3, PE: 2, PP: 9, puntos: 8, GF: 284, GC: 334, DIF: -50, en_curso: false },
     { temporada: '2019/2020', division: '2ª Nacional', fase: 'Liga Regular', pos: 2, equipos: 8, PJ: 11, PG: 9, PE: 0, PP: 2, puntos: 18, GF: 289, GC: 231, DIF: 58, en_curso: false },
-    { temporada: '2020/2021', division: '2ª Nacional', fase: 'Liga Regular', pos: 1, equipos: 4, PJ: 6, PG: 5, PE: 0, PP: 1, puntos: 10, GF: 170, GC: 116, DIF: 54, en_curso: false, sub: true },
+    { temporada: '2020/2021', division: '2ª Nacional', fase: 'Liga Regular', pos: 1, equipos: 4, PJ: 10, PG: 8, PE: 0, PP: 2, puntos: 16, GF: 293, GC: 219, DIF: 74, en_curso: false, sub: true },
     { temporada: '2020/2021', division: '2ª Nacional', fase: 'Fase de Ascenso', pos: 1, equipos: 4, PJ: 3, PG: 2, PE: 0, PP: 1, puntos: 4, GF: 63, GC: 61, DIF: 2, en_curso: false, sub: true, ascenso: true },
     { temporada: '2021/2022', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
     { temporada: '2022/2023', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
