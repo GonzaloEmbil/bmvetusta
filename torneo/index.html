@@ -512,6 +512,20 @@
             text-align: center;
         }
 
+        .bracket-placement-label {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: #FDED3A;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-align: center;
+            background: #0f172a;
+            padding: 5px 10px;
+            border-radius: 999px;
+            align-self: center;
+            margin-top: 6px;
+        }
+
         .bracket-match {
             background: #fff;
             border: 1px solid #e5e7eb;
@@ -1103,10 +1117,12 @@
 
         function classifyMatchType(tipo) {
             var t = (tipo || '').toLowerCase();
-            if (/^semifinal/.test(t)) return 'semifinal';
-            if (/^final/.test(t) || /1.*y.*2|1.*2.*puesto/.test(t)) return 'final';
+            if (/^eliminatoria/.test(t)) return 'eliminatoria';
+            if (/^semifinal/.test(t)) return 'eliminatoria';
+            if (/^final/.test(t) || /1.*y.*2|1.*2.*puesto/.test(t)) return 'first';
             if (/3.*y.*4|3.*4.*puesto/.test(t)) return 'third';
             if (/5.*y.*6|5.*6.*puesto/.test(t)) return 'fifth';
+            if (/7.*y.*8|7.*8.*puesto/.test(t)) return 'seventh';
             if (/^grupo/.test(t)) return 'grupo';
             return 'other';
         }
@@ -1138,41 +1154,54 @@
         }
 
         function renderBracket(matches) {
-            var sf = [], finalM = null, third = null;
+            var elims = [];
+            var byPlace = {};
             matches.forEach(function(m) {
                 var type = classifyMatchType(m.Tipo);
-                if (type === 'semifinal') sf.push(m);
-                else if (type === 'final') finalM = m;
-                else if (type === 'third') third = m;
+                if (type === 'eliminatoria') elims.push(m);
+                else if (type === 'first' || type === 'third' || type === 'fifth' || type === 'seventh') {
+                    byPlace[type] = m;
+                }
             });
-            if (!sf.length && !finalM && !third) return '';
+            if (!elims.length && Object.keys(byPlace).length === 0) return '';
 
-            sf.sort(function(a, b) { return (a.Tipo || '').localeCompare(b.Tipo || ''); });
+            elims.sort(function(a, b) { return (a.Tipo || '').localeCompare(b.Tipo || ''); });
+
+            var placementOrder = [
+                { key: 'first',   label: '1º y 2º puesto' },
+                { key: 'third',   label: '3º y 4º puesto' },
+                { key: 'fifth',   label: '5º y 6º puesto' },
+                { key: 'seventh', label: '7º y 8º puesto' }
+            ];
 
             var html = '<h2 class="group-title">Eliminatorias</h2>' +
                 '<div class="bracket">';
 
+            // Left column: Eliminatorias
             html += '<div class="bracket-stage bracket-stage-sf">' +
-                '<div class="bracket-stage-label">Semifinales</div>';
-            if (sf.length) {
-                sf.forEach(function(m) { html += renderBracketMatch(m); });
+                '<div class="bracket-stage-label">Eliminatorias</div>';
+            if (elims.length) {
+                elims.forEach(function(m) { html += renderBracketMatch(m); });
             } else {
                 html += '<div class="empty" style="padding:30px 12px;">Por definir</div>';
             }
             html += '</div>';
 
+            // Right column: Finales (placement matches with their labels)
             html += '<div class="bracket-stage bracket-stage-final">' +
-                '<div class="bracket-stage-label">Final</div>';
-            if (finalM) html += renderBracketMatch(finalM);
-            else html += '<div class="empty" style="padding:30px 12px;">Por definir</div>';
-            html += '</div>';
-
-            if (third) {
-                html += '<div class="bracket-stage bracket-stage-third">' +
-                    '<div class="bracket-stage-label">3º y 4º puesto</div>' +
-                    renderBracketMatch(third) +
-                '</div>';
+                '<div class="bracket-stage-label">Finales</div>';
+            var anyPlacement = false;
+            placementOrder.forEach(function(p) {
+                if (byPlace[p.key]) {
+                    anyPlacement = true;
+                    html += '<div class="bracket-placement-label">' + escapeHtml(p.label) + '</div>';
+                    html += renderBracketMatch(byPlace[p.key]);
+                }
+            });
+            if (!anyPlacement) {
+                html += '<div class="empty" style="padding:30px 12px;">Por definir</div>';
             }
+            html += '</div>';
 
             html += '</div>';
             return html;
