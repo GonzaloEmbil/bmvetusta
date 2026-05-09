@@ -741,19 +741,32 @@
                 return '<img src="../src/assets/logo.png" class="' + className + '" alt="">';
             }
             var slug = teamSlug(name);
-            return '<img src="../src/assets/escudo_' + slug + '.png" onerror="window.__torneoShieldFB(this, \'' + slug + '\')" class="' + className + '" alt="">';
+            // Also fall back to the same shield without trailing _a/_b/_c suffix
+            // (e.g. "Team A" and "Team B" share the same shield as "Team")
+            var baseSlug = slug.replace(/_[a-z]$/, '');
+            var slugList = baseSlug !== slug ? slug + '|' + baseSlug : slug;
+            return '<img src="../src/assets/escudo_' + slug + '.png" onerror="window.__torneoShieldFB(this, \'' + slugList + '\')" class="' + className + '" alt="">';
         }
 
         // Exposed globally so inline onerror can call it
-        window.__torneoShieldFB = function(img, slug, step) {
+        window.__torneoShieldFB = function(img, slugList, step) {
             step = step || 0;
-            var paths = [
-                '../src/assets/escudo_' + slug + '.jpg',
-                '../src/assets/escudo_' + slug + '.jpeg',
-                DEFAULT_SHIELD
-            ];
+            var slugs = slugList.split('|');
+            var paths = [];
+            slugs.forEach(function(s, i) {
+                if (i === 0) {
+                    // first slug's .png is the initial src that failed → skip
+                    paths.push('../src/assets/escudo_' + s + '.jpg');
+                    paths.push('../src/assets/escudo_' + s + '.jpeg');
+                } else {
+                    paths.push('../src/assets/escudo_' + s + '.png');
+                    paths.push('../src/assets/escudo_' + s + '.jpg');
+                    paths.push('../src/assets/escudo_' + s + '.jpeg');
+                }
+            });
+            paths.push(DEFAULT_SHIELD);
             if (step >= paths.length) { img.onerror = null; return; }
-            img.onerror = function() { window.__torneoShieldFB(img, slug, step + 1); };
+            img.onerror = function() { window.__torneoShieldFB(img, slugList, step + 1); };
             img.src = paths[step];
         };
 
