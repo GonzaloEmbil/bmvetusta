@@ -160,23 +160,35 @@
             padding: 40px 24px 80px;
         }
 
-        .section-label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 0.72rem;
-            font-weight: 700;
-            color: #64748b;
-            letter-spacing: 2.5px;
-            text-transform: uppercase;
-            margin: 0 0 18px;
+        /* ── Toggle ─────────────────────────────────────── */
+        .toggle {
+            display: inline-flex;
+            background: #f1f5f9;
+            border-radius: 999px;
+            padding: 4px;
+            margin: 0 0 28px;
+            gap: 2px;
         }
 
-        .section-label::after {
-            content: '';
-            flex: 1;
-            height: 1px;
-            background: #e5e7eb;
+        .toggle-btn {
+            background: transparent;
+            border: 0;
+            padding: 9px 22px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #64748b;
+            cursor: pointer;
+            border-radius: 999px;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .toggle-btn:hover { color: #0f172a; }
+
+        .toggle-btn.active {
+            background: #0f172a;
+            color: #fff;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.2);
         }
 
         /* ── Standings ───────────────────────────────────── */
@@ -705,20 +717,26 @@
             }).join('');
         }
 
+        var currentCategory = CATEGORIES[0];
+        var currentView = 'resultados';
+
         function renderCategory(category) {
+            currentCategory = category;
             var matches = dataByCategory[category] || [];
             var standings = computeStandings(matches);
 
-            var html = '';
-            if (standings.length) {
-                html += '<div class="section-label">Clasificación</div>';
-                html += renderStandings(standings);
-            }
-            html += '<div class="section-label">Partidos</div>';
-            html += renderMatches(matches);
+            var toggleHtml =
+                '<div class="toggle" id="view-toggle">' +
+                    '<button class="toggle-btn' + (currentView === 'resultados' ? ' active' : '') + '" data-view="resultados">Resultados</button>' +
+                    '<button class="toggle-btn' + (currentView === 'clasificacion' ? ' active' : '') + '" data-view="clasificacion">Clasificación</button>' +
+                '</div>';
 
-            document.getElementById('content').innerHTML = html;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            var bodyHtml = currentView === 'clasificacion'
+                ? (standings.length ? renderStandings(standings) : '<div class="empty">Aún no hay clasificación disponible.</div>')
+                : renderMatches(matches);
+
+            document.getElementById('content').innerHTML = toggleHtml + bodyHtml;
+            setupToggle();
         }
 
         function setupTabs() {
@@ -728,6 +746,18 @@
                     tabs.forEach(function(t) { t.classList.remove('active'); });
                     tab.classList.add('active');
                     renderCategory(tab.getAttribute('data-cat'));
+                });
+            });
+        }
+
+        function setupToggle() {
+            var btns = document.querySelectorAll('#view-toggle .toggle-btn');
+            btns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var view = btn.getAttribute('data-view');
+                    if (view === currentView) return;
+                    currentView = view;
+                    renderCategory(currentCategory);
                 });
             });
         }
