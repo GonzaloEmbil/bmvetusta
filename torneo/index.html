@@ -161,12 +161,13 @@
         }
 
         /* ── Toggle ─────────────────────────────────────── */
+        .toggle-wrap { margin-bottom: 28px; }
+
         .toggle {
             display: inline-flex;
             background: #f1f5f9;
             border-radius: 999px;
             padding: 4px;
-            margin: 0 0 28px;
             gap: 2px;
         }
 
@@ -485,6 +486,8 @@
             .tabs { padding: 0 12px; }
             .tab { padding: 14px 16px; font-size: 0.78rem; }
 
+            .toggle-wrap { text-align: center; }
+
             main { padding: 28px 16px 60px; }
 
             .standings-table { font-size: 0.78rem; }
@@ -511,9 +514,7 @@
                     <img src="../src/assets/escudo.png" alt="Escudo BM Vetusta">
                 </div>
                 <div class="hero-text">
-                    <div class="hero-eyebrow">Cantera · Torneo</div>
                     <h1 class="hero-title">Torneo BM Vetusta</h1>
-                    <p class="hero-subtitle">Resultados, horarios y clasificación en directo</p>
                 </div>
             </div>
         </div>
@@ -727,9 +728,11 @@
             var standings = computeStandings(matches);
 
             var toggleHtml =
-                '<div class="toggle" id="view-toggle">' +
-                    '<button class="toggle-btn' + (currentView === 'resultados' ? ' active' : '') + '" data-view="resultados">Resultados</button>' +
-                    '<button class="toggle-btn' + (currentView === 'clasificacion' ? ' active' : '') + '" data-view="clasificacion">Clasificación</button>' +
+                '<div class="toggle-wrap">' +
+                    '<div class="toggle" id="view-toggle">' +
+                        '<button class="toggle-btn' + (currentView === 'resultados' ? ' active' : '') + '" data-view="resultados">Resultados</button>' +
+                        '<button class="toggle-btn' + (currentView === 'clasificacion' ? ' active' : '') + '" data-view="clasificacion">Clasificación</button>' +
+                    '</div>' +
                 '</div>';
 
             var bodyHtml = currentView === 'clasificacion'
