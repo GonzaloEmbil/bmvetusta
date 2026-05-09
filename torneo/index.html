@@ -553,13 +553,14 @@
                 .replace(/^_+|_+$/g, '');
         }
 
-        function shieldPath(name) {
-            return '../src/assets/escudo_' + teamSlug(name) + '.png';
-        }
-
         function isVetusta(name) {
             var s = teamSlug(name);
             return s.indexOf('vetusta') !== -1;
+        }
+
+        function shieldPath(name) {
+            if (isVetusta(name)) return '../src/assets/escudo.png';
+            return '../src/assets/escudo_' + teamSlug(name) + '.png';
         }
 
         function escapeHtml(str) {
