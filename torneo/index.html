@@ -750,39 +750,25 @@
             return text;
         }
 
+        // Explicit manifest of available shields by team slug
+        var SHIELDS = {
+            'cd_balopal':            '../src/assets/escudo_cd_balopal.png',
+            'bm_chinchon':           '../src/assets/escudo_bm_chinchon.jpeg',
+            'egia_eskubaloia':       '../src/assets/escudo_egia_eskubaloia.jpeg',
+            'seleccion_asturiana':   '../src/assets/escudo_seleccion_asturiana.jpg',
+            'bm_xallas':             '../src/assets/escudo_bm_xallas.jpeg',
+            'bm_cidade_das_burgas':  '../src/assets/escudo_bm_cidade_das_burgas.jpg'
+        };
+
         function shieldHtml(name, className) {
             if (isVetusta(name)) {
                 return '<img src="../src/assets/logo.png" class="' + className + '" alt="">';
             }
             var slug = teamSlug(name);
-            // Also fall back to the same shield without trailing _a/_b/_c suffix
-            // (e.g. "Team A" and "Team B" share the same shield as "Team")
             var baseSlug = slug.replace(/_[a-z]$/, '');
-            var slugList = baseSlug !== slug ? slug + '|' + baseSlug : slug;
-            return '<img src="../src/assets/escudo_' + slug + '.png" onerror="window.__torneoShieldFB(this, \'' + slugList + '\')" class="' + className + '" alt="">';
+            var url = SHIELDS[slug] || SHIELDS[baseSlug] || DEFAULT_SHIELD;
+            return '<img src="' + url + '" class="' + className + '" alt="">';
         }
-
-        // Exposed globally so inline onerror can call it
-        window.__torneoShieldFB = function(img, slugList, step) {
-            step = step || 0;
-            var slugs = slugList.split('|');
-            var paths = [];
-            slugs.forEach(function(s, i) {
-                if (i === 0) {
-                    // first slug's .png is the initial src that failed → skip
-                    paths.push('../src/assets/escudo_' + s + '.jpg');
-                    paths.push('../src/assets/escudo_' + s + '.jpeg');
-                } else {
-                    paths.push('../src/assets/escudo_' + s + '.png');
-                    paths.push('../src/assets/escudo_' + s + '.jpg');
-                    paths.push('../src/assets/escudo_' + s + '.jpeg');
-                }
-            });
-            paths.push(DEFAULT_SHIELD);
-            if (step >= paths.length) { img.onerror = null; return; }
-            img.onerror = function() { window.__torneoShieldFB(img, slugList, step + 1); };
-            img.src = paths[step];
-        };
 
         function escapeHtml(str) {
             return (str || '').replace(/[&<>"']/g, function(c) {
