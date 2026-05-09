@@ -580,18 +580,33 @@
         }
 
         /* ── Match badge ─────────────────────────────────── */
+        .match-badge-wrap {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
         .match-badge {
+            display: inline-block;
             background: #FDED3A;
             color: #0f172a;
             font-size: 0.6rem;
             font-weight: 800;
             letter-spacing: 0.5px;
-            padding: 3px 8px;
+            padding: 3px 10px;
             border-radius: 999px;
             text-transform: uppercase;
-            flex-shrink: 0;
             white-space: nowrap;
         }
+
+        /* ── Venue link ──────────────────────────────────── */
+        .venue-link {
+            color: inherit;
+            text-decoration: none;
+            border-bottom: 1px dashed currentColor;
+            transition: color 0.2s;
+        }
+
+        .venue-link:hover { color: #0f172a; }
 
         /* ── States ─────────────────────────────────────── */
         .loading, .empty, .error-msg {
@@ -696,6 +711,31 @@
         function isVetusta(name) {
             var s = teamSlug(name);
             return s.indexOf('vetusta') !== -1;
+        }
+
+        var VENUE_LINKS = {
+            'florida arena': 'https://maps.app.goo.gl/fFrPjWBikzeKfH8v9',
+            'vallobin': 'https://maps.app.goo.gl/1fEHsB1exe9qwyodA',
+        };
+
+        function venueUrl(venue) {
+            if (!venue) return '';
+            var key = (venue || '').toLowerCase()
+                .normalize('NFD').replace(/[̀-ͯ]/g, '');
+            for (var k in VENUE_LINKS) {
+                if (key.indexOf(k) !== -1) return VENUE_LINKS[k];
+            }
+            return '';
+        }
+
+        function venueHtml(venue, prefix) {
+            if (!venue) return '';
+            var url = venueUrl(venue);
+            var text = (prefix || '') + escapeHtml(venue);
+            if (url) {
+                return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="venue-link">' + text + '</a>';
+            }
+            return text;
         }
 
         function shieldHtml(name, className) {
@@ -858,14 +898,14 @@
                     var venueLine = m.Lugar || m['Pabellón'] || m.Pabellon || '';
 
                     var badgeHtml = m.Tipo
-                        ? '<span class="match-badge">' + escapeHtml(m.Tipo) + '</span>'
+                        ? '<div class="match-badge-wrap"><span class="match-badge">' + escapeHtml(m.Tipo) + '</span></div>'
                         : '';
 
                     return '<div class="match' + (played ? ' is-played' : '') + '">' +
+                        badgeHtml +
                         '<div class="match-meta">' +
                             '<span class="match-time">' + (m.Hora ? '🕒 ' + escapeHtml(m.Hora) : '') + '</span>' +
-                            badgeHtml +
-                            '<span class="match-venue">' + (venueLine ? '📍 ' + escapeHtml(venueLine) : '') + '</span>' +
+                            '<span class="match-venue">' + venueHtml(venueLine, '📍 ') + '</span>' +
                         '</div>' +
                         '<div class="match-teams">' +
                             '<div class="match-team">' +
@@ -928,7 +968,7 @@
                 ((m.Hora || venueLine) ? '<div class="bracket-match-meta">' +
                     (m.Hora ? '🕒 ' + escapeHtml(m.Hora) : '') +
                     (m.Hora && venueLine ? ' · ' : '') +
-                    (venueLine ? '📍 ' + escapeHtml(venueLine) : '') +
+                    venueHtml(venueLine, '📍 ') +
                 '</div>' : '') +
             '</div>';
         }
