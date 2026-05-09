@@ -832,7 +832,14 @@
             var dates = Object.keys(byDate).sort(function(a, b) { return parseDate(a) - parseDate(b); });
 
             return dates.map(function(d) {
-                byDate[d].sort(function(a, b) { return (a.Hora || '').localeCompare(b.Hora || ''); });
+                byDate[d].sort(function(a, b) {
+                    function toMin(s) {
+                        var p = (s || '').split(':');
+                        if (p.length !== 2) return 0;
+                        return parseInt(p[0], 10) * 60 + parseInt(p[1], 10);
+                    }
+                    return toMin(a.Hora) - toMin(b.Hora);
+                });
 
                 var cards = byDate[d].map(function(m) {
                     var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
