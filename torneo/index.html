@@ -456,6 +456,143 @@
             margin-top: 4px;
         }
 
+        /* ── Group title ─────────────────────────────────── */
+        .group-title {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 36px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .group-title:first-of-type { margin-top: 0; }
+
+        .group-title::before {
+            content: '';
+            width: 4px;
+            height: 16px;
+            background: #FDED3A;
+            border-radius: 2px;
+        }
+
+        /* ── Bracket ─────────────────────────────────────── */
+        .bracket {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px 40px;
+            margin-bottom: 30px;
+        }
+
+        .bracket-stage {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .bracket-stage-final {
+            justify-content: center;
+        }
+
+        .bracket-stage-third {
+            grid-column: 1 / -1;
+            max-width: 420px;
+            margin: 14px auto 0;
+        }
+
+        .bracket-stage-label {
+            font-size: 0.65rem;
+            font-weight: 800;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .bracket-match {
+            background: #fff;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 12px 14px;
+            box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+        }
+
+        .bracket-match.is-played { background: #fafbfc; }
+
+        .bracket-match-team {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 7px 0;
+        }
+
+        .bracket-match-team:first-child {
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .bracket-shield {
+            width: 28px;
+            height: 28px;
+            object-fit: contain;
+            background: #f8fafc;
+            border-radius: 6px;
+            padding: 3px;
+            flex-shrink: 0;
+        }
+
+        .bracket-team-name {
+            flex: 1;
+            font-size: 0.84rem;
+            font-weight: 600;
+            color: #0f172a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bracket-score {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.4rem;
+            color: #0f172a;
+            min-width: 28px;
+            text-align: right;
+            line-height: 1;
+        }
+
+        .bracket-match-team.is-loser .bracket-team-name,
+        .bracket-match-team.is-loser .bracket-score {
+            color: #94a3b8;
+        }
+
+        .bracket-match-meta {
+            font-size: 0.68rem;
+            color: #94a3b8;
+            margin-top: 8px;
+            padding-top: 8px;
+            border-top: 1px dashed #e5e7eb;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* ── Match badge ─────────────────────────────────── */
+        .match-badge {
+            background: #FDED3A;
+            color: #0f172a;
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 3px 8px;
+            border-radius: 999px;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+
         /* ── States ─────────────────────────────────────── */
         .loading, .empty, .error-msg {
             text-align: center;
@@ -502,6 +639,9 @@
             .match { padding: 14px; }
             .match-shield { width: 42px; height: 42px; }
             .match-score { font-size: 1.6rem; }
+
+            .bracket { grid-template-columns: 1fr; gap: 20px; }
+            .bracket-stage-third { max-width: 100%; }
         }
     </style>
 </head>
@@ -710,9 +850,14 @@
 
                     var venueLine = m.Lugar || m['Pabellón'] || m.Pabellon || '';
 
+                    var badgeHtml = m.Tipo
+                        ? '<span class="match-badge">' + escapeHtml(m.Tipo) + '</span>'
+                        : '';
+
                     return '<div class="match' + (played ? ' is-played' : '') + '">' +
                         '<div class="match-meta">' +
                             '<span class="match-time">' + (m.Hora ? '🕒 ' + escapeHtml(m.Hora) : '') + '</span>' +
+                            badgeHtml +
                             '<span class="match-venue">' + (venueLine ? '📍 ' + escapeHtml(venueLine) : '') + '</span>' +
                         '</div>' +
                         '<div class="match-teams">' +
@@ -736,13 +881,131 @@
             }).join('');
         }
 
+        function getGroupTypes(matches) {
+            var seen = {};
+            matches.forEach(function(m) {
+                var t = (m.Tipo || '').toUpperCase().trim();
+                if (/^GRUPO\s+/.test(t)) seen[t] = true;
+            });
+            return Object.keys(seen).sort();
+        }
+
+        function classifyMatchType(tipo) {
+            var t = (tipo || '').toLowerCase();
+            if (/^semifinal/.test(t)) return 'semifinal';
+            if (/^final/.test(t) || /1.*y.*2|1.*2.*puesto/.test(t)) return 'final';
+            if (/3.*y.*4|3.*4.*puesto/.test(t)) return 'third';
+            if (/5.*y.*6|5.*6.*puesto/.test(t)) return 'fifth';
+            if (/^grupo/.test(t)) return 'grupo';
+            return 'other';
+        }
+
+        function renderBracketMatch(m) {
+            var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
+            var played = !isNaN(gl) && !isNaN(gv);
+            var localLoser = played && gl < gv;
+            var awayLoser = played && gv < gl;
+            var venueLine = m.Lugar || '';
+
+            return '<div class="bracket-match' + (played ? ' is-played' : '') + '">' +
+                '<div class="bracket-match-team' + (localLoser ? ' is-loser' : '') + '">' +
+                    shieldHtml(m.Local, 'bracket-shield') +
+                    '<span class="bracket-team-name">' + escapeHtml(m.Local) + '</span>' +
+                    '<span class="bracket-score">' + (played ? gl : '') + '</span>' +
+                '</div>' +
+                '<div class="bracket-match-team' + (awayLoser ? ' is-loser' : '') + '">' +
+                    shieldHtml(m.Visitante, 'bracket-shield') +
+                    '<span class="bracket-team-name">' + escapeHtml(m.Visitante) + '</span>' +
+                    '<span class="bracket-score">' + (played ? gv : '') + '</span>' +
+                '</div>' +
+                ((m.Hora || venueLine) ? '<div class="bracket-match-meta">' +
+                    (m.Hora ? '🕒 ' + escapeHtml(m.Hora) : '') +
+                    (m.Hora && venueLine ? ' · ' : '') +
+                    (venueLine ? '📍 ' + escapeHtml(venueLine) : '') +
+                '</div>' : '') +
+            '</div>';
+        }
+
+        function renderBracket(matches) {
+            var sf = [], finalM = null, third = null;
+            matches.forEach(function(m) {
+                var type = classifyMatchType(m.Tipo);
+                if (type === 'semifinal') sf.push(m);
+                else if (type === 'final') finalM = m;
+                else if (type === 'third') third = m;
+            });
+            if (!sf.length && !finalM && !third) return '';
+
+            sf.sort(function(a, b) { return (a.Tipo || '').localeCompare(b.Tipo || ''); });
+
+            var html = '<h2 class="group-title">Eliminatorias</h2>' +
+                '<div class="bracket">';
+
+            html += '<div class="bracket-stage bracket-stage-sf">' +
+                '<div class="bracket-stage-label">Semifinales</div>';
+            if (sf.length) {
+                sf.forEach(function(m) { html += renderBracketMatch(m); });
+            } else {
+                html += '<div class="empty" style="padding:30px 12px;">Por definir</div>';
+            }
+            html += '</div>';
+
+            html += '<div class="bracket-stage bracket-stage-final">' +
+                '<div class="bracket-stage-label">Final</div>';
+            if (finalM) html += renderBracketMatch(finalM);
+            else html += '<div class="empty" style="padding:30px 12px;">Por definir</div>';
+            html += '</div>';
+
+            if (third) {
+                html += '<div class="bracket-stage bracket-stage-third">' +
+                    '<div class="bracket-stage-label">3º y 4º puesto</div>' +
+                    renderBracketMatch(third) +
+                '</div>';
+            }
+
+            html += '</div>';
+            return html;
+        }
+
+        function renderClasificacion(matches) {
+            var html = '';
+            var groups = getGroupTypes(matches);
+
+            if (groups.length > 1) {
+                groups.forEach(function(grp) {
+                    var groupMatches = matches.filter(function(m) {
+                        return (m.Tipo || '').toUpperCase().trim() === grp;
+                    });
+                    var standings = computeStandings(groupMatches);
+                    html += '<h2 class="group-title">' + escapeHtml(grp) + '</h2>';
+                    html += standings.length
+                        ? renderStandings(standings)
+                        : '<div class="empty">Aún no hay clasificación.</div>';
+                });
+            } else {
+                // Use only group matches if there's a single group, else all matches
+                var matchesForStandings = groups.length === 1
+                    ? matches.filter(function(m) { return classifyMatchType(m.Tipo) === 'grupo'; })
+                    : matches.filter(function(m) {
+                        var type = classifyMatchType(m.Tipo);
+                        return type === 'grupo' || type === 'other';
+                    });
+                var standings = computeStandings(matchesForStandings);
+                html += standings.length
+                    ? renderStandings(standings)
+                    : '<div class="empty">Aún no hay clasificación disponible.</div>';
+            }
+
+            html += renderBracket(matches);
+            return html;
+        }
+
         var currentCategory = CATEGORIES[0];
         var currentView = 'resultados';
 
         function renderCategory(category) {
             currentCategory = category;
             var matches = dataByCategory[category] || [];
-            var standings = computeStandings(matches);
 
             var toggleHtml =
                 '<div class="toggle-wrap">' +
@@ -753,7 +1016,7 @@
                 '</div>';
 
             var bodyHtml = currentView === 'clasificacion'
-                ? (standings.length ? renderStandings(standings) : '<div class="empty">Aún no hay clasificación disponible.</div>')
+                ? renderClasificacion(matches)
                 : renderMatches(matches);
 
             document.getElementById('content').innerHTML = toggleHtml + bodyHtml;
