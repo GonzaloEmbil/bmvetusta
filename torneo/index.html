@@ -773,6 +773,145 @@
             }).filter(function(m) { return m.Local && m.Visitante; });
         }
 
+        // ── Tiebreaker helpers (Art. 152, RPC RFEBM Feb 2025) ─────────────
+        function normaliseName(name) {
+            return (name || '').trim().toUpperCase();
+        }
+
+        function groupByValue(arr, valueFn) {
+            var groups = [];
+            for (var i = 0; i < arr.length; i++) {
+                var item = arr[i];
+                var val = valueFn(item);
+                if (groups.length === 0 || valueFn(groups[groups.length - 1][0]) !== val) {
+                    groups.push([item]);
+                } else {
+                    groups[groups.length - 1].push(item);
+                }
+            }
+            return groups;
+        }
+
+        function getH2HMatches(teamNorms, finishedMatches) {
+            return finishedMatches.filter(function(m) {
+                var l = normaliseName(m.Local), v = normaliseName(m.Visitante);
+                return teamNorms.indexOf(l) !== -1 && teamNorms.indexOf(v) !== -1;
+            });
+        }
+
+        function computeH2HStats(teamNorms, h2hMatches) {
+            var stats = {};
+            teamNorms.forEach(function(n) { stats[n] = { pts: 0, gf: 0, gc: 0, dif: 0 }; });
+            h2hMatches.forEach(function(m) {
+                var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
+                if (isNaN(gl) || isNaN(gv)) return;
+                var l = normaliseName(m.Local), v = normaliseName(m.Visitante);
+                if (!stats[l] || !stats[v]) return;
+                stats[l].gf += gl; stats[l].gc += gv;
+                stats[v].gf += gv; stats[v].gc += gl;
+                if (gl > gv) stats[l].pts += 2;
+                else if (gl < gv) stats[v].pts += 2;
+                else { stats[l].pts += 1; stats[v].pts += 1; }
+            });
+            teamNorms.forEach(function(n) { stats[n].dif = stats[n].gf - stats[n].gc; });
+            return stats;
+        }
+
+        function allPairsHaveMinMatches(teamNorms, h2hMatches, min) {
+            for (var i = 0; i < teamNorms.length; i++) {
+                for (var j = i + 1; j < teamNorms.length; j++) {
+                    var count = 0;
+                    for (var k = 0; k < h2hMatches.length; k++) {
+                        var l = normaliseName(h2hMatches[k].Local);
+                        var v = normaliseName(h2hMatches[k].Visitante);
+                        if ((l === teamNorms[i] && v === teamNorms[j]) ||
+                            (l === teamNorms[j] && v === teamNorms[i])) count++;
+                    }
+                    if (count < min) return false;
+                }
+            }
+            return true;
+        }
+
+        function splitAndResolve(teams, valueFn, finishedMatches) {
+            var sorted = teams.slice().sort(function(a, b) { return valueFn(b) - valueFn(a); });
+            var groups = groupByValue(sorted, valueFn);
+            if (groups.length <= 1) return null;
+            var result = [];
+            for (var i = 0; i < groups.length; i++) {
+                result = result.concat(resolveTiedGroup(groups[i], finishedMatches));
+            }
+            return result;
+        }
+
+        // Art. 152 a): tie between 2 teams
+        function resolveTwoTeamTie(a, b, finishedMatches) {
+            var nA = normaliseName(a.nombre), nB = normaliseName(b.nombre);
+            var h2h = getH2HMatches([nA, nB], finishedMatches);
+            var hasH2H = h2h.length > 0;
+
+            if (hasH2H) {
+                var s = computeH2HStats([nA, nB], h2h);
+                if (s[nA].dif !== s[nB].dif) return s[nA].dif > s[nB].dif ? [a, b] : [b, a];
+            }
+            if (a.DIF !== b.DIF) return a.DIF > b.DIF ? [a, b] : [b, a];
+            if (a.GF !== b.GF) return a.GF > b.GF ? [a, b] : [b, a];
+
+            if (hasH2H) {
+                var s2 = computeH2HStats([nA, nB], h2h);
+                var rA = s2[nA].gc > 0 ? s2[nA].gf / s2[nA].gc : s2[nA].gf;
+                var rB = s2[nB].gc > 0 ? s2[nB].gf / s2[nB].gc : s2[nB].gf;
+                if (Math.abs(rA - rB) > 1e-9) return rA > rB ? [a, b] : [b, a];
+            }
+            var orA = a.GC > 0 ? a.GF / a.GC : a.GF;
+            var orB = b.GC > 0 ? b.GF / b.GC : b.GF;
+            if (Math.abs(orA - orB) > 1e-9) return orA > orB ? [a, b] : [b, a];
+            return [a, b];
+        }
+
+        // Art. 152 b): tie among 3+ teams
+        function resolveMultiTeamTie(teams, finishedMatches) {
+            var norms = teams.map(function(t) { return normaliseName(t.nombre); });
+            var h2h = getH2HMatches(norms, finishedMatches);
+            var canUseH2H = allPairsHaveMinMatches(norms, h2h, 1);
+            function getN(t) { return normaliseName(t.nombre); }
+
+            if (canUseH2H) {
+                var s = computeH2HStats(norms, h2h);
+                var r = splitAndResolve(teams, function(t) { return s[getN(t)].pts; }, finishedMatches);
+                if (r) return r;
+                r = splitAndResolve(teams, function(t) { return s[getN(t)].dif; }, finishedMatches);
+                if (r) return r;
+            }
+            var r2 = splitAndResolve(teams, function(t) { return t.DIF; }, finishedMatches);
+            if (r2) return r2;
+
+            if (canUseH2H) {
+                var s2 = computeH2HStats(norms, h2h);
+                r2 = splitAndResolve(teams, function(t) { return s2[getN(t)].gf; }, finishedMatches);
+                if (r2) return r2;
+            }
+            r2 = splitAndResolve(teams, function(t) { return t.GF; }, finishedMatches);
+            if (r2) return r2;
+
+            var ratio = function(t) {
+                if (t.GC === 0) return t.GF > 0 ? 1e9 : 0;
+                return Math.round((t.GF / t.GC) * 100000);
+            };
+            r2 = splitAndResolve(teams, ratio, finishedMatches);
+            if (r2) return r2;
+
+            return teams;
+        }
+
+        function resolveTiedGroup(tiedTeams, finishedMatches) {
+            if (tiedTeams.length <= 1) return tiedTeams;
+            if (tiedTeams.length === 2) {
+                return resolveTwoTeamTie(tiedTeams[0], tiedTeams[1], finishedMatches);
+            }
+            return resolveMultiTeamTie(tiedTeams, finishedMatches);
+        }
+
         function computeStandings(matches) {
             var teams = {};
             matches.forEach(function(m) {
@@ -788,13 +927,27 @@
                 else if (gl < gv) { v.PG++; l.PP++; }
                 else { l.PE++; v.PE++; }
             });
-            return Object.values(teams).map(function(t) {
+
+            var teamsArray = Object.keys(teams).map(function(k) {
+                var t = teams[k];
                 t.DIF = t.GF - t.GC;
                 t.PTS = t.PG * 2 + t.PE;
                 return t;
-            }).sort(function(a, b) {
-                return b.PTS - a.PTS || b.DIF - a.DIF || b.GF - a.GF;
             });
+
+            var finished = matches.filter(function(m) {
+                var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
+                return !isNaN(gl) && !isNaN(gv);
+            });
+
+            // Sort by points first, then resolve tied groups using Art. 152
+            teamsArray.sort(function(a, b) { return b.PTS - a.PTS; });
+            var groups = groupByValue(teamsArray, function(t) { return t.PTS; });
+            var sorted = [];
+            for (var i = 0; i < groups.length; i++) {
+                sorted = sorted.concat(groups[i].length === 1 ? groups[i] : resolveTiedGroup(groups[i], finished));
+            }
+            return sorted;
         }
 
         function posCellHtml(i) {
