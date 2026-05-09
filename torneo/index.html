@@ -558,10 +558,26 @@
             return s.indexOf('vetusta') !== -1;
         }
 
-        function shieldPath(name) {
-            if (isVetusta(name)) return '../src/assets/escudo.png';
-            return '../src/assets/escudo_' + teamSlug(name) + '.png';
+        function shieldHtml(name, className) {
+            if (isVetusta(name)) {
+                return '<img src="../src/assets/logo.png" class="' + className + '" alt="">';
+            }
+            var slug = teamSlug(name);
+            return '<img src="../src/assets/escudo_' + slug + '.png" onerror="window.__torneoShieldFB(this, \'' + slug + '\')" class="' + className + '" alt="">';
         }
+
+        // Exposed globally so inline onerror can call it
+        window.__torneoShieldFB = function(img, slug, step) {
+            step = step || 0;
+            var paths = [
+                '../src/assets/escudo_' + slug + '.jpg',
+                '../src/assets/escudo_' + slug + '.jpeg',
+                DEFAULT_SHIELD
+            ];
+            if (step >= paths.length) { img.onerror = null; return; }
+            img.onerror = function() { window.__torneoShieldFB(img, slug, step + 1); };
+            img.src = paths[step];
+        };
 
         function escapeHtml(str) {
             return (str || '').replace(/[&<>"']/g, function(c) {
@@ -620,7 +636,7 @@
                 return '<tr' + rowClass + '>' +
                     '<td class="pos">' + posCellHtml(i) + '</td>' +
                     '<td><div class="team-cell">' +
-                        '<img src="' + shieldPath(t.nombre) + '" onerror="this.src=\'' + DEFAULT_SHIELD + '\'" alt="">' +
+                        shieldHtml(t.nombre, '') +
                         '<span>' + escapeHtml(t.nombre) + '</span>' +
                     '</div></td>' +
                     '<td>' + t.PJ + '</td>' +
@@ -701,12 +717,12 @@
                         '</div>' +
                         '<div class="match-teams">' +
                             '<div class="match-team">' +
-                                '<img src="' + shieldPath(m.Local) + '" onerror="this.src=\'' + DEFAULT_SHIELD + '\'" alt="" class="match-shield">' +
+                                shieldHtml(m.Local, 'match-shield') +
                                 '<div class="match-team-name">' + escapeHtml(m.Local) + '</div>' +
                             '</div>' +
                             scoreHtml +
                             '<div class="match-team">' +
-                                '<img src="' + shieldPath(m.Visitante) + '" onerror="this.src=\'' + DEFAULT_SHIELD + '\'" alt="" class="match-shield">' +
+                                shieldHtml(m.Visitante, 'match-shield') +
                                 '<div class="match-team-name">' + escapeHtml(m.Visitante) + '</div>' +
                             '</div>' +
                         '</div>' +
