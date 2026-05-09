@@ -759,15 +759,17 @@
             'bm_xallas':             '../src/assets/escudo_bm_xallas.jpeg',
             'bm_cidade_das_burgas':  '../src/assets/escudo_bm_cidade_das_burgas.jpg'
         };
+        var SHIELD_CACHE_BUST = '?v=' + Date.now();
 
         function shieldHtml(name, className) {
             if (isVetusta(name)) {
-                return '<img src="../src/assets/logo.png" class="' + className + '" alt="">';
+                return '<img src="../src/assets/logo.png' + SHIELD_CACHE_BUST + '" class="' + className + '" alt="">';
             }
             var slug = teamSlug(name);
             var baseSlug = slug.replace(/_[a-z]$/, '');
-            var url = SHIELDS[slug] || SHIELDS[baseSlug] || DEFAULT_SHIELD;
-            return '<img src="' + url + '" class="' + className + '" alt="">';
+            var url = SHIELDS[slug] || SHIELDS[baseSlug] || '';
+            if (!url) return '<img src="' + DEFAULT_SHIELD + '" class="' + className + '" alt="">';
+            return '<img src="' + url + SHIELD_CACHE_BUST + '" class="' + className + '" alt="">';
         }
 
         function escapeHtml(str) {
