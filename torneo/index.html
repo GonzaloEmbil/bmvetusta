@@ -652,15 +652,24 @@
 
             .toggle-wrap { text-align: center; }
 
-            main { padding: 28px 16px 60px; }
+            main { padding: 28px 12px 60px; }
 
-            .standings-table { font-size: 0.78rem; }
-            .standings-table thead th,
-            .standings-table td { padding: 10px 6px; }
+            .standings { border-radius: 12px; }
+            .standings-table { font-size: 0.72rem; }
+            .standings-table thead th { padding: 9px 3px; font-size: 0.62rem; letter-spacing: 0.5px; }
+            .standings-table td { padding: 9px 3px; }
             .standings-table .hide-mobile { display: none; }
 
-            .team-cell { gap: 8px; }
-            .team-cell img { width: 24px; height: 24px; }
+            .standings-table th:first-child,
+            .standings-table td:first-child { padding-left: 8px; }
+            .standings-table th:last-child,
+            .standings-table td:last-child { padding-right: 8px; }
+
+            .pos { width: 26px; }
+            .pos-medal { width: 22px; height: 22px; font-size: 0.7rem; }
+
+            .team-cell { gap: 6px; }
+            .team-cell img { width: 22px; height: 22px; padding: 2px; border-radius: 5px; }
 
             .matches-grid { grid-template-columns: 1fr; gap: 10px; }
             .match { padding: 14px; }
