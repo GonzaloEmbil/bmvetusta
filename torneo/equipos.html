@@ -29,57 +29,92 @@
         justify-content: center;
     }
 
-    .ctrl-btn {
-        background: #1f1f2e;
+    /* Side nav buttons (prev/next) */
+    .nav-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(31,31,46,0.9);
         color: #fff;
-        border: 1px solid rgba(255,255,255,0.08);
-        padding: 12px 22px;
-        font-family: 'Inter', sans-serif;
-        font-size: 0.9rem;
+        border: 1px solid rgba(255,255,255,0.1);
+        font-size: 26px;
         font-weight: 700;
-        letter-spacing: 1px;
-        text-transform: uppercase;
-        border-radius: 999px;
         cursor: pointer;
-        transition: background 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s, transform 0.2s;
+        z-index: 20;
+        backdrop-filter: blur(8px);
     }
-    .ctrl-btn:hover { background: #2a2a3e; }
-    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .nav-arrow:hover {
+        background: #FDED3A;
+        color: #0a0a1a;
+    }
+    .nav-arrow.prev { left: -28px; }
+    .nav-arrow.next { right: -28px; }
+    @media (max-width: 720px) {
+        .nav-arrow { width: 44px; height: 44px; font-size: 20px; }
+        .nav-arrow.prev { left: -10px; }
+        .nav-arrow.next { right: -10px; }
+    }
+
+    .stage-outer {
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Download buttons fixed bottom-right */
+    .download-cluster {
+        position: fixed;
+        bottom: 24px;
+        right: 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        z-index: 30;
+    }
 
     .download-btn {
         background: #FDED3A;
         color: #0a0a1a;
         border: 0;
-        padding: 14px 28px;
+        padding: 14px 22px;
         font-family: 'Inter', sans-serif;
-        font-size: 0.92rem;
+        font-size: 0.85rem;
         font-weight: 800;
         letter-spacing: 1.5px;
         text-transform: uppercase;
         border-radius: 999px;
         cursor: pointer;
-        box-shadow: 0 4px 18px rgba(253,237,58,0.25);
+        box-shadow: 0 6px 22px rgba(253,237,58,0.35);
         transition: transform 0.2s, box-shadow 0.2s;
+        white-space: nowrap;
     }
     .download-btn:hover {
         transform: translateY(-2px);
-        box-shadow: 0 6px 24px rgba(253,237,58,0.4);
+        box-shadow: 0 8px 28px rgba(253,237,58,0.5);
     }
-    .download-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+    .download-btn:disabled { opacity: 0.7; cursor: wait; transform: none; }
 
     .download-all-btn {
-        background: transparent;
+        background: rgba(31,31,46,0.92);
         color: #FDED3A;
-        border: 2px solid #FDED3A;
-        padding: 12px 26px;
+        border: 1px solid #FDED3A;
+        padding: 12px 22px;
         font-family: 'Inter', sans-serif;
-        font-size: 0.88rem;
+        font-size: 0.78rem;
         font-weight: 800;
         letter-spacing: 1.5px;
         text-transform: uppercase;
         border-radius: 999px;
         cursor: pointer;
+        backdrop-filter: blur(8px);
         transition: background 0.2s, color 0.2s;
+        white-space: nowrap;
     }
     .download-all-btn:hover { background: #FDED3A; color: #0a0a1a; }
     .download-all-btn:disabled { opacity: 0.6; cursor: wait; }
@@ -414,41 +449,38 @@
         flex-shrink: 0;
     }
 
-    /* Try to blend out white/light backgrounds on JPEG shields */
-    .shield-img.blend {
-        mix-blend-mode: multiply;
-    }
 </style>
 </head>
 <body>
 <div class="page">
-    <div class="controls">
-        <button id="prev-btn" class="ctrl-btn" type="button">← Anterior</button>
-        <span class="slide-info" id="slide-info">1 / 8</span>
-        <button id="next-btn" class="ctrl-btn" type="button">Siguiente →</button>
-        <button id="download-btn" class="download-btn" type="button">⬇ Descargar</button>
-        <button id="download-all-btn" class="download-all-btn" type="button">⬇ Descargar todos</button>
-    </div>
-
-    <div class="stage-wrap">
-        <div class="stage">
-            <div class="slides" id="slides"></div>
+    <div class="stage-outer">
+        <button id="prev-btn" class="nav-arrow prev" type="button" aria-label="Anterior">‹</button>
+        <button id="next-btn" class="nav-arrow next" type="button" aria-label="Siguiente">›</button>
+        <div class="stage-wrap">
+            <div class="stage">
+                <div class="slides" id="slides"></div>
+            </div>
         </div>
     </div>
+    <div class="slide-info" id="slide-info">1 / 8</div>
+</div>
+
+<div class="download-cluster">
+    <button id="download-btn" class="download-btn" type="button">⬇ Descargar este</button>
+    <button id="download-all-btn" class="download-all-btn" type="button">⬇ Descargar todos</button>
 </div>
 
 <script>
 // Order: more categories first; for ties, Asturian teams go last
-// Set 'blend: true' for shields with white/light backgrounds we want to flatten
 var TEAMS = [
-    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     blend: true,  cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo.png',                       blend: false, cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.jpeg',         blend: true,  cats: ['Cadete Masculino','Infantil Masculino'] },
-    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.jpg',  blend: true,  cats: ['Cadete Femenino','Cadete Masculino'] },
-    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',           blend: false, cats: ['Infantil Masculino'] },
-    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.jpg', blend: true,  cats: ['Infantil Masculino'] },
-    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.jpeg',           blend: true,  cats: ['Cadete Femenino'] },
-    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.jpeg',    blend: true,  cats: ['Cadete Masculino'] }
+    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.png',     cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo.png',                      cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.png',         cats: ['Cadete Masculino','Infantil Masculino'] },
+    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.png', cats: ['Cadete Femenino','Cadete Masculino'] },
+    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',          cats: ['Infantil Masculino'] },
+    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.png',cats: ['Infantil Masculino'] },
+    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.png',           cats: ['Cadete Femenino'] },
+    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.png',    cats: ['Cadete Masculino'] }
 ];
 
 function pinSvg() {
@@ -497,7 +529,7 @@ function renderSlide(team, index) {
                     '<div class="shield-ring outer"></div>' +
                     '<div class="shield-ring"></div>' +
                     '<div class="shield-disc">' +
-                        '<img src="' + team.shield + '" class="shield-img' + (team.blend ? ' blend' : '') + '" alt="">' +
+                        '<img src="' + team.shield + '" class="shield-img" alt="">' +
                     '</div>' +
                 '</div>' +
                 '<div class="' + nameSizeClass(team.name) + '">' + escapeHtml(team.name) + '</div>' +
@@ -523,10 +555,11 @@ slidesEl.innerHTML = TEAMS.map(renderSlide).join('');
 var slides = slidesEl.querySelectorAll('.slide');
 var current = 0;
 
-// Responsive scale: fit 1080x1350 cartel into viewport minus controls
+// Responsive scale: fit 1080x1350 cartel into viewport
+// Leave room for the side arrows and slide-info caption
 function updateScale() {
-    var availW = window.innerWidth - 40;
-    var availH = window.innerHeight - 160;
+    var availW = window.innerWidth - 140;  // 56px arrows + safety margin both sides
+    var availH = window.innerHeight - 100; // info caption + padding
     var scale = Math.min(availW / 1080, availH / 1350, 1);
     document.documentElement.style.setProperty('--scale', scale);
 }
