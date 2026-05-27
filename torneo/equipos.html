@@ -94,9 +94,7 @@
 
     /* ── Stage ─────────────────────────────────────────── */
     :root {
-        --scale-w: calc((100vw - 40px) / 1080);
-        --scale-h: calc((100vh - 160px) / 1350);
-        --scale: min(var(--scale-w), var(--scale-h), 1);
+        --scale: 1;
     }
 
     .stage-wrap {
@@ -524,6 +522,16 @@ var slidesEl = document.getElementById('slides');
 slidesEl.innerHTML = TEAMS.map(renderSlide).join('');
 var slides = slidesEl.querySelectorAll('.slide');
 var current = 0;
+
+// Responsive scale: fit 1080x1350 cartel into viewport minus controls
+function updateScale() {
+    var availW = window.innerWidth - 40;
+    var availH = window.innerHeight - 160;
+    var scale = Math.min(availW / 1080, availH / 1350, 1);
+    document.documentElement.style.setProperty('--scale', scale);
+}
+window.addEventListener('resize', updateScale);
+updateScale();
 
 var prevBtn = document.getElementById('prev-btn');
 var nextBtn = document.getElementById('next-btn');
