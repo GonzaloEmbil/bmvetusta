@@ -449,6 +449,10 @@
         flex-shrink: 0;
     }
 
+    /* Try to blend out white/light backgrounds on JPEG shields */
+    .shield-img.blend {
+        mix-blend-mode: multiply;
+    }
 </style>
 </head>
 <body>
@@ -472,15 +476,16 @@
 
 <script>
 // Order: more categories first; for ties, Asturian teams go last
+// Set 'blend: true' for shields with white/light backgrounds we want to flatten
 var TEAMS = [
-    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.png',     cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo.png',                      cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.png',         cats: ['Cadete Masculino','Infantil Masculino'] },
-    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.png', cats: ['Cadete Femenino','Cadete Masculino'] },
-    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',          cats: ['Infantil Masculino'] },
-    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.png',cats: ['Infantil Masculino'] },
-    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.png',           cats: ['Cadete Femenino'] },
-    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.png',    cats: ['Cadete Masculino'] }
+    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     blend: true,  cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo.png',                       blend: false, cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.jpeg',         blend: true,  cats: ['Cadete Masculino','Infantil Masculino'] },
+    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.jpg',  blend: true,  cats: ['Cadete Femenino','Cadete Masculino'] },
+    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',           blend: false, cats: ['Infantil Masculino'] },
+    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.png',  blend: false, cats: ['Infantil Masculino'] },
+    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.jpeg',           blend: true,  cats: ['Cadete Femenino'] },
+    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.jpeg',    blend: true,  cats: ['Cadete Masculino'] }
 ];
 
 function pinSvg() {
@@ -529,7 +534,7 @@ function renderSlide(team, index) {
                     '<div class="shield-ring outer"></div>' +
                     '<div class="shield-ring"></div>' +
                     '<div class="shield-disc">' +
-                        '<img src="' + team.shield + '" class="shield-img" alt="">' +
+                        '<img src="' + team.shield + '" class="shield-img' + (team.blend ? ' blend' : '') + '" alt="">' +
                     '</div>' +
                 '</div>' +
                 '<div class="' + nameSizeClass(team.name) + '">' + escapeHtml(team.name) + '</div>' +
