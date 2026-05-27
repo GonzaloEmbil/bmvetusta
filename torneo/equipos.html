@@ -93,14 +93,29 @@
     }
 
     /* ── Stage ─────────────────────────────────────────── */
-    .stage {
-        width: 1080px;
-        height: 1350px;
-        max-width: 100%;
+    :root {
+        --scale-w: calc((100vw - 40px) / 1080);
+        --scale-h: calc((100vh - 160px) / 1350);
+        --scale: min(var(--scale-w), var(--scale-h), 1);
+    }
+
+    .stage-wrap {
+        width: calc(1080px * var(--scale));
+        height: calc(1350px * var(--scale));
         position: relative;
         box-shadow: 0 30px 80px rgba(0,0,0,0.6);
         border-radius: 8px;
         overflow: hidden;
+    }
+
+    .stage {
+        width: 1080px;
+        height: 1350px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform-origin: top left;
+        transform: scale(var(--scale));
     }
 
     .slides { position: relative; width: 100%; height: 100%; }
@@ -391,13 +406,19 @@
         color: #FDED3A;
     }
 
-    /* ── Mobile preview scaling ─────────────────────────── */
-    @media (max-width: 1120px) {
-        .stage {
-            transform: scale(calc((100vw - 60px) / 1080));
-            transform-origin: top center;
-            margin-bottom: calc((1350 - 1350 * ((100vw - 60px) / 1080)) * -1px);
-        }
+    /* ── Flag styles ─────────────────────────────────── */
+    .team-flag {
+        width: 28px;
+        height: 18px;
+        object-fit: cover;
+        border-radius: 3px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.18);
+        flex-shrink: 0;
+    }
+
+    /* Try to blend out white/light backgrounds on JPEG shields */
+    .shield-img.blend {
+        mix-blend-mode: multiply;
     }
 </style>
 </head>
@@ -411,22 +432,25 @@
         <button id="download-all-btn" class="download-all-btn" type="button">⬇ Descargar todos</button>
     </div>
 
-    <div class="stage">
-        <div class="slides" id="slides"></div>
+    <div class="stage-wrap">
+        <div class="stage">
+            <div class="slides" id="slides"></div>
+        </div>
     </div>
 </div>
 
 <script>
 // Order: more categories first; for ties, Asturian teams go last
+// Set 'blend: true' for shields with white/light backgrounds we want to flatten
 var TEAMS = [
-    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  shield: '../src/assets/escudo.png',                       cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    shield: '../src/assets/escudo_bm_chinchon.jpeg',         cats: ['Cadete Masculino','Infantil Masculino'] },
-    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  shield: '../src/assets/escudo_seleccion_asturiana.jpg',  cats: ['Cadete Femenino','Cadete Masculino'] },
-    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  shield: '../src/assets/escudo_cd_balopal.png',           cats: ['Infantil Masculino'] },
-    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   shield: '../src/assets/escudo_bm_cidade_das_burgas.jpg', cats: ['Infantil Masculino'] },
-    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  shield: '../src/assets/escudo_bm_xallas.jpeg',           cats: ['Cadete Femenino'] },
-    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  shield: '../src/assets/escudo_deportivoestadio.jpeg',    cats: ['Cadete Masculino'] }
+    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     blend: true,  cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo.png',                       blend: false, cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.jpeg',         blend: true,  cats: ['Cadete Masculino','Infantil Masculino'] },
+    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.jpg',  blend: true,  cats: ['Cadete Femenino','Cadete Masculino'] },
+    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',           blend: false, cats: ['Infantil Masculino'] },
+    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.jpg', blend: true,  cats: ['Infantil Masculino'] },
+    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.jpeg',           blend: true,  cats: ['Cadete Femenino'] },
+    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.jpeg',    blend: true,  cats: ['Cadete Masculino'] }
 ];
 
 function pinSvg() {
@@ -475,11 +499,14 @@ function renderSlide(team, index) {
                     '<div class="shield-ring outer"></div>' +
                     '<div class="shield-ring"></div>' +
                     '<div class="shield-disc">' +
-                        '<img src="' + team.shield + '" class="shield-img" alt="">' +
+                        '<img src="' + team.shield + '" class="shield-img' + (team.blend ? ' blend' : '') + '" alt="">' +
                     '</div>' +
                 '</div>' +
                 '<div class="' + nameSizeClass(team.name) + '">' + escapeHtml(team.name) + '</div>' +
-                '<div class="team-city">' + pinSvg() + escapeHtml(team.city) + '</div>' +
+                '<div class="team-city">' +
+                    (team.flag ? '<img src="' + team.flag + '" class="team-flag" alt="">' : pinSvg()) +
+                    escapeHtml(team.city) +
+                '</div>' +
             '</div>' +
 
             '<div class="bottom">' +
