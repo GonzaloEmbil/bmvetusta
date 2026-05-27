@@ -8,12 +8,46 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
         background: #1a1a1a;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        min-height: 100vh;
         font-family: 'Inter', sans-serif;
-        padding: 20px;
+    }
+
+    .wrapper {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+        padding: 24px;
+    }
+
+    .download-btn {
+        background: #FDED3A;
+        color: #0a0a1a;
+        border: 0;
+        padding: 14px 32px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 4px 18px rgba(253, 237, 58, 0.25);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(253, 237, 58, 0.4);
+    }
+
+    .download-btn:disabled {
+        opacity: 0.6;
+        cursor: wait;
+        transform: none;
     }
 
     .poster {
@@ -223,10 +257,13 @@
 </style>
 </head>
 <body>
-<div class="poster">
+<div class="wrapper">
+<button id="download-btn" class="download-btn" type="button">
+    ⬇ Descargar cartel
+</button>
+<div class="poster" id="poster">
     <div class="header">
         <img src="../src/assets/logo.png" alt="" class="header-logo">
-        <div class="header-eyebrow">Organiza Balonmano Vetusta</div>
         <h1 class="header-title">
             <span class="header-title-roman">III TORNEO</span>
             BM VETUSTA
@@ -282,5 +319,45 @@
         <div class="footer-venue">Florida Arena <strong>·</strong> Pabellón Vallobín <strong>·</strong> Oviedo</div>
     </div>
 </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+(function() {
+    var btn = document.getElementById('download-btn');
+    var poster = document.getElementById('poster');
+    btn.addEventListener('click', function() {
+        btn.disabled = true;
+        btn.textContent = 'Generando…';
+        html2canvas(poster, {
+            backgroundColor: null,
+            scale: 1,
+            useCORS: true,
+            width: 1080,
+            height: 1350,
+            windowWidth: 1080,
+            windowHeight: 1350
+        }).then(function(canvas) {
+            canvas.toBlob(function(blob) {
+                var url = URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = 'cartel-iii-torneo-bm-vetusta.png';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                btn.disabled = false;
+                btn.textContent = '⬇ Descargar cartel';
+            }, 'image/png');
+        }).catch(function(err) {
+            console.error(err);
+            alert('No se pudo generar el cartel. Revisa la consola.');
+            btn.disabled = false;
+            btn.textContent = '⬇ Descargar cartel';
+        });
+    });
+})();
+</script>
 </body>
 </html>
