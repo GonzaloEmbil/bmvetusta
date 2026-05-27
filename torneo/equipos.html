@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Carteles equipos · III Torneo BM Vetusta</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+<style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+        background: #0c0c14;
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+    }
+
+    .page {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 22px;
+        padding: 24px;
+    }
+
+    /* ── Controls ──────────────────────────────────────── */
+    .controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .ctrl-btn {
+        background: #1f1f2e;
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.08);
+        padding: 12px 22px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .ctrl-btn:hover { background: #2a2a3e; }
+    .ctrl-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .download-btn {
+        background: #FDED3A;
+        color: #0a0a1a;
+        border: 0;
+        padding: 14px 28px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.92rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border-radius: 999px;
+        cursor: pointer;
+        box-shadow: 0 4px 18px rgba(253,237,58,0.25);
+        transition: transform 0.2s, box-shadow 0.2s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .download-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 24px rgba(253,237,58,0.4);
+    }
+    .download-btn:disabled { opacity: 0.6; cursor: wait; transform: none; }
+
+    .download-all-btn {
+        background: transparent;
+        color: #FDED3A;
+        border: 2px solid #FDED3A;
+        padding: 12px 26px;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.88rem;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s, color 0.2s;
+    }
+    .download-all-btn:hover { background: #FDED3A; color: #0a0a1a; }
+    .download-all-btn:disabled { opacity: 0.6; cursor: wait; }
+
+    .slide-info {
+        color: rgba(255,255,255,0.7);
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    /* ── Stage ─────────────────────────────────────────── */
+    .stage {
+        width: 1080px;
+        height: 1350px;
+        max-width: 100%;
+        position: relative;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+    }
+
+    .slides {
+        position: relative;
+        width: 100%;
+        height: 100%;
+    }
+
+    .slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.3s;
+    }
+    .slide.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    /* ── Poster ────────────────────────────────────────── */
+    .poster {
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle at 20% 0%, #1a1a2e 0%, #000 60%);
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .poster::before {
+        content: '';
+        position: absolute;
+        top: -260px;
+        right: -260px;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(253,237,58,0.22) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .poster::after {
+        content: '';
+        position: absolute;
+        bottom: -260px;
+        left: -260px;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(253,237,58,0.10) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* Top corner: tournament + Vetusta logo */
+    .top-bar {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 50px 60px 0;
+        position: relative;
+        z-index: 3;
+    }
+
+    .top-bar-left {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .top-bar-eyebrow {
+        font-size: 14px;
+        font-weight: 800;
+        color: #FDED3A;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+    }
+
+    .top-bar-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 38px;
+        line-height: 1;
+        letter-spacing: 2px;
+        color: #fff;
+    }
+
+    .top-bar-logo {
+        width: 72px;
+        height: 72px;
+        object-fit: contain;
+    }
+
+    /* Body ── shield + name */
+    .body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 30px 60px;
+        position: relative;
+        z-index: 2;
+        gap: 28px;
+    }
+
+    .shield-wrap {
+        width: 440px;
+        height: 440px;
+        background: rgba(255,255,255,0.04);
+        border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 50px;
+        position: relative;
+    }
+
+    .shield-wrap::before {
+        content: '';
+        position: absolute;
+        inset: -8px;
+        border: 2px solid rgba(253,237,58,0.25);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .shield-img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .team-name {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 96px;
+        line-height: 1;
+        text-align: center;
+        letter-spacing: 3px;
+        color: #fff;
+        max-width: 100%;
+    }
+
+    .team-name.small {
+        font-size: 78px;
+    }
+
+    .team-city {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #FDED3A;
+        font-size: 22px;
+        font-weight: 700;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-top: -10px;
+    }
+
+    .team-city svg {
+        width: 22px;
+        height: 22px;
+        fill: #FDED3A;
+    }
+
+    /* Footer ── categories */
+    .footer {
+        padding: 0 60px 60px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .footer-label {
+        text-align: center;
+        font-size: 13px;
+        font-weight: 800;
+        color: rgba(255,255,255,0.5);
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+
+    .categories {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .category-pill {
+        background: rgba(253,237,58,0.12);
+        color: #FDED3A;
+        font-size: 16px;
+        font-weight: 800;
+        letter-spacing: 1.5px;
+        padding: 12px 22px;
+        border-radius: 999px;
+        text-transform: uppercase;
+        border: 1px solid rgba(253,237,58,0.3);
+    }
+
+    /* ── Mobile preview scaling ─────────────────────────── */
+    @media (max-width: 1120px) {
+        .stage {
+            transform: scale(calc((100vw - 60px) / 1080));
+            transform-origin: top center;
+            margin-bottom: calc((1350 - 1350 * ((100vw - 60px) / 1080)) * -1px);
+        }
+    }
+</style>
+</head>
+<body>
+<div class="page">
+    <div class="controls">
+        <button id="prev-btn" class="ctrl-btn" type="button">← Anterior</button>
+        <span class="slide-info" id="slide-info">1 / 8</span>
+        <button id="next-btn" class="ctrl-btn" type="button">Siguiente →</button>
+        <button id="download-btn" class="download-btn" type="button">⬇ Descargar</button>
+        <button id="download-all-btn" class="download-all-btn" type="button">⬇ Descargar todos</button>
+    </div>
+
+    <div class="stage">
+        <div class="slides" id="slides"></div>
+    </div>
+</div>
+
+<script>
+var TEAMS = [
+    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  shield: '../src/assets/logo.png',                        cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  shield: '../src/assets/escudo_cd_balopal.png',           cats: ['Infantil Masculino'] },
+    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    shield: '../src/assets/escudo_bm_chinchon.jpeg',         cats: ['Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   shield: '../src/assets/escudo_bm_cidade_das_burgas.jpg', cats: ['Infantil Masculino'] },
+    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  shield: '../src/assets/escudo_bm_xallas.jpeg',           cats: ['Cadete Femenino'] },
+    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  shield: '../src/assets/escudo_seleccion_asturiana.jpg',  cats: ['Cadete Femenino','Cadete Masculino'] },
+    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  shield: '../src/assets/escudo_deportivoestadio.jpeg',    cats: ['Cadete Masculino'] }
+];
+
+function pinSvg() {
+    return '<svg viewBox="0 0 24 24"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.5 8 16 8 16s8-10.5 8-16c0-4.42-3.58-8-8-8zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg>';
+}
+
+function escapeHtml(s) {
+    return (s || '').replace(/[&<>"']/g, function(c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+}
+
+function renderSlide(team, index) {
+    var nameClass = team.name.length > 14 ? 'team-name small' : 'team-name';
+    var cats = team.cats.map(function(c) {
+        return '<span class="category-pill">' + escapeHtml(c) + '</span>';
+    }).join('');
+    return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
+        '<div class="poster">' +
+            '<div class="top-bar">' +
+                '<div class="top-bar-left">' +
+                    '<div class="top-bar-eyebrow">III Torneo</div>' +
+                    '<div class="top-bar-title">BM Vetusta</div>' +
+                '</div>' +
+                '<img src="../src/assets/logo.png" class="top-bar-logo" alt="">' +
+            '</div>' +
+            '<div class="body">' +
+                '<div class="shield-wrap"><img src="' + team.shield + '" class="shield-img" alt=""></div>' +
+                '<div class="' + nameClass + '">' + escapeHtml(team.name) + '</div>' +
+                '<div class="team-city">' + pinSvg() + escapeHtml(team.city) + '</div>' +
+            '</div>' +
+            '<div class="footer">' +
+                '<div class="footer-label">Categorías</div>' +
+                '<div class="categories">' + cats + '</div>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+
+var slidesEl = document.getElementById('slides');
+slidesEl.innerHTML = TEAMS.map(renderSlide).join('');
+var slides = slidesEl.querySelectorAll('.slide');
+var current = 0;
+
+var prevBtn = document.getElementById('prev-btn');
+var nextBtn = document.getElementById('next-btn');
+var info = document.getElementById('slide-info');
+var dlBtn = document.getElementById('download-btn');
+var dlAllBtn = document.getElementById('download-all-btn');
+
+function show(i) {
+    current = ((i % slides.length) + slides.length) % slides.length;
+    slides.forEach(function(s, idx) { s.classList.toggle('active', idx === current); });
+    info.textContent = (current + 1) + ' / ' + slides.length;
+}
+
+prevBtn.addEventListener('click', function() { show(current - 1); });
+nextBtn.addEventListener('click', function() { show(current + 1); });
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') show(current - 1);
+    if (e.key === 'ArrowRight') show(current + 1);
+});
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+function captureSlide(slideEl) {
+    return html2canvas(slideEl.querySelector('.poster'), {
+        backgroundColor: null,
+        scale: 1,
+        useCORS: true,
+        width: 1080,
+        height: 1350,
+        windowWidth: 1080,
+        windowHeight: 1350
+    });
+}
+
+function triggerDownload(blob, filename) {
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+dlBtn.addEventListener('click', function() {
+    dlBtn.disabled = true;
+    var label = dlBtn.textContent;
+    dlBtn.textContent = 'Generando…';
+    var team = TEAMS[current];
+    var slide = slides[current];
+    // Make sure slide is active for capture
+    var prevActive = slide.classList.contains('active');
+    slide.classList.add('active');
+    captureSlide(slide).then(function(canvas) {
+        canvas.toBlob(function(blob) {
+            triggerDownload(blob, 'cartel-' + team.id + '.png');
+            dlBtn.disabled = false;
+            dlBtn.textContent = label;
+        }, 'image/png');
+    }).catch(function(err) {
+        console.error(err);
+        alert('Error al generar la imagen.');
+        dlBtn.disabled = false;
+        dlBtn.textContent = label;
+    });
+});
+
+dlAllBtn.addEventListener('click', async function() {
+    dlAllBtn.disabled = true;
+    var origLabel = dlAllBtn.textContent;
+    for (var i = 0; i < slides.length; i++) {
+        dlAllBtn.textContent = 'Generando ' + (i + 1) + ' / ' + slides.length + '…';
+        slides.forEach(function(s, idx) { s.classList.toggle('active', idx === i); });
+        // tiny wait for browser to paint
+        await new Promise(function(r) { setTimeout(r, 80); });
+        try {
+            var canvas = await captureSlide(slides[i]);
+            var blob = await new Promise(function(r) { canvas.toBlob(r, 'image/png'); });
+            triggerDownload(blob, 'cartel-' + TEAMS[i].id + '.png');
+            await new Promise(function(r) { setTimeout(r, 200); });
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    show(current);
+    dlAllBtn.disabled = false;
+    dlAllBtn.textContent = origLabel;
+});
+</script>
+</body>
+</html>
