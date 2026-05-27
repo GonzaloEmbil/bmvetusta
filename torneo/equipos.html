@@ -166,53 +166,11 @@
     .poster {
         width: 100%;
         height: 100%;
-        background:
-            radial-gradient(circle at 80% 0%, rgba(253,237,58,0.18) 0%, transparent 45%),
-            radial-gradient(circle at 0% 100%, rgba(253,237,58,0.06) 0%, transparent 50%),
-            linear-gradient(160deg, #15151f 0%, #08080d 60%, #050509 100%);
+        background: #0a0a14;
         color: #fff;
         position: relative;
         overflow: hidden;
         font-family: 'Inter', sans-serif;
-    }
-
-    /* Big yellow geometric accent block — anchored bottom-left, diagonally cropped */
-    .poster-accent {
-        position: absolute;
-        bottom: -260px;
-        left: -120px;
-        width: 720px;
-        height: 720px;
-        background: #FDED3A;
-        transform: rotate(20deg);
-        border-radius: 80px;
-        z-index: 1;
-        box-shadow: 0 -40px 100px rgba(253,237,58,0.18);
-    }
-
-    /* Subtle horizontal gridlines for editorial feel */
-    .poster-grid {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
-        background-size: 100% 90px;
-        pointer-events: none;
-        z-index: 1;
-        opacity: 0.5;
-    }
-
-    /* Big number watermark — slide index */
-    .poster-index {
-        position: absolute;
-        right: 50px;
-        bottom: 38px;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 220px;
-        line-height: 0.78;
-        color: rgba(255,255,255,0.05);
-        letter-spacing: -8px;
-        z-index: 1;
-        pointer-events: none;
     }
 
     /* ── Top bar ───────────────────────────────────────── */
@@ -221,7 +179,7 @@
         top: 0;
         left: 0;
         right: 0;
-        padding: 56px 64px 0;
+        padding: 60px 70px 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -235,13 +193,9 @@
     }
 
     .top-logo {
-        width: 78px;
-        height: 78px;
+        width: 64px;
+        height: 64px;
         object-fit: contain;
-        background: #FDED3A;
-        border-radius: 22px;
-        padding: 10px;
-        box-shadow: 0 8px 28px rgba(253,237,58,0.35);
     }
 
     .top-brand-text {
@@ -255,43 +209,25 @@
         font-size: 12px;
         font-weight: 800;
         color: #FDED3A;
-        letter-spacing: 6px;
+        letter-spacing: 5px;
         text-transform: uppercase;
     }
 
     .top-brand-title {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 34px;
+        font-size: 30px;
         line-height: 1;
-        letter-spacing: 2px;
+        letter-spacing: 1.5px;
         color: #fff;
     }
 
     .top-date {
-        display: inline-flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 4px;
-        padding: 12px 22px;
-        border: 1px solid rgba(253,237,58,0.4);
-        border-radius: 18px;
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.55);
+        letter-spacing: 3px;
         text-transform: uppercase;
-        background: rgba(253,237,58,0.04);
-    }
-
-    .top-date-days {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 28px;
-        letter-spacing: 6px;
-        color: #FDED3A;
-        line-height: 1;
-    }
-
-    .top-date-month {
-        font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 4px;
-        color: rgba(255,255,255,0.85);
+        text-align: right;
     }
 
     /* ── Center ────────────────────────────────────────── */
@@ -299,85 +235,30 @@
         position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -52%);
+        transform: translate(-50%, -54%);
         text-align: center;
         z-index: 3;
         width: 92%;
     }
 
-    /* "PARTICIPANTE" label above the shield */
-    .center-eyebrow {
-        display: inline-flex;
-        align-items: center;
-        gap: 14px;
-        font-size: 12px;
-        font-weight: 800;
-        color: rgba(255,255,255,0.55);
-        letter-spacing: 8px;
-        text-transform: uppercase;
-        margin-bottom: 28px;
-    }
-    .center-eyebrow::before,
-    .center-eyebrow::after {
-        content: '';
-        width: 36px;
-        height: 1px;
-        background: rgba(253,237,58,0.6);
-    }
-
     .shield-stage {
-        position: relative;
         width: 440px;
         height: 440px;
-        margin: 0 auto 44px;
+        margin: 0 auto 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-
-    .shield-glow {
-        position: absolute;
-        inset: -12%;
-        background: radial-gradient(circle, rgba(253,237,58,0.5) 0%, transparent 62%);
-        filter: blur(48px);
-        pointer-events: none;
-    }
-
-    .shield-ring {
-        position: absolute;
-        inset: 0;
-        border: 2px solid rgba(253,237,58,0.35);
-        border-radius: 50%;
-    }
-    .shield-ring.outer {
-        inset: -22px;
-        border: 1px solid rgba(253,237,58,0.18);
-    }
-
-    /* Decorative tick marks around the shield */
-    .shield-tick {
-        position: absolute;
-        width: 14px;
-        height: 14px;
-        background: #FDED3A;
-        border-radius: 50%;
-        box-shadow: 0 0 12px rgba(253,237,58,0.8);
-    }
-    .shield-tick.top    { top: -29px;   left: 50%; transform: translateX(-50%); }
-    .shield-tick.bottom { bottom: -29px; left: 50%; transform: translateX(-50%); }
-    .shield-tick.left   { left: -29px;  top: 50%;  transform: translateY(-50%); }
-    .shield-tick.right  { right: -29px; top: 50%;  transform: translateY(-50%); }
 
     .shield-disc {
-        position: absolute;
-        inset: 26px;
-        background: linear-gradient(160deg, #ffffff 0%, #f3f3f0 100%);
+        width: 100%;
+        height: 100%;
+        background: #fff;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 48px;
-        box-shadow:
-            0 30px 80px rgba(0,0,0,0.6),
-            inset 0 4px 0 rgba(255,255,255,0.6),
-            inset 0 -6px 12px rgba(0,0,0,0.06);
+        padding: 50px;
     }
 
     .shield-img {
@@ -388,31 +269,26 @@
 
     .team-name {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 124px;
-        line-height: 0.88;
-        letter-spacing: 3px;
+        font-size: 130px;
+        line-height: 0.9;
+        letter-spacing: 2px;
         color: #fff;
         text-transform: uppercase;
-        margin-bottom: 22px;
-        text-shadow: 0 4px 30px rgba(0,0,0,0.55);
+        margin-bottom: 24px;
     }
-    .team-name.size-2 { font-size: 104px; }
-    .team-name.size-3 { font-size: 86px; }
-    .team-name.size-4 { font-size: 72px; }
+    .team-name.size-2 { font-size: 110px; }
+    .team-name.size-3 { font-size: 90px; }
+    .team-name.size-4 { font-size: 74px; }
 
     .team-city {
         display: inline-flex;
         align-items: center;
         gap: 14px;
-        background: rgba(255,255,255,0.05);
-        border: 1px solid rgba(255,255,255,0.14);
-        padding: 14px 28px;
-        border-radius: 999px;
-        font-size: 19px;
-        font-weight: 800;
+        font-size: 18px;
+        font-weight: 700;
         letter-spacing: 5px;
         text-transform: uppercase;
-        color: #fff;
+        color: rgba(255,255,255,0.85);
     }
 
     .team-city svg {
@@ -428,86 +304,47 @@
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 0 64px 56px;
+        padding: 0 70px 60px;
         z-index: 3;
+        text-align: center;
     }
 
     .categories {
         display: flex;
-        gap: 14px;
+        gap: 12px;
         justify-content: center;
         flex-wrap: wrap;
-        margin-bottom: 36px;
+        margin-bottom: 32px;
     }
 
     .category-pill {
         background: #FDED3A;
         color: #0a0a14;
         font-size: 14px;
-        font-weight: 900;
-        letter-spacing: 2px;
-        padding: 14px 24px;
-        border-radius: 6px;
-        text-transform: uppercase;
-        box-shadow: 0 6px 18px rgba(253,237,58,0.3);
-        position: relative;
-    }
-    .category-pill::before {
-        content: '';
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
-        background: #0a0a14;
-        border-radius: 50%;
-    }
-    .category-pill { padding-left: 30px; }
-
-    .bottom-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-top: 28px;
-        border-top: 1px solid rgba(255,255,255,0.1);
-    }
-
-    .bottom-bar-left {
-        font-size: 11px;
         font-weight: 800;
+        letter-spacing: 1.5px;
+        padding: 12px 22px;
+        border-radius: 999px;
+        text-transform: uppercase;
+    }
+
+    .bottom-venue {
+        font-size: 13px;
+        font-weight: 700;
         color: rgba(255,255,255,0.55);
         letter-spacing: 4px;
         text-transform: uppercase;
-        display: flex;
-        align-items: center;
-        gap: 12px;
+        padding-top: 24px;
+        border-top: 1px solid rgba(255,255,255,0.1);
     }
-
-    .bottom-bar-left::before {
-        content: '';
-        width: 8px;
-        height: 8px;
-        background: #FDED3A;
-        border-radius: 50%;
-    }
-
-    .bottom-bar-right {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 24px;
-        letter-spacing: 4px;
-        color: #fff;
-    }
-
-    .bottom-bar-right strong { color: #FDED3A; font-weight: 400; }
 
     /* ── Flag styles ─────────────────────────────────── */
     .team-flag {
-        width: 30px;
-        height: 20px;
+        width: 28px;
+        height: 18px;
         object-fit: cover;
-        border-radius: 3px;
-        box-shadow: 0 0 0 1px rgba(255,255,255,0.22);
+        border-radius: 2px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
         flex-shrink: 0;
     }
 
@@ -573,13 +410,8 @@ function renderSlide(team, index) {
     var cats = team.cats.map(function(c) {
         return '<span class="category-pill">' + escapeHtml(c) + '</span>';
     }).join('');
-    var indexLabel = String(index + 1).padStart(2, '0');
     return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
         '<div class="poster">' +
-            '<div class="poster-accent"></div>' +
-            '<div class="poster-grid"></div>' +
-            '<div class="poster-index">' + indexLabel + '</div>' +
-
             '<div class="top-bar">' +
                 '<div class="top-brand">' +
                     '<img src="../src/assets/escudo.png" class="top-logo" alt="">' +
@@ -588,22 +420,11 @@ function renderSlide(team, index) {
                         '<div class="top-brand-title">BM Vetusta</div>' +
                     '</div>' +
                 '</div>' +
-                '<div class="top-date">' +
-                    '<div class="top-date-days">19 · 20 · 21</div>' +
-                    '<div class="top-date-month">Junio 2026</div>' +
-                '</div>' +
+                '<div class="top-date">19 · 20 · 21 Junio 2026</div>' +
             '</div>' +
 
             '<div class="center">' +
-                '<div class="center-eyebrow">Equipo participante</div>' +
                 '<div class="shield-stage">' +
-                    '<div class="shield-glow"></div>' +
-                    '<div class="shield-ring outer"></div>' +
-                    '<div class="shield-ring"></div>' +
-                    '<div class="shield-tick top"></div>' +
-                    '<div class="shield-tick bottom"></div>' +
-                    '<div class="shield-tick left"></div>' +
-                    '<div class="shield-tick right"></div>' +
                     '<div class="shield-disc">' +
                         '<img src="' + team.shield + '" class="shield-img' + (team.blend ? ' blend' : '') + '" alt="">' +
                     '</div>' +
@@ -617,10 +438,7 @@ function renderSlide(team, index) {
 
             '<div class="bottom">' +
                 '<div class="categories">' + cats + '</div>' +
-                '<div class="bottom-bar">' +
-                    '<span class="bottom-bar-left">' + indexLabel + ' / 08 · Equipos</span>' +
-                    '<span class="bottom-bar-right">Florida Arena <strong>·</strong> Oviedo</span>' +
-                '</div>' +
+                '<div class="bottom-venue">Florida Arena · Oviedo</div>' +
             '</div>' +
         '</div>' +
     '</div>';
