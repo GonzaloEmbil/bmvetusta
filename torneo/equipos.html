@@ -125,11 +125,11 @@
         font-family: 'Inter', sans-serif;
     }
 
-    /* Diagonal yellow accent stripe */
+    /* Diagonal yellow accent stripe ── bottom-left so it doesn't clash with the logo */
     .poster-stripe {
         position: absolute;
-        top: -150px;
-        right: -150px;
+        bottom: -180px;
+        left: -180px;
         width: 800px;
         height: 280px;
         background: #FDED3A;
@@ -139,8 +139,8 @@
 
     .poster-stripe-dark {
         position: absolute;
-        top: -60px;
-        right: -200px;
+        bottom: -70px;
+        left: -220px;
         width: 800px;
         height: 80px;
         background: #0a0a14;
@@ -231,12 +231,16 @@
     }
 
     .top-logo {
-        width: 64px;
-        height: 64px;
+        width: 80px;
+        height: 80px;
         object-fit: contain;
         position: relative;
         z-index: 5;
-        filter: drop-shadow(0 4px 12px rgba(0,0,0,0.6));
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.12);
+        backdrop-filter: blur(6px);
+        border-radius: 50%;
+        padding: 12px;
     }
 
     /* ── Center ────────────────────────────────────────── */
