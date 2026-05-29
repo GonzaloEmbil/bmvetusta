@@ -46,7 +46,7 @@
 
     .banner-wrap {
         width: calc(1500px * var(--scale));
-        height: calc(500px * var(--scale));
+        height: calc(630px * var(--scale));
         position: relative;
         box-shadow: 0 30px 80px rgba(0,0,0,0.6);
         overflow: hidden;
@@ -54,7 +54,7 @@
 
     .banner-scale {
         width: 1500px;
-        height: 500px;
+        height: 630px;
         position: absolute;
         top: 0;
         left: 0;
@@ -71,15 +71,14 @@
         font-family: 'Inter', sans-serif;
     }
 
-    /* Title image (cropped from fototorneo.jpg) */
+    /* Title image (cropped from fototorneo.jpg, padded to 1500x540) */
     .banner-titulo {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 410px;
-        object-fit: contain;
-        object-position: center center;
+        width: 1500px;
+        height: 540px;
+        display: block;
         z-index: 1;
     }
 
@@ -159,7 +158,7 @@
 function updateScale() {
     var availW = window.innerWidth - 60;
     var availH = window.innerHeight - 160;
-    var scale = Math.min(availW / 1500, availH / 500, 1);
+    var scale = Math.min(availW / 1500, availH / 630, 1);
     document.documentElement.style.setProperty('--scale', scale);
 }
 window.addEventListener('resize', updateScale);
@@ -175,9 +174,9 @@ btn.addEventListener('click', function() {
         scale: 1,
         useCORS: true,
         width: 1500,
-        height: 500,
+        height: 630,
         windowWidth: 1500,
-        windowHeight: 500
+        windowHeight: 630
     }).then(function(canvas) {
         canvas.toBlob(function(blob) {
             var url = URL.createObjectURL(blob);
