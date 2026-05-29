@@ -352,6 +352,207 @@
     .shield-img.blend {
         mix-blend-mode: multiply;
     }
+
+    /* ── Overview slide (all teams) ────────────────────── */
+    .poster.overview {
+        background: radial-gradient(circle at 20% 0%, #1a1a2e 0%, #000 60%);
+        display: flex;
+        flex-direction: column;
+    }
+
+    .poster.overview::before {
+        content: '';
+        position: absolute;
+        top: -200px;
+        right: -200px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(253,237,58,0.18) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .poster.overview::after {
+        content: '';
+        position: absolute;
+        bottom: -200px;
+        left: -200px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(253,237,58,0.10) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .ov-header {
+        text-align: center;
+        padding: 65px 60px 35px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .ov-logo {
+        width: 130px;
+        height: 130px;
+        margin: 0 auto 22px;
+        display: block;
+        object-fit: contain;
+    }
+
+    .ov-title {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 130px;
+        line-height: 0.95;
+        letter-spacing: 4px;
+        margin-bottom: 30px;
+        color: #fff;
+    }
+
+    .ov-title-roman {
+        color: #FDED3A;
+        display: block;
+        font-size: 110px;
+        line-height: 1;
+    }
+
+    .ov-meta {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        padding: 16px 34px;
+        border: 2px solid rgba(253,237,58,0.4);
+        border-radius: 26px;
+        text-transform: uppercase;
+        margin-top: 8px;
+    }
+
+    .ov-meta-days {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 44px;
+        letter-spacing: 8px;
+        color: #FDED3A;
+        line-height: 1;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+    }
+
+    .ov-meta-days .sep {
+        color: rgba(255,255,255,0.35);
+        font-weight: 400;
+        margin: 0 -6px;
+    }
+
+    .ov-meta-month {
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: 6px;
+        color: #fff;
+    }
+
+    .ov-section-title {
+        text-align: center;
+        font-size: 18px;
+        font-weight: 800;
+        color: rgba(255,255,255,0.55);
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        margin: 30px 0 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        position: relative;
+        z-index: 2;
+    }
+
+    .ov-section-title::before,
+    .ov-section-title::after {
+        content: '';
+        height: 1px;
+        flex: 0 0 80px;
+        background: linear-gradient(90deg, transparent, rgba(253,237,58,0.5));
+    }
+
+    .ov-section-title::after {
+        background: linear-gradient(90deg, rgba(253,237,58,0.5), transparent);
+    }
+
+    .ov-teams {
+        flex: 1;
+        padding: 0 70px;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 35px 30px;
+        align-content: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .ov-team {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .ov-team-shield {
+        width: 130px;
+        height: 130px;
+        object-fit: contain;
+        background: rgba(255,255,255,0.06);
+        border-radius: 18px;
+        padding: 14px;
+        border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .ov-team-name {
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        line-height: 1.25;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        color: #fff;
+        max-width: 160px;
+    }
+
+    .ov-footer {
+        padding: 30px 60px 50px;
+        text-align: center;
+        position: relative;
+        z-index: 2;
+    }
+
+    .ov-footer-categories {
+        display: inline-flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 22px;
+    }
+
+    .ov-category-pill {
+        background: rgba(253,237,58,0.12);
+        color: #FDED3A;
+        font-size: 14px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        padding: 8px 18px;
+        border-radius: 999px;
+        text-transform: uppercase;
+    }
+
+    .ov-footer-venue {
+        font-size: 16px;
+        color: rgba(255,255,255,0.7);
+        font-weight: 600;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .ov-footer-venue strong { color: #fff; }
 </style>
 </head>
 <body>
@@ -365,7 +566,7 @@
             </div>
         </div>
     </div>
-    <div class="slide-info" id="slide-info">1 / 8</div>
+    <div class="slide-info" id="slide-info">1 / 9</div>
 </div>
 
 <div class="download-cluster">
@@ -406,11 +607,55 @@ function nameSizeClass(name) {
     return 'team-name';
 }
 
+// Names that need a manual line-break to fit the overview grid cell (~160px wide)
+var OV_NAME_BREAKS = {
+    'BM Cidade das Burgas': 'BM Cidade<br>das Burgas',
+    'Egia Eskubaloia':      'Egia<br>Eskubaloia',
+    'Selección Asturiana':  'Selección<br>Asturiana',
+    'Deportivo Estadio':    'Deportivo<br>Estadio'
+};
+
+function renderOverviewSlide() {
+    var cats = ['Cadete Femenino','Cadete Masculino','Infantil Masculino']
+        .map(function(c) { return '<span class="ov-category-pill">' + c + '</span>'; })
+        .join('');
+    var teamItems = TEAMS.map(function(t) {
+        var nameHtml = OV_NAME_BREAKS[t.name] || escapeHtml(t.name);
+        return '<div class="ov-team">' +
+            '<img src="' + t.shield + '" class="ov-team-shield" alt="">' +
+            '<div class="ov-team-name">' + nameHtml + '</div>' +
+        '</div>';
+    }).join('');
+    return '<div class="slide active" data-id="overview">' +
+        '<div class="poster overview">' +
+            '<div class="ov-header">' +
+                '<img src="../src/assets/escudo.png" class="ov-logo" alt="">' +
+                '<h1 class="ov-title">' +
+                    '<span class="ov-title-roman">III TORNEO</span>' +
+                    'BM VETUSTA' +
+                '</h1>' +
+                '<div class="ov-meta">' +
+                    '<div class="ov-meta-days">' +
+                        '<span>19</span><span class="sep">·</span><span>20</span><span class="sep">·</span><span>21</span>' +
+                    '</div>' +
+                    '<div class="ov-meta-month">Junio 2026</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="ov-section-title">Equipos participantes</div>' +
+            '<div class="ov-teams">' + teamItems + '</div>' +
+            '<div class="ov-footer">' +
+                '<div class="ov-footer-categories">' + cats + '</div>' +
+                '<div class="ov-footer-venue">Florida Arena <strong>·</strong> Pabellón Vallobín <strong>·</strong> Oviedo</div>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+
 function renderSlide(team, index) {
     var cats = team.cats.map(function(c) {
         return '<span class="category-pill">' + escapeHtml(c) + '</span>';
     }).join('');
-    return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
+    return '<div class="slide" data-id="' + team.id + '">' +
         '<div class="poster">' +
             '<div class="top-bar">' +
                 '<div class="top-brand">' +
@@ -445,9 +690,16 @@ function renderSlide(team, index) {
 }
 
 var slidesEl = document.getElementById('slides');
-slidesEl.innerHTML = TEAMS.map(renderSlide).join('');
+// Overview cartel first, then one slide per team
+slidesEl.innerHTML = renderOverviewSlide() + TEAMS.map(renderSlide).join('');
 var slides = slidesEl.querySelectorAll('.slide');
 var current = 0;
+
+// Filename for each slide's downloaded PNG
+function slideFilename(i) {
+    if (i === 0) return 'cartel-iii-torneo-bm-vetusta.png';
+    return 'cartel-' + TEAMS[i - 1].id + '.png';
+}
 
 // Responsive scale: fit 1080x1350 cartel into viewport
 // Leave room for the side arrows and slide-info caption
@@ -509,12 +761,11 @@ dlBtn.addEventListener('click', function() {
     dlBtn.disabled = true;
     var label = dlBtn.textContent;
     dlBtn.textContent = 'Generando…';
-    var team = TEAMS[current];
     var slide = slides[current];
     slide.classList.add('active');
     captureSlide(slide).then(function(canvas) {
         canvas.toBlob(function(blob) {
-            triggerDownload(blob, 'cartel-' + team.id + '.png');
+            triggerDownload(blob, slideFilename(current));
             dlBtn.disabled = false;
             dlBtn.textContent = label;
         }, 'image/png');
@@ -536,7 +787,7 @@ dlAllBtn.addEventListener('click', async function() {
         try {
             var canvas = await captureSlide(slides[i]);
             var blob = await new Promise(function(r) { canvas.toBlob(r, 'image/png'); });
-            triggerDownload(blob, 'cartel-' + TEAMS[i].id + '.png');
+            triggerDownload(blob, slideFilename(i));
             await new Promise(function(r) { setTimeout(r, 200); });
         } catch (e) {
             console.error(e);
