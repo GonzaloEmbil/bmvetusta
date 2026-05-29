@@ -2663,7 +2663,7 @@ body {
     text-align: center;
     flex-shrink: 0;
     overflow: hidden;
-    transform: translateX(-80px);
+    transform: translateX(-180px);
 }
 
 .news-carousel-title {
@@ -2822,6 +2822,7 @@ body {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
+        transform: none;
     }
 
     .news-carousel {
