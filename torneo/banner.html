@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Banner III Torneo BM Vetusta</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+<title>Banner III Torneo Nacional BM Vetusta</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Kalam:wght@400;700&family=Permanent+Marker&family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -65,121 +65,160 @@
     .banner {
         width: 100%;
         height: 100%;
-        background: #0a0a14;
-        color: #fff;
         position: relative;
         overflow: hidden;
-        display: flex;
-        align-items: center;
-        font-family: 'Inter', sans-serif;
+        font-family: 'Kalam', cursive;
+        color: #2a2a2a;
+        background:
+            radial-gradient(ellipse at 25% 30%, rgba(253,237,58,0.55) 0%, transparent 32%),
+            radial-gradient(ellipse at 70% 75%, rgba(253,237,58,0.35) 0%, transparent 28%),
+            radial-gradient(ellipse at 50% 110%, rgba(180,180,180,0.35) 0%, transparent 50%),
+            linear-gradient(135deg, #f4f1e8 0%, #e9e5d8 55%, #ddd9cc 100%);
     }
 
-    /* Thin yellow rule across the top edge */
+    /* Paper / watercolor noise — concentric translucent rings */
     .banner::before {
         content: '';
         position: absolute;
-        top: 0;
+        inset: 0;
+        background:
+            radial-gradient(circle at 80% 20%, rgba(40,40,40,0.06) 1px, transparent 2px),
+            radial-gradient(circle at 30% 80%, rgba(40,40,40,0.05) 1px, transparent 2px),
+            radial-gradient(circle at 60% 50%, rgba(40,40,40,0.04) 1px, transparent 2px);
+        background-size: 6px 6px, 9px 9px, 13px 13px;
+        opacity: 0.6;
+        pointer-events: none;
+    }
+
+    /* Yellow brush splash behind the title */
+    .banner-splash {
+        position: absolute;
+        top: 130px;
+        left: 40px;
+        width: 880px;
+        height: 200px;
+        background: radial-gradient(ellipse, rgba(253,237,58,0.65) 0%, rgba(253,237,58,0.25) 45%, transparent 70%);
+        filter: blur(18px);
+        transform: rotate(-3deg);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Left content block */
+    .banner-content {
+        position: absolute;
+        top: 50px;
+        left: 80px;
+        right: 320px;
+        bottom: 90px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+        z-index: 2;
+    }
+
+    .banner-eyebrow {
+        font-family: 'Kalam', cursive;
+        font-weight: 700;
+        font-size: 56px;
+        color: #2a2a2a;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        transform: rotate(-2deg);
+        line-height: 1;
+        text-shadow: 2px 2px 0 rgba(255,255,255,0.6);
+    }
+
+    .banner-title {
+        font-family: 'Permanent Marker', 'Caveat', cursive;
+        font-weight: 400;
+        font-size: 130px;
+        color: #FDED3A;
+        line-height: 0.88;
+        letter-spacing: 1px;
+        transform: rotate(-3deg);
+        text-shadow:
+            -2px -2px 0 #1a1a1a,
+             2px -2px 0 #1a1a1a,
+            -2px  2px 0 #1a1a1a,
+             2px  2px 0 #1a1a1a,
+             0    4px 0 rgba(0,0,0,0.25);
+        margin-bottom: 18px;
+        white-space: nowrap;
+    }
+
+    .banner-subtitle {
+        font-family: 'Kalam', cursive;
+        font-weight: 700;
+        font-size: 32px;
+        color: #3a3a3a;
+        line-height: 1.1;
+        letter-spacing: 1px;
+        transform: rotate(-1deg);
+    }
+
+    /* Shield (top-right) */
+    .banner-shield {
+        position: absolute;
+        top: 50px;
+        right: 70px;
+        width: 230px;
+        height: 230px;
+        object-fit: contain;
+        z-index: 3;
+        filter: drop-shadow(0 4px 14px rgba(0,0,0,0.18));
+    }
+
+    /* Bottom black band — dates + venues */
+    .banner-band {
+        position: absolute;
         left: 0;
         right: 0;
-        height: 6px;
-        background: #FDED3A;
-    }
-
-    /* Left block: shield + brand */
-    .banner-left {
+        bottom: 0;
+        background: #0a0a14;
+        padding: 18px 80px;
         display: flex;
         align-items: center;
-        gap: 36px;
-        padding-left: 80px;
-        flex: 0 0 auto;
+        justify-content: center;
+        gap: 32px;
+        z-index: 4;
     }
 
-    .banner-logo {
-        width: 180px;
-        height: 180px;
-        object-fit: contain;
-    }
-
-    .banner-brand {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        line-height: 1;
-    }
-
-    .banner-brand-eyebrow {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 44px;
-        font-weight: 400;
-        color: #FDED3A;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        line-height: 1;
-    }
-
-    .banner-brand-title {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 96px;
-        line-height: 0.9;
-        letter-spacing: 3px;
-        color: #fff;
-        text-transform: uppercase;
-    }
-
-    /* Center divider — yellow vertical bar */
-    .banner-divider {
-        width: 4px;
-        height: 260px;
+    .banner-band::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: 0;
+        right: 0;
+        height: 4px;
         background: #FDED3A;
-        margin: 0 60px;
-        flex: 0 0 auto;
     }
 
-    /* Right block: dates + venues */
-    .banner-right {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        flex: 1 1 auto;
-        padding-right: 80px;
-    }
-
-    .banner-dates {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 110px;
-        line-height: 0.9;
-        letter-spacing: 8px;
+    .banner-band-dates {
+        font-family: 'Permanent Marker', 'Caveat', cursive;
+        font-size: 36px;
         color: #FDED3A;
-    }
-
-    .banner-dates .sep {
-        color: rgba(255,255,255,0.35);
-        font-weight: 400;
-        margin: 0 8px;
-    }
-
-    .banner-month {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 56px;
-        font-weight: 400;
-        letter-spacing: 10px;
-        color: #fff;
-        text-transform: uppercase;
+        letter-spacing: 2px;
         line-height: 1;
     }
 
-    .banner-venues {
+    .banner-band-sep {
+        color: rgba(255,255,255,0.4);
+        font-size: 28px;
+        font-weight: 300;
+    }
+
+    .banner-band-venues {
+        font-family: 'Inter', sans-serif;
         font-size: 18px;
         font-weight: 800;
-        color: rgba(255,255,255,0.7);
-        letter-spacing: 6px;
+        color: #fff;
+        letter-spacing: 4px;
         text-transform: uppercase;
-        padding-top: 20px;
-        margin-top: 8px;
-        border-top: 1px solid rgba(255,255,255,0.12);
     }
 
-    .banner-venues strong { color: #FDED3A; font-weight: 800; }
+    .banner-band-venues strong { color: #FDED3A; font-weight: 800; }
 </style>
 </head>
 <body>
@@ -189,22 +228,20 @@
     <div class="banner-wrap">
         <div class="banner-scale">
             <div class="banner" id="banner">
-                <div class="banner-left">
-                    <img src="../src/assets/escudo.png" class="banner-logo" alt="">
-                    <div class="banner-brand">
-                        <div class="banner-brand-eyebrow">III Torneo</div>
-                        <div class="banner-brand-title">BM Vetusta</div>
-                    </div>
+                <div class="banner-splash"></div>
+
+                <div class="banner-content">
+                    <div class="banner-eyebrow">III Torneo Nacional</div>
+                    <div class="banner-title">Balonmano Vetusta</div>
+                    <div class="banner-subtitle">Categoría Cadete e Infantil<br>Femenino y Masculino</div>
                 </div>
 
-                <div class="banner-divider"></div>
+                <img src="../src/assets/escudo.png" class="banner-shield" alt="">
 
-                <div class="banner-right">
-                    <div class="banner-dates">
-                        <span>19</span><span class="sep">·</span><span>20</span><span class="sep">·</span><span>21</span>
-                    </div>
-                    <div class="banner-month">Junio 2026</div>
-                    <div class="banner-venues">Florida Arena <strong>·</strong> Vallobín</div>
+                <div class="banner-band">
+                    <span class="banner-band-dates">19, 20 y 21 de junio</span>
+                    <span class="banner-band-sep">|</span>
+                    <span class="banner-band-venues">Florida Arena <strong>·</strong> Vallobín <strong>·</strong> Oviedo</span>
                 </div>
             </div>
         </div>
