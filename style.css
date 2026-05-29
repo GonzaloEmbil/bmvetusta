@@ -2663,7 +2663,7 @@ body {
     text-align: center;
     flex-shrink: 0;
     overflow: hidden;
-    transform: translateX(-180px);
+    transform: translateX(-280px);
 }
 
 .news-carousel-title {
