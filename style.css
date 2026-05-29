@@ -2666,6 +2666,90 @@ body {
     transform: translateX(-280px);
 }
 
+/* Row wrapping the news carousel + the tournament banner (desktop only) */
+.fold-row {
+    position: relative;
+    width: 100%;
+}
+
+/* Tournament banner embedded on the homepage — desktop only.
+   Sits to the right of the (left-shifted) news carousel and aligns
+   its top with the top of the news-carousel-section. */
+.home-tournament-banner {
+    display: none;
+}
+
+@media (min-width: 769px) {
+    .home-tournament-banner {
+        display: block;
+        position: absolute;
+        top: 15px;            /* matches news-carousel-section padding-top */
+        right: 40px;
+        width: 480px;
+        background: #ece9df;
+        border-radius: 12px;
+        overflow: hidden;
+        text-decoration: none;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+        transition: transform 0.2s, box-shadow 0.2s;
+        z-index: 4;
+    }
+
+    .home-tournament-banner:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+    }
+
+    .home-tournament-banner-img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+
+    .home-tournament-banner-band {
+        background: #0a0a14;
+        padding: 12px 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 14px;
+        position: relative;
+    }
+
+    .home-tournament-banner-band::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: #FDED3A;
+    }
+
+    .home-tournament-banner-dates {
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 900;
+        color: #FDED3A;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+    }
+
+    .home-tournament-banner-sep {
+        color: rgba(255,255,255,0.35);
+        font-size: 12px;
+    }
+
+    .home-tournament-banner-venues {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 800;
+        color: #fff;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+    }
+}
+
 .news-carousel-title {
     color: #FDED3A;
     font-size: 1.8rem;
