@@ -2666,109 +2666,117 @@ body {
     transform: translateX(-280px);
 }
 
-/* Row wrapping the news carousel + the tournament banner (desktop only) */
+/* Row wrapping the news carousel + the tournament banner */
 .fold-row {
     position: relative;
     width: 100%;
 }
 
-/* Tournament banner embedded on the homepage — desktop only.
-   Sits to the right of the (left-shifted) news carousel and aligns
-   its top with the top of the news-carousel-section. */
+/* Tournament banner — base styles shared by mobile and desktop */
 .home-tournament-banner {
-    display: none;
+    display: block;
+    background: #ece9df;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
+.home-tournament-banner:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.55);
+}
+
+.home-tournament-banner-img {
+    width: 100%;
+    height: 150px;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+}
+
+/* Shield strip — sits between the title image and the dates/venues band */
+.home-tournament-banner-shields {
+    background: #0a0a14;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+.home-tournament-banner-shields img {
+    flex: 1 1 0;
+    min-width: 0;
+    height: 46px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 5px;
+    padding: 3px;
+}
+
+/* Transparent-background PNGs (Vetusta + Cidade das Burgas) read better on dark */
+.home-tournament-banner-shields img.dark-tile {
+    background: #0a0a14;
+}
+
+/* Selección Asturiana — tile colour matches the blue used inside its own shield */
+.home-tournament-banner-shields img.blue-tile {
+    background: #0069b3;
+}
+
+.home-tournament-banner-band {
+    background: #0a0a14;
+    padding: 12px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 14px;
+    position: relative;
+}
+
+.home-tournament-banner-dates {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    color: #FDED3A;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.home-tournament-banner-sep {
+    color: rgba(255,255,255,0.35);
+    font-size: 12px;
+}
+
+.home-tournament-banner-venues {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+/* Mobile: centred below the news carousel, in natural flow */
+@media (max-width: 768px) {
+    .home-tournament-banner {
+        width: 90%;
+        max-width: 360px;
+        margin: 20px auto 8px;
+    }
+}
+
+/* Desktop: absolute, anchored to the right of the (left-shifted) carousel,
+   aligned to the carousel's top edge */
 @media (min-width: 769px) {
     .home-tournament-banner {
-        display: block;
         position: absolute;
         top: 15px;            /* matches news-carousel-section padding-top */
         right: 40px;
         width: 480px;
-        background: #ece9df;
-        border-radius: 12px;
-        overflow: hidden;
-        text-decoration: none;
-        box-shadow: 0 6px 18px rgba(0,0,0,0.4);
-        transition: transform 0.2s, box-shadow 0.2s;
         z-index: 4;
-    }
-
-    .home-tournament-banner:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 28px rgba(0,0,0,0.55);
-    }
-
-    .home-tournament-banner-img {
-        width: 100%;
-        height: 150px;
-        object-fit: cover;
-        object-position: center center;
-        display: block;
-    }
-
-    /* Shield strip — sits between the title image and the dates/venues band */
-    .home-tournament-banner-shields {
-        background: #0a0a14;
-        padding: 10px 12px;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 6px;
-    }
-
-    .home-tournament-banner-shields img {
-        flex: 1 1 0;
-        min-width: 0;
-        height: 46px;
-        object-fit: contain;
-        background: #fff;
-        border-radius: 5px;
-        padding: 3px;
-    }
-
-    /* Transparent-background PNGs (Vetusta + Cidade das Burgas) read better on dark */
-    .home-tournament-banner-shields img.dark-tile {
-        background: #0a0a14;
-    }
-
-    /* Selección Asturiana — tile colour matches the blue used inside its own shield */
-    .home-tournament-banner-shields img.blue-tile {
-        background: #0069b3;
-    }
-
-    .home-tournament-banner-band {
-        background: #0a0a14;
-        padding: 12px 18px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 14px;
-        position: relative;
-    }
-
-    .home-tournament-banner-dates {
-        font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        font-weight: 900;
-        color: #FDED3A;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-    }
-
-    .home-tournament-banner-sep {
-        color: rgba(255,255,255,0.35);
-        font-size: 12px;
-    }
-
-    .home-tournament-banner-venues {
-        font-family: 'Inter', sans-serif;
-        font-size: 11px;
-        font-weight: 800;
-        color: #fff;
-        letter-spacing: 3px;
-        text-transform: uppercase;
     }
 }
 
