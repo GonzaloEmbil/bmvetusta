@@ -2706,6 +2706,28 @@ body {
         display: block;
     }
 
+    /* Shield strip — sits between the title image and the dates/venues band */
+    .home-tournament-banner-shields {
+        background: #ece9df;
+        padding: 10px 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 6px;
+    }
+
+    .home-tournament-banner-shields img {
+        flex: 1 1 0;
+        min-width: 0;
+        height: 46px;
+        object-fit: contain;
+    }
+
+    /* JPEG shields with white backgrounds — multiply to blend with the cream strip */
+    .home-tournament-banner-shields img.blend {
+        mix-blend-mode: multiply;
+    }
+
     .home-tournament-banner-band {
         background: #0a0a14;
         padding: 12px 18px;
