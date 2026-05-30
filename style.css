@@ -2733,6 +2733,11 @@ body {
         background: #0a0a14;
     }
 
+    /* Selección Asturiana — tile colour matches the blue used inside its own shield */
+    .home-tournament-banner-shields img.blue-tile {
+        background: #0069b3;
+    }
+
     .home-tournament-banner-band {
         background: #0a0a14;
         padding: 12px 18px;
