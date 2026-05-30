@@ -13,6 +13,23 @@
     <title>Historia - BM Vetusta</title>
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
     <link rel="stylesheet" href="../style.css">
+    <style>
+        /* Fundación slideshow — cycles 3 photos every 5s with a fade */
+        .fundacion-slideshow {
+            position: relative;
+            aspect-ratio: 4 / 3;
+        }
+        .fundacion-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+        .fundacion-slide.active { opacity: 1; }
+    </style>
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
@@ -62,6 +79,17 @@
             <h1 class="historia-title">Historia</h1>
 
             <h2 class="historia-subtitle">Fundación</h2>
+            <div class="about-section" style="max-width:100%;margin:0 auto 40px;padding:0;">
+                <div class="about-row">
+                    <div class="about-image fundacion-slideshow" id="fundacion-slideshow">
+                        <img src="../src/assets/fotoprimerequipo2013.JPG" alt="Primer equipo del Balonmano Vetusta 2013" class="fundacion-slide active">
+                        <img src="../src/assets/fotoprimerequipo2014.JPG" alt="Primer equipo del Balonmano Vetusta 2014" class="fundacion-slide">
+                        <img src="../src/assets/fotoprimerequipo2015.JPG" alt="Primer equipo del Balonmano Vetusta 2015" class="fundacion-slide">
+                    </div>
+                    <div class="about-text">
+                    </div>
+                </div>
+            </div>
 
             <h2 class="historia-subtitle">Ascenso</h2>
             <div class="about-section" style="max-width:100%;margin:0 auto 40px;padding:0;">
@@ -205,6 +233,20 @@
                     document.querySelector('.historia-table-wrapper').appendChild(note);
                 }
             });
+    })();
+    </script>
+
+    <script>
+    // Fundación slideshow — rotate the three first-team photos every 5 seconds
+    (function() {
+        var slides = document.querySelectorAll('#fundacion-slideshow .fundacion-slide');
+        if (slides.length < 2) return;
+        var i = 0;
+        setInterval(function() {
+            slides[i].classList.remove('active');
+            i = (i + 1) % slides.length;
+            slides[i].classList.add('active');
+        }, 5000);
     })();
     </script>
 </body>
