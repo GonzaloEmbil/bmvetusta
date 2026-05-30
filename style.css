@@ -2702,7 +2702,9 @@ body {
 
     .home-tournament-banner-img {
         width: 100%;
-        height: auto;
+        height: 160px;
+        object-fit: cover;
+        object-position: center center;
         display: block;
     }
 
