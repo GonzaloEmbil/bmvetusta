@@ -2663,7 +2663,15 @@ body {
     text-align: center;
     flex-shrink: 0;
     overflow: hidden;
-    transform: translateX(-280px);
+}
+
+/* Desktop: anchor the carousel 40px from the left so it mirrors
+   the tournament banner's right:40px (symmetric outer margins). */
+@media (min-width: 769px) {
+    .news-carousel-section {
+        margin-left: 40px;
+        margin-right: auto;
+    }
 }
 
 /* Row wrapping the news carousel + the tournament banner */
@@ -2958,7 +2966,6 @@ body {
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
-        transform: none;
     }
 
     .news-carousel {
