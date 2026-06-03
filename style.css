@@ -2785,9 +2785,21 @@ body {
 }
 
 
+/* Stack wrapper holding the banner and (desktop-only) the club photo */
+.home-tournament-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+/* Club photo — desktop only, same width as the banner */
+.home-club-photo {
+    display: none;
+}
+
 /* Mobile: centred below the news carousel, in natural flow */
 @media (max-width: 768px) {
-    .home-tournament-banner {
+    .home-tournament-stack {
         width: 90%;
         max-width: 360px;
         margin: 20px auto 8px;
@@ -2795,14 +2807,24 @@ body {
 }
 
 /* Desktop: absolute, anchored to the right of the (left-shifted) carousel,
-   aligned to the carousel's top edge */
+   aligned to the carousel's top edge. Wrapper carries the position so the
+   banner + club photo stack together. */
 @media (min-width: 769px) {
-    .home-tournament-banner {
+    .home-tournament-stack {
         position: absolute;
         top: 15px;            /* matches news-carousel-section padding-top */
         right: 40px;
         width: 480px;
         z-index: 4;
+    }
+
+    .home-club-photo {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+        object-fit: cover;
     }
 }
 
