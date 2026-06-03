@@ -1155,7 +1155,7 @@
                 var type = classifyMatchType(m.Tipo);
                 if (type === 'eliminatoria') elims.push(m);
                 else if (type === 'first' || type === 'third' || type === 'fifth' || type === 'seventh') {
-                    byPlace[type] = m;
+                    (byPlace[type] = byPlace[type] || []).push(m);
                 }
             });
             if (!elims.length && Object.keys(byPlace).length === 0) return '';
@@ -1187,10 +1187,19 @@
                 '<div class="bracket-stage-label">Finales</div>';
             var anyPlacement = false;
             placementOrder.forEach(function(p) {
-                if (byPlace[p.key]) {
-                    anyPlacement = true;
+                var arr = byPlace[p.key];
+                if (!arr || !arr.length) return;
+                anyPlacement = true;
+                if (arr.length === 1) {
                     html += '<div class="bracket-placement-label">' + escapeHtml(p.label) + '</div>';
-                    html += renderBracketMatch(byPlace[p.key]);
+                    html += renderBracketMatch(arr[0]);
+                } else {
+                    // Multiple legs (e.g. "5º y 6º puesto - Ida" / "- Vuelta") — show each with its own Tipo as label
+                    arr.sort(function(a, b) { return (a.Tipo || '').localeCompare(b.Tipo || ''); });
+                    arr.forEach(function(m) {
+                        html += '<div class="bracket-placement-label">' + escapeHtml(m.Tipo || p.label) + '</div>';
+                        html += renderBracketMatch(m);
+                    });
                 }
             });
             if (!anyPlacement) {
