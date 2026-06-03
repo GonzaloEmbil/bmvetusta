@@ -2825,18 +2825,17 @@ body {
     }
 }
 
-/* Desktop: stack is absolutely positioned to fill the row's vertical
-   extent (top:0 / bottom:0) so it inherits the carousel's height exactly.
-   Banner keeps its natural height; the club photo grows to fill whatever
-   space is left in the column. */
+/* Desktop: stack is absolutely positioned to the right of the carousel.
+   The exact height is set by JS in index.html so it matches the carousel
+   pixel-for-pixel. Banner keeps natural height; club photo flex-grows. */
 @media (min-width: 769px) {
     .home-tournament-stack {
         position: absolute;
         top: 0;
-        bottom: 0;
         right: 40px;
         width: 480px;
         z-index: 4;
+        overflow: hidden;
     }
 
     .home-tournament-banner {

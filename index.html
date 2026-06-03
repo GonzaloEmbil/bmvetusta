@@ -748,5 +748,31 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <script>
+    // Force the tournament+club-photo stack on desktop to match the news
+    // carousel's height exactly. CSS top:0/bottom:0 was producing a taller
+    // wrapper because .fold-row sits inside a JS-sized flex column on the
+    // homepage; reading the carousel height directly removes that ambiguity.
+    (function() {
+        var carousel = document.querySelector('.news-carousel-section');
+        var stack = document.querySelector('.home-tournament-stack');
+        if (!carousel || !stack) return;
+        function sync() {
+            if (window.innerWidth < 769) {
+                stack.style.height = '';   // mobile: natural height
+                return;
+            }
+            stack.style.height = carousel.offsetHeight + 'px';
+        }
+        sync();
+        window.addEventListener('resize', sync);
+        window.addEventListener('load', sync);
+        // Re-sync if the carousel changes size after late-loading images.
+        if (typeof ResizeObserver !== 'undefined') {
+            new ResizeObserver(sync).observe(carousel);
+        }
+    })();
+    </script>
 </body>
 </html>
