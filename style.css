@@ -2690,9 +2690,7 @@ body {
 
 /* Title block (replaces the previous banner-titulo.jpg image) */
 .home-tournament-banner-title {
-    background:
-        radial-gradient(circle at 50% 0%, rgba(253,237,58,0.35) 0%, transparent 70%),
-        #f4f1ea;
+    background: #f4f1ea;
     padding: 26px 18px 12px;
     text-align: center;
     display: flex;
@@ -2704,7 +2702,7 @@ body {
 .home-tournament-banner-title-eyebrow {
     font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
     font-size: 26px;
-    color: rgba(0,0,0,0.55);
+    color: #FDED3A;
     letter-spacing: 6px;
     text-transform: uppercase;
     line-height: 1;
