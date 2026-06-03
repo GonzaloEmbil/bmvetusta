@@ -1801,10 +1801,6 @@ body {
 }
 
 .patrocinador-section {
-    margin-bottom: 60px;
-}
-
-.patrocinador-section:last-child {
     margin-bottom: 0;
 }
 
@@ -1850,7 +1846,7 @@ body {
     align-items: stretch;
     justify-items: stretch;
     justify-content: center;
-    padding-top: 40px;
+    padding-top: 0;
 }
 
 .patrocinadores-colaboradores {
@@ -1950,7 +1946,7 @@ body {
     }
 
     .patrocinador-section {
-        margin-bottom: 30px;
+        margin-bottom: 0;
     }
 
     .patrocinador-title {
