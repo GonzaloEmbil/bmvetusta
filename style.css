@@ -2814,6 +2814,25 @@ body {
         max-width: 360px;
         margin: 20px auto 8px;
     }
+
+    /* Pack dates + venues on a single row on mobile by trimming font
+       size, letter-spacing and gap. */
+    .home-tournament-banner-band {
+        padding: 10px 12px;
+        gap: 8px;
+        flex-wrap: nowrap;
+    }
+    .home-tournament-banner-dates {
+        font-size: 11px;
+        letter-spacing: 1px;
+    }
+    .home-tournament-banner-sep {
+        font-size: 10px;
+    }
+    .home-tournament-banner-venues {
+        font-size: 9px;
+        letter-spacing: 1.5px;
+    }
 }
 
 /* Desktop: stack is a flex sibling of the carousel, stretched to the same
