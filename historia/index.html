@@ -14,21 +14,28 @@
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
     <link rel="stylesheet" href="../style.css">
     <style>
-        /* Fundación slideshow — cycles 3 photos every 5s with a fade */
+        /* Fundación slideshow — cycles 3 photos every 5s with a fade.
+           Uses grid stacking so all slides share a single cell and the
+           container sizes itself to the natural image height on every
+           viewport (the previous absolute+aspect-ratio combo collapsed
+           on mobile because position:absolute children give the parent
+           no intrinsic height to derive from). */
         .fundacion-slideshow {
-            position: relative;
-            aspect-ratio: 4 / 3;
+            display: grid;
+            grid-template: 1fr / 1fr;
+            border-radius: 14px;
+            overflow: hidden;
         }
-        .fundacion-slide {
-            position: absolute;
-            inset: 0;
+        .fundacion-slideshow .fundacion-slide {
+            grid-area: 1 / 1;
             width: 100%;
-            height: 100%;
+            height: auto;
+            display: block;
             object-fit: cover;
             opacity: 0;
             transition: opacity 0.8s ease;
         }
-        .fundacion-slide.active { opacity: 1; }
+        .fundacion-slideshow .fundacion-slide.active { opacity: 1; }
     </style>
 </head>
 <body>
