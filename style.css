@@ -1801,7 +1801,7 @@ body {
 }
 
 .patrocinador-section {
-    margin-bottom: 0;
+    margin-bottom: 40px;
 }
 
 .patrocinador-title {
@@ -1811,7 +1811,7 @@ body {
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 3px;
-    margin-bottom: 15px;
+    margin-bottom: 40px;
     position: relative;
 }
 
@@ -1946,13 +1946,13 @@ body {
     }
 
     .patrocinador-section {
-        margin-bottom: 0;
+        margin-bottom: 25px;
     }
 
     .patrocinador-title {
         font-size: 1.35rem;
         letter-spacing: 2px;
-        margin-bottom: 15px;
+        margin-bottom: 25px;
     }
 
     .patrocinador-principal {
