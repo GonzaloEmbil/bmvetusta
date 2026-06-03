@@ -2674,16 +2674,6 @@ body {
     width: 100%;
 }
 
-/* Desktop: lay the carousel and the tournament stack side by side and
-   stretch them to the same height so the stack (banner + club photo)
-   matches the carousel exactly. */
-@media (min-width: 769px) {
-    .fold-row {
-        display: flex;
-        align-items: stretch;
-    }
-}
-
 /* Tournament banner — base styles shared by mobile and desktop */
 .home-tournament-banner {
     display: block;
@@ -2835,15 +2825,18 @@ body {
     }
 }
 
-/* Desktop: stack is a flex sibling of the carousel, stretched to the same
-   height. Banner keeps its natural height inside the stack; the club photo
-   takes whatever vertical room is left so the wrapper's total height ends
-   up identical to the news carousel. */
+/* Desktop: stack is absolutely positioned to fill the row's vertical
+   extent (top:0 / bottom:0) so it inherits the carousel's height exactly.
+   Banner keeps its natural height; the club photo grows to fill whatever
+   space is left in the column. */
 @media (min-width: 769px) {
     .home-tournament-stack {
-        margin: 0 40px 0 auto;   /* full row height (no top/bottom margin) so the stack matches the carousel exactly; right:40px mirrors the carousel's left margin */
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 40px;
         width: 480px;
-        flex-shrink: 0;
+        z-index: 4;
     }
 
     .home-tournament-banner {
