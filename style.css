@@ -2693,7 +2693,7 @@ body {
     background:
         radial-gradient(circle at 50% 0%, rgba(253,237,58,0.18) 0%, transparent 60%),
         #0a0a14;
-    padding: 26px 18px 22px;
+    padding: 26px 18px 12px;
     text-align: center;
     display: flex;
     flex-direction: column;
@@ -2792,7 +2792,6 @@ body {
     font-weight: 600;
     color: rgba(255,255,255,0.75);
     white-space: nowrap;
-    border-top: 1px solid rgba(255,255,255,0.08);
 }
 
 .home-tournament-banner-category-sep {
