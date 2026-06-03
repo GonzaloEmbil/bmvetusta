@@ -2782,30 +2782,28 @@ body {
     text-transform: uppercase;
 }
 
-/* Categories pills under the dates+venues band */
+/* Categories line under the dates+venues band */
 .home-tournament-banner-categories {
     background: #0a0a14;
-    padding: 10px 12px 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    flex-wrap: wrap;
+    padding: 9px 14px 12px;
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.75);
+    white-space: nowrap;
     border-top: 1px solid rgba(255,255,255,0.08);
 }
 
-.home-tournament-banner-category {
-    font-family: 'Inter', sans-serif;
-    font-size: 10px;
-    font-weight: 800;
-    color: #FDED3A;
-    letter-spacing: 1.5px;
-    text-transform: uppercase;
-    background: rgba(253,237,58,0.12);
-    border: 1px solid rgba(253,237,58,0.3);
-    padding: 5px 11px;
-    border-radius: 999px;
-    white-space: nowrap;
+.home-tournament-banner-category-sep {
+    color: rgba(255,255,255,0.25);
+}
+
+@media (max-width: 768px) {
+    .home-tournament-banner-categories {
+        font-size: 11px;
+        padding: 9px 8px 12px;
+    }
 }
 
 /* Mobile: centred below the news carousel, in natural flow */
