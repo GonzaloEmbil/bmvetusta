@@ -2702,7 +2702,7 @@ body {
 .home-tournament-banner-title-eyebrow {
     font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
     font-size: 26px;
-    color: #FDED3A;
+    color: rgba(0,0,0,0.55);
     letter-spacing: 6px;
     text-transform: uppercase;
     line-height: 1;
