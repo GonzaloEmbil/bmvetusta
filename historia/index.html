@@ -15,21 +15,24 @@
     <link rel="stylesheet" href="../style.css">
     <style>
         /* Fundación slideshow — cycles 3 photos every 5s with a fade.
-           Uses grid stacking so all slides share a single cell and the
-           container sizes itself to the natural image height on every
-           viewport (the previous absolute+aspect-ratio combo collapsed
-           on mobile because position:absolute children give the parent
-           no intrinsic height to derive from). */
+           Grid stacking puts all slides in the same cell; aspect-ratio
+           2.2/1 makes the container as wide-and-short as the Ascenso /
+           Actualidad photos (the 2013-2015 source files are ~1.5/1, so
+           we crop the top/bottom via object-fit cover to match). The
+           previous position:absolute combo had no intrinsic height on
+           mobile and collapsed; grid items are in-flow so it now works
+           across viewports. */
         .fundacion-slideshow {
             display: grid;
             grid-template: 1fr / 1fr;
+            aspect-ratio: 2.2 / 1;
             border-radius: 14px;
             overflow: hidden;
         }
         .fundacion-slideshow .fundacion-slide {
             grid-area: 1 / 1;
             width: 100%;
-            height: auto;
+            height: 100%;
             display: block;
             object-fit: cover;
             opacity: 0;
