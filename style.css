@@ -2698,7 +2698,9 @@ body {
 
 /* Title block (replaces the previous banner-titulo.jpg image) */
 .home-tournament-banner-title {
-    background: #f4f1ea;
+    background:
+        radial-gradient(circle at 50% 0%, rgba(253,237,58,0.35) 0%, transparent 70%),
+        #f4f1ea;
     padding: 26px 18px 12px;
     text-align: center;
     display: flex;
