@@ -2852,13 +2852,15 @@ body {
 
     .home-club-photo {
         display: block;
+        position: relative;       /* anchor for the absolutely-positioned <img> below */
         width: 100%;
         flex: 1 1 0;
-        min-height: 0;           /* allow shrinking inside the flex column */
+        min-height: 0;            /* allow shrinking inside the flex column */
         border-radius: 12px;
         box-shadow: 0 6px 18px rgba(0,0,0,0.18);
         overflow: hidden;
         text-decoration: none;
+        color: inherit;
         transition: transform 0.2s, box-shadow 0.2s;
     }
 
@@ -2867,7 +2869,12 @@ body {
         box-shadow: 0 10px 28px rgba(0,0,0,0.28);
     }
 
+    /* Absolute fill so the photo crops to the anchor's flex-derived box
+       (height: 100% on an <img> doesn't resolve when its parent height
+       comes from flex stretch alone). */
     .home-club-photo img {
+        position: absolute;
+        inset: 0;
         display: block;
         width: 100%;
         height: 100%;
