@@ -173,22 +173,73 @@
         font-family: 'Inter', sans-serif;
     }
 
+    /* Big yellow color block bottom-right, cut diagonally.
+       Triangle pointing top-left from the bottom-right corner. */
+    .poster-wedge {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 720px;
+        height: 540px;
+        background: #FDED3A;
+        clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        z-index: 1;
+    }
+
+    /* Big monogram "BMV" running vertically as graphic element on left edge */
+    .poster-monogram {
+        position: absolute;
+        left: -28px;
+        top: 320px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 240px;
+        line-height: 0.78;
+        letter-spacing: -2px;
+        color: rgba(255,255,255,0.04);
+        z-index: 1;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        pointer-events: none;
+    }
+
+    /* Vertical brand line running up the right edge */
+    .poster-spine {
+        position: absolute;
+        right: 36px;
+        top: 0;
+        height: 720px;
+        display: flex;
+        align-items: flex-start;
+        justify-content: flex-start;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 22px;
+        letter-spacing: 8px;
+        color: rgba(255,255,255,0.45);
+        text-transform: uppercase;
+        z-index: 4;
+        padding-top: 70px;
+    }
+
+    .poster-spine .dot { color: #FDED3A; margin: 0 14px; }
+
     /* ── Top bar ───────────────────────────────────────── */
     .top-bar {
         position: absolute;
         top: 0;
         left: 0;
         right: 0;
-        padding: 70px 80px 0;
+        padding: 70px 90px 0;
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 22px;
         z-index: 5;
     }
 
     .top-logo {
-        width: 84px;
-        height: 84px;
+        width: 78px;
+        height: 78px;
         object-fit: contain;
         flex-shrink: 0;
     }
@@ -196,14 +247,14 @@
     .top-brand-text {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
         line-height: 1;
     }
 
     .top-brand-eyebrow {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 22px;
-        letter-spacing: 4px;
+        letter-spacing: 5px;
         color: #FDED3A;
         text-transform: uppercase;
         line-height: 1;
@@ -211,7 +262,7 @@
 
     .top-brand-title {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 46px;
+        font-size: 44px;
         line-height: 1;
         letter-spacing: 1.5px;
         color: #fff;
@@ -220,18 +271,18 @@
     /* ── Center ────────────────────────────────────────── */
     .center {
         position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
+        top: 270px;
+        left: 0;
+        right: 0;
         text-align: center;
         z-index: 3;
-        width: 92%;
+        padding: 0 90px;
     }
 
     .shield-stage {
-        width: 480px;
-        height: 480px;
-        margin: 0 auto 64px;
+        width: 500px;
+        height: 500px;
+        margin: 0 auto;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -251,28 +302,39 @@
         object-fit: contain;
     }
 
+    /* Team name + city — designed as an editorial block at the bottom-left */
+    .name-block {
+        position: absolute;
+        left: 90px;
+        right: 90px;
+        bottom: 340px;
+        text-align: left;
+        z-index: 5;
+    }
+
     .team-name {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 150px;
-        line-height: 0.88;
+        font-size: 130px;
+        line-height: 0.84;
         letter-spacing: 1px;
         color: #fff;
         text-transform: uppercase;
-        margin-bottom: 24px;
+        margin-bottom: 22px;
     }
-    .team-name.size-2 { font-size: 124px; }
-    .team-name.size-3 { font-size: 100px; }
-    .team-name.size-4 { font-size: 82px; }
+    .team-name.size-2 { font-size: 112px; }
+    .team-name.size-3 { font-size: 92px; }
+    .team-name.size-4 { font-size: 76px; }
 
     .team-city {
         display: inline-flex;
         align-items: center;
         gap: 14px;
         font-family: 'Inter', sans-serif;
-        font-size: 20px;
+        font-size: 18px;
         font-weight: 600;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
         color: rgba(255,255,255,0.7);
+        text-transform: uppercase;
     }
 
     .team-city svg {
@@ -282,68 +344,62 @@
         flex-shrink: 0;
     }
 
-    /* ── Footer ────────────────────────────────────────── */
+    /* ── Footer (sits on the yellow wedge) ─────────────── */
     .bottom {
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 0 80px 70px;
-        z-index: 3;
-    }
-
-    .bottom-rule {
-        height: 4px;
-        background: #FDED3A;
-        width: 60px;
-        margin: 0 0 32px;
+        padding: 0 90px 70px;
+        z-index: 5;
+        color: #0a0a14;
     }
 
     .categories {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 28px;
+        font-size: 26px;
         letter-spacing: 2px;
-        color: rgba(255,255,255,0.85);
+        color: #0a0a14;
         text-transform: uppercase;
-        margin-bottom: 28px;
+        margin-bottom: 24px;
         line-height: 1;
-    }
-
-    .category-pill {
-        color: inherit;
+        text-align: right;
     }
 
     .category-sep {
-        color: rgba(255,255,255,0.25);
-        margin: 0 14px;
+        color: rgba(10,10,20,0.35);
+        margin: 0 12px;
     }
 
     .bottom-meta {
         display: flex;
         align-items: baseline;
-        justify-content: space-between;
-        gap: 24px;
+        justify-content: flex-end;
+        gap: 32px;
         line-height: 1;
+        padding-top: 22px;
+        border-top: 2px solid #0a0a14;
     }
 
     .bottom-meta-dates {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 40px;
+        font-size: 42px;
         letter-spacing: 2px;
-        color: #fff;
+        color: #0a0a14;
     }
 
     .bottom-meta-dates .sep {
-        color: #FDED3A;
         margin: 0 6px;
+        opacity: 0.45;
     }
 
     .bottom-meta-venue {
         font-family: 'Inter', sans-serif;
-        font-size: 14px;
-        font-weight: 600;
-        color: rgba(255,255,255,0.55);
-        letter-spacing: 2px;
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(10,10,20,0.7);
+        letter-spacing: 3px;
+        text-transform: uppercase;
         text-align: right;
     }
 
@@ -668,6 +724,12 @@ function renderSlide(team, index) {
     }).join('<span class="category-sep">·</span>');
     return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
         '<div class="poster">' +
+            '<div class="poster-wedge"></div>' +
+            '<div class="poster-monogram">BMV</div>' +
+            '<div class="poster-spine">' +
+                'III Torneo Nacional<span class="dot">·</span>Balonmano Vetusta' +
+            '</div>' +
+
             '<div class="top-bar">' +
                 '<img src="../src/assets/escudo.png" class="top-logo" alt="">' +
                 '<div class="top-brand-text">' +
@@ -682,6 +744,9 @@ function renderSlide(team, index) {
                         '<img src="' + team.shield + '" class="shield-img" alt="">' +
                     '</div>' +
                 '</div>' +
+            '</div>' +
+
+            '<div class="name-block">' +
                 '<div class="' + nameSizeClass(team.name) + '">' + escapeHtml(team.name) + '</div>' +
                 '<div class="team-city">' +
                     (team.flag ? '<img src="' + team.flag + '" class="team-flag" alt="">' : pinSvg()) +
@@ -690,7 +755,6 @@ function renderSlide(team, index) {
             '</div>' +
 
             '<div class="bottom">' +
-                '<div class="bottom-rule"></div>' +
                 '<div class="categories">' + cats + '</div>' +
                 '<div class="bottom-meta">' +
                     '<div class="bottom-meta-dates">' +
