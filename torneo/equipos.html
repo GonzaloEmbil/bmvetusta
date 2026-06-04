@@ -353,8 +353,16 @@
         mix-blend-mode: multiply;
     }
 
-    /* Per-team shield size tweaks */
+    /* Per-team shield overrides */
     .slide[data-id="seleccion_asturiana"] .shield-img { transform: scale(0.88); }
+
+    /* BM Vetusta uses the yellow-on-transparent escudo.png — give the disc
+       a dark background so the logo reads the same way as on the homepage
+       banner (where the same file sits on the dark-tile). */
+    .slide[data-id="bm_vetusta"] .shield-disc { background: #0a0a14; }
+
+    /* Selección Asturiana disc takes the blue used in its own shield. */
+    .slide[data-id="seleccion_asturiana"] .shield-disc { background: #0069b3; }
 
     /* ── Overview slide (all teams) ────────────────────── */
     .poster.overview {
@@ -501,13 +509,20 @@
     }
 
     .ov-team-shield {
-        width: 130px;
-        height: 130px;
+        width: 150px;
+        height: 150px;
         object-fit: contain;
         background: rgba(255,255,255,0.06);
         border-radius: 18px;
         padding: 14px;
         border: 1px solid rgba(255,255,255,0.08);
+    }
+
+    /* Vetusta and Selección Asturiana stay at the previous 130px size */
+    .ov-team[data-id="bm_vetusta"] .ov-team-shield,
+    .ov-team[data-id="seleccion_asturiana"] .ov-team-shield {
+        width: 130px;
+        height: 130px;
     }
 
     .ov-team-name {
@@ -624,7 +639,7 @@ function renderOverviewSlide() {
         .join('');
     var teamItems = TEAMS.map(function(t) {
         var nameHtml = OV_NAME_BREAKS[t.name] || escapeHtml(t.name);
-        return '<div class="ov-team">' +
+        return '<div class="ov-team" data-id="' + t.id + '">' +
             '<img src="' + t.shield + '" class="ov-team-shield" alt="">' +
             '<div class="ov-team-name">' + nameHtml + '</div>' +
         '</div>';
