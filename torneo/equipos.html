@@ -300,37 +300,48 @@
     }
 
     .categories {
-        display: flex;
-        gap: 12px;
-        justify-content: center;
-        flex-wrap: wrap;
+        text-align: center;
         margin-bottom: 32px;
     }
 
     .category-pill {
-        background: #FDED3A;
-        color: #0a0a14;
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: 2px;
-        padding: 14px 26px;
-        border-radius: 999px;
-        text-transform: uppercase;
+        color: #FDED3A;
+        font-size: 22px;
+        font-weight: 500;
+        letter-spacing: 0;
+        padding: 0;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+    }
+
+    .category-sep {
+        color: rgba(255,255,255,0.3);
+        margin: 0 12px;
+        font-weight: 400;
     }
 
     .bottom-meta {
-        font-size: 22px;
-        font-weight: 800;
-        color: rgba(255,255,255,0.85);
-        letter-spacing: 4px;
-        text-transform: uppercase;
         padding-top: 28px;
         border-top: 1px solid rgba(255,255,255,0.12);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        line-height: 1.2;
     }
 
-    .bottom-meta-sep {
-        color: rgba(255,255,255,0.35);
-        margin: 0 14px;
+    .bottom-meta-dates {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 34px;
+        letter-spacing: 3px;
+        color: #fff;
+    }
+
+    .bottom-meta-venue {
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.65);
+        letter-spacing: 1px;
     }
 
     /* ── Flag styles ─────────────────────────────────── */
@@ -577,13 +588,13 @@
 // Order: more categories first; for ties, Asturian teams go last
 // Set 'blend: true' for shields with white/light backgrounds we want to flatten
 var TEAMS = [
-    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     blend: true,  cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.jpeg',         blend: true,  cats: ['Cadete Masculino','Infantil Masculino'] },
-    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.jpg',  blend: true,  cats: ['Cadete Femenino','Cadete Masculino'] },
-    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',           blend: false, cats: ['Infantil Masculino'] },
-    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.png',  blend: false, cats: ['Infantil Masculino'] },
-    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.jpeg',           blend: true,  cats: ['Cadete Femenino'] },
-    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.jpeg',    blend: true,  cats: ['Cadete Masculino'] }
+    { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.png',     cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
+    { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.png',         cats: ['Cadete Masculino','Infantil Masculino'] },
+    { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.png', cats: ['Cadete Femenino','Cadete Masculino'] },
+    { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',          cats: ['Infantil Masculino'] },
+    { id: 'bm_cidade_das_burgas', name: 'BM Cidade das Burgas', city: 'Ourense',   flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_cidade_das_burgas.png',cats: ['Infantil Masculino'] },
+    { id: 'bm_xallas',            name: 'BM Xallas',            city: 'A Coruña',  flag: '../src/assets/banderas/galicia.svg',         shield: '../src/assets/escudo_bm_xallas.png',           cats: ['Cadete Femenino'] },
+    { id: 'deportivo_estadio',    name: 'Deportivo Estadio',    city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_deportivoestadio.png',    cats: ['Cadete Masculino'] }
 ];
 
 function pinSvg() {
@@ -652,7 +663,7 @@ function renderOverviewSlide() {
 function renderSlide(team, index) {
     var cats = team.cats.map(function(c) {
         return '<span class="category-pill">' + escapeHtml(c) + '</span>';
-    }).join('');
+    }).join('<span class="category-sep">·</span>');
     return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
         '<div class="poster">' +
             '<div class="top-bar">' +
@@ -681,9 +692,8 @@ function renderSlide(team, index) {
             '<div class="bottom">' +
                 '<div class="categories">' + cats + '</div>' +
                 '<div class="bottom-meta">' +
-                    '19 · 20 · 21 Junio 2026' +
-                    '<span class="bottom-meta-sep">·</span>' +
-                    'Florida Arena · Oviedo' +
+                    '<div class="bottom-meta-dates">19 · 20 · 21 Junio 2026</div>' +
+                    '<div class="bottom-meta-venue">Florida Arena · Oviedo</div>' +
                 '</div>' +
             '</div>' +
         '</div>' +
