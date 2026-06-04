@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Carteles equipos · III Torneo BM Vetusta</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700;800;900&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;700;800;900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
@@ -173,64 +173,65 @@
         font-family: 'Inter', sans-serif;
     }
 
-    /* Big yellow color block bottom-right, cut diagonally.
-       Triangle pointing top-left from the bottom-right corner. */
-    .poster-wedge {
+    /* Cathedral spire silhouette — Torre de San Salvador, the Vetusta
+       reference. Drawn as SVG; sits as a vertical anchor behind/around
+       the team shield. */
+    .poster-cathedral {
         position: absolute;
-        right: 0;
-        bottom: 0;
-        width: 720px;
-        height: 540px;
-        background: #FDED3A;
-        clip-path: polygon(0 100%, 100% 100%, 100% 0);
+        left: 50%;
+        top: 130px;
+        transform: translateX(-50%);
+        width: 240px;
+        height: 980px;
+        color: rgba(253,237,58,0.07);
         z-index: 1;
-    }
-
-    /* Big monogram "BMV" running vertically as graphic element on left edge */
-    .poster-monogram {
-        position: absolute;
-        left: -28px;
-        top: 320px;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 240px;
-        line-height: 0.78;
-        letter-spacing: -2px;
-        color: rgba(255,255,255,0.04);
-        z-index: 1;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
         pointer-events: none;
     }
+    .poster-cathedral svg { width: 100%; height: 100%; display: block; }
 
-    /* Vertical brand line running up the right edge */
-    .poster-spine {
+    /* Handball court arcs — 9m dashed + 6m solid + goal line. Drawn at the
+       bottom edge of the poster like the goal area seen from above. */
+    .poster-court {
         position: absolute;
-        right: 36px;
-        top: 0;
-        height: 720px;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 22px;
-        letter-spacing: 8px;
-        color: rgba(255,255,255,0.45);
-        text-transform: uppercase;
-        z-index: 4;
-        padding-top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 280px;
+        z-index: 2;
+        pointer-events: none;
     }
+    .poster-court svg { width: 100%; height: 100%; display: block; }
 
-    .poster-spine .dot { color: #FDED3A; margin: 0 14px; }
+    /* Custom roman III mark — three classical Roman strokes with serifs */
+    .poster-iii {
+        position: absolute;
+        top: 84px;
+        right: 80px;
+        width: 132px;
+        height: 168px;
+        z-index: 4;
+        color: #FDED3A;
+    }
+    .poster-iii svg { width: 100%; height: 100%; display: block; }
+
+    /* Handball ball — small decorative SVG */
+    .poster-ball {
+        position: absolute;
+        left: 80px;
+        bottom: 96px;
+        width: 64px;
+        height: 64px;
+        z-index: 6;
+        opacity: 0.85;
+    }
+    .poster-ball svg { width: 100%; height: 100%; display: block; }
 
     /* ── Top bar ───────────────────────────────────────── */
     .top-bar {
         position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        padding: 70px 90px 0;
+        top: 90px;
+        left: 90px;
+        right: 230px;          /* leave room for the III mark on the right */
         display: flex;
         align-items: center;
         gap: 22px;
@@ -238,8 +239,8 @@
     }
 
     .top-logo {
-        width: 78px;
-        height: 78px;
+        width: 88px;
+        height: 88px;
         object-fit: contain;
         flex-shrink: 0;
     }
@@ -252,36 +253,49 @@
     }
 
     .top-brand-eyebrow {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 22px;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
         letter-spacing: 5px;
-        color: #FDED3A;
+        color: rgba(255,255,255,0.55);
         text-transform: uppercase;
-        line-height: 1;
     }
 
     .top-brand-title {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 44px;
+        font-size: 48px;
         line-height: 1;
-        letter-spacing: 1.5px;
+        letter-spacing: 2px;
         color: #fff;
     }
 
-    /* ── Center ────────────────────────────────────────── */
+    /* The 'Vetusta' word inside the brand title is set in Playfair Display
+       italic — paying homage to Clarín's literary name for Oviedo. */
+    .vetusta-serif {
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-weight: 700;
+        letter-spacing: -1px;
+        color: #FDED3A;
+        text-transform: none;
+        font-size: 0.82em;
+        margin-left: 6px;
+    }
+
+    /* ── Center: shield ────────────────────────────────── */
     .center {
         position: absolute;
-        top: 270px;
+        top: 320px;
         left: 0;
         right: 0;
-        text-align: center;
         z-index: 3;
+        text-align: center;
         padding: 0 90px;
     }
 
     .shield-stage {
-        width: 500px;
-        height: 500px;
+        width: 480px;
+        height: 480px;
         margin: 0 auto;
         display: flex;
         align-items: center;
@@ -302,39 +316,38 @@
         object-fit: contain;
     }
 
-    /* Team name + city — designed as an editorial block at the bottom-left */
+    /* Team name + city block — sits between the shield and the court */
     .name-block {
         position: absolute;
         left: 90px;
         right: 90px;
-        bottom: 340px;
-        text-align: left;
+        bottom: 360px;
+        text-align: center;
         z-index: 5;
     }
 
     .team-name {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 130px;
-        line-height: 0.84;
+        font-size: 124px;
+        line-height: 0.88;
         letter-spacing: 1px;
         color: #fff;
         text-transform: uppercase;
-        margin-bottom: 22px;
+        margin-bottom: 16px;
     }
-    .team-name.size-2 { font-size: 112px; }
-    .team-name.size-3 { font-size: 92px; }
-    .team-name.size-4 { font-size: 76px; }
+    .team-name.size-2 { font-size: 108px; }
+    .team-name.size-3 { font-size: 90px; }
+    .team-name.size-4 { font-size: 74px; }
 
     .team-city {
         display: inline-flex;
         align-items: center;
         gap: 14px;
-        font-family: 'Inter', sans-serif;
-        font-size: 18px;
-        font-weight: 600;
-        letter-spacing: 2px;
-        color: rgba(255,255,255,0.7);
-        text-transform: uppercase;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 26px;
+        font-weight: 400;
+        color: rgba(255,255,255,0.85);
     }
 
     .team-city svg {
@@ -344,7 +357,7 @@
         flex-shrink: 0;
     }
 
-    /* ── Footer (sits on the yellow wedge) ─────────────── */
+    /* ── Footer (sits inside the court arcs zone) ──────── */
     .bottom {
         position: absolute;
         bottom: 0;
@@ -352,54 +365,51 @@
         right: 0;
         padding: 0 90px 70px;
         z-index: 5;
-        color: #0a0a14;
     }
 
     .categories {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 26px;
-        letter-spacing: 2px;
-        color: #0a0a14;
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        letter-spacing: 4px;
+        color: rgba(255,255,255,0.7);
         text-transform: uppercase;
-        margin-bottom: 24px;
+        margin-bottom: 26px;
         line-height: 1;
-        text-align: right;
+        text-align: center;
     }
 
     .category-sep {
-        color: rgba(10,10,20,0.35);
+        color: #FDED3A;
         margin: 0 12px;
     }
 
     .bottom-meta {
         display: flex;
         align-items: baseline;
-        justify-content: flex-end;
+        justify-content: space-between;
         gap: 32px;
         line-height: 1;
-        padding-top: 22px;
-        border-top: 2px solid #0a0a14;
     }
 
     .bottom-meta-dates {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 42px;
-        letter-spacing: 2px;
-        color: #0a0a14;
+        font-size: 44px;
+        letter-spacing: 3px;
+        color: #fff;
     }
 
     .bottom-meta-dates .sep {
-        margin: 0 6px;
-        opacity: 0.45;
+        color: #FDED3A;
+        margin: 0 8px;
     }
 
     .bottom-meta-venue {
-        font-family: 'Inter', sans-serif;
-        font-size: 13px;
-        font-weight: 700;
-        color: rgba(10,10,20,0.7);
-        letter-spacing: 3px;
-        text-transform: uppercase;
+        font-family: 'Playfair Display', serif;
+        font-style: italic;
+        font-size: 22px;
+        font-weight: 400;
+        color: rgba(255,255,255,0.85);
         text-align: right;
     }
 
@@ -659,6 +669,56 @@ function pinSvg() {
     return '<svg viewBox="0 0 24 24"><path d="M12 0C7.58 0 4 3.58 4 8c0 5.5 8 16 8 16s8-10.5 8-16c0-4.42-3.58-8-8-8zm0 11a3 3 0 110-6 3 3 0 010 6z"/></svg>';
 }
 
+/* ── Custom graphical elements ──────────────────────────────────────
+   These SVGs are part of the poster's identity:
+   - CATHEDRAL_SVG: stylised silhouette of the Torre de San Salvador
+     (Oviedo Cathedral), the source of the 'Vetusta' name and the V
+     of the club logo. Sits behind the team shield.
+   - COURT_SVG: handball goal area (6m solid arc, 9m dashed arc,
+     goal line and goal mouth) drawn at the foot of the poster.
+   - III_SVG: classical roman 'III' with serif terminals, the
+     edition mark for the third tournament.
+   - BALL_SVG: a handball with its characteristic seam pattern. */
+var CATHEDRAL_SVG = '' +
+    '<svg viewBox="0 0 200 800" xmlns="http://www.w3.org/2000/svg" fill="currentColor">' +
+        '<rect x="96" y="0" width="8" height="40"/>' +
+        '<rect x="84" y="12" width="32" height="8"/>' +
+        '<path d="M100 40 L150 200 L50 200 Z"/>' +
+        '<path d="M55 200 L145 200 L150 280 L50 280 Z"/>' +
+        '<rect x="32" y="240" width="14" height="80"/>' +
+        '<path d="M32 232 L46 232 L39 212 Z"/>' +
+        '<rect x="154" y="240" width="14" height="80"/>' +
+        '<path d="M154 232 L168 232 L161 212 Z"/>' +
+        '<rect x="60" y="280" width="80" height="320"/>' +
+        '<path d="M85 330 Q85 315 100 315 Q115 315 115 330 L115 500 L85 500 Z" fill="#0a0a14"/>' +
+        '<rect x="50" y="600" width="100" height="40"/>' +
+        '<rect x="40" y="640" width="120" height="160"/>' +
+    '</svg>';
+
+var COURT_SVG = '' +
+    '<svg viewBox="0 0 1080 280" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#FDED3A" stroke-linecap="round">' +
+        '<path d="M 60 280 A 460 460 0 0 1 1020 280" stroke-width="3" stroke-dasharray="14 10" opacity="0.55"/>' +
+        '<path d="M 220 280 A 320 320 0 0 1 860 280" stroke-width="4" opacity="0.85"/>' +
+        '<line x1="0" y1="278" x2="1080" y2="278" stroke-width="4"/>' +
+        '<rect x="500" y="252" width="80" height="26" stroke-width="3"/>' +
+    '</svg>';
+
+var III_SVG = '' +
+    '<svg viewBox="0 0 132 168" xmlns="http://www.w3.org/2000/svg" fill="currentColor">' +
+        '<rect x="0" y="0" width="36" height="12"/><rect x="13" y="0" width="10" height="168"/><rect x="0" y="156" width="36" height="12"/>' +
+        '<rect x="48" y="0" width="36" height="12"/><rect x="61" y="0" width="10" height="168"/><rect x="48" y="156" width="36" height="12"/>' +
+        '<rect x="96" y="0" width="36" height="12"/><rect x="109" y="0" width="10" height="168"/><rect x="96" y="156" width="36" height="12"/>' +
+    '</svg>';
+
+var BALL_SVG = '' +
+    '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#FDED3A" stroke-width="2.4">' +
+        '<circle cx="32" cy="32" r="28" fill="#0a0a14"/>' +
+        '<path d="M 4 32 Q 18 18 32 32 Q 46 46 60 32"/>' +
+        '<path d="M 4 32 Q 18 46 32 32 Q 46 18 60 32"/>' +
+        '<path d="M 32 4 Q 18 18 32 32 Q 46 46 32 60"/>' +
+        '<path d="M 32 4 Q 46 18 32 32 Q 18 46 32 60"/>' +
+    '</svg>';
+
 function escapeHtml(s) {
     return (s || '').replace(/[&<>"']/g, function(c) {
         return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
@@ -724,17 +784,16 @@ function renderSlide(team, index) {
     }).join('<span class="category-sep">·</span>');
     return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
         '<div class="poster">' +
-            '<div class="poster-wedge"></div>' +
-            '<div class="poster-monogram">BMV</div>' +
-            '<div class="poster-spine">' +
-                'III Torneo Nacional<span class="dot">·</span>Balonmano Vetusta' +
-            '</div>' +
+            '<div class="poster-cathedral">' + CATHEDRAL_SVG + '</div>' +
+            '<div class="poster-court">' + COURT_SVG + '</div>' +
+            '<div class="poster-iii">' + III_SVG + '</div>' +
+            '<div class="poster-ball">' + BALL_SVG + '</div>' +
 
             '<div class="top-bar">' +
                 '<img src="../src/assets/escudo.png" class="top-logo" alt="">' +
                 '<div class="top-brand-text">' +
                     '<div class="top-brand-eyebrow">III Torneo Nacional</div>' +
-                    '<div class="top-brand-title">Balonmano Vetusta</div>' +
+                    '<div class="top-brand-title">Balonmano <span class="vetusta-serif">Vetusta</span></div>' +
                 '</div>' +
             '</div>' +
 
