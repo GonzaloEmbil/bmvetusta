@@ -185,21 +185,6 @@
         z-index: 1;
     }
 
-    /* Decorative "III" monogram watermark, lower right */
-    .poster::after {
-        content: 'III';
-        position: absolute;
-        right: 70px;
-        bottom: 290px;
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 320px;
-        line-height: 0.85;
-        letter-spacing: -8px;
-        color: rgba(253,237,58,0.04);
-        pointer-events: none;
-        z-index: 1;
-    }
-
     /* ── Top bar ───────────────────────────────────────── */
     .top-bar {
         position: absolute;
@@ -250,28 +235,6 @@
         color: #fff;
     }
 
-    /* Edition marker on the right of the top bar */
-    .top-edition {
-        text-align: right;
-        line-height: 1.2;
-    }
-
-    .top-edition-label {
-        font-family: 'Inter', sans-serif;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 5px;
-        text-transform: uppercase;
-        color: rgba(255,255,255,0.45);
-    }
-
-    .top-edition-year {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 28px;
-        letter-spacing: 5px;
-        color: rgba(255,255,255,0.85);
-    }
-
     /* ── Center ────────────────────────────────────────── */
     .center {
         position: absolute;
@@ -320,16 +283,17 @@
 
     .team-name {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 136px;
+        font-size: 124px;
         line-height: 0.88;
         letter-spacing: 2px;
         color: #fff;
         text-transform: uppercase;
         margin-bottom: 28px;
+        white-space: nowrap;
     }
-    .team-name.size-2 { font-size: 116px; }
-    .team-name.size-3 { font-size: 96px; }
-    .team-name.size-4 { font-size: 78px; }
+    /* Only kicks in for the longest names (Selección Asturiana, BM Cidade
+       das Burgas) where the default 124px would overflow the poster width. */
+    .team-name.size-fit { font-size: 100px; }
 
     .team-city {
         display: inline-flex;
@@ -406,28 +370,22 @@
         line-height: 1;
     }
 
-    .bottom-meta-dates {
+    .bottom-meta-dates,
+    .bottom-meta-venue {
         font-family: 'Bebas Neue', sans-serif;
         font-size: 36px;
         letter-spacing: 3px;
         color: #fff;
-        text-align: left;
     }
 
-    .bottom-meta-dates .sep {
+    .bottom-meta-dates { text-align: left; }
+    .bottom-meta-venue { text-align: right; }
+
+    .bottom-meta-dates .sep,
+    .bottom-meta-venue .sep {
         color: rgba(255,255,255,0.3);
         margin: 0 4px;
         font-weight: 400;
-    }
-
-    .bottom-meta-venue {
-        font-family: 'Inter', sans-serif;
-        font-size: 13px;
-        font-weight: 700;
-        color: rgba(255,255,255,0.7);
-        letter-spacing: 4px;
-        text-transform: uppercase;
-        text-align: right;
     }
 
     /* ── Flag styles ─────────────────────────────────── */
@@ -694,11 +652,11 @@ function escapeHtml(s) {
 }
 
 function nameSizeClass(name) {
-    // Find longest word
-    var longest = (name || '').split(/\s+/).reduce(function(a, b) { return a.length > b.length ? a : b; }, '');
-    if (longest.length >= 11) return 'team-name size-4';
-    if (longest.length >= 9) return 'team-name size-3';
-    if (longest.length >= 7) return 'team-name size-2';
+    // Single uniform default size. Only the few names that would overflow
+    // a single line at the default size drop to .size-fit. Threshold (18+
+    // characters of full string) catches 'Selección Asturiana' and
+    // 'BM Cidade das Burgas'; every other team keeps the same default size.
+    if ((name || '').length >= 18) return 'team-name size-fit';
     return 'team-name';
 }
 
@@ -760,10 +718,6 @@ function renderSlide(team, index) {
                         '<div class="top-brand-title">Balonmano Vetusta</div>' +
                     '</div>' +
                 '</div>' +
-                '<div class="top-edition">' +
-                    '<div class="top-edition-label">Edición</div>' +
-                    '<div class="top-edition-year">2026</div>' +
-                '</div>' +
             '</div>' +
 
             '<div class="center">' +
@@ -784,9 +738,9 @@ function renderSlide(team, index) {
                 '<div class="categories">' + cats + '</div>' +
                 '<div class="bottom-meta">' +
                     '<div class="bottom-meta-dates">' +
-                        '19<span class="sep">·</span>20<span class="sep">·</span>21 Junio 2026' +
+                        '19<span class="sep">·</span>20<span class="sep">·</span>21 Junio' +
                     '</div>' +
-                    '<div class="bottom-meta-venue">Florida Arena · Oviedo</div>' +
+                    '<div class="bottom-meta-venue">Florida Arena<span class="sep">·</span>Vallobín</div>' +
                 '</div>' +
             '</div>' +
         '</div>' +
