@@ -166,11 +166,38 @@
     .poster {
         width: 100%;
         height: 100%;
-        background: #0a0a14;
+        background:
+            radial-gradient(ellipse at 50% 35%, rgba(253,237,58,0.06) 0%, transparent 55%),
+            linear-gradient(180deg, #14141d 0%, #0a0a14 55%, #050509 100%);
         color: #fff;
         position: relative;
         overflow: hidden;
         font-family: 'Inter', sans-serif;
+    }
+
+    /* Subtle inner frame — a 1px line of low-opacity yellow inset 40px */
+    .poster::before {
+        content: '';
+        position: absolute;
+        inset: 40px;
+        border: 1px solid rgba(253,237,58,0.10);
+        pointer-events: none;
+        z-index: 1;
+    }
+
+    /* Decorative "III" monogram watermark, lower right */
+    .poster::after {
+        content: 'III';
+        position: absolute;
+        right: 70px;
+        bottom: 290px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 320px;
+        line-height: 0.85;
+        letter-spacing: -8px;
+        color: rgba(253,237,58,0.04);
+        pointer-events: none;
+        z-index: 1;
     }
 
     /* ── Top bar ───────────────────────────────────────── */
@@ -179,7 +206,7 @@
         top: 0;
         left: 0;
         right: 0;
-        padding: 60px 70px 0;
+        padding: 78px 90px 0;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -189,58 +216,91 @@
     .top-brand {
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 26px;
     }
 
     .top-logo {
-        width: 110px;
-        height: 110px;
+        width: 96px;
+        height: 96px;
         object-fit: contain;
     }
 
     .top-brand-text {
         display: flex;
         flex-direction: column;
-        gap: 6px;
+        gap: 4px;
         line-height: 1;
     }
 
     .top-brand-eyebrow {
-        font-family: 'Bebas Neue', sans-serif;
-        font-size: 36px;
-        font-weight: 400;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
         color: #FDED3A;
-        letter-spacing: 5px;
+        letter-spacing: 6px;
         text-transform: uppercase;
         line-height: 1;
     }
 
     .top-brand-title {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 56px;
+        font-size: 50px;
         line-height: 1;
         letter-spacing: 2px;
         color: #fff;
     }
 
+    /* Edition marker on the right of the top bar */
+    .top-edition {
+        text-align: right;
+        line-height: 1.2;
+    }
+
+    .top-edition-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 5px;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.45);
+    }
+
+    .top-edition-year {
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 28px;
+        letter-spacing: 5px;
+        color: rgba(255,255,255,0.85);
+    }
+
     /* ── Center ────────────────────────────────────────── */
     .center {
         position: absolute;
-        top: 50%;
+        top: 51%;
         left: 50%;
-        transform: translate(-50%, -54%);
+        transform: translate(-50%, -50%);
         text-align: center;
         z-index: 3;
         width: 92%;
     }
 
     .shield-stage {
-        width: 440px;
-        height: 440px;
-        margin: 0 auto 56px;
+        width: 460px;
+        height: 460px;
+        margin: 0 auto 60px;
+        position: relative;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /* Soft yellow halo behind the shield to anchor it on the dark canvas */
+    .shield-stage::before {
+        content: '';
+        position: absolute;
+        inset: -8%;
+        background: radial-gradient(circle, rgba(253,237,58,0.18) 0%, transparent 60%);
+        filter: blur(40px);
+        z-index: -1;
     }
 
     .shield-disc {
@@ -249,6 +309,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        filter: drop-shadow(0 12px 24px rgba(0,0,0,0.45));
     }
 
     .shield-img {
@@ -259,31 +320,32 @@
 
     .team-name {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 130px;
-        line-height: 0.9;
+        font-size: 136px;
+        line-height: 0.88;
         letter-spacing: 2px;
         color: #fff;
         text-transform: uppercase;
-        margin-bottom: 24px;
+        margin-bottom: 28px;
     }
-    .team-name.size-2 { font-size: 110px; }
-    .team-name.size-3 { font-size: 90px; }
-    .team-name.size-4 { font-size: 74px; }
+    .team-name.size-2 { font-size: 116px; }
+    .team-name.size-3 { font-size: 96px; }
+    .team-name.size-4 { font-size: 78px; }
 
     .team-city {
         display: inline-flex;
         align-items: center;
-        gap: 20px;
-        font-size: 28px;
-        font-weight: 700;
-        letter-spacing: 6px;
+        gap: 16px;
+        font-family: 'Inter', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        letter-spacing: 4px;
         text-transform: uppercase;
-        color: rgba(255,255,255,0.9);
+        color: rgba(255,255,255,0.78);
     }
 
     .team-city svg {
-        width: 28px;
-        height: 28px;
+        width: 18px;
+        height: 18px;
         fill: #FDED3A;
         flex-shrink: 0;
     }
@@ -294,21 +356,34 @@
         bottom: 0;
         left: 0;
         right: 0;
-        padding: 0 70px 60px;
+        padding: 0 90px 76px;
         z-index: 3;
         text-align: center;
     }
 
+    /* "PARTICIPA" eyebrow above the categories */
+    .categories-label {
+        font-family: 'Inter', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.4);
+        letter-spacing: 6px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
     .categories {
         text-align: center;
-        margin-bottom: 32px;
+        margin-bottom: 40px;
     }
 
     .category-pill {
         color: #FDED3A;
-        font-size: 22px;
-        font-weight: 500;
-        letter-spacing: 0;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 26px;
+        font-weight: 400;
+        letter-spacing: 2px;
+        text-transform: uppercase;
         padding: 0;
         background: transparent;
         border: 0;
@@ -316,41 +391,52 @@
     }
 
     .category-sep {
-        color: rgba(255,255,255,0.3);
-        margin: 0 12px;
+        color: rgba(255,255,255,0.25);
+        margin: 0 14px;
         font-weight: 400;
     }
 
     .bottom-meta {
-        padding-top: 28px;
+        padding-top: 32px;
         border-top: 1px solid rgba(255,255,255,0.12);
         display: flex;
-        flex-direction: column;
-        gap: 6px;
-        line-height: 1.2;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 24px;
+        line-height: 1;
     }
 
     .bottom-meta-dates {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 34px;
+        font-size: 36px;
         letter-spacing: 3px;
         color: #fff;
+        text-align: left;
+    }
+
+    .bottom-meta-dates .sep {
+        color: rgba(255,255,255,0.3);
+        margin: 0 4px;
+        font-weight: 400;
     }
 
     .bottom-meta-venue {
-        font-size: 16px;
-        font-weight: 500;
-        color: rgba(255,255,255,0.65);
-        letter-spacing: 1px;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        color: rgba(255,255,255,0.7);
+        letter-spacing: 4px;
+        text-transform: uppercase;
+        text-align: right;
     }
 
     /* ── Flag styles ─────────────────────────────────── */
     .team-flag {
-        width: 48px;
-        height: 32px;
+        width: 30px;
+        height: 20px;
         object-fit: cover;
-        border-radius: 3px;
-        box-shadow: 0 0 0 1px rgba(255,255,255,0.25);
+        border-radius: 2px;
+        box-shadow: 0 0 0 1px rgba(255,255,255,0.22);
         flex-shrink: 0;
     }
 
@@ -674,6 +760,10 @@ function renderSlide(team, index) {
                         '<div class="top-brand-title">Balonmano Vetusta</div>' +
                     '</div>' +
                 '</div>' +
+                '<div class="top-edition">' +
+                    '<div class="top-edition-label">Edición</div>' +
+                    '<div class="top-edition-year">2026</div>' +
+                '</div>' +
             '</div>' +
 
             '<div class="center">' +
@@ -690,9 +780,12 @@ function renderSlide(team, index) {
             '</div>' +
 
             '<div class="bottom">' +
+                '<div class="categories-label">Compite en</div>' +
                 '<div class="categories">' + cats + '</div>' +
                 '<div class="bottom-meta">' +
-                    '<div class="bottom-meta-dates">19 · 20 · 21 Junio 2026</div>' +
+                    '<div class="bottom-meta-dates">' +
+                        '19<span class="sep">·</span>20<span class="sep">·</span>21 Junio 2026' +
+                    '</div>' +
                     '<div class="bottom-meta-venue">Florida Arena · Oviedo</div>' +
                 '</div>' +
             '</div>' +
