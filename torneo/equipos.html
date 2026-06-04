@@ -189,45 +189,38 @@
     .top-brand {
         display: flex;
         align-items: center;
-        gap: 18px;
+        gap: 24px;
     }
 
     .top-logo {
-        width: 64px;
-        height: 64px;
+        width: 110px;
+        height: 110px;
         object-fit: contain;
     }
 
     .top-brand-text {
         display: flex;
         flex-direction: column;
-        gap: 4px;
+        gap: 6px;
         line-height: 1;
     }
 
     .top-brand-eyebrow {
-        font-size: 12px;
-        font-weight: 800;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 36px;
+        font-weight: 400;
         color: #FDED3A;
         letter-spacing: 5px;
         text-transform: uppercase;
+        line-height: 1;
     }
 
     .top-brand-title {
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 30px;
+        font-size: 56px;
         line-height: 1;
-        letter-spacing: 1.5px;
+        letter-spacing: 2px;
         color: #fff;
-    }
-
-    .top-date {
-        font-size: 13px;
-        font-weight: 700;
-        color: rgba(255,255,255,0.55);
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        text-align: right;
     }
 
     /* ── Center ────────────────────────────────────────── */
@@ -253,12 +246,9 @@
     .shield-disc {
         width: 100%;
         height: 100%;
-        background: #fff;
-        border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        padding: 50px;
     }
 
     .shield-img {
@@ -320,22 +310,27 @@
     .category-pill {
         background: #FDED3A;
         color: #0a0a14;
-        font-size: 14px;
+        font-size: 20px;
         font-weight: 800;
-        letter-spacing: 1.5px;
-        padding: 12px 22px;
+        letter-spacing: 2px;
+        padding: 14px 26px;
         border-radius: 999px;
         text-transform: uppercase;
     }
 
-    .bottom-venue {
-        font-size: 13px;
-        font-weight: 700;
-        color: rgba(255,255,255,0.55);
+    .bottom-meta {
+        font-size: 22px;
+        font-weight: 800;
+        color: rgba(255,255,255,0.85);
         letter-spacing: 4px;
         text-transform: uppercase;
-        padding-top: 24px;
-        border-top: 1px solid rgba(255,255,255,0.1);
+        padding-top: 28px;
+        border-top: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .bottom-meta-sep {
+        color: rgba(255,255,255,0.35);
+        margin: 0 14px;
     }
 
     /* ── Flag styles ─────────────────────────────────── */
@@ -348,21 +343,14 @@
         flex-shrink: 0;
     }
 
-    /* Try to blend out white/light backgrounds on JPEG shields */
-    .shield-img.blend {
-        mix-blend-mode: multiply;
-    }
-
     /* Per-team shield overrides */
     .slide[data-id="seleccion_asturiana"] .shield-img { transform: scale(0.88); }
 
-    /* BM Vetusta uses the yellow-on-transparent escudo.png — give the disc
-       a dark background so the logo reads the same way as on the homepage
-       banner (where the same file sits on the dark-tile). */
-    .slide[data-id="bm_vetusta"] .shield-disc { background: #0a0a14; }
-
-    /* Selección Asturiana disc takes the blue used in its own shield. */
-    .slide[data-id="seleccion_asturiana"] .shield-disc { background: #0069b3; }
+    /* Selección Asturiana keeps a blue disc (the same blue used inside its shield). */
+    .slide[data-id="seleccion_asturiana"] .shield-disc {
+        background: #0069b3;
+        border-radius: 50%;
+    }
 
     /* ── Overview slide (all teams) ────────────────────── */
     .poster.overview {
@@ -584,7 +572,6 @@
             </div>
         </div>
     </div>
-    <div class="slide-info" id="slide-info">1 / 9</div>
 </div>
 
 <div class="download-cluster">
@@ -597,7 +584,6 @@
 // Set 'blend: true' for shields with white/light backgrounds we want to flatten
 var TEAMS = [
     { id: 'egia_eskubaloia',      name: 'Egia Eskubaloia',      city: 'Guipúzcoa', flag: '../src/assets/banderas/pais_vasco.svg',      shield: '../src/assets/escudo_egia_eskubaloia.jpeg',     blend: true,  cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
-    { id: 'bm_vetusta',           name: 'BM Vetusta',           city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo.png',                       blend: false, cats: ['Cadete Femenino','Cadete Masculino','Infantil Masculino'] },
     { id: 'bm_chinchon',          name: 'BM Chinchón',          city: 'Madrid',    flag: '../src/assets/banderas/madrid.svg',          shield: '../src/assets/escudo_bm_chinchon.jpeg',         blend: true,  cats: ['Cadete Masculino','Infantil Masculino'] },
     { id: 'seleccion_asturiana',  name: 'Selección Asturiana',  city: 'Asturias',  flag: '../src/assets/banderas/asturias.svg',        shield: '../src/assets/escudo_seleccion_asturiana.jpg',  blend: true,  cats: ['Cadete Femenino','Cadete Masculino'] },
     { id: 'cd_balopal',           name: 'CD Balopal',           city: 'Palencia',  flag: '../src/assets/banderas/castilla_y_leon.svg', shield: '../src/assets/escudo_cd_balopal.png',           blend: false, cats: ['Infantil Masculino'] },
@@ -673,23 +659,22 @@ function renderSlide(team, index) {
     var cats = team.cats.map(function(c) {
         return '<span class="category-pill">' + escapeHtml(c) + '</span>';
     }).join('');
-    return '<div class="slide" data-id="' + team.id + '">' +
+    return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
         '<div class="poster">' +
             '<div class="top-bar">' +
                 '<div class="top-brand">' +
                     '<img src="../src/assets/escudo.png" class="top-logo" alt="">' +
                     '<div class="top-brand-text">' +
-                        '<div class="top-brand-eyebrow">III Torneo</div>' +
-                        '<div class="top-brand-title">BM Vetusta</div>' +
+                        '<div class="top-brand-eyebrow">III Torneo Nacional</div>' +
+                        '<div class="top-brand-title">Balonmano Vetusta</div>' +
                     '</div>' +
                 '</div>' +
-                '<div class="top-date">19 · 20 · 21 Junio 2026</div>' +
             '</div>' +
 
             '<div class="center">' +
                 '<div class="shield-stage">' +
                     '<div class="shield-disc">' +
-                        '<img src="' + team.shield + '" class="shield-img' + (team.blend ? ' blend' : '') + '" alt="">' +
+                        '<img src="' + team.shield + '" class="shield-img" alt="">' +
                     '</div>' +
                 '</div>' +
                 '<div class="' + nameSizeClass(team.name) + '">' + escapeHtml(team.name) + '</div>' +
@@ -701,22 +686,24 @@ function renderSlide(team, index) {
 
             '<div class="bottom">' +
                 '<div class="categories">' + cats + '</div>' +
-                '<div class="bottom-venue">Florida Arena · Oviedo</div>' +
+                '<div class="bottom-meta">' +
+                    '19 · 20 · 21 Junio 2026' +
+                    '<span class="bottom-meta-sep">·</span>' +
+                    'Florida Arena · Oviedo' +
+                '</div>' +
             '</div>' +
         '</div>' +
     '</div>';
 }
 
 var slidesEl = document.getElementById('slides');
-// Overview cartel first, then one slide per team
-slidesEl.innerHTML = renderOverviewSlide() + TEAMS.map(renderSlide).join('');
+slidesEl.innerHTML = TEAMS.map(renderSlide).join('');
 var slides = slidesEl.querySelectorAll('.slide');
 var current = 0;
 
 // Filename for each slide's downloaded PNG
 function slideFilename(i) {
-    if (i === 0) return 'cartel-iii-torneo-bm-vetusta.png';
-    return 'cartel-' + TEAMS[i - 1].id + '.png';
+    return 'cartel-' + TEAMS[i].id + '.png';
 }
 
 // Responsive scale: fit 1080x1350 cartel into viewport
@@ -732,14 +719,12 @@ updateScale();
 
 var prevBtn = document.getElementById('prev-btn');
 var nextBtn = document.getElementById('next-btn');
-var info = document.getElementById('slide-info');
 var dlBtn = document.getElementById('download-btn');
 var dlAllBtn = document.getElementById('download-all-btn');
 
 function show(i) {
     current = ((i % slides.length) + slides.length) % slides.length;
     slides.forEach(function(s, idx) { s.classList.toggle('active', idx === current); });
-    info.textContent = (current + 1) + ' / ' + slides.length;
 }
 
 prevBtn.addEventListener('click', function() { show(current - 1); });
