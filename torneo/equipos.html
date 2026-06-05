@@ -253,13 +253,14 @@
         z-index: 3;
     }
 
-    /* Soft yellow halo behind the shield to anchor it on the dark canvas */
+    /* Soft yellow halo behind the shield. Avoid 'filter: blur' — it
+       renders glitched in html2canvas 1.4.1, so the radial gradient
+       handles the diffusion on its own. */
     .shield-stage::before {
         content: '';
         position: absolute;
-        inset: -8%;
-        background: radial-gradient(circle, rgba(253,237,58,0.18) 0%, transparent 60%);
-        filter: blur(40px);
+        inset: -20%;
+        background: radial-gradient(circle, rgba(253,237,58,0.16) 0%, transparent 65%);
         z-index: -1;
     }
 
@@ -269,7 +270,6 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        filter: drop-shadow(0 12px 24px rgba(0,0,0,0.45));
     }
 
     .shield-img {
