@@ -155,7 +155,10 @@
 
     .slide {
         position: absolute;
-        inset: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
         opacity: 0;
         visibility: hidden;
         transition: opacity 0.3s;
@@ -175,11 +178,16 @@
         font-family: 'Inter', sans-serif;
     }
 
-    /* Subtle inner frame — a 1px line of low-opacity yellow inset 40px */
+    /* Subtle inner frame — a 1px line of low-opacity yellow inset 40px.
+       Use longhand top/right/bottom/left (not 'inset:') for html2canvas
+       compatibility. */
     .poster::before {
         content: '';
         position: absolute;
-        inset: 40px;
+        top: 40px;
+        right: 40px;
+        bottom: 40px;
+        left: 40px;
         border: 1px solid rgba(253,237,58,0.10);
         pointer-events: none;
         z-index: 1;
@@ -253,13 +261,15 @@
         z-index: 3;
     }
 
-    /* Soft yellow halo behind the shield. Avoid 'filter: blur' — it
-       renders glitched in html2canvas 1.4.1, so the radial gradient
-       handles the diffusion on its own. */
+    /* Soft yellow halo behind the shield. Longhand top/right/bottom/left
+       (instead of 'inset:') for html2canvas compatibility. */
     .shield-stage::before {
         content: '';
         position: absolute;
-        inset: -20%;
+        top: -20%;
+        right: -20%;
+        bottom: -20%;
+        left: -20%;
         background: radial-gradient(circle, rgba(253,237,58,0.16) 0%, transparent 65%);
         z-index: -1;
     }
@@ -804,7 +814,23 @@ document.addEventListener('keydown', function(e) {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
 function captureSlide(slideEl) {
-    return html2canvas(slideEl.querySelector('.poster'), {
+    // Clone the .poster out into an off-screen 1080x1350 container so
+    // html2canvas captures the natural pixel grid. Capturing in place
+    // inherits the parent .stage's transform:scale(var(--scale)),
+    // which breaks the export geometry on every team poster.
+    var src = slideEl.querySelector('.poster');
+    var holder = document.createElement('div');
+    holder.style.cssText = 'position:fixed;left:-99999px;top:0;width:1080px;height:1350px;pointer-events:none;';
+    var clone = src.cloneNode(true);
+    clone.style.width = '1080px';
+    clone.style.height = '1350px';
+    clone.style.transform = 'none';
+    holder.appendChild(clone);
+    document.body.appendChild(holder);
+
+    function cleanup() { try { document.body.removeChild(holder); } catch (e) {} }
+
+    return html2canvas(clone, {
         backgroundColor: null,
         scale: 1,
         useCORS: true,
@@ -812,6 +838,12 @@ function captureSlide(slideEl) {
         height: 1350,
         windowWidth: 1080,
         windowHeight: 1350
+    }).then(function(canvas) {
+        cleanup();
+        return canvas;
+    }, function(err) {
+        cleanup();
+        throw err;
     });
 }
 
