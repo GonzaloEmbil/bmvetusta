@@ -408,27 +408,6 @@
     /* Per-team shield overrides */
     .slide[data-id="seleccion_asturiana"] .shield-img { transform: scale(0.88); }
 
-    /* CD Balopal — white background, every white text flips to dark.
-       Yellow accents (eyebrow + categories) re-tint to the team's own
-       purple #400060 for proper contrast and brand match. */
-    .slide[data-id="cd_balopal"] .poster { background: #fff; }
-    .slide[data-id="cd_balopal"] .top-brand-title,
-    .slide[data-id="cd_balopal"] .team-name,
-    .slide[data-id="cd_balopal"] .bottom-meta-dates,
-    .slide[data-id="cd_balopal"] .bottom-meta-venue { color: #0a0a14; }
-    .slide[data-id="cd_balopal"] .team-city { color: rgba(0,0,0,0.78); }
-    .slide[data-id="cd_balopal"] .category-sep,
-    .slide[data-id="cd_balopal"] .bottom-meta-dates .sep,
-    .slide[data-id="cd_balopal"] .bottom-meta-venue .sep { color: rgba(0,0,0,0.3); }
-    .slide[data-id="cd_balopal"] .bottom-meta { border-top-color: rgba(0,0,0,0.12); }
-    /* Yellow → Balopal purple */
-    .slide[data-id="cd_balopal"] .top-brand-eyebrow,
-    .slide[data-id="cd_balopal"] .category-pill { color: #400060; }
-    .slide[data-id="cd_balopal"] .team-city svg { fill: #400060; }
-    /* Yellow halo / frame don't read on white — neutralise. */
-    .slide[data-id="cd_balopal"] .shield-stage::before { display: none; }
-    .slide[data-id="cd_balopal"] .poster::before { border-color: rgba(64,0,96,0.15); }
-
     /* ── Overview slide (all teams) ────────────────────── */
     .poster.overview {
         background: radial-gradient(circle at 20% 0%, #1a1a2e 0%, #000 60%);
