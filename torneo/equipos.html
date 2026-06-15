@@ -408,100 +408,106 @@
     /* Per-team shield overrides */
     .slide[data-id="seleccion_asturiana"] .shield-img { transform: scale(0.88); }
 
-    /* ── Banner slide (mirrors the homepage tournament banner) ───────
-       Cream-themed introductory slide: III Torneo Nacional / Balonmano
-       Vetusta title, the eight participating-team shields, and the
-       dates+venues band. Same visual language as
-       .home-tournament-banner on the homepage, scaled to the 1080x1350
-       poster surface. */
-    .poster.banner-poster {
+    /* Banner slide: hide the yellow halo behind the central area —
+       the banner card is cream and the halo would muddy it. */
+    .slide[data-id="banner"] .shield-stage::before { display: none; }
+
+    /* ── Banner slide (same poster format, banner replaces the team
+       shield) ─────────────────────────────────────────────────────────
+       The slide shares everything with a team poster — dark background,
+       top brand bar, name slot, city slot, categories + dates+venue at
+       the bottom — except that the 520x520 shield-stage now holds a
+       small cream-themed copy of the homepage banner instead of a team
+       crest. */
+    .banner-card {
+        width: 100%;
         background: #f4f1ea;
         color: #0a0a14;
+        border-radius: 18px;
+        overflow: hidden;
         display: flex;
         flex-direction: column;
-        align-items: stretch;
-        justify-content: center;
-        padding: 0;
-        overflow: hidden;
+        box-shadow: 0 12px 30px rgba(0,0,0,0.35);
     }
 
-    .banner-title {
+    .banner-card-title {
         background:
-            radial-gradient(circle at 50% 0%, rgba(253,237,58,0.45) 0%, transparent 65%),
+            radial-gradient(circle at 50% 0%, rgba(253,237,58,0.45) 0%, transparent 70%),
             transparent;
-        padding: 110px 60px 70px;
+        padding: 38px 24px 22px;
         text-align: center;
         line-height: 1;
     }
 
-    .banner-title-eyebrow {
+    .banner-card-title-eyebrow {
         display: block;
-        font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
-        font-size: 72px;
+        font-family: 'Inter', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
         color: rgba(0,0,0,0.55);
-        letter-spacing: 16px;
+        letter-spacing: 8px;
         text-transform: uppercase;
-        margin-bottom: 20px;
+        margin-bottom: 12px;
     }
 
-    .banner-title-main {
+    .banner-card-title-main {
         display: block;
-        font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
-        font-size: 124px;
+        font-family: 'Bebas Neue', sans-serif;
+        font-size: 64px;
         color: #0a0a14;
-        letter-spacing: 8px;
+        letter-spacing: 4px;
         text-transform: uppercase;
         white-space: nowrap;
     }
 
-    .banner-shields {
+    .banner-card-shields {
         background: #f4f1ea;
-        padding: 50px 56px;
+        padding: 16px 18px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 16px;
+        gap: 8px;
     }
 
-    .banner-shields img {
+    .banner-card-shields img {
         flex: 1 1 0;
         min-width: 0;
-        height: 110px;
+        height: 56px;
         object-fit: contain;
         background: #fff;
-        border-radius: 10px;
-        padding: 6px;
+        border-radius: 6px;
+        padding: 3px;
     }
 
-    .banner-shields img.dark-tile { background: #0a0a14; }
-    .banner-shields img.blue-tile { background: #0069b3; }
+    .banner-card-shields img.dark-tile { background: #0a0a14; }
+    .banner-card-shields img.blue-tile { background: #0069b3; }
 
-    .banner-band {
-        padding: 60px 60px 110px;
+    .banner-card-band {
+        padding: 18px 24px 28px;
         text-align: center;
         font-family: 'Inter', sans-serif;
         text-transform: uppercase;
         white-space: nowrap;
     }
 
-    .banner-dates {
-        font-size: 40px;
+    .banner-card-dates {
+        font-size: 20px;
         font-weight: 900;
         color: #0a0a14;
-        letter-spacing: 6px;
+        letter-spacing: 3px;
     }
 
-    .banner-sep {
+    .banner-card-sep {
         color: rgba(0,0,0,0.25);
-        font-size: 32px;
-        margin: 0 24px;
+        font-size: 16px;
+        margin: 0 12px;
     }
 
-    .banner-venues {
-        font-size: 32px;
+    .banner-card-venues {
+        font-size: 16px;
         font-weight: 800;
         color: rgba(0,0,0,0.75);
-        letter-spacing: 8px;
+        letter-spacing: 4px;
     }
 
     /* ── Overview slide (all teams) ────────────────────── */
@@ -808,9 +814,9 @@ function renderOverviewSlide() {
 }
 
 function renderBannerSlide() {
-    // Mirrors the homepage tournament banner: same title, same shield
-    // order (Vetusta, Egia, Balopal, Chinchón, Xallas, Cidade das Burgas,
-    // Estadio, Selección Asturiana), same date+venue band.
+    // Same team-poster layout, but the 520x520 shield-stage in the
+    // centre holds a scaled-down copy of the homepage tournament banner
+    // instead of a single team crest.
     var shields = [
         { src: '../src/assets/escudo.png',                       alt: 'BM Vetusta',           cls: 'dark-tile' },
         { src: '../src/assets/escudo_egia_eskubaloia.png',       alt: 'Egia Eskubaloia',      cls: '' },
@@ -825,17 +831,44 @@ function renderBannerSlide() {
         var clsAttr = s.cls ? ' class="' + s.cls + '"' : '';
         return '<img src="' + s.src + '" alt="' + escapeHtml(s.alt) + '"' + clsAttr + '>';
     }).join('');
+    var cats = ['Cadete Femenino','Cadete Masculino','Infantil Masculino']
+        .map(function(c) { return '<span class="category-pill">' + c + '</span>'; })
+        .join('<span class="category-sep">·</span>');
     return '<div class="slide active" data-id="banner">' +
-        '<div class="poster banner-poster">' +
-            '<div class="banner-title">' +
-                '<span class="banner-title-eyebrow">III Torneo Nacional</span>' +
-                '<span class="banner-title-main">Balonmano Vetusta</span>' +
+        '<div class="poster">' +
+            '<div class="top-bar">' +
+                '<div class="top-brand">' +
+                    '<img src="../src/assets/escudo.png" class="top-logo" alt="">' +
+                    '<div class="top-brand-text">' +
+                        '<div class="top-brand-eyebrow">III Torneo Nacional</div>' +
+                        '<div class="top-brand-title">Balonmano Vetusta</div>' +
+                    '</div>' +
+                '</div>' +
             '</div>' +
-            '<div class="banner-shields">' + shieldsHtml + '</div>' +
-            '<div class="banner-band">' +
-                '<span class="banner-dates">19, 20 y 21 de junio</span>' +
-                '<span class="banner-sep">|</span>' +
-                '<span class="banner-venues">Florida Arena · Vallobín</span>' +
+
+            '<div class="shield-stage">' +
+                '<div class="banner-card">' +
+                    '<div class="banner-card-title">' +
+                        '<span class="banner-card-title-eyebrow">III Torneo Nacional</span>' +
+                        '<span class="banner-card-title-main">Balonmano Vetusta</span>' +
+                    '</div>' +
+                    '<div class="banner-card-shields">' + shieldsHtml + '</div>' +
+                    '<div class="banner-card-band">' +
+                        '<span class="banner-card-dates">19, 20 y 21 de junio</span>' +
+                        '<span class="banner-card-sep">|</span>' +
+                        '<span class="banner-card-venues">Florida Arena · Vallobín</span>' +
+                    '</div>' +
+                '</div>' +
+            '</div>' +
+
+            '<div class="bottom">' +
+                '<div class="categories">' + cats + '</div>' +
+                '<div class="bottom-meta">' +
+                    '<div class="bottom-meta-dates">' +
+                        '19<span class="sep">·</span>20<span class="sep">·</span>21 Junio' +
+                    '</div>' +
+                    '<div class="bottom-meta-venue">Florida Arena<span class="sep">·</span>Vallobín</div>' +
+                '</div>' +
             '</div>' +
         '</div>' +
     '</div>';
