@@ -408,6 +408,102 @@
     /* Per-team shield overrides */
     .slide[data-id="seleccion_asturiana"] .shield-img { transform: scale(0.88); }
 
+    /* ── Banner slide (mirrors the homepage tournament banner) ───────
+       Cream-themed introductory slide: III Torneo Nacional / Balonmano
+       Vetusta title, the eight participating-team shields, and the
+       dates+venues band. Same visual language as
+       .home-tournament-banner on the homepage, scaled to the 1080x1350
+       poster surface. */
+    .poster.banner-poster {
+        background: #f4f1ea;
+        color: #0a0a14;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .banner-title {
+        background:
+            radial-gradient(circle at 50% 0%, rgba(253,237,58,0.45) 0%, transparent 65%),
+            transparent;
+        padding: 110px 60px 70px;
+        text-align: center;
+        line-height: 1;
+    }
+
+    .banner-title-eyebrow {
+        display: block;
+        font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
+        font-size: 72px;
+        color: rgba(0,0,0,0.55);
+        letter-spacing: 16px;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+    }
+
+    .banner-title-main {
+        display: block;
+        font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
+        font-size: 124px;
+        color: #0a0a14;
+        letter-spacing: 8px;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .banner-shields {
+        background: #f4f1ea;
+        padding: 50px 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+    }
+
+    .banner-shields img {
+        flex: 1 1 0;
+        min-width: 0;
+        height: 110px;
+        object-fit: contain;
+        background: #fff;
+        border-radius: 10px;
+        padding: 6px;
+    }
+
+    .banner-shields img.dark-tile { background: #0a0a14; }
+    .banner-shields img.blue-tile { background: #0069b3; }
+
+    .banner-band {
+        padding: 60px 60px 110px;
+        text-align: center;
+        font-family: 'Inter', sans-serif;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .banner-dates {
+        font-size: 40px;
+        font-weight: 900;
+        color: #0a0a14;
+        letter-spacing: 6px;
+    }
+
+    .banner-sep {
+        color: rgba(0,0,0,0.25);
+        font-size: 32px;
+        margin: 0 24px;
+    }
+
+    .banner-venues {
+        font-size: 32px;
+        font-weight: 800;
+        color: rgba(0,0,0,0.75);
+        letter-spacing: 8px;
+    }
+
     /* ── Overview slide (all teams) ────────────────────── */
     .poster.overview {
         background: radial-gradient(circle at 20% 0%, #1a1a2e 0%, #000 60%);
@@ -711,11 +807,45 @@ function renderOverviewSlide() {
     '</div>';
 }
 
+function renderBannerSlide() {
+    // Mirrors the homepage tournament banner: same title, same shield
+    // order (Vetusta, Egia, Balopal, Chinchón, Xallas, Cidade das Burgas,
+    // Estadio, Selección Asturiana), same date+venue band.
+    var shields = [
+        { src: '../src/assets/escudo.png',                       alt: 'BM Vetusta',           cls: 'dark-tile' },
+        { src: '../src/assets/escudo_egia_eskubaloia.png',       alt: 'Egia Eskubaloia',      cls: '' },
+        { src: '../src/assets/escudo_cd_balopal_v2.png',         alt: 'CD Balopal',           cls: '' },
+        { src: '../src/assets/escudo_bm_chinchon.png',           alt: 'BM Chinchón',          cls: '' },
+        { src: '../src/assets/escudo_bm_xallas.png',             alt: 'BM Xallas',            cls: '' },
+        { src: '../src/assets/escudo_bm_cidade_das_burgas.png',  alt: 'BM Cidade das Burgas', cls: '' },
+        { src: '../src/assets/escudo_estadio_sinfondo.png',      alt: 'Deportivo Estadio',    cls: '' },
+        { src: '../src/assets/escudo_seleccion_asturiana.png',   alt: 'Selección Asturiana',  cls: 'blue-tile' }
+    ];
+    var shieldsHtml = shields.map(function(s) {
+        var clsAttr = s.cls ? ' class="' + s.cls + '"' : '';
+        return '<img src="' + s.src + '" alt="' + escapeHtml(s.alt) + '"' + clsAttr + '>';
+    }).join('');
+    return '<div class="slide active" data-id="banner">' +
+        '<div class="poster banner-poster">' +
+            '<div class="banner-title">' +
+                '<span class="banner-title-eyebrow">III Torneo Nacional</span>' +
+                '<span class="banner-title-main">Balonmano Vetusta</span>' +
+            '</div>' +
+            '<div class="banner-shields">' + shieldsHtml + '</div>' +
+            '<div class="banner-band">' +
+                '<span class="banner-dates">19, 20 y 21 de junio</span>' +
+                '<span class="banner-sep">|</span>' +
+                '<span class="banner-venues">Florida Arena · Vallobín</span>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+
 function renderSlide(team, index) {
     var cats = team.cats.map(function(c) {
         return '<span class="category-pill">' + escapeHtml(c) + '</span>';
     }).join('<span class="category-sep">·</span>');
-    return '<div class="slide' + (index === 0 ? ' active' : '') + '" data-id="' + team.id + '">' +
+    return '<div class="slide" data-id="' + team.id + '">' +
         '<div class="poster">' +
             '<div class="top-bar">' +
                 '<div class="top-brand">' +
@@ -752,13 +882,15 @@ function renderSlide(team, index) {
 }
 
 var slidesEl = document.getElementById('slides');
-slidesEl.innerHTML = TEAMS.map(renderSlide).join('');
+// First slide is the homepage-style banner, then one slide per team.
+slidesEl.innerHTML = renderBannerSlide() + TEAMS.map(renderSlide).join('');
 var slides = slidesEl.querySelectorAll('.slide');
 var current = 0;
 
 // Filename for each slide's downloaded PNG
 function slideFilename(i) {
-    return 'cartel-' + TEAMS[i].id + '.png';
+    if (i === 0) return 'cartel-iii-torneo-bm-vetusta.png';
+    return 'cartel-' + TEAMS[i - 1].id + '.png';
 }
 
 // Responsive scale: fit 1080x1350 cartel into viewport
