@@ -2408,43 +2408,44 @@ body {
 /* Desktop: news-grid lays cards in 3+ columns of ~320-400px wide. The
    homepage banner's pixel-fixed paddings + font sizes leave it much
    taller than the 16:9 image area of sibling cards, so shrink every
-   internal dimension proportionally for the news-card variant. Mobile
-   keeps the full-size banner. */
+   internal dimension proportionally for the news-card variant — but
+   not so much that the banner ends up shorter than the sibling card
+   image. Mobile keeps the full-size banner. */
 @media (min-width: 769px) {
     .news-card-image-banner .home-tournament-banner-title {
-        padding: 14px 14px 8px;
+        padding: 18px 16px 12px;
     }
     .news-card-image-banner .home-tournament-banner-title-eyebrow {
-        font-size: 13px;
-        letter-spacing: 3px;
-        margin-bottom: 2px;
+        font-size: 16px;
+        letter-spacing: 4px;
+        margin-bottom: 6px;
     }
     .news-card-image-banner .home-tournament-banner-title-main {
-        font-size: 22px;
-        letter-spacing: 1px;
+        font-size: 32px;
+        letter-spacing: 2px;
     }
     .news-card-image-banner .home-tournament-banner-shields {
-        padding: 6px 8px;
-        gap: 4px;
+        padding: 10px 12px;
+        gap: 5px;
     }
     .news-card-image-banner .home-tournament-banner-shields img {
-        height: 26px;
-        border-radius: 3px;
-        padding: 2px;
+        height: 42px;
+        border-radius: 4px;
+        padding: 3px;
     }
     .news-card-image-banner .home-tournament-banner-band {
-        padding: 6px 12px;
-        gap: 8px;
+        padding: 10px 14px;
+        gap: 10px;
     }
     .news-card-image-banner .home-tournament-banner-dates {
-        font-size: 9px;
-        letter-spacing: 1px;
+        font-size: 12px;
+        letter-spacing: 1.5px;
     }
     .news-card-image-banner .home-tournament-banner-sep {
-        font-size: 8px;
+        font-size: 10px;
     }
     .news-card-image-banner .home-tournament-banner-venues {
-        font-size: 8px;
+        font-size: 10px;
         letter-spacing: 2px;
     }
 }
