@@ -411,8 +411,9 @@
     /* Banner slide: nothing but the banner card centred on the poster,
        sitting on top of a soft yellow halo. No top brand bar, no
        categories, no dates/venue line — those are inside the banner.
-       Halo is a real <div> (not a pseudo-element) and the card is
-       absolutely positioned so html2canvas exports the slide cleanly. */
+       The class hooks live on the .poster itself (not the parent
+       .slide), so that captureSlide()'s clone — which detaches the
+       .poster from its .slide parent — still picks them up. */
     .banner-halo {
         position: absolute;
         top: 0;
@@ -423,7 +424,7 @@
         z-index: 0;
         pointer-events: none;
     }
-    .slide[data-id="banner"] .banner-card {
+    .poster.banner-only .banner-card {
         position: absolute;
         top: 50%;
         left: 50%;
@@ -854,7 +855,7 @@ function renderBannerSlide() {
         return '<img src="' + s.src + '" alt="' + escapeHtml(s.alt) + '"' + clsAttr + '>';
     }).join('');
     return '<div class="slide active" data-id="banner">' +
-        '<div class="poster">' +
+        '<div class="poster banner-only">' +
             '<div class="banner-halo"></div>' +
             '<div class="banner-card">' +
                 '<div class="banner-card-title">' +
