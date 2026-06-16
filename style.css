@@ -2390,6 +2390,21 @@ body {
     background-color: #222;
 }
 
+/* When the news-card-image area holds the live tournament banner instead
+   of an <img>, let the banner determine its own height instead of being
+   squashed into the 16:9 aspect box. */
+.news-card-image-banner {
+    aspect-ratio: auto;
+    background-color: transparent;
+    overflow: visible;
+}
+.news-card-image-banner .home-tournament-banner {
+    display: block;
+    width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+}
+
 .news-card-image img {
     width: 100%;
     height: 100%;
