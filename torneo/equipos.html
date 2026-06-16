@@ -29,9 +29,10 @@
         justify-content: center;
     }
 
-    /* Side nav buttons (prev/next) */
+    /* Side nav buttons (prev/next) — fixed to the viewport edges so
+       they sit far from the slide and far from each other. */
     .nav-arrow {
-        position: absolute;
+        position: fixed;
         top: 50%;
         transform: translateY(-50%);
         width: 56px;
@@ -54,12 +55,12 @@
         background: #FDED3A;
         color: #0a0a1a;
     }
-    .nav-arrow.prev { left: -28px; }
-    .nav-arrow.next { right: -28px; }
+    .nav-arrow.prev { left: 24px; }
+    .nav-arrow.next { right: 24px; }
     @media (max-width: 720px) {
         .nav-arrow { width: 44px; height: 44px; font-size: 20px; }
-        .nav-arrow.prev { left: -10px; }
-        .nav-arrow.next { right: -10px; }
+        .nav-arrow.prev { left: 12px; }
+        .nav-arrow.next { right: 12px; }
     }
 
     .stage-outer {
