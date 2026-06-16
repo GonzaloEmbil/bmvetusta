@@ -408,9 +408,33 @@
     /* Per-team shield overrides */
     .slide[data-id="seleccion_asturiana"] .shield-img { transform: scale(0.88); }
 
-    /* Banner slide: hide the yellow halo behind the central area —
-       the banner card is cream and the halo would muddy it. */
-    .slide[data-id="banner"] .shield-stage::before { display: none; }
+    /* Banner slide: nothing but the banner card centred on the poster,
+       sitting on top of a soft yellow halo. No top brand bar, no
+       categories, no dates/venue line — those are inside the banner. */
+    .slide[data-id="banner"] .poster {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+    .slide[data-id="banner"] .poster::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background: radial-gradient(circle at 50% 50%, rgba(253,237,58,0.30) 0%, transparent 55%);
+        z-index: 0;
+        pointer-events: none;
+    }
+    .slide[data-id="banner"] .banner-card {
+        position: relative;
+        z-index: 1;
+        width: 80%;
+        max-width: 820px;
+        margin: 0;
+    }
 
     /* ── Banner slide (same poster format, banner replaces the team
        shield) ─────────────────────────────────────────────────────────
@@ -423,18 +447,18 @@
         width: 100%;
         background: #f4f1ea;
         color: #0a0a14;
-        border-radius: 18px;
+        border-radius: 26px;
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+        box-shadow: 0 20px 60px rgba(0,0,0,0.55);
     }
 
     .banner-card-title {
         background:
             radial-gradient(circle at 50% 0%, rgba(253,237,58,0.45) 0%, transparent 70%),
             transparent;
-        padding: 38px 24px 22px;
+        padding: 62px 36px 36px;
         text-align: center;
         line-height: 1;
     }
@@ -442,48 +466,48 @@
     .banner-card-title-eyebrow {
         display: block;
         font-family: 'Inter', sans-serif;
-        font-size: 20px;
+        font-size: 32px;
         font-weight: 700;
         color: rgba(0,0,0,0.55);
-        letter-spacing: 8px;
+        letter-spacing: 12px;
         text-transform: uppercase;
-        margin-bottom: 12px;
+        margin-bottom: 18px;
     }
 
     .banner-card-title-main {
         display: block;
         font-family: 'Bebas Neue', sans-serif;
-        font-size: 64px;
+        font-size: 104px;
         color: #0a0a14;
-        letter-spacing: 4px;
+        letter-spacing: 6px;
         text-transform: uppercase;
         white-space: nowrap;
     }
 
     .banner-card-shields {
         background: #f4f1ea;
-        padding: 16px 18px;
+        padding: 26px 30px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        gap: 8px;
+        gap: 12px;
     }
 
     .banner-card-shields img {
         flex: 1 1 0;
         min-width: 0;
-        height: 56px;
+        height: 92px;
         object-fit: contain;
         background: #fff;
-        border-radius: 6px;
-        padding: 3px;
+        border-radius: 10px;
+        padding: 5px;
     }
 
     .banner-card-shields img.dark-tile { background: #0a0a14; }
     .banner-card-shields img.blue-tile { background: #0069b3; }
 
     .banner-card-band {
-        padding: 18px 24px 28px;
+        padding: 28px 36px 52px;
         text-align: center;
         font-family: 'Inter', sans-serif;
         text-transform: uppercase;
@@ -491,23 +515,23 @@
     }
 
     .banner-card-dates {
-        font-size: 20px;
+        font-size: 32px;
         font-weight: 900;
         color: #0a0a14;
-        letter-spacing: 3px;
+        letter-spacing: 5px;
     }
 
     .banner-card-sep {
         color: rgba(0,0,0,0.25);
-        font-size: 16px;
-        margin: 0 12px;
+        font-size: 26px;
+        margin: 0 18px;
     }
 
     .banner-card-venues {
-        font-size: 16px;
+        font-size: 26px;
         font-weight: 800;
         color: rgba(0,0,0,0.75);
-        letter-spacing: 4px;
+        letter-spacing: 6px;
     }
 
     /* ── Overview slide (all teams) ────────────────────── */
@@ -831,43 +855,18 @@ function renderBannerSlide() {
         var clsAttr = s.cls ? ' class="' + s.cls + '"' : '';
         return '<img src="' + s.src + '" alt="' + escapeHtml(s.alt) + '"' + clsAttr + '>';
     }).join('');
-    var cats = ['Cadete Femenino','Cadete Masculino','Infantil Masculino']
-        .map(function(c) { return '<span class="category-pill">' + c + '</span>'; })
-        .join('<span class="category-sep">·</span>');
     return '<div class="slide active" data-id="banner">' +
         '<div class="poster">' +
-            '<div class="top-bar">' +
-                '<div class="top-brand">' +
-                    '<img src="../src/assets/escudo.png" class="top-logo" alt="">' +
-                    '<div class="top-brand-text">' +
-                        '<div class="top-brand-eyebrow">III Torneo Nacional</div>' +
-                        '<div class="top-brand-title">Balonmano Vetusta</div>' +
-                    '</div>' +
+            '<div class="banner-card">' +
+                '<div class="banner-card-title">' +
+                    '<span class="banner-card-title-eyebrow">III Torneo Nacional</span>' +
+                    '<span class="banner-card-title-main">Balonmano Vetusta</span>' +
                 '</div>' +
-            '</div>' +
-
-            '<div class="shield-stage">' +
-                '<div class="banner-card">' +
-                    '<div class="banner-card-title">' +
-                        '<span class="banner-card-title-eyebrow">III Torneo Nacional</span>' +
-                        '<span class="banner-card-title-main">Balonmano Vetusta</span>' +
-                    '</div>' +
-                    '<div class="banner-card-shields">' + shieldsHtml + '</div>' +
-                    '<div class="banner-card-band">' +
-                        '<span class="banner-card-dates">19, 20 y 21 de junio</span>' +
-                        '<span class="banner-card-sep">|</span>' +
-                        '<span class="banner-card-venues">Florida Arena · Vallobín</span>' +
-                    '</div>' +
-                '</div>' +
-            '</div>' +
-
-            '<div class="bottom">' +
-                '<div class="categories">' + cats + '</div>' +
-                '<div class="bottom-meta">' +
-                    '<div class="bottom-meta-dates">' +
-                        '19<span class="sep">·</span>20<span class="sep">·</span>21 Junio' +
-                    '</div>' +
-                    '<div class="bottom-meta-venue">Florida Arena<span class="sep">·</span>Vallobín</div>' +
+                '<div class="banner-card-shields">' + shieldsHtml + '</div>' +
+                '<div class="banner-card-band">' +
+                    '<span class="banner-card-dates">19, 20 y 21 de junio</span>' +
+                    '<span class="banner-card-sep">|</span>' +
+                    '<span class="banner-card-venues">Florida Arena · Vallobín</span>' +
                 '</div>' +
             '</div>' +
         '</div>' +
