@@ -611,6 +611,60 @@
             white-space: nowrap;
         }
 
+        /* ── Live-stream link ────────────────────────────── */
+        .match-stream-row {
+            margin-top: 14px;
+            padding-top: 12px;
+            border-top: 1px dashed #e5e7eb;
+            display: flex;
+            justify-content: center;
+        }
+
+        .match-stream {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: #dc2626;
+            color: #fff;
+            border-radius: 999px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: background 0.15s, transform 0.15s;
+            line-height: 1;
+        }
+
+        .match-stream:hover {
+            background: #b91c1c;
+            transform: translateY(-1px);
+        }
+
+        .match-stream--compact {
+            margin: 8px auto 0;
+            padding: 6px 12px;
+            font-size: 0.65rem;
+            display: flex;
+            width: fit-content;
+        }
+
+        .match-stream-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 0 0 rgba(255,255,255,0.7);
+            animation: matchStreamPulse 1.6s ease-out infinite;
+        }
+
+        @keyframes matchStreamPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(255,255,255,0.6); }
+            70%  { box-shadow: 0 0 0 8px rgba(255,255,255,0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+        }
+
         /* ── Venue link ──────────────────────────────────── */
         .venue-link {
             color: inherit;
@@ -756,6 +810,38 @@
                 return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="venue-link">' + text + '</a>';
             }
             return text;
+        }
+
+        // Live-stream URLs — only Florida Arena matches are broadcast.
+        function streamUrl(venue, fecha, hora) {
+            if (!venue) return '';
+            var key = (venue || '').toLowerCase()
+                .normalize('NFD').replace(/[̀-ͯ]/g, '');
+            if (key.indexOf('florida arena') === -1) return '';
+            var p = (fecha || '').split('/');
+            if (p.length !== 3) return '';
+            var day = parseInt(p[0], 10);
+            var month = parseInt(p[1], 10);
+            if (month !== 6) return '';
+            var hour = parseInt((hora || '').split(':')[0], 10);
+            if (day === 19) return 'https://www.youtube.com/watch?v=1eAKW4_Hx9k';
+            if (day === 20) {
+                if (isNaN(hour)) return '';
+                return hour >= 16
+                    ? 'https://www.youtube.com/watch?v=iY6757FGnjA'
+                    : 'https://www.youtube.com/watch?v=-rCXiSskrEc';
+            }
+            if (day === 21) return 'https://www.youtube.com/watch?v=jEoOlc-ianU';
+            return '';
+        }
+
+        function streamHtml(venue, fecha, hora, variant) {
+            var url = streamUrl(venue, fecha, hora);
+            if (!url) return '';
+            var cls = 'match-stream' + (variant ? ' match-stream--' + variant : '');
+            return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="' + cls + '">' +
+                '<span class="match-stream-dot"></span>Ver en directo' +
+            '</a>';
         }
 
         // Explicit manifest of available shields by team slug
@@ -1074,6 +1160,7 @@
                         ? '<div class="match-badge-wrap"><span class="match-badge">' + escapeHtml(m.Tipo) + '</span></div>'
                         : '';
 
+                    var streamLink = streamHtml(venueLine, m.Fecha, m.Hora);
                     return '<div class="match' + (played ? ' is-played' : '') + '">' +
                         badgeHtml +
                         '<div class="match-meta">' +
@@ -1091,6 +1178,7 @@
                                 '<div class="match-team-name">' + escapeHtml(m.Visitante) + '</div>' +
                             '</div>' +
                         '</div>' +
+                        (streamLink ? '<div class="match-stream-row">' + streamLink + '</div>' : '') +
                     '</div>';
                 }).join('');
 
@@ -1145,6 +1233,7 @@
                     (m.Hora && venueLine ? ' · ' : '') +
                     venueHtml(venueLine, '📍 ') +
                 '</div>' : '') +
+                streamHtml(venueLine, m.Fecha, m.Hora, 'compact') +
             '</div>';
         }
 
