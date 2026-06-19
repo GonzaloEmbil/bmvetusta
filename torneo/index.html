@@ -835,27 +835,59 @@
             return '';
         }
 
-        // Window during which a match is considered "live now":
-        // 10 min before kickoff through 80 min after kickoff.
-        function isLiveNow(fecha, hora, played) {
-            if (played) return false;
-            if (!fecha || !hora) return false;
+        function matchStartMillis(fecha, hora) {
+            if (!fecha || !hora) return null;
             var p = (fecha || '').split('/');
-            if (p.length !== 3) return false;
+            if (p.length !== 3) return null;
             var hm = (hora || '').split(':');
-            if (hm.length !== 2) return false;
+            if (hm.length !== 2) return null;
             var y = p[2].length === 2 ? '20' + p[2] : p[2];
-            var start = new Date(
+            var d = new Date(
                 parseInt(y, 10),
                 parseInt(p[1], 10) - 1,
                 parseInt(p[0], 10),
                 parseInt(hm[0], 10),
                 parseInt(hm[1], 10)
             );
-            if (isNaN(start.getTime())) return false;
-            var now = new Date();
-            return now.getTime() >= start.getTime() - 10 * 60000
-                && now.getTime() <  start.getTime() + 80 * 60000;
+            var t = d.getTime();
+            return isNaN(t) ? null : t;
+        }
+
+        // Ascending list of every Florida Arena match across all categories.
+        // Each entry: { ts, day }. Rebuilt after the sheet loads.
+        var floridaSchedule = [];
+
+        function buildFloridaSchedule() {
+            var all = [];
+            Object.keys(dataByCategory).forEach(function(cat) {
+                (dataByCategory[cat] || []).forEach(function(m) {
+                    var venue = (m.Lugar || m['Pabellón'] || m.Pabellon || '').toLowerCase()
+                        .normalize('NFD').replace(/[̀-ͯ]/g, '');
+                    if (venue.indexOf('florida arena') === -1) return;
+                    var ts = matchStartMillis(m.Fecha, m.Hora);
+                    if (ts === null) return;
+                    all.push({ ts: ts, day: m.Fecha });
+                });
+            });
+            all.sort(function(a, b) { return a.ts - b.ts; });
+            floridaSchedule = all;
+        }
+
+        // A match counts as "live now" from its kickoff until the next
+        // Florida Arena match of the same day starts. For the last match
+        // of the day, fall back to a 90-minute window after kickoff.
+        function isLiveNow(fecha, hora, played) {
+            if (played) return false;
+            var start = matchStartMillis(fecha, hora);
+            if (start === null) return false;
+            var nextTs = null;
+            for (var i = 0; i < floridaSchedule.length; i++) {
+                var s = floridaSchedule[i];
+                if (s.ts > start && s.day === fecha) { nextTs = s.ts; break; }
+            }
+            var end = (nextTs !== null) ? nextTs : (start + 90 * 60000);
+            var now = new Date().getTime();
+            return now >= start && now < end;
         }
 
         function streamHtml(venue, fecha, hora, played, variant) {
@@ -1425,6 +1457,7 @@
             setupTabs();
             loadData()
                 .then(function() {
+                    buildFloridaSchedule();
                     renderCategory(CATEGORIES[0]);
                     // Re-render every minute so the live-stream button
                     // appears/disappears as matches enter/leave their
