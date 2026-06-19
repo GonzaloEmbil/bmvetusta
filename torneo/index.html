@@ -835,9 +835,33 @@
             return '';
         }
 
-        function streamHtml(venue, fecha, hora, variant) {
+        // Window during which a match is considered "live now":
+        // 10 min before kickoff through 80 min after kickoff.
+        function isLiveNow(fecha, hora, played) {
+            if (played) return false;
+            if (!fecha || !hora) return false;
+            var p = (fecha || '').split('/');
+            if (p.length !== 3) return false;
+            var hm = (hora || '').split(':');
+            if (hm.length !== 2) return false;
+            var y = p[2].length === 2 ? '20' + p[2] : p[2];
+            var start = new Date(
+                parseInt(y, 10),
+                parseInt(p[1], 10) - 1,
+                parseInt(p[0], 10),
+                parseInt(hm[0], 10),
+                parseInt(hm[1], 10)
+            );
+            if (isNaN(start.getTime())) return false;
+            var now = new Date();
+            return now.getTime() >= start.getTime() - 10 * 60000
+                && now.getTime() <  start.getTime() + 80 * 60000;
+        }
+
+        function streamHtml(venue, fecha, hora, played, variant) {
             var url = streamUrl(venue, fecha, hora);
             if (!url) return '';
+            if (!isLiveNow(fecha, hora, played)) return '';
             var cls = 'match-stream' + (variant ? ' match-stream--' + variant : '');
             return '<a href="' + url + '" target="_blank" rel="noopener noreferrer" class="' + cls + '">' +
                 '<span class="match-stream-dot"></span>Ver en directo' +
@@ -1160,7 +1184,7 @@
                         ? '<div class="match-badge-wrap"><span class="match-badge">' + escapeHtml(m.Tipo) + '</span></div>'
                         : '';
 
-                    var streamLink = streamHtml(venueLine, m.Fecha, m.Hora);
+                    var streamLink = streamHtml(venueLine, m.Fecha, m.Hora, played);
                     return '<div class="match' + (played ? ' is-played' : '') + '">' +
                         badgeHtml +
                         '<div class="match-meta">' +
@@ -1233,7 +1257,7 @@
                     (m.Hora && venueLine ? ' · ' : '') +
                     venueHtml(venueLine, '📍 ') +
                 '</div>' : '') +
-                streamHtml(venueLine, m.Fecha, m.Hora, 'compact') +
+                streamHtml(venueLine, m.Fecha, m.Hora, played, 'compact') +
             '</div>';
         }
 
@@ -1402,6 +1426,12 @@
             loadData()
                 .then(function() {
                     renderCategory(CATEGORIES[0]);
+                    // Re-render every minute so the live-stream button
+                    // appears/disappears as matches enter/leave their
+                    // broadcast window without needing a manual reload.
+                    setInterval(function() {
+                        renderCategory(currentCategory);
+                    }, 60000);
                 })
                 .catch(function(err) {
                     document.getElementById('content').innerHTML =
