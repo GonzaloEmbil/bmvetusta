@@ -1161,6 +1161,27 @@
         // in eliminatorias/finales are resolved to the actual team name (and
         // shield) once the referenced phase is finished. The original
         // placeholder is kept as a small sublabel under the team name.
+        var ROMAN_TO_ARABIC = {
+            I:1, II:2, III:3, IV:4, V:5, VI:6, VII:7, VIII:8, IX:9, X:10
+        };
+
+        function groupNumberFromToken(token) {
+            var t = (token || '').toUpperCase().trim();
+            if (!t) return 0;
+            if (/^\d+$/.test(t)) return parseInt(t, 10);
+            return ROMAN_TO_ARABIC[t] || 0;
+        }
+
+        // Returns 'GRUPO N' (arabic-normalised) for any Tipo that names a
+        // group ('GRUPO 1', 'GRUPO I', 'GRUPO  iii', …); null otherwise.
+        function normalizeGroupKey(tipo) {
+            var t = (tipo || '').toUpperCase().trim();
+            var m = t.match(/^GRUPO\s+(.+)$/);
+            if (!m) return null;
+            var n = groupNumberFromToken(m[1].trim());
+            return n ? 'GRUPO ' + n : null;
+        }
+
         function buildPlaceholderResolver(allMatches) {
             var matchByLabel = {};
             allMatches.forEach(function(m) {
@@ -1169,20 +1190,20 @@
             });
 
             var standingsByGroup = {};
-            function getStandings(grpLabel) {
-                if (Object.prototype.hasOwnProperty.call(standingsByGroup, grpLabel)) {
-                    return standingsByGroup[grpLabel];
+            function getStandings(grpKey) {
+                if (Object.prototype.hasOwnProperty.call(standingsByGroup, grpKey)) {
+                    return standingsByGroup[grpKey];
                 }
                 var grpMatches = allMatches.filter(function(m) {
-                    return (m.Tipo || '').toUpperCase().trim() === grpLabel;
+                    return normalizeGroupKey(m.Tipo) === grpKey;
                 });
-                if (!grpMatches.length) { standingsByGroup[grpLabel] = null; return null; }
+                if (!grpMatches.length) { standingsByGroup[grpKey] = null; return null; }
                 var allPlayed = grpMatches.every(function(m) {
                     var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
                     return !isNaN(gl) && !isNaN(gv);
                 });
-                standingsByGroup[grpLabel] = allPlayed ? computeStandings(grpMatches) : null;
-                return standingsByGroup[grpLabel];
+                standingsByGroup[grpKey] = allPlayed ? computeStandings(grpMatches) : null;
+                return standingsByGroup[grpKey];
             }
 
             var singleGroupStandings = null, singleGroupComputed = false;
@@ -1207,11 +1228,12 @@
                 if (!t || depth > 5) return { displayName: t, sublabel: '' };
                 var upper = t.toUpperCase();
 
-                var posGroup = upper.match(/^(\d+)[º°ª]?\s+GRUPO\s+(\d+)$/);
+                var posGroup = upper.match(/^(\d+)[º°ª]?\s+GRUPO\s+([0-9IVX]+)$/);
                 if (posGroup) {
                     var pos = parseInt(posGroup[1], 10);
-                    var grpLabel = 'GRUPO ' + posGroup[2];
-                    var st = getStandings(grpLabel);
+                    var grpNum = groupNumberFromToken(posGroup[2]);
+                    if (!grpNum) return { displayName: t, sublabel: '' };
+                    var st = getStandings('GRUPO ' + grpNum);
                     if (st && st.length >= pos) return { displayName: st[pos - 1].nombre, sublabel: t };
                     return { displayName: t, sublabel: '' };
                 }
