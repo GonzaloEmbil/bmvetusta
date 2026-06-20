@@ -1356,18 +1356,8 @@
             return html;
         }
 
-        // Categories whose matches are a single decisive game and
-        // therefore should NOT feed a standings table.
-        var NO_STANDINGS_CATEGORIES = { 'Cadete Femenino': true };
-
-        function renderClasificacion(matches, category) {
+        function renderClasificacion(matches) {
             var html = '';
-
-            if (NO_STANDINGS_CATEGORIES[category]) {
-                html += renderBracket(matches);
-                return html || '<div class="empty">Aún no hay clasificación disponible.</div>';
-            }
-
             var groups = getGroupTypes(matches);
 
             if (groups.length > 1) {
@@ -1415,7 +1405,7 @@
                 '</div>';
 
             var bodyHtml = currentView === 'clasificacion'
-                ? renderClasificacion(matches, category)
+                ? renderClasificacion(matches)
                 : renderMatches(matches);
 
             document.getElementById('content').innerHTML = toggleHtml + bodyHtml;
