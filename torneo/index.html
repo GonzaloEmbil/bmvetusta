@@ -1256,6 +1256,7 @@
 
         function classifyMatchType(tipo) {
             var t = (tipo || '').toLowerCase();
+            if (/^amistoso/.test(t)) return 'amistoso';
             if (/^eliminatoria/.test(t)) return 'eliminatoria';
             if (/^semifinal/.test(t)) return 'eliminatoria';
             if (/^final/.test(t) || /1.*y.*2|1.*2.*puesto/.test(t)) return 'first';
