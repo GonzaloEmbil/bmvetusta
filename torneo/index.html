@@ -408,11 +408,31 @@
             text-align: center;
             line-height: 1.25;
             max-width: 100%;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .match-team-name-main {
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+
+        .match-team-name-sub {
+            font-size: 0.6rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            max-width: 100%;
         }
 
         .match-score {
@@ -560,9 +580,27 @@
 
         .bracket-team-name {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            gap: 1px;
+        }
+
+        .bracket-team-name-main {
             font-size: 0.84rem;
             font-weight: 600;
             color: #0f172a;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .bracket-team-name-sub {
+            font-size: 0.62rem;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -577,7 +615,8 @@
             line-height: 1;
         }
 
-        .bracket-match-team.is-loser .bracket-team-name,
+        .bracket-match-team.is-loser .bracket-team-name-main,
+        .bracket-match-team.is-loser .bracket-team-name-sub,
         .bracket-match-team.is-loser .bracket-score {
             color: #94a3b8;
         }
@@ -1118,6 +1157,92 @@
             return sorted;
         }
 
+        // Placeholders like "2º GRUPO 2" or "GANADOR ELIMINATORIA B" appearing
+        // in eliminatorias/finales are resolved to the actual team name (and
+        // shield) once the referenced phase is finished. The original
+        // placeholder is kept as a small sublabel under the team name.
+        function buildPlaceholderResolver(allMatches) {
+            var matchByLabel = {};
+            allMatches.forEach(function(m) {
+                var t = (m.Tipo || '').toUpperCase().trim();
+                if (t) matchByLabel[t] = m;
+            });
+
+            var standingsByGroup = {};
+            function getStandings(grpLabel) {
+                if (Object.prototype.hasOwnProperty.call(standingsByGroup, grpLabel)) {
+                    return standingsByGroup[grpLabel];
+                }
+                var grpMatches = allMatches.filter(function(m) {
+                    return (m.Tipo || '').toUpperCase().trim() === grpLabel;
+                });
+                if (!grpMatches.length) { standingsByGroup[grpLabel] = null; return null; }
+                var allPlayed = grpMatches.every(function(m) {
+                    var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
+                    return !isNaN(gl) && !isNaN(gv);
+                });
+                standingsByGroup[grpLabel] = allPlayed ? computeStandings(grpMatches) : null;
+                return standingsByGroup[grpLabel];
+            }
+
+            var singleGroupStandings = null, singleGroupComputed = false;
+            function getSingleStandings() {
+                if (singleGroupComputed) return singleGroupStandings;
+                singleGroupComputed = true;
+                var grpMatches = allMatches.filter(function(m) {
+                    return classifyMatchType(m.Tipo) === 'grupo';
+                });
+                if (!grpMatches.length) return null;
+                var allPlayed = grpMatches.every(function(m) {
+                    var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
+                    return !isNaN(gl) && !isNaN(gv);
+                });
+                singleGroupStandings = allPlayed ? computeStandings(grpMatches) : null;
+                return singleGroupStandings;
+            }
+
+            function resolve(text, depth) {
+                depth = depth || 0;
+                var t = (text || '').trim();
+                if (!t || depth > 5) return { displayName: t, sublabel: '' };
+                var upper = t.toUpperCase();
+
+                var posGroup = upper.match(/^(\d+)[º°ª]?\s+GRUPO\s+(\d+)$/);
+                if (posGroup) {
+                    var pos = parseInt(posGroup[1], 10);
+                    var grpLabel = 'GRUPO ' + posGroup[2];
+                    var st = getStandings(grpLabel);
+                    if (st && st.length >= pos) return { displayName: st[pos - 1].nombre, sublabel: t };
+                    return { displayName: t, sublabel: '' };
+                }
+
+                var posSingle = upper.match(/^(\d+)[º°ª]?\s+GRUPO$/);
+                if (posSingle) {
+                    var pos2 = parseInt(posSingle[1], 10);
+                    var st2 = getSingleStandings();
+                    if (st2 && st2.length >= pos2) return { displayName: st2[pos2 - 1].nombre, sublabel: t };
+                    return { displayName: t, sublabel: '' };
+                }
+
+                var winLoss = upper.match(/^(GANADOR|PERDEDOR)\s+(.+)$/);
+                if (winLoss) {
+                    var which = winLoss[1];
+                    var label = winLoss[2].trim();
+                    var ref = matchByLabel[label];
+                    if (!ref) return { displayName: t, sublabel: '' };
+                    var gl = parseInt(ref.GolesLocal, 10), gv = parseInt(ref.GolesVisitante, 10);
+                    if (isNaN(gl) || isNaN(gv) || gl === gv) return { displayName: t, sublabel: '' };
+                    var picked = (gl > gv) === (which === 'GANADOR') ? ref.Local : ref.Visitante;
+                    var rec = resolve(picked, depth + 1);
+                    return { displayName: rec.displayName, sublabel: t };
+                }
+
+                return { displayName: t, sublabel: '' };
+            }
+
+            return { resolve: resolve };
+        }
+
         function posCellHtml(i) {
             return i + 1;
         }
@@ -1178,6 +1303,7 @@
             if (!matches.length) {
                 return '<div class="empty">No hay partidos disponibles.</div>';
             }
+            var resolver = buildPlaceholderResolver(matches);
             var byDate = {};
             matches.forEach(function(m) {
                 var d = m.Fecha || 'Sin fecha';
@@ -1217,6 +1343,8 @@
                         : '';
 
                     var streamLink = streamHtml(venueLine, m.Fecha, m.Hora, played);
+                    var localR = resolver.resolve(m.Local);
+                    var visitR = resolver.resolve(m.Visitante);
                     return '<div class="match' + (played ? ' is-played' : '') + '">' +
                         badgeHtml +
                         '<div class="match-meta">' +
@@ -1225,13 +1353,19 @@
                         '</div>' +
                         '<div class="match-teams">' +
                             '<div class="match-team">' +
-                                shieldHtml(m.Local, 'match-shield') +
-                                '<div class="match-team-name">' + escapeHtml(m.Local) + '</div>' +
+                                shieldHtml(localR.displayName, 'match-shield') +
+                                '<div class="match-team-name">' +
+                                    '<span class="match-team-name-main">' + escapeHtml(localR.displayName) + '</span>' +
+                                    (localR.sublabel ? '<span class="match-team-name-sub">' + escapeHtml(localR.sublabel) + '</span>' : '') +
+                                '</div>' +
                             '</div>' +
                             scoreHtml +
                             '<div class="match-team">' +
-                                shieldHtml(m.Visitante, 'match-shield') +
-                                '<div class="match-team-name">' + escapeHtml(m.Visitante) + '</div>' +
+                                shieldHtml(visitR.displayName, 'match-shield') +
+                                '<div class="match-team-name">' +
+                                    '<span class="match-team-name-main">' + escapeHtml(visitR.displayName) + '</span>' +
+                                    (visitR.sublabel ? '<span class="match-team-name-sub">' + escapeHtml(visitR.sublabel) + '</span>' : '') +
+                                '</div>' +
                             '</div>' +
                         '</div>' +
                         (streamLink ? '<div class="match-stream-row">' + streamLink + '</div>' : '') +
@@ -1267,22 +1401,31 @@
             return 'other';
         }
 
-        function renderBracketMatch(m) {
+        function renderBracketMatch(m, resolver) {
             var gl = parseInt(m.GolesLocal, 10), gv = parseInt(m.GolesVisitante, 10);
             var played = !isNaN(gl) && !isNaN(gv);
             var localLoser = played && gl < gv;
             var awayLoser = played && gv < gl;
             var venueLine = m.Lugar || '';
+            var localR = resolver.resolve(m.Local);
+            var visitR = resolver.resolve(m.Visitante);
+
+            function teamNameHtml(r) {
+                return '<span class="bracket-team-name">' +
+                    '<span class="bracket-team-name-main">' + escapeHtml(r.displayName) + '</span>' +
+                    (r.sublabel ? '<span class="bracket-team-name-sub">' + escapeHtml(r.sublabel) + '</span>' : '') +
+                '</span>';
+            }
 
             return '<div class="bracket-match' + (played ? ' is-played' : '') + '">' +
                 '<div class="bracket-match-team' + (localLoser ? ' is-loser' : '') + '">' +
-                    shieldHtml(m.Local, 'bracket-shield') +
-                    '<span class="bracket-team-name">' + escapeHtml(m.Local) + '</span>' +
+                    shieldHtml(localR.displayName, 'bracket-shield') +
+                    teamNameHtml(localR) +
                     '<span class="bracket-score">' + (played ? gl : '') + '</span>' +
                 '</div>' +
                 '<div class="bracket-match-team' + (awayLoser ? ' is-loser' : '') + '">' +
-                    shieldHtml(m.Visitante, 'bracket-shield') +
-                    '<span class="bracket-team-name">' + escapeHtml(m.Visitante) + '</span>' +
+                    shieldHtml(visitR.displayName, 'bracket-shield') +
+                    teamNameHtml(visitR) +
                     '<span class="bracket-score">' + (played ? gv : '') + '</span>' +
                 '</div>' +
                 ((m.Hora || venueLine) ? '<div class="bracket-match-meta">' +
@@ -1295,6 +1438,7 @@
         }
 
         function renderBracket(matches) {
+            var resolver = buildPlaceholderResolver(matches);
             var elims = [];
             var byPlace = {};
             matches.forEach(function(m) {
@@ -1322,7 +1466,7 @@
             html += '<div class="bracket-stage bracket-stage-sf">' +
                 '<div class="bracket-stage-label">Eliminatorias</div>';
             if (elims.length) {
-                elims.forEach(function(m) { html += renderBracketMatch(m); });
+                elims.forEach(function(m) { html += renderBracketMatch(m, resolver); });
             } else {
                 html += '<div class="empty" style="padding:30px 12px;">Por definir</div>';
             }
@@ -1338,13 +1482,13 @@
                 anyPlacement = true;
                 if (arr.length === 1) {
                     html += '<div class="bracket-placement-label">' + escapeHtml(p.label) + '</div>';
-                    html += renderBracketMatch(arr[0]);
+                    html += renderBracketMatch(arr[0], resolver);
                 } else {
                     // Multiple legs (e.g. "5º y 6º puesto - Ida" / "- Vuelta") — show each with its own Tipo as label
                     arr.sort(function(a, b) { return (a.Tipo || '').localeCompare(b.Tipo || ''); });
                     arr.forEach(function(m) {
                         html += '<div class="bracket-placement-label">' + escapeHtml(m.Tipo || p.label) + '</div>';
-                        html += renderBracketMatch(m);
+                        html += renderBracketMatch(m, resolver);
                     });
                 }
             });
