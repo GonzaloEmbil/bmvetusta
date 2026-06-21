@@ -2642,6 +2642,29 @@ body {
     margin: 24px 0;
 }
 
+.news-article-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 30px auto;
+    max-width: 800px;
+}
+
+.news-article-gallery img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+@media (max-width: 600px) {
+    .news-article-gallery {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
 .news-article-body .news-article-scorers {
     margin-top: 24px;
     padding-top: 18px;
