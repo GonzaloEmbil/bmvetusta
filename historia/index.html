@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia - BM Vetusta</title>
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=historia-full-table-2">
+    <link rel="stylesheet" href="../style.css?v=historia-full-table-3">
     <style>
         /* Fundación slideshow — cycles 3 photos every 5s with a fade.
            aspect-ratio 2.2/1 makes the container as wide-and-short as
@@ -141,17 +141,17 @@
                     <thead>
                         <tr>
                             <th>Temporada</th>
+                            <th>Categoría</th>
+                            <th class="historia-fase">Fase</th>
                             <th>Pos</th>
                             <th>PTS</th>
-                            <th class="historia-hide-mobile">PJ</th>
-                            <th class="historia-hide-mobile">PG</th>
-                            <th class="historia-hide-mobile">PE</th>
-                            <th class="historia-hide-mobile">PP</th>
-                            <th class="historia-hide-mobile">GF</th>
-                            <th class="historia-hide-mobile">GC</th>
-                            <th class="historia-hide-mobile">DIF</th>
-                            <th>Categoría</th>
-                            <th>Fase</th>
+                            <th>PJ</th>
+                            <th>PG</th>
+                            <th>PE</th>
+                            <th>PP</th>
+                            <th>GF</th>
+                            <th>GC</th>
+                            <th>DIF</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -230,19 +230,19 @@
 
                     tr.innerHTML =
                         temporadaCell +
+                        '<td>' + (s.division || '') + '</td>' +
+                        '<td class="historia-fase">' + (s.fase || '') +
+                            (s.ascenso ? ' <span class="historia-ascenso">&#9650;</span>' : '') +
+                        '</td>' +
                         '<td class="historia-highlight">' + s.pos + 'º</td>' +
                         '<td class="historia-highlight">' + s.puntos + '</td>' +
-                        '<td class="historia-hide-mobile">' + s.PJ + '</td>' +
-                        '<td class="historia-hide-mobile">' + s.PG + '</td>' +
-                        '<td class="historia-hide-mobile">' + s.PE + '</td>' +
-                        '<td class="historia-hide-mobile">' + s.PP + '</td>' +
-                        '<td class="historia-hide-mobile">' + s.GF + '</td>' +
-                        '<td class="historia-hide-mobile">' + s.GC + '</td>' +
-                        '<td class="historia-hide-mobile ' + difClass + '">' + difText + '</td>' +
-                        '<td>' + (s.division || '') + '</td>' +
-                        '<td>' + (s.fase || '') +
-                            (s.ascenso ? ' <span class="historia-ascenso">&#9650;</span>' : '') +
-                        '</td>';
+                        '<td>' + s.PJ + '</td>' +
+                        '<td>' + s.PG + '</td>' +
+                        '<td>' + s.PE + '</td>' +
+                        '<td>' + s.PP + '</td>' +
+                        '<td>' + s.GF + '</td>' +
+                        '<td>' + s.GC + '</td>' +
+                        '<td class="' + difClass + '">' + difText + '</td>';
                     tbody.appendChild(tr);
                 });
                 // Add footnote if any season is en_curso
