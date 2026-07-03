@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia - BM Vetusta</title>
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../style.css?v=historia-full-table-1">
     <style>
         /* Fundación slideshow — cycles 3 photos every 5s with a fade.
            aspect-ratio 2.2/1 makes the container as wide-and-short as
@@ -238,9 +238,6 @@
                         '<td class="historia-hide-mobile ' + difClass + '">' + difText + '</td>' +
                         '<td>' + (s.division || '') + '</td>' +
                         '<td>' + (s.fase || '') +
-                            (s.pos === 1 ? ' <span class="historia-medal">&#127941;</span>' :
-                             s.pos === 2 ? ' <span class="historia-medal">&#129352;</span>' :
-                             s.pos === 3 ? ' <span class="historia-medal">&#129353;</span>' : '') +
                             (s.ascenso ? ' <span class="historia-ascenso">&#9650;</span>' : '') +
                         '</td>';
                     tbody.appendChild(tr);
