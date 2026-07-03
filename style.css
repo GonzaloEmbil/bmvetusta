@@ -2096,6 +2096,12 @@ body {
     border-bottom: 1px solid rgba(255, 255, 255, 0.03);
 }
 
+/* Stronger divider where a new season starts (2px so it wins
+   the border-collapse conflict against the faint row border) */
+.historia-table tbody tr.historia-season-start td {
+    border-top: 2px solid rgba(255, 255, 255, 0.14);
+}
+
 .historia-table tbody tr.historia-div-2 {
     background-color: rgba(14, 165, 133, 0.08);
 }

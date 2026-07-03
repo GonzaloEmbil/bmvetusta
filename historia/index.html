@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia - BM Vetusta</title>
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=historia-full-table-1">
+    <link rel="stylesheet" href="../style.css?v=historia-full-table-2">
     <style>
         /* Fundación slideshow — cycles 3 photos every 5s with a fade.
            aspect-ratio 2.2/1 makes the container as wide-and-short as
@@ -212,6 +212,9 @@
 
                     // Count how many consecutive rows share this temporada
                     var sameTemp = idx > 0 && data[idx - 1].temporada === s.temporada;
+                    // Mark rows that open a new season so CSS can draw a
+                    // stronger divider between one temporada and the next
+                    if (idx > 0 && !sameTemp) tr.className += ' historia-season-start';
                     var temporadaCell;
                     if (s.sub && sameTemp) {
                         temporadaCell = '';
