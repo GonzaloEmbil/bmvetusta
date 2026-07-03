@@ -2034,6 +2034,13 @@ body {
    ==================================== */
 
 .historia-section {
+    /* width:100% is load-bearing: .main-content is a column flex
+       container and this section has auto horizontal margins, so
+       without an explicit width it shrink-to-fits its content —
+       the nowrap table made it wider than the viewport on mobile,
+       bleeding past the page edge instead of scrolling inside the
+       table wrapper. */
+    width: 100%;
     max-width: 1200px;
     margin: 60px auto;
     padding: 0 20px;
