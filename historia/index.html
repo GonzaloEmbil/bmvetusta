@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historia - BM Vetusta</title>
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=historia-full-table-4">
+    <link rel="stylesheet" href="../style.css?v=historia-full-table-5">
     <style>
         /* Fundación slideshow — cycles 3 photos every 5s with a fade.
            aspect-ratio 2.2/1 makes the container as wide-and-short as
@@ -203,6 +203,13 @@
                 var tbody = document.querySelector('#historia-table tbody');
                 if (!tbody || !data.length) return;
                 tbody.innerHTML = '';
+                // Full fase labels are stored in the data; these are the
+                // shorter forms shown only on mobile (see .fase-abbr CSS).
+                var faseAbbr = {
+                    'Liga Regular': 'Liga',
+                    'Fase Final Asturias': 'F. Final Ast.',
+                    'Fase de Ascenso': 'F. de Ascenso'
+                };
                 data.forEach(function(s, idx) {
                     var tr = document.createElement('tr');
                     var difClass = s.DIF > 0 ? 'st-dif-pos' : s.DIF < 0 ? 'st-dif-neg' : 'st-dif-zero';
@@ -231,7 +238,9 @@
                     tr.innerHTML =
                         temporadaCell +
                         '<td>' + (s.division || '') + '</td>' +
-                        '<td class="historia-fase">' + (s.fase || '') +
+                        '<td class="historia-fase">' +
+                            '<span class="fase-full">' + (s.fase || '') + '</span>' +
+                            '<span class="fase-abbr">' + (faseAbbr[s.fase] || s.fase || '') + '</span>' +
                             (s.ascenso ? ' <span class="historia-ascenso">&#9650;</span>' : '') +
                         '</td>' +
                         '<td class="historia-highlight">' + s.pos + 'º</td>' +

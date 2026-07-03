@@ -2139,6 +2139,9 @@ body {
     text-align: left;
 }
 
+/* Fase label: full text on desktop, short form on mobile */
+.historia-table .fase-abbr { display: none; }
+
 .historia-ascenso {
     color: #4CAF50;
     font-size: 0.75rem;
@@ -2189,6 +2192,9 @@ body {
     .historia-table td.historia-highlight {
         font-size: 0.85rem;
     }
+
+    .historia-table .fase-full { display: none; }
+    .historia-table .fase-abbr { display: inline; }
 }
 
 /* ====================================
