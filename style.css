@@ -2181,10 +2181,6 @@ body {
     .historia-table td.historia-highlight {
         font-size: 0.85rem;
     }
-
-    .historia-hide-mobile {
-        display: none;
-    }
 }
 
 /* ====================================
