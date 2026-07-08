@@ -609,7 +609,7 @@ function buildHistoria(matches) {
     { temporada: '2020/2021', division: '2ª Nacional', fase: 'Liga Regular', pos: 1, equipos: 4, PJ: 10, PG: 8, PE: 0, PP: 2, puntos: 16, GF: 293, GC: 219, DIF: 74, en_curso: false, sub: true },
     { temporada: '2020/2021', division: '2ª Nacional', fase: 'Fase de Ascenso', pos: 1, equipos: 4, PJ: 3, PG: 2, PE: 0, PP: 1, puntos: 4, GF: 63, GC: 61, DIF: 2, en_curso: false, sub: true, ascenso: true },
     { temporada: '2021/2022', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
-    { temporada: '2022/2023', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
+    { temporada: '2022/2023', division: '1ª Nacional', fase: 'Liga Regular', pos: 8, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
     { temporada: '2023/2024', division: '1ª Nacional', fase: 'Liga Regular', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
     { temporada: '2024/2025', division: '1ª Nacional', fase: 'Liga Regular', pos: 6, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 34, GF: 770, GC: 669, DIF: 101, en_curso: false },
   ];
