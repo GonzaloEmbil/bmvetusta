@@ -28,6 +28,14 @@ const SEASONS = [
 ];
 const CURRENT_SEASON_CODE = '2526';
 
+// Administrative corrections that the raw match data doesn't reflect
+// (e.g. federative point deductions). Keyed by season code; merged onto
+// the computed historia row. 2024/25: −4 pts sanction left Vetusta 6th/34
+// despite an 18-2-8 record (which arithmetically is 38).
+const HISTORIA_OVERRIDES = {
+  '2425': { pos: 6, puntos: 34 },
+};
+
 const TEAM_ID = '209500';
 const TEAM_NAME = 'AUTO-CENTER PRINCIPADO';
 
@@ -591,12 +599,17 @@ function buildGoleadores(actas) {
 
 /**
  * Build data/historia.json — season-by-season stats for Vetusta.
- * Past seasons are hardcoded (static). Current season is computed
- * from live calendar data and marked "en_curso" if matches remain.
+ *
+ * The 2ª Nacional era (2012/13–2020/21) predates the data we can fetch,
+ * so those rows stay hardcoded. The Primera Nacional era (2021/22 →
+ * current) is derived from each season's already-generated
+ * data/<code>/clasificacion.json (so the History table and the season
+ * selector always agree and the Art. 152 tiebreakers are applied once),
+ * with HISTORIA_OVERRIDES layered on top for administrative corrections.
  */
-function buildHistoria(matches) {
-  // Historical seasons (complete, won't change)
-  const pastSeasons = [
+function buildHistoria(currentMatches) {
+  // 2ª Nacional era — not available through our group IDs, kept static.
+  const olderSeasons = [
     { temporada: '2012/2013', division: '2ª Nacional', fase: 'Liga Regular', pos: 6, equipos: 10, PJ: 10, PG: 1, PE: 0, PP: 9, puntos: 2, GF: 225, GC: 278, DIF: -53, en_curso: false },
     { temporada: '2013/2014', division: '2ª Nacional', fase: 'Liga Regular', pos: 8, equipos: 10, PJ: 18, PG: 6, PE: 0, PP: 12, puntos: 12, GF: 444, GC: 494, DIF: -50, en_curso: false },
     { temporada: '2014/2015', division: '2ª Nacional', fase: 'Liga Regular', pos: 5, equipos: 8, PJ: 14, PG: 6, PE: 1, PP: 7, puntos: 13, GF: 314, GC: 331, DIF: -17, en_curso: false },
@@ -608,81 +621,43 @@ function buildHistoria(matches) {
     { temporada: '2019/2020', division: '2ª Nacional', fase: 'Liga Regular', pos: 2, equipos: 8, PJ: 11, PG: 9, PE: 0, PP: 2, puntos: 18, GF: 289, GC: 231, DIF: 58, en_curso: false },
     { temporada: '2020/2021', division: '2ª Nacional', fase: 'Liga Regular', pos: 1, equipos: 4, PJ: 10, PG: 8, PE: 0, PP: 2, puntos: 16, GF: 293, GC: 219, DIF: 74, en_curso: false, sub: true },
     { temporada: '2020/2021', division: '2ª Nacional', fase: 'Fase de Ascenso', pos: 1, equipos: 4, PJ: 3, PG: 2, PE: 0, PP: 1, puntos: 4, GF: 63, GC: 61, DIF: 2, en_curso: false, sub: true, ascenso: true },
-    { temporada: '2021/2022', division: '1ª Nacional', fase: 'Liga Regular', pos: 7, equipos: 15, PJ: 28, PG: 16, PE: 1, PP: 11, puntos: 33, GF: 824, GC: 780, DIF: 44, en_curso: false },
-    { temporada: '2022/2023', division: '1ª Nacional', fase: 'Liga Regular', pos: 8, equipos: 16, PJ: 30, PG: 14, PE: 4, PP: 12, puntos: 32, GF: 918, GC: 893, DIF: 25, en_curso: false },
-    { temporada: '2023/2024', division: '1ª Nacional', fase: 'Liga Regular', pos: 5, equipos: 16, PJ: 30, PG: 20, PE: 1, PP: 9, puntos: 41, GF: 938, GC: 817, DIF: 121, en_curso: false },
-    { temporada: '2024/2025', division: '1ª Nacional', fase: 'Liga Regular', pos: 6, equipos: 16, PJ: 28, PG: 18, PE: 2, PP: 8, puntos: 34, GF: 770, GC: 669, DIF: 101, en_curso: false },
   ];
 
-  // Current season — compute from live data
-  const finished = matches.filter(
-    (m) => (m.estado_partido || '').toLowerCase() === 'finalizado'
-  );
-  const pending = matches.filter((m) => {
-    const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-    const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
-    return isPending && involvesVetusta;
-  });
-
-  // Build standings using the same Art. 152 tiebreaker rules as buildClasificacion
-  const teams = {};
-  for (const m of matches) {
-    const ln = normaliseName(m.nombre_local), vn = normaliseName(m.nombre_visitante);
-    if (!teams[ln]) teams[ln] = { nombre: m.nombre_local?.trim(), PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
-    if (!teams[vn]) teams[vn] = { nombre: m.nombre_visitante?.trim(), PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0 };
-  }
-  for (const m of finished) {
-    const gl = parseInt(m.resultado_local, 10), gv = parseInt(m.resultado_visitante, 10);
-    if (isNaN(gl) || isNaN(gv)) continue;
-    const l = teams[normaliseName(m.nombre_local)], v = teams[normaliseName(m.nombre_visitante)];
-    if (!l || !v) continue;
-    l.PJ++; v.PJ++; l.GF += gl; l.GC += gv; v.GF += gv; v.GC += gl;
-    if (gl > gv) { l.PG++; v.PP++; }
-    else if (gl < gv) { v.PG++; l.PP++; }
-    else { l.PE++; v.PE++; }
-  }
-
-  const teamsArray = Object.values(teams).map((t) => ({
-    ...t,
-    DIF: t.GF - t.GC,
-    puntos: t.PG * 2 + t.PE,
-  }));
-  teamsArray.sort((a, b) => b.puntos - a.puntos);
-  const groups = groupByValue(teamsArray, (t) => t.puntos);
-  const sorted = groups.flatMap((g) =>
-    g.length === 1 ? g : resolveTiedGroup(g, finished)
+  // Whether the current season still has pending Vetusta matches.
+  const currentHasPending = (currentMatches || []).some(
+    (m) => (m.estado_partido || '').toLowerCase() !== 'finalizado' && matchHasVetusta(m)
   );
 
-  const pos = sorted.findIndex((t) => isVetusta(t.nombre)) + 1;
-  const vetustaFinished = finished.filter(
-    (m) => isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante)
-  );
-  let pj = 0, pg = 0, pe = 0, pp = 0, gf = 0, gc = 0;
-  for (const m of vetustaFinished) {
-    const gl = parseInt(m.resultado_local, 10), gv = parseInt(m.resultado_visitante, 10);
-    if (isNaN(gl) || isNaN(gv)) continue;
-    pj++;
-    const esLocal = isVetusta(m.nombre_local);
-    const gVetusta = esLocal ? gl : gv, gRival = esLocal ? gv : gl;
-    gf += gVetusta; gc += gRival;
-    if (gVetusta > gRival) pg++;
-    else if (gVetusta < gRival) pp++;
-    else pe++;
+  // Primera Nacional era — derived from each season's clasificacion.json.
+  const primeraSeasons = [];
+  for (const s of SEASONS) {
+    const file = path.join(DATA_DIR, s.code, 'clasificacion.json');
+    let clasif;
+    try {
+      clasif = JSON.parse(fs.readFileSync(file, 'utf-8'));
+    } catch (err) {
+      console.warn(`   ⚠ historia: falta ${s.code}/clasificacion.json — se omite`);
+      continue;
+    }
+    const v = clasif.find((t) => t.es_vetusta);
+    if (!v) continue;
+
+    const row = {
+      temporada: s.label,
+      division: '1ª Nacional',
+      fase: 'Liga Regular',
+      pos: v.posicion,
+      equipos: clasif.length,
+      PJ: v.PJ, PG: v.PG, PE: v.PE, PP: v.PP,
+      puntos: v.puntos,
+      GF: v.GF, GC: v.GC, DIF: v.DIF,
+      en_curso: s.code === CURRENT_SEASON_CODE ? currentHasPending : false,
+    };
+    if (HISTORIA_OVERRIDES[s.code]) Object.assign(row, HISTORIA_OVERRIDES[s.code]);
+    primeraSeasons.push(row);
   }
 
-  const currentSeason = {
-    temporada: '2025/2026',
-    division: '1ª Nacional',
-    fase: 'Liga Regular',
-    pos,
-    equipos: sorted.length,
-    PJ: pj, PG: pg, PE: pe, PP: pp,
-    puntos: pg * 2 + pe,
-    GF: gf, GC: gc, DIF: gf - gc,
-    en_curso: pending.length > 0,
-  };
-
-  return [...pastSeasons, currentSeason];
+  return [...olderSeasons, ...primeraSeasons];
 }
 
 /**
