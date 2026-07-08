@@ -14,7 +14,20 @@ const path = require('path');
 // ── Constants ────────────────────────────────────────────────────────────────
 
 const BASE_URL = 'https://balonmano.isquad.es';
-const GROUP_ID = '1031242';
+
+// Every season we publish, oldest → newest. `grupo` is the RFEBM/isquad
+// id_grupo for that season's Primera Nacional (Grupo B). Past seasons are
+// immutable: they're only (re)generated with `--backfill`; the current
+// season is refreshed on every run.
+const SEASONS = [
+  { code: '2122', grupo: '1007844', label: '2021/2022' },
+  { code: '2223', grupo: '1012866', label: '2022/2023' },
+  { code: '2324', grupo: '1018089', label: '2023/2024' },
+  { code: '2425', grupo: '1023856', label: '2024/2025' },
+  { code: '2526', grupo: '1031242', label: '2025/2026' },
+];
+const CURRENT_SEASON_CODE = '2526';
+
 const TEAM_ID = '209500';
 const TEAM_NAME = 'AUTO-CENTER PRINCIPADO';
 
@@ -60,6 +73,17 @@ function normaliseName(name) {
 
 function isVetusta(name) {
   return normaliseName(name) === normaliseName(TEAM_NAME);
+}
+
+// The club's display name changes per season (sponsor), but id_equipo is
+// stable, so identify Vetusta by id across seasons.
+function sideIsVetusta(m, side) {
+  const id = side === 'local' ? m.id_local : m.id_visitante;
+  return String(id) === TEAM_ID;
+}
+
+function matchHasVetusta(m) {
+  return sideIsVetusta(m, 'local') || sideIsVetusta(m, 'visitante');
 }
 
 /**
@@ -166,18 +190,18 @@ function formatDateForBanner(dateStr) {
 
 // ── Data fetching ────────────────────────────────────────────────────────────
 
-async function fetchCalendar() {
-  console.log('📅 Fetching calendar …');
-  const data = await apiPost('/ws/calendario', { id_grupo: GROUP_ID });
+async function fetchCalendar(grupo) {
+  console.log(`📅 Fetching calendar (grupo ${grupo}) …`);
+  const data = await apiPost('/ws/calendario', { id_grupo: grupo });
   // Response: { status: "OK", calendarios: [...] }
   const matches = data.calendarios || [];
   console.log(`   → ${matches.length} matches received`);
   return matches;
 }
 
-async function fetchActa(matchId) {
+async function fetchActa(grupo, matchId) {
   const data = await apiPost('/ws/acta', {
-    id_grupo: GROUP_ID,
+    id_grupo: grupo,
     id_partido: String(matchId),
   });
   // Response: { status: "OK", acta: { goles: [...], jugadores: [...], ... } }
@@ -201,14 +225,13 @@ function buildCalendario(matches) {
   const pending = matches
     .filter((m) => {
       const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-      const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
-      return isPending && involvesVetusta;
+      return isPending && matchHasVetusta(m);
     })
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
     .slice(0, 3);
 
   return pending.map((m) => {
-    const esLocal = isVetusta(m.nombre_local);
+    const esLocal = sideIsVetusta(m, 'local');
     const rival = esLocal ? m.nombre_visitante : m.nombre_local;
     const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
     const streaming = m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null;
@@ -424,6 +447,7 @@ function buildClasificacion(matches) {
 
     if (!teams[localNorm]) {
       teams[localNorm] = {
+        id: String(m.id_local || ''),
         nombre: m.nombre_local?.trim(),
         escudo: m.url_escudo_local || null,
         PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0,
@@ -431,6 +455,7 @@ function buildClasificacion(matches) {
     }
     if (!teams[visitNorm]) {
       teams[visitNorm] = {
+        id: String(m.id_visitante || ''),
         nombre: m.nombre_visitante?.trim(),
         escudo: m.url_escudo_visitante || null,
         PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0,
@@ -487,6 +512,7 @@ function buildClasificacion(matches) {
     posicion: i + 1,
     nombre: t.nombre,
     escudo: t.escudo,
+    es_vetusta: String(t.id) === TEAM_ID,
     PJ: t.PJ,
     PG: t.PG,
     PE: t.PE,
@@ -666,14 +692,13 @@ function buildResultados(matches) {
   const finished = matches
     .filter((m) => {
       const isFin = (m.estado_partido || '').toLowerCase() === 'finalizado';
-      const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
-      return isFin && involvesVetusta;
+      return isFin && matchHasVetusta(m);
     })
     .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
     .slice(0, 3);
 
   return finished.map((m) => {
-    const esLocal = isVetusta(m.nombre_local);
+    const esLocal = sideIsVetusta(m, 'local');
     const rival = esLocal ? m.nombre_visitante : m.nombre_local;
     const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
     const golesVetusta = esLocal ? parseInt(m.resultado_local, 10) : parseInt(m.resultado_visitante, 10);
@@ -703,15 +728,14 @@ async function buildProximoPartido(matches) {
   const pending = matches
     .filter((m) => {
       const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-      const involvesVetusta = isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante);
-      return isPending && involvesVetusta;
+      return isPending && matchHasVetusta(m);
     })
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
   if (pending.length === 0) return null;
 
   const m = pending[0];
-  const esLocal = isVetusta(m.nombre_local);
+  const esLocal = sideIsVetusta(m, 'local');
 
   // Fetch stadium info for venue name and city
   let venueName = null;
@@ -746,16 +770,16 @@ async function buildProximoPartido(matches) {
     jornada: m.jornada,
     es_local: esLocal,
     local: {
-      nombre: isVetusta(m.nombre_local) ? 'Balonmano Vetusta' : titleCase(m.nombre_local),
-      nombre_corto: isVetusta(m.nombre_local) ? 'BM Vetusta' : shortName(m.nombre_local),
+      nombre: sideIsVetusta(m, 'local') ? 'Balonmano Vetusta' : titleCase(m.nombre_local),
+      nombre_corto: sideIsVetusta(m, 'local') ? 'BM Vetusta' : shortName(m.nombre_local),
       escudo: m.url_escudo_local || null,
-      es_vetusta: isVetusta(m.nombre_local),
+      es_vetusta: sideIsVetusta(m, 'local'),
     },
     visitante: {
-      nombre: isVetusta(m.nombre_visitante) ? 'Balonmano Vetusta' : titleCase(m.nombre_visitante),
-      nombre_corto: isVetusta(m.nombre_visitante) ? 'BM Vetusta' : shortName(m.nombre_visitante),
+      nombre: sideIsVetusta(m, 'visitante') ? 'Balonmano Vetusta' : titleCase(m.nombre_visitante),
+      nombre_corto: sideIsVetusta(m, 'visitante') ? 'BM Vetusta' : shortName(m.nombre_visitante),
       escudo: m.url_escudo_visitante || null,
-      es_vetusta: isVetusta(m.nombre_visitante),
+      es_vetusta: sideIsVetusta(m, 'visitante'),
     },
     sede: venue,
     url_streaming: m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null,
@@ -764,97 +788,95 @@ async function buildProximoPartido(matches) {
 
 // ── Main ─────────────────────────────────────────────────────────────────────
 
-async function main() {
-  console.log('🏐 BM Vetusta — Data Fetcher\n');
+function writeJson(dir, name, data) {
+  fs.writeFileSync(path.join(dir, name), JSON.stringify(data, null, 2), 'utf-8');
+}
 
-  // 1. Fetch calendar
-  const matches = await fetchCalendar();
-  if (!matches || matches.length === 0) {
-    throw new Error('No matches returned from the API — aborting');
-  }
-
-  // 2. Fetch actas for finished Vetusta matches with acta_subida === "1"
+/**
+ * Fetch the match reports (actas) of every finished Vetusta match of a
+ * group whose acta has been uploaded. Used to build the scorers list.
+ */
+async function fetchVetustaActas(matches, grupo) {
   const finishedWithActa = matches.filter(
     (m) =>
       (m.estado_partido || '').toLowerCase() === 'finalizado' &&
       String(m.acta_subida) === '1' &&
-      (isVetusta(m.nombre_local) || isVetusta(m.nombre_visitante))
+      matchHasVetusta(m)
   );
-
-  console.log(`\n📝 Fetching ${finishedWithActa.length} match reports …`);
+  console.log(`   📝 ${finishedWithActa.length} actas de partidos del Vetusta …`);
 
   const actas = [];
   for (let i = 0; i < finishedWithActa.length; i++) {
     const m = finishedWithActa[i];
-    const matchId = m.id;
     try {
-      console.log(`   [${i + 1}/${finishedWithActa.length}] Match ${matchId} — ${m.nombre_local} vs ${m.nombre_visitante}`);
-      const acta = await fetchActa(matchId);
-      actas.push({ matchId, acta });
+      const acta = await fetchActa(grupo, m.id);
+      actas.push({ matchId: m.id, acta });
     } catch (err) {
-      console.warn(`   ⚠ Failed to fetch acta for match ${matchId}: ${err.message}`);
-      // Continue with the rest — individual error handling
+      console.warn(`   ⚠ acta ${m.id}: ${err.message}`);
     }
-    // Delay between calls (except after the last one)
-    if (i < finishedWithActa.length - 1) {
-      await sleep(1000);
-    }
+    if (i < finishedWithActa.length - 1) await sleep(1000);
   }
+  return actas;
+}
 
-  // 3. Build JSON data
-  console.log('\n🔧 Building JSON files …');
+/**
+ * Generate the per-season data files under data/<code>/. The current
+ * season additionally writes calendario.json and drives the global
+ * historia.json + proximo-partido.json (banner shared across pages).
+ */
+async function buildSeason(season, isCurrent) {
+  console.log(`\n=== Temporada ${season.label} (grupo ${season.grupo})${isCurrent ? ' · ACTUAL' : ''} ===`);
 
-  const calendario = buildCalendario(matches);
-  const resultados = buildResultados(matches);
-  const historia = buildHistoria(matches);
+  const matches = await fetchCalendar(season.grupo);
+  if (!matches || matches.length === 0) {
+    throw new Error(`Sin partidos para ${season.label} (grupo ${season.grupo})`);
+  }
+  const actas = await fetchVetustaActas(matches, season.grupo);
+
   const clasificacion = buildClasificacion(matches);
+  const resultados = buildResultados(matches);
   const goleadores = buildGoleadores(actas);
-  const proximoPartido = await buildProximoPartido(matches);
 
-  console.log(`   → calendario.json: ${calendario.length} upcoming matches`);
-  console.log(`   → resultados.json: ${resultados.length} recent results`);
-  console.log(`   → historia.json: ${historia.length} seasons`);
-  console.log(`   → clasificacion.json: ${clasificacion.length} teams`);
-  console.log(`   → goleadores.json: ${goleadores.length} scorers`);
-  console.log(`   → proximo-partido.json: ${proximoPartido ? 'match found' : 'no upcoming match'}`);
+  const dir = path.join(DATA_DIR, season.code);
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  writeJson(dir, 'clasificacion.json', clasificacion);
+  writeJson(dir, 'resultados.json', resultados);
+  writeJson(dir, 'goleadores.json', goleadores);
 
-  // 4. Write to data/
-  if (!fs.existsSync(DATA_DIR)) {
-    fs.mkdirSync(DATA_DIR, { recursive: true });
+  if (isCurrent) {
+    const calendario = buildCalendario(matches);
+    writeJson(dir, 'calendario.json', calendario);
+
+    const historia = buildHistoria(matches);
+    const proximoPartido = await buildProximoPartido(matches);
+    writeJson(DATA_DIR, 'historia.json', historia);
+    writeJson(DATA_DIR, 'proximo-partido.json', proximoPartido);
+
+    console.log(`   → ${clasificacion.length} equipos · ${resultados.length} resultados · ${goleadores.length} goleadores · ${calendario.length} próximos · próximo-partido: ${proximoPartido ? 'sí' : 'no'}`);
+  } else {
+    console.log(`   → ${clasificacion.length} equipos · ${resultados.length} resultados · ${goleadores.length} goleadores`);
+  }
+}
+
+async function main() {
+  console.log('🏐 BM Vetusta — Data Fetcher\n');
+
+  // Past seasons are immutable: only (re)generated with --backfill or when
+  // their folder is missing. The current season is refreshed every run.
+  const backfill = process.argv.includes('--backfill');
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+
+  for (const season of SEASONS) {
+    const isCurrent = season.code === CURRENT_SEASON_CODE;
+    const dir = path.join(DATA_DIR, season.code);
+    if (!isCurrent && !backfill && fs.existsSync(dir)) {
+      console.log(`\n=== Temporada ${season.label}: sin cambios (usa --backfill para regenerar) ===`);
+      continue;
+    }
+    await buildSeason(season, isCurrent);
   }
 
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'calendario.json'),
-    JSON.stringify(calendario, null, 2),
-    'utf-8'
-  );
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'resultados.json'),
-    JSON.stringify(resultados, null, 2),
-    'utf-8'
-  );
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'historia.json'),
-    JSON.stringify(historia, null, 2),
-    'utf-8'
-  );
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'clasificacion.json'),
-    JSON.stringify(clasificacion, null, 2),
-    'utf-8'
-  );
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'goleadores.json'),
-    JSON.stringify(goleadores, null, 2),
-    'utf-8'
-  );
-  fs.writeFileSync(
-    path.join(DATA_DIR, 'proximo-partido.json'),
-    JSON.stringify(proximoPartido, null, 2),
-    'utf-8'
-  );
-
-  console.log('\n✅ Data files written to data/');
+  console.log('\n✅ Datos escritos en data/<temporada>/ (historia.json y proximo-partido.json globales)');
 }
 
 main().catch((err) => {

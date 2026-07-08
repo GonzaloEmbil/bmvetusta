@@ -437,7 +437,10 @@ document.addEventListener('DOMContentLoaded', function() {
             tbody.innerHTML = '';
             data.forEach(function(team) {
                 var tr = document.createElement('tr');
-                var isVetusta = normaliseName(team.nombre) === normaliseName(TEAM_NAME);
+                // Prefer the stable es_vetusta flag (the club's display name
+                // changes per season); fall back to name match for safety.
+                var isVetusta = team.es_vetusta === true ||
+                    normaliseName(team.nombre) === normaliseName(TEAM_NAME);
                 if (isVetusta) tr.classList.add('st-highlight');
 
                 // Color-coded DIF class
@@ -593,22 +596,67 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        // Fetch all three JSON files (cache-busted)
-        var basePath = './data/';
-        var cacheBust = '?v=' + Date.now();
-        Promise.all([
-            fetch(basePath + 'clasificacion.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
-            fetch(basePath + 'calendario.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
-            fetch(basePath + 'resultados.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
-            fetch(basePath + 'goleadores.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; })
-        ]).then(function(results) {
-            renderStandings(results[0]);
-            renderProximos(results[1]);
-            renderResultados(results[2]);
-            renderGoleadores(results[3]);
-        }).catch(function(err) {
-            console.warn('Failed to load league data:', err);
-        });
+        // ── Season selector ──
+        // Group ids per season, to point the external "Clasificación" link
+        // at the right isquad group.
+        var CURRENT_SEASON = '2526';
+        var SEASON_GROUP = {
+            '2122': '1007844', '2223': '1012866', '2324': '1018089',
+            '2425': '1023856', '2526': '1031242'
+        };
+
+        function setLoading() {
+            var std = document.querySelector('#standings-table tbody');
+            if (std) std.innerHTML = '<tr><td colspan="10"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></td></tr>';
+            ['resultados-list', 'goleadores-list', 'proximos-list'].forEach(function(id) {
+                var el = document.getElementById(id);
+                if (el) el.innerHTML = '<div class="liga-loading"><div class="liga-loading-spinner"></div></div>';
+            });
+        }
+
+        function loadSeason(code) {
+            var isCurrent = code === CURRENT_SEASON;
+            var basePath = './data/' + code + '/';
+            var cacheBust = '?v=' + Date.now();
+
+            // Upcoming matches only make sense for the current season.
+            var proximosPanel = document.getElementById('proximos-panel');
+            if (proximosPanel) proximosPanel.style.display = isCurrent ? '' : 'none';
+
+            // Point the external standings link at this season's group.
+            var extLink = document.getElementById('standings-external-link');
+            if (extLink && SEASON_GROUP[code]) {
+                extLink.href = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=' + SEASON_GROUP[code] + '&id_superficie=1';
+            }
+
+            setLoading();
+
+            Promise.all([
+                fetch(basePath + 'clasificacion.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
+                fetch(basePath + 'resultados.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
+                fetch(basePath + 'goleadores.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
+                isCurrent
+                    ? fetch(basePath + 'calendario.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; })
+                    : Promise.resolve([])
+            ]).then(function(results) {
+                renderStandings(results[0]);
+                renderResultados(results[1]);
+                renderGoleadores(results[2]);
+                if (isCurrent) renderProximos(results[3]);
+            }).catch(function(err) {
+                console.warn('Failed to load league data:', err);
+            });
+        }
+
+        var seasonSelect = document.getElementById('season-select');
+        if (seasonSelect) {
+            seasonSelect.addEventListener('change', function() {
+                loadSeason(seasonSelect.value);
+            });
+            loadSeason(seasonSelect.value || CURRENT_SEASON);
+        } else {
+            loadSeason(CURRENT_SEASON);
+        }
     })();
 
     // News Carousel (Homepage)

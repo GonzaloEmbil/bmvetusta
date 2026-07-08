@@ -1,0 +1,32 @@
+[
+  {
+    "fecha": "2025-05-03 19:00:00",
+    "jornada": "30",
+    "es_local": false,
+    "rival": "RECOLETAS ARROYO CABERO EDIFICACIONES",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
+    "goles_vetusta": 24,
+    "goles_rival": 23,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2025-04-26 19:00:00",
+    "jornada": "29",
+    "es_local": true,
+    "rival": "LAFUENTE PEREDA CIUDAD DE SANTANDER",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "goles_vetusta": 24,
+    "goles_rival": 22,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2025-04-12 20:30:00",
+    "jornada": "28",
+    "es_local": false,
+    "rival": "BATHCO BM. TORRELAVEGA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "goles_vetusta": 22,
+    "goles_rival": 27,
+    "resultado": "D"
+  }
+]

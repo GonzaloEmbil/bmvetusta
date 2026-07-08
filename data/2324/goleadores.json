@@ -1,0 +1,128 @@
+[
+  {
+    "nombre": "FERNANDEZ GRANDA, PABLO",
+    "goles": 155,
+    "partidos": 28,
+    "media": 5.5,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3663746f367273323438.jpg"
+  },
+  {
+    "nombre": "PULGAR DE LA TORRE, DAVID",
+    "goles": 148,
+    "partidos": 30,
+    "media": 4.9,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_67050cc7edf56.jpeg"
+  },
+  {
+    "nombre": "GOMEZ MARTINEZ, ISMAEL",
+    "goles": 102,
+    "partidos": 24,
+    "media": 4.3,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_69babe95b9322.jpeg"
+  },
+  {
+    "nombre": "GAMONAL MENENDEZ, LUIS",
+    "goles": 99,
+    "partidos": 28,
+    "media": 3.5,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_671f619263028.jpeg"
+  },
+  {
+    "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+    "goles": 76,
+    "partidos": 28,
+    "media": 2.7,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+  },
+  {
+    "nombre": "GARCIA JONES, MARTIN",
+    "goles": 71,
+    "partidos": 24,
+    "media": 3,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_67300a3febc45.jpeg"
+  },
+  {
+    "nombre": "SANCHEZ NORNIELLA, CARLOS ALBERTO",
+    "goles": 68,
+    "partidos": 23,
+    "media": 3,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c696133656f61757974.jpg"
+  },
+  {
+    "nombre": "DE MIGUEL TORRECILLA, SAUL",
+    "goles": 62,
+    "partidos": 22,
+    "media": 2.8,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_681b3513f19ad.jpeg"
+  },
+  {
+    "nombre": "CANO COTO, MARTIN",
+    "goles": 52,
+    "partidos": 20,
+    "media": 2.6,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+  },
+  {
+    "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+    "goles": 20,
+    "partidos": 9,
+    "media": 2.2,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+  },
+  {
+    "nombre": "CASTAÑO GUTIERREZ, GONZALO",
+    "goles": 20,
+    "partidos": 5,
+    "media": 4,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_376e6a6832796e313132.jpg"
+  },
+  {
+    "nombre": "ONDO NSUA, CRISTIAN",
+    "goles": 18,
+    "partidos": 10,
+    "media": 1.8,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+  },
+  {
+    "nombre": "ARIAS HERRERO , DANIEL",
+    "goles": 15,
+    "partidos": 7,
+    "media": 2.1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_796a666f347676353831.jpg"
+  },
+  {
+    "nombre": "CANCIO CASAS, MAXIMO ESTEBAN",
+    "goles": 13,
+    "partidos": 4,
+    "media": 3.3,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_313565646f3861643470.jpg"
+  },
+  {
+    "nombre": "CARBAJO DEAN, JOSE MARIA",
+    "goles": 9,
+    "partidos": 6,
+    "media": 1.5,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
+  },
+  {
+    "nombre": "SOLIÑO HERMELO, MANUEL",
+    "goles": 6,
+    "partidos": 4,
+    "media": 1.5,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_66793974777933746874.jpg"
+  },
+  {
+    "nombre": "FERNANDEZ SUAREZ, DANIEL",
+    "goles": 3,
+    "partidos": 3,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64783764316e646d3336.jpg"
+  },
+  {
+    "nombre": "MIYAR FERNANDEZ, PABLO",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7632786f6a3667616338.jpg"
+  }
+]

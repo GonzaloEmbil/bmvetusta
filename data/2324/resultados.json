@@ -1,0 +1,32 @@
+[
+  {
+    "fecha": "2024-05-04 19:00:00",
+    "jornada": "30",
+    "es_local": true,
+    "rival": "UNIVERSIDAD DE LEóN ADEMAR",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/126/square_70636d736b6d31387577.jpg",
+    "goles_vetusta": 33,
+    "goles_rival": 25,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2024-04-27 19:00:00",
+    "jornada": "29",
+    "es_local": false,
+    "rival": "REAL GRUPO DE CULTURA COVADONGA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+    "goles_vetusta": 35,
+    "goles_rival": 29,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2024-04-20 17:30:00",
+    "jornada": "28",
+    "es_local": true,
+    "rival": "LAFUENTE PEREDA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "goles_vetusta": 35,
+    "goles_rival": 29,
+    "resultado": "V"
+  }
+]

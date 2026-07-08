@@ -1,0 +1,32 @@
+[
+  {
+    "fecha": "2023-05-13 19:00:00",
+    "jornada": "30",
+    "es_local": false,
+    "rival": "BATHCO BM. TORRELAVEGA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "goles_vetusta": 22,
+    "goles_rival": 28,
+    "resultado": "D"
+  },
+  {
+    "fecha": "2023-05-06 19:00:00",
+    "jornada": "29",
+    "es_local": true,
+    "rival": "CONGESA XXI",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
+    "goles_vetusta": 38,
+    "goles_rival": 38,
+    "resultado": "E"
+  },
+  {
+    "fecha": "2023-04-22 20:30:00",
+    "jornada": "28",
+    "es_local": false,
+    "rival": "FOYELSA BM ARROYO",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/150/square_64383237303774786171.jpg",
+    "goles_vetusta": 43,
+    "goles_rival": 18,
+    "resultado": "V"
+  }
+]

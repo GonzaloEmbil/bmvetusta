@@ -1,0 +1,32 @@
+[
+  {
+    "fecha": "2022-05-14 20:00:00",
+    "jornada": "30",
+    "es_local": false,
+    "rival": "GRUPO IMQ",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+    "goles_vetusta": 30,
+    "goles_rival": 21,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2022-05-07 19:00:00",
+    "jornada": "29",
+    "es_local": true,
+    "rival": "EZEQUIEL 4VALLES LA ROBLA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/2896/square_6675636c6a6d30346366.jpg",
+    "goles_vetusta": 35,
+    "goles_rival": 22,
+    "resultado": "V"
+  },
+  {
+    "fecha": "2022-05-01 12:00:00",
+    "jornada": "28",
+    "es_local": false,
+    "rival": "CAMARGO TURISMO",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
+    "goles_vetusta": 33,
+    "goles_rival": 28,
+    "resultado": "V"
+  }
+]

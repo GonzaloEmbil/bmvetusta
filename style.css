@@ -769,6 +769,44 @@ body {
     margin: 0;
 }
 
+/* Season selector */
+.liga-season-select-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.liga-season-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: rgba(253, 237, 58, 0.6);
+}
+
+.liga-season-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background: #1a1a1a url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23FDED3A' stroke-width='3'><polyline points='6 9 12 15 18 9'/></svg>") no-repeat right 10px center;
+    color: #fff;
+    border: 1px solid rgba(253, 237, 58, 0.35);
+    border-radius: 8px;
+    padding: 7px 30px 7px 12px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.liga-season-select:hover,
+.liga-season-select:focus {
+    border-color: #FDED3A;
+    outline: none;
+}
+
 .liga-row {
     display: grid;
     grid-template-columns: 60% 1fr;
