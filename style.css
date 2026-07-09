@@ -2617,6 +2617,18 @@ body {
     border-radius: 10px;
 }
 
+/* Full-image variant: show the whole image (maps, infographics) instead
+   of cropping it to a fixed height. */
+.news-article-image-full {
+    max-height: none;
+}
+
+.news-article-image-full img {
+    height: auto;
+    max-height: none;
+    object-fit: contain;
+}
+
 .news-article-body {
     color: #fff;
     font-size: 1.05rem;
