@@ -599,10 +599,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // ── Season selector ──
         // Group ids per season, to point the external "Clasificación" link
         // at the right isquad group.
-        var CURRENT_SEASON = '2526';
+        var CURRENT_SEASON = '2627';
         var SEASON_GROUP = {
             '2122': '1007844', '2223': '1012866', '2324': '1018089',
-            '2425': '1023856', '2526': '1031242'
+            '2425': '1023856', '2526': '1031242', '2627': '1038396'
         };
 
         function setLoading() {

@@ -25,8 +25,9 @@ const SEASONS = [
   { code: '2324', grupo: '1018089', label: '2023/2024' },
   { code: '2425', grupo: '1023856', label: '2024/2025' },
   { code: '2526', grupo: '1031242', label: '2025/2026' },
+  { code: '2627', grupo: '1038396', label: '2026/2027' },
 ];
-const CURRENT_SEASON_CODE = '2526';
+const CURRENT_SEASON_CODE = '2627';
 
 // Administrative corrections that the raw match data doesn't reflect
 // (e.g. federative point deductions). Keyed by season code; merged onto
@@ -92,6 +93,15 @@ function sideIsVetusta(m, side) {
 
 function matchHasVetusta(m) {
   return sideIsVetusta(m, 'local') || sideIsVetusta(m, 'visitante');
+}
+
+// A fixture only counts as "upcoming" once it has a real, parseable date.
+// Before the calendar is published (e.g. a season that hasn't started),
+// matches exist with an empty fecha and must not surface as próximos.
+function hasValidDate(m) {
+  if (!m.fecha || !String(m.fecha).trim()) return false;
+  const d = new Date(String(m.fecha).replace(' ', 'T'));
+  return !isNaN(d.getTime());
 }
 
 /**
@@ -233,7 +243,7 @@ function buildCalendario(matches) {
   const pending = matches
     .filter((m) => {
       const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-      return isPending && matchHasVetusta(m);
+      return isPending && matchHasVetusta(m) && hasValidDate(m);
     })
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
     .slice(0, 3);
@@ -641,6 +651,9 @@ function buildHistoria(currentMatches) {
     }
     const v = clasif.find((t) => t.es_vetusta);
     if (!v) continue;
+    // Skip seasons that haven't started yet (no matches played) so an
+    // all-zeros row doesn't appear in the history table.
+    if (!v.PJ) continue;
 
     const row = {
       temporada: s.label,
@@ -703,7 +716,7 @@ async function buildProximoPartido(matches) {
   const pending = matches
     .filter((m) => {
       const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-      return isPending && matchHasVetusta(m);
+      return isPending && matchHasVetusta(m) && hasValidDate(m);
     })
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
