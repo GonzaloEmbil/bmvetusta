@@ -918,22 +918,32 @@
     // wrapper because .fold-row sits inside a JS-sized flex column on the
     // homepage; reading the carousel height directly removes that ambiguity.
     (function() {
-        var carousel = document.querySelector('.news-carousel-section');
+        // Match the tournament+club-photo stack to the visible news card
+        // (.news-carousel), not the whole section: the section adds padding
+        // and the dots row, which made the stack render taller than the card.
+        // Aligning top + height to the card makes both columns identical.
+        var card = document.querySelector('.news-carousel');
+        var foldRow = document.querySelector('.fold-row');
         var stack = document.querySelector('.home-tournament-stack');
-        if (!carousel || !stack) return;
+        if (!card || !foldRow || !stack) return;
         function sync() {
             if (window.innerWidth < 769) {
                 stack.style.height = '';   // mobile: natural height
+                stack.style.top = '';
                 return;
             }
-            stack.style.height = carousel.offsetHeight + 'px';
+            var cardRect = card.getBoundingClientRect();
+            var rowRect = foldRow.getBoundingClientRect();
+            stack.style.top = (cardRect.top - rowRect.top) + 'px';
+            stack.style.height = cardRect.height + 'px';
         }
         sync();
         window.addEventListener('resize', sync);
         window.addEventListener('load', sync);
-        // Re-sync if the carousel changes size after late-loading images.
+        // Re-sync if the card or row changes size after late-loading images.
         if (typeof ResizeObserver !== 'undefined') {
-            new ResizeObserver(sync).observe(carousel);
+            new ResizeObserver(sync).observe(card);
+            new ResizeObserver(sync).observe(foldRow);
         }
     })();
     </script>

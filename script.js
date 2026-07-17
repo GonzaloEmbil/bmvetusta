@@ -75,16 +75,15 @@ document.addEventListener('DOMContentLoaded', function() {
         aboveFold.style.height = 'auto';
         aboveFold.offsetHeight; // force reflow
 
-        // Available space = viewport - header (sticky) - matchBanner - carousel-section padding-top
-        var headerH = header ? header.offsetHeight : 0;
-        var matchH = matchBanner ? matchBanner.offsetHeight : 0;
-        var carouselSection = document.querySelector('.carousel-section');
-        var csPadTop = carouselSection ? parseInt(getComputedStyle(carouselSection).paddingTop) || 0 : 0;
-        var available = window.innerHeight - headerH - matchH - csPadTop;
-
-        // ALWAYS set to exactly 'available' so the team carousel top sits at the viewport bottom.
-        // The flex-shrink chain inside above-fold will compress the news image to fit.
-        aboveFold.style.height = Math.max(0, available) + 'px';
+        // Measure where the teams carousel actually starts and grow/shrink the
+        // above-fold so its top edge lands exactly at the viewport bottom.
+        // Measuring the real position (instead of summing header + banner +
+        // paddings) self-corrects sub-pixel/margin drift that was leaving a
+        // thin sliver of the teams carousel visible on load.
+        var foldHeight = aboveFold.getBoundingClientRect().height;
+        var containerTop = carouselContainer.getBoundingClientRect().top;
+        var newHeight = foldHeight + (window.innerHeight - containerTop);
+        aboveFold.style.height = Math.max(0, newHeight) + 'px';
 
         _adjusting = false;
     }
