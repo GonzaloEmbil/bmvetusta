@@ -2629,6 +2629,39 @@ body {
     object-fit: contain;
 }
 
+/* Grupo B post: two images + text laid out with grid areas so they can
+   reflow per breakpoint. Desktop: the two images sit side by side on top
+   with the text below. Mobile: map on top, text, then calendar below. */
+.news-grupob-media {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+        "mapa calendario"
+        "text text";
+    align-items: start;
+    margin-bottom: 30px;
+}
+
+.news-grupob-media .grupob-img {
+    margin: 0;
+    max-width: none;
+}
+
+.grupob-img-mapa { grid-area: mapa; }
+.grupob-img-calendario { grid-area: calendario; }
+.grupob-text { grid-area: text; }
+
+@media (max-width: 768px) {
+    .news-grupob-media {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "mapa"
+            "text"
+            "calendario";
+    }
+}
+
 .news-article-body {
     color: #fff;
     font-size: 1.05rem;
