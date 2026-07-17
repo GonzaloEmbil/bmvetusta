@@ -80,8 +80,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Measuring the real position (instead of summing header + banner +
         // paddings) self-corrects sub-pixel/margin drift that was leaving a
         // thin sliver of the teams carousel visible on load.
+        // Use a scroll-independent position (rect.top is viewport-relative, so
+        // adding scrollY gives the absolute document Y). Without this, a
+        // recalculation triggered while the page is scrolled computed a wrong
+        // height and broke the layout on scroll up/down.
         var foldHeight = aboveFold.getBoundingClientRect().height;
-        var containerTop = carouselContainer.getBoundingClientRect().top;
+        var containerTop = carouselContainer.getBoundingClientRect().top + window.scrollY;
         var newHeight = foldHeight + (window.innerHeight - containerTop);
         aboveFold.style.height = Math.max(0, newHeight) + 'px';
 
