@@ -925,6 +925,41 @@ document.addEventListener('DOMContentLoaded', function() {
             var prensaGrid = document.querySelector('.prensa-preview-grid');
             if (prensaGrid) prensaObserver.observe(prensaGrid);
         }
+
+        // Teams carousel: opacity-only fade (NO transform — a translate would
+        // shift its measured top and break the above-fold sizing).
+        var teamsCarousel = document.querySelector('.carousel-section');
+        if (teamsCarousel) {
+            teamsCarousel.style.opacity = '0';
+            teamsCarousel.style.transition = 'opacity 1s ease';
+            var teamsObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        teamsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            teamsObserver.observe(teamsCarousel);
+        }
+
+        // Sponsors: gentle fade-up.
+        var sponsors = document.querySelector('.sponsors-carousel-section');
+        if (sponsors) {
+            sponsors.style.opacity = '0';
+            sponsors.style.transform = 'translateY(25px)';
+            sponsors.style.transition = 'opacity 1s ease, transform 1s ease';
+            var sponsorsObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                        sponsorsObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            sponsorsObserver.observe(sponsors);
+        }
     }
 
     // Start scroll animations after loading screen fades out

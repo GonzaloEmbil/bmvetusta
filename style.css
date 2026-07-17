@@ -6,6 +6,18 @@
 
 html {
     /* overflow-x moved to body only, to avoid breaking position:sticky on header */
+    scroll-behavior: smooth;
+}
+
+/* Accessibility: honour users who prefer less motion — neutralise the
+   animations, transitions and reveal effects across the whole site. */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }
 
 /* Loading Screen */
