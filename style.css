@@ -3119,13 +3119,17 @@ body {
     border-radius: 12px;
 }
 
+/* Crossfade: all slides share one grid cell so the container keeps an
+   intrinsic height (same trick as the historia fundación slideshow) and
+   we fade between them instead of sliding — no long "rewind" when the
+   loop wraps from the last slide back to the first. */
 .news-carousel-slides {
-    display: flex;
-    transition: transform 0.5s ease;
+    display: grid;
+    grid-template: 1fr / 1fr;
 }
 
 .news-carousel-slide {
-    min-width: 100%;
+    grid-area: 1 / 1;
     display: flex;
     flex-direction: column;
     background-color: #232323;
@@ -3133,7 +3137,14 @@ body {
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
-    transition: border-color 0.3s ease;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease, border-color 0.3s ease;
+}
+
+.news-carousel-slide.active {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 .news-carousel-slide:hover {
@@ -3141,12 +3152,25 @@ body {
 }
 
 .news-carousel-slide-image {
+    position: relative;
     width: 100%;
     height: 330px;  /* Fixed height — enlarged after the CTA buttons were removed;
                        the JS still pins the teams carousel to the viewport bottom. */
     overflow: hidden;
     background-color: #222;
     flex-shrink: 0;
+}
+
+/* Soft gradient at the foot of the image so it melts into the text block */
+.news-carousel-slide-image::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 70px;
+    background: linear-gradient(to bottom, rgba(35,35,35,0), rgba(35,35,35,0.9));
+    pointer-events: none;
 }
 
 /* When the slide-image area holds the live tournament banner instead of
@@ -3188,18 +3212,30 @@ body {
     margin-bottom: 10px;
 }
 
+/* Clamp to 2 lines AND reserve those 2 lines, so the card doesn't jump
+   between slides with 1-line and 2-line headlines. */
 .news-carousel-slide-title {
     color: #fff;
     font-size: 1.2rem;
     font-weight: 800;
     line-height: 1.3;
     margin-bottom: 12px;
+    min-height: calc(2 * 1.3em);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .news-carousel-slide-excerpt {
     color: #aaa;
     font-size: 0.9rem;
     line-height: 1.5;
+    min-height: calc(2 * 1.5em);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }
 
 .news-carousel-arrow {
@@ -3223,11 +3259,21 @@ body {
     transform: scale(1.15);
 }
 
+/* Dots + "Ver todas" share one row so the link costs no extra vertical
+   space (the above-fold height is tight). */
+.news-carousel-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 12px;
+    flex-shrink: 0;
+}
+
 .news-carousel-dots {
     display: flex;
     justify-content: center;
     gap: 8px;
-    margin-top: 12px;
     flex-shrink: 0;
 }
 
@@ -3247,12 +3293,12 @@ body {
 
 .news-carousel-all-link {
     display: inline-block;
-    margin-top: 20px;
     color: #FDED3A;
     text-decoration: none;
-    font-size: 0.95rem;
+    font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.5px;
+    white-space: nowrap;
     transition: opacity 0.2s;
 }
 

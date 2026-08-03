@@ -693,7 +693,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function goToSlide(index) {
             currentIndex = index;
-            slidesContainer.style.transform = 'translateX(-' + (currentIndex * 100) + '%)';
+            // Crossfade: toggle .active instead of translating the strip, so
+            // wrapping from the last slide to the first is a plain fade.
+            slides.forEach(function(s, i) {
+                s.classList.toggle('active', i === currentIndex);
+            });
             // Update dots
             var dots = dotsContainer.querySelectorAll('.news-carousel-dot');
             dots.forEach(function(d, i) {
