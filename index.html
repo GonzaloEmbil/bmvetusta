@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BM Vetusta</title>
     <link rel="icon" type="image/png" href="src/assets/escudo.png">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=home-posters-1">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -938,10 +938,13 @@
             }
             var cardRect = card.getBoundingClientRect();
             var rowRect = foldRow.getBoundingClientRect();
-            // Align the posters' top with the news card; keep their natural
-            // height (portrait posters shouldn't be stretched to the card).
-            stack.style.top = (cardRect.top - rowRect.top) + 'px';
+            // Keep the posters at their natural portrait height, but centre
+            // them vertically against the news card so there's no empty gap
+            // below them on the right.
             stack.style.height = '';
+            var stackH = stack.getBoundingClientRect().height;
+            var top = (cardRect.top - rowRect.top) + Math.max(0, (cardRect.height - stackH) / 2);
+            stack.style.top = top + 'px';
         }
         sync();
         window.addEventListener('resize', sync);
