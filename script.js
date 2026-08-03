@@ -834,6 +834,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     var datetime = document.getElementById('match-datetime');
                     if (venue) venue.textContent = match.sede || '';
                     if (datetime) datetime.textContent = match.fecha_display || '';
+
+                    // Longer "Horario por definir" text needs smaller type
+                    var center = document.querySelector('.match-center');
+                    if (center) {
+                        center.classList.toggle('match-center-tbd', !!match.fecha_por_definir);
+                    }
                 }
 
                 // ── Streaming link (banner + header button) ──

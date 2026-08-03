@@ -207,7 +207,7 @@ function shortVenueName(raw) {
  *   "2026-03-29 12:00:00" → "Dom 29 Mar · 12:00h"
  */
 function formatDateForBanner(dateStr) {
-  if (!dateStr || dateStr.trim() === '') return 'Por definir';
+  if (!dateStr || dateStr.trim() === '') return 'Horario por definir';
   const d = new Date(dateStr.replace(' ', 'T'));
   if (isNaN(d.getTime())) return dateStr;
 
@@ -785,7 +785,7 @@ async function buildProximoPartido(matches) {
 
   return {
     fecha: dateUndefined ? null : m.fecha,
-    fecha_display: dateUndefined ? 'Por definir' : formatDateForBanner(m.fecha),
+    fecha_display: dateUndefined ? 'Horario por definir' : formatDateForBanner(m.fecha),
     fecha_por_definir: dateUndefined,
     jornada: m.jornada,
     es_local: esLocal,

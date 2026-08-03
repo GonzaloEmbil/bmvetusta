@@ -336,13 +336,21 @@ body {
     gap: 1px;
     text-align: center;
     background-color: #FDED3A;
-    padding: 0 50px;
-    width: 280px;
-    min-width: 280px;
-    max-width: 280px;
+    padding: 0 40px;
+    width: 320px;
+    min-width: 320px;
+    max-width: 320px;
     clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
     z-index: 2;
     overflow: hidden;
+}
+
+/* "Horario por definir" is far longer than a "Sáb 13 Sep · 18:00h" date and
+   was being ellipsised, so drop a step in size when there's no kick-off
+   time yet. Real dates keep the larger type. */
+.match-center.match-center-tbd .match-center-line2 {
+    font-size: 0.82rem;
+    letter-spacing: 0;
 }
 
 .match-center-line1 {
@@ -3264,6 +3272,58 @@ body {
         }
     }
 
+    /* Fill the above-fold instead of leaving a gap above the teams carousel.
+       The chain: .above-fold has a JS-set height, .fold-row takes all of it
+       bar the "Ver todas" row, the grid stretches every column, and inside
+       the card the image absorbs whatever the text block doesn't use. No
+       magic numbers, so it adapts to the match banner coming and going. */
+    .above-fold > .carousel-spacer {
+        display: none;
+    }
+
+    .fold-row {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .fold-row > .news-carousel-section {
+        display: flex;
+        flex-direction: column;
+        min-height: 0;
+    }
+
+    .fold-row > .news-carousel-section .news-carousel {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .fold-row .news-carousel-viewport {
+        min-height: 0;
+        align-self: stretch;
+    }
+
+    /* The slide grid is height:auto by default, so it grew past the viewport
+       and the text block was clipped off the bottom. Pin it to the viewport
+       and let each slide share that exact height. */
+    .fold-row .news-carousel-slides {
+        height: 100%;
+    }
+
+    .fold-row .news-carousel-slide {
+        min-height: 0;
+    }
+
+    /* Text keeps its natural size; the image absorbs the remainder. */
+    .fold-row .news-carousel-slide-content {
+        flex: 0 0 auto;
+    }
+
+    .fold-row .news-carousel-slide-image {
+        flex: 1 1 auto;
+        height: auto;
+        min-height: 140px;
+    }
+
     /* Explicit columns: there are only three children for four tracks (the
        arrow slot is filled by an absolutely-positioned button), so without
        this the map poster would fall into the narrow arrow track. */
@@ -3405,10 +3465,10 @@ body {
 .news-carousel-slide-image {
     position: relative;
     width: 100%;
-    /* Scales with viewport height: 330px on tall screens, shrinking on short
-       laptops so the card still fits the above-fold (a fixed 330px overflowed
-       it at 1440x800 and the dots/tag column got clipped). */
-    height: clamp(160px, 29vh, 330px);
+    /* Mobile/base height. On desktop the image instead grows to fill the
+       above-fold (see the flex chain in the min-width:769px block), which
+       self-corrects for the match banner appearing or disappearing. */
+    height: 260px;
     overflow: hidden;
     background-color: #222;
     flex-shrink: 0;
