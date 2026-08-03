@@ -2980,33 +2980,38 @@ body {
     gap: 12px;
 }
 
-/* League map + calendar posters, side by side (portrait) */
+/* League map poster — fills the stack height (synced to the news carousel),
+   natural 4:5 width, centred in the column. */
 .home-tournament-stack.home-poster-row {
     flex-direction: row;
-    gap: 12px;
-    align-items: flex-start;
+    justify-content: center;
+    align-items: stretch;
 }
 
 .home-poster {
-    flex: 1 1 0;
-    min-width: 0;
+    flex: 0 0 auto;
+    max-width: 100%;
+    height: 100%;
     display: block;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.2s;
 }
 
 .home-poster:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.28);
 }
 
-.home-poster picture,
-.home-poster img {
+.home-poster picture {
     display: block;
-    width: 100%;
-    height: auto;
+    height: 100%;
+}
+
+.home-poster img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.28);
 }
 
 /* Club photo — desktop only, same width as the banner */
@@ -3137,7 +3142,8 @@ body {
 
 .news-carousel-slide-image {
     width: 100%;
-    height: 250px;  /* Fixed height — breaks 16:9 to respect the PERMANENT RULE */
+    height: 330px;  /* Fixed height — enlarged after the CTA buttons were removed;
+                       the JS still pins the teams carousel to the viewport bottom. */
     overflow: hidden;
     background-color: #222;
     flex-shrink: 0;
