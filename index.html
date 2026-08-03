@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BM Vetusta</title>
     <link rel="icon" type="image/png" href="src/assets/escudo.png">
-    <link rel="stylesheet" href="style.css?v=news-carousel-1">
+    <link rel="stylesheet" href="style.css?v=tag-carousels-1">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -240,6 +240,72 @@
             </div>
         </section>
 
+            <!-- Mini-carruseles por tag (autoplay, sin controles) -->
+            <div class="tag-carousels">
+                <div class="tag-carousel" data-tag="primer-equipo">
+                    <span class="news-tag news-tag-primer-equipo tag-carousel-label">Primer equipo</span>
+                    <div class="tag-carousel-track">
+                        <a href="./noticias/fichaje-jaime-gonzalez-2026-08-01.html" class="tag-card active">
+                            <img src="src/assets/thumbs/fichaje_jaimegonzalez.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El Balonmano Vetusta se refuerza con el fichaje de Jaime González</span>
+                        </a>
+                        <a href="./noticias/fichaje-lucas-alonso-2026-07-30.html" class="tag-card">
+                            <img src="src/assets/thumbs/fichaje_lucas.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El Balonmano Vetusta incorpora al joven talento Lucas Alonso</span>
+                        </a>
+                        <a href="./noticias/renovacion-hugo-rodriguez-2026-07-16.html" class="tag-card">
+                            <img src="src/assets/thumbs/renovacionhugo.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">Hugo Rodríguez renueva para la temporada 2026/2027</span>
+                        </a>
+                        <a href="./noticias/renovacion-saul-torrecilla-2026-07-13.html" class="tag-card">
+                            <img src="src/assets/thumbs/renovacionsaul.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El Vetusta blinda a su máximo goleador, Saúl Torrecilla</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="tag-carousel" data-tag="cantera">
+                    <span class="news-tag news-tag-cantera tag-carousel-label">Cantera</span>
+                    <div class="tag-carousel-track">
+                        <a href="./noticias/torneo-iii-edicion-resumen-2026-06-21.html" class="tag-card active">
+                            <img src="src/assets/thumbs/fototorneo1.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">Finaliza el III Torneo Nacional Balonmano Vetusta</span>
+                        </a>
+                        <a href="./noticias/torneo-iii-edicion-2026-06-15.html" class="tag-card">
+                            <img src="src/assets/thumbs/fotonoticiatorneo.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El III Torneo Nacional se celebrará los días 19, 20 y 21 de junio</span>
+                        </a>
+                        <a href="./noticias/cuarto-benjamin-b-2026-05-16.html" class="tag-card">
+                            <img src="src/assets/thumbs/fotofinalbenjaminb1.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El CP Germán Fernández Ramos finaliza cuarto en el Campeonato de Asturias</span>
+                        </a>
+                        <a href="./noticias/fase-final-mini-balonmano-2026-05-15.html" class="tag-card">
+                            <img src="src/assets/thumbs/germanfdzramosbenjaminb2026.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El CP Germán Fernández Ramos disputará la medalla de bronce</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="tag-carousel" data-tag="club">
+                    <span class="news-tag news-tag-club tag-carousel-label">Club</span>
+                    <div class="tag-carousel-track">
+                        <a href="./noticias/premio-eduardo-valdes-2026-06-26.html" class="tag-card active">
+                            <img src="src/assets/thumbs/premiolabordirectiva.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">Eduardo Valdés, premiado por su labor directiva</span>
+                        </a>
+                        <a href="./noticias/torneo-iii-edicion-resumen-2026-06-21.html" class="tag-card">
+                            <img src="src/assets/thumbs/fototorneo1.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">Finaliza el III Torneo Nacional Balonmano Vetusta</span>
+                        </a>
+                        <a href="./noticias/torneo-iii-edicion-2026-06-15.html" class="tag-card">
+                            <img src="src/assets/thumbs/fotonoticiatorneo.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">El III Torneo Nacional se celebrará los días 19, 20 y 21 de junio</span>
+                        </a>
+                        <a href="./noticias/alianza-seinte-2026-03-24.html" class="tag-card">
+                            <img src="src/assets/thumbs/fotosponsorseinte.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-title">Balonmano Vetusta y Seinte Energía: una alianza con 30 años</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
             <!-- League map poster on the right, matching the news carousel height -->
             <div class="home-tournament-stack home-poster-row">
                 <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster" aria-label="Grupo B de Primera Nacional 2026/2027">
@@ -723,42 +789,42 @@
         </div>
     </footer>
 
-    <script src="script.js?v=news-carousel-1"></script>
+    <script src="script.js?v=tag-carousels-1"></script>
 
     <script>
-    // Force the tournament+club-photo stack on desktop to match the news
-    // carousel's height exactly. CSS top:0/bottom:0 was producing a taller
-    // wrapper because .fold-row sits inside a JS-sized flex column on the
-    // homepage; reading the carousel height directly removes that ambiguity.
+    // Tag mini-carousels: crossfade through each tag's latest news on a
+    // timer. No arrows and no dots by design — autoplay only. Each box is
+    // offset so the three don't flip in unison, and hovering one pauses it.
     (function() {
-        // Match the tournament+club-photo stack to the visible news card
-        // (.news-carousel), not the whole section: the section adds padding
-        // and the dots row, which made the stack render taller than the card.
-        // Aligning top + height to the card makes both columns identical.
-        var card = document.querySelector('.news-carousel');
-        var foldRow = document.querySelector('.fold-row');
-        var stack = document.querySelector('.home-tournament-stack');
-        if (!card || !foldRow || !stack) return;
-        function sync() {
-            if (window.innerWidth < 769) {
-                stack.style.height = '';   // mobile: natural height
-                stack.style.top = '';
-                return;
+        var boxes = document.querySelectorAll('.tag-carousel');
+        if (!boxes.length) return;
+        var INTERVAL = 5000;
+
+        boxes.forEach(function(box, boxIndex) {
+            var cards = box.querySelectorAll('.tag-card');
+            if (cards.length < 2) return;   // nothing to rotate
+            var i = 0, timer = null;
+
+            function show(n) {
+                i = (n + cards.length) % cards.length;
+                cards.forEach(function(c, idx) {
+                    c.classList.toggle('active', idx === i);
+                });
             }
-            var cardRect = card.getBoundingClientRect();
-            var rowRect = foldRow.getBoundingClientRect();
-            // Match the poster's height to the news card and top-align them.
-            stack.style.top = (cardRect.top - rowRect.top) + 'px';
-            stack.style.height = cardRect.height + 'px';
-        }
-        sync();
-        window.addEventListener('resize', sync);
-        window.addEventListener('load', sync);
-        // Re-sync if the card or row changes size after late-loading images.
-        if (typeof ResizeObserver !== 'undefined') {
-            new ResizeObserver(sync).observe(card);
-            new ResizeObserver(sync).observe(foldRow);
-        }
+            function start() {
+                stop();
+                timer = setInterval(function() { show(i + 1); }, INTERVAL);
+            }
+            function stop() {
+                if (timer) { clearInterval(timer); timer = null; }
+            }
+
+            // Stagger the three boxes so they don't all change at once.
+            setTimeout(start, boxIndex * (INTERVAL / boxes.length));
+
+            box.addEventListener('mouseenter', stop);
+            box.addEventListener('mouseleave', start);
+        });
     })();
     </script>
 </body>

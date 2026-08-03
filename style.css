@@ -2920,10 +2920,91 @@ body {
     }
 }
 
-/* Row wrapping the news carousel + the tournament banner */
+/* Row wrapping the news carousel + the tag carousels + the map poster */
 .fold-row {
     position: relative;
     width: 100%;
+}
+
+/* ── Tag mini-carousels (one per tag, autoplay only) ─────────────
+   Middle column of the fold row: three stacked boxes, each cycling
+   through its tag's latest news with a horizontal thumb + headline. */
+.tag-carousels {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.tag-carousel {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    min-height: 0;
+    flex: 1;
+}
+
+.tag-carousel-label {
+    align-self: flex-start;
+}
+
+/* Crossfade stack: every card shares one grid cell */
+.tag-carousel-track {
+    position: relative;
+    display: grid;
+    grid-template: 1fr / 1fr;
+    flex: 1;
+    min-height: 0;
+    background: #1c1c1c;
+    border: 1px solid #262626;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.tag-card {
+    grid-area: 1 / 1;
+    display: flex;
+    align-items: stretch;
+    gap: 10px;
+    padding: 8px;
+    min-height: 0;
+    text-decoration: none;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.6s ease;
+}
+
+.tag-card.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Fixed width + vertical stretch: fills the box without the circular
+   sizing you get from a percentage height inside a stretched row. */
+.tag-card-thumb {
+    width: 84px;
+    height: auto;
+    align-self: stretch;
+    flex: 0 0 84px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    min-height: 0;
+}
+
+.tag-card-title {
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 700;
+    line-height: 1.35;
+    align-self: center;
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.tag-carousel-track:hover .tag-card.active .tag-card-title {
+    color: #FDED3A;
 }
 
 /* Tournament banner — base styles shared by mobile and desktop */
@@ -3091,6 +3172,21 @@ body {
         margin: 20px auto 8px;
     }
 
+    /* Tag carousels: full-width stack under the main carousel */
+    .tag-carousels {
+        width: 90%;
+        max-width: 360px;
+        margin: 16px auto 0;
+    }
+
+    .tag-carousel {
+        flex: 0 0 auto;
+    }
+
+    .tag-carousel-track {
+        min-height: 80px;
+    }
+
     /* Pack dates + venues on a single row on mobile by trimming font
        size, letter-spacing and gap. */
     .home-tournament-banner-band {
@@ -3111,17 +3207,66 @@ body {
     }
 }
 
-/* Desktop: stack is absolutely positioned to the right of the carousel.
-   The exact height is set by JS in index.html so it matches the carousel
-   pixel-for-pixel. Banner keeps natural height; club photo flex-grows. */
+/* Desktop: the fold row is a 3-column grid — main carousel | tag
+   mini-carousels | map poster. Grid replaces the old absolute
+   positioning + JS height sync: the columns now match heights natively. */
 @media (min-width: 769px) {
-    .home-tournament-stack {
+    .fold-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 250px 420px;
+        gap: 20px;
+        padding: 0 40px;
+        align-items: stretch;
+    }
+
+    /* Narrow laptops: three columns would squeeze the main carousel to a
+       sliver, so drop the map poster and keep carousel + tag carousels. */
+    @media (max-width: 1279px) {
+        .fold-row {
+            grid-template-columns: minmax(0, 1fr) 230px;
+            gap: 16px;
+            padding: 0 24px;
+        }
+
+        .fold-row > .home-tournament-stack {
+            display: none;
+        }
+    }
+
+    /* Neutralise the standalone sizing these had outside the grid */
+    .fold-row > .news-carousel-section {
+        max-width: none;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+    }
+
+    /* The poster is absolutely positioned inside its grid cell so its
+       natural height (420px wide x 4:5 = 525px) doesn't force the row
+       taller than the above-fold allows; it scales to whatever height
+       the carousel column settles on. */
+    .fold-row > .home-tournament-stack {
+        position: relative;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .fold-row > .home-tournament-stack .home-poster {
         position: absolute;
         top: 0;
-        right: 40px;
-        width: 480px;
-        z-index: 4;
-        overflow: hidden;
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+
+    .fold-row > .home-tournament-stack .home-poster picture {
+        height: 100%;
+    }
+
+    .fold-row > .home-tournament-stack .home-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 
     .home-tournament-banner {
@@ -3222,8 +3367,10 @@ body {
 .news-carousel-slide-image {
     position: relative;
     width: 100%;
-    height: 330px;  /* Fixed height — enlarged after the CTA buttons were removed;
-                       the JS still pins the teams carousel to the viewport bottom. */
+    /* Scales with viewport height: 330px on tall screens, shrinking on short
+       laptops so the card still fits the above-fold (a fixed 330px overflowed
+       it at 1440x800 and the dots/tag column got clipped). */
+    height: clamp(160px, 29vh, 330px);
     overflow: hidden;
     background-color: #222;
     flex-shrink: 0;
