@@ -3211,26 +3211,65 @@ body {
    positioning + JS height sync: the columns now match heights natively. */
 @media (min-width: 769px) {
     .fold-row {
+        --fold-pad: 40px;
+        --fold-gap: 20px;
+        --tags-col: 250px;
+        --arrow-col: 36px;
+        --map-col: 420px;
+        position: relative;
         display: grid;
-        grid-template-columns: minmax(0, 1fr) 250px 420px;
-        gap: 20px;
-        padding: 0 40px;
+        /* The empty arrow column reserves the slot the "next" button is
+           absolutely positioned into (see .news-carousel-next below). */
+        grid-template-columns: minmax(0, 1fr) var(--tags-col) var(--arrow-col) var(--map-col);
+        gap: var(--fold-gap);
+        padding: 0 var(--fold-pad);
         align-items: stretch;
     }
 
-    /* Narrow laptops: three columns would squeeze the main carousel to a
-       sliver, so drop the map poster and keep carousel + tag carousels. */
+    /* The next arrow advances the main carousel AND the three tag boxes, so
+       it sits to the right of them rather than hugging the carousel. Pulled
+       out of the flex row with absolute positioning, which leaves the mobile
+       layout (where it stays beside the carousel) untouched. */
+    /* Static so the absolutely-positioned arrow below resolves against
+       .fold-row (the grid) instead of this flex row. */
+    .fold-row > .news-carousel-section .news-carousel {
+        position: static;
+    }
+
+    .fold-row > .news-carousel-section .news-carousel-next {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: calc(var(--map-col) + var(--fold-gap) + var(--fold-pad));
+        width: var(--arrow-col);
+        z-index: 5;
+    }
+
+    /* Narrow laptops: three content columns would squeeze the main carousel
+       to a sliver, so drop the map poster; the arrow slot moves to the edge. */
     @media (max-width: 1279px) {
         .fold-row {
-            grid-template-columns: minmax(0, 1fr) 230px;
-            gap: 16px;
-            padding: 0 24px;
+            --fold-pad: 24px;
+            --fold-gap: 16px;
+            --tags-col: 230px;
+            grid-template-columns: minmax(0, 1fr) var(--tags-col) var(--arrow-col);
         }
 
         .fold-row > .home-tournament-stack {
             display: none;
         }
+
+        .fold-row > .news-carousel-section .news-carousel-next {
+            right: var(--fold-pad);
+        }
     }
+
+    /* Explicit columns: there are only three children for four tracks (the
+       arrow slot is filled by an absolutely-positioned button), so without
+       this the map poster would fall into the narrow arrow track. */
+    .fold-row > .news-carousel-section { grid-column: 1; }
+    .fold-row > .tag-carousels { grid-column: 2; }
+    .fold-row > .home-tournament-stack { grid-column: 4; }
 
     /* Neutralise the standalone sizing these had outside the grid */
     .fold-row > .news-carousel-section {
