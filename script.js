@@ -678,18 +678,21 @@ document.addEventListener('DOMContentLoaded', function() {
         const autoPlayInterval = window.innerWidth <= 768 ? 8000 : 10000;
         let autoPlayTimer;
 
-        // Create dots
-        slides.forEach(function(_, i) {
-            const dot = document.createElement('button');
-            dot.classList.add('news-carousel-dot');
-            if (i === 0) dot.classList.add('active');
-            dot.setAttribute('aria-label', 'Noticia ' + (i + 1));
-            dot.addEventListener('click', function() {
-                goToSlide(i);
-                resetAutoPlay();
+        // Create dots — the homepage has no dots container (navigation is by
+        // arrows only), so this is optional.
+        if (dotsContainer) {
+            slides.forEach(function(_, i) {
+                const dot = document.createElement('button');
+                dot.classList.add('news-carousel-dot');
+                if (i === 0) dot.classList.add('active');
+                dot.setAttribute('aria-label', 'Noticia ' + (i + 1));
+                dot.addEventListener('click', function() {
+                    goToSlide(i);
+                    resetAutoPlay();
+                });
+                dotsContainer.appendChild(dot);
             });
-            dotsContainer.appendChild(dot);
-        });
+        }
 
         function goToSlide(index) {
             currentIndex = index;
@@ -698,11 +701,12 @@ document.addEventListener('DOMContentLoaded', function() {
             slides.forEach(function(s, i) {
                 s.classList.toggle('active', i === currentIndex);
             });
-            // Update dots
-            var dots = dotsContainer.querySelectorAll('.news-carousel-dot');
-            dots.forEach(function(d, i) {
-                d.classList.toggle('active', i === currentIndex);
-            });
+            // Update dots (if this page has them)
+            if (dotsContainer) {
+                dotsContainer.querySelectorAll('.news-carousel-dot').forEach(function(d, i) {
+                    d.classList.toggle('active', i === currentIndex);
+                });
+            }
             // Let the per-tag mini-carousels advance in lockstep with this one.
             document.dispatchEvent(new CustomEvent('newsCarouselChange', {
                 detail: { index: currentIndex }
