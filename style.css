@@ -338,10 +338,13 @@ body {
     gap: 1px;
     text-align: center;
     background-color: #FDED3A;
-    padding: 0 40px;
-    width: 320px;
-    min-width: 320px;
-    max-width: 320px;
+    /* Narrower box with tighter padding, so shrinking it doesn't cost text
+       room. 20px still clears the clip-path diagonal, which at this width
+       cuts in 24px at the very top and ~12px at mid-height. */
+    padding: 0 20px;
+    width: 240px;
+    min-width: 240px;
+    max-width: 240px;
     clip-path: polygon(10% 0%, 90% 0%, 100% 100%, 0% 100%);
     z-index: 2;
     overflow: hidden;
