@@ -2587,8 +2587,9 @@ body {
 }
 
 /* ── News tags (PRIMER EQUIPO / CANTERA / CLUB) ──────────────────
-   Colours reuse the site's existing language: brand yellow for the
-   first team, the cantera purple, and a neutral outline for club. */
+   All tags share one neutral outline style site-wide. The per-tag
+   modifier classes are kept in the markup so a tag can be restyled
+   later without touching every article. */
 .news-tags {
     display: flex;
     flex-wrap: wrap;
@@ -2606,19 +2607,6 @@ body {
     letter-spacing: 1px;
     white-space: nowrap;
     line-height: 1.4;
-}
-
-.news-tag-primer-equipo {
-    background: #FDED3A;
-    color: #0a0a1a;
-}
-
-.news-tag-cantera {
-    background: #7a60bd;
-    color: #fff;
-}
-
-.news-tag-club {
     background: transparent;
     color: #ddd;
     border: 1px solid rgba(255, 255, 255, 0.35);
