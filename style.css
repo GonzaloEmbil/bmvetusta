@@ -3126,6 +3126,10 @@ body {
 .news-carousel-slides {
     display: grid;
     grid-template: 1fr / 1fr;
+    /* Belt and braces: a stale cached script.js still sets translateX on
+       this container, which would drag the grid out of view (black area).
+       The crossfade needs no transform, so neutralise any inline one. */
+    transform: none !important;
 }
 
 .news-carousel-slide {
@@ -3185,6 +3189,15 @@ body {
     width: 100%;
     border-radius: 0;
     box-shadow: none;
+}
+
+/* <picture> is inline by default, so an img with height:100% inside it has
+   no definite parent height to resolve against — object-fit: cover then
+   stops centring the crop. Make the wrapper a full-height block. */
+.news-carousel-slide-image picture {
+    display: block;
+    width: 100%;
+    height: 100%;
 }
 
 .news-carousel-slide-image img {
