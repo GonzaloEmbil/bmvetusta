@@ -2980,6 +2980,35 @@ body {
     gap: 12px;
 }
 
+/* League map + calendar posters, side by side (portrait) */
+.home-tournament-stack.home-poster-row {
+    flex-direction: row;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.home-poster {
+    flex: 1 1 0;
+    min-width: 0;
+    display: block;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.home-poster:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.28);
+}
+
+.home-poster picture,
+.home-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
 /* Club photo — desktop only, same width as the banner */
 .home-club-photo {
     display: none;
