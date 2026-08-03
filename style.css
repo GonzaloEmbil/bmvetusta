@@ -2586,6 +2586,70 @@ body {
     letter-spacing: 1.5px;
 }
 
+/* ── News tags (PRIMER EQUIPO / CANTERA / CLUB) ──────────────────
+   Colours reuse the site's existing language: brand yellow for the
+   first team, the cantera purple, and a neutral outline for club. */
+.news-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+}
+
+.news-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+    line-height: 1.4;
+}
+
+.news-tag-primer-equipo {
+    background: #FDED3A;
+    color: #0a0a1a;
+}
+
+.news-tag-cantera {
+    background: #7a60bd;
+    color: #fff;
+}
+
+.news-tag-club {
+    background: transparent;
+    color: #ddd;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* Article header: date and tags share the right-hand side */
+.news-article-header .news-tags {
+    margin-left: auto;
+}
+
+.news-article-header-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+}
+
+/* Listing cards: tags sit above the headline, next to the date */
+.news-card-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.news-card-meta .news-card-date {
+    margin-bottom: 0;
+}
+
 .news-article-title {
     color: #fff;
     font-size: 2rem;
