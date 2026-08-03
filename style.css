@@ -3225,7 +3225,9 @@ body {
         --fold-pad: 40px;
         --fold-gap: 20px;
         --tags-col: 250px;
-        --arrow-col: 36px;
+        /* Same natural width as the prev arrow (21px), so the glyph sits the
+           same distance from its box edge on both sides. */
+        --arrow-col: 21px;
         --map-col: 420px;
         position: relative;
         display: grid;
@@ -3247,12 +3249,14 @@ body {
         position: static;
     }
 
+    /* The +10px puts the arrow exactly 10px from the tag column — matching
+       the flex gap between the prev arrow and the carousel on the left. Width
+       is left natural so it hugs the glyph like the prev arrow does. */
     .fold-row > .news-carousel-section .news-carousel-next {
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
-        right: calc(var(--map-col) + var(--fold-gap) + var(--fold-pad));
-        width: var(--arrow-col);
+        right: calc(var(--map-col) + var(--fold-gap) + var(--fold-pad) + 10px);
         z-index: 5;
     }
 
@@ -3270,8 +3274,10 @@ body {
             display: none;
         }
 
+        /* No map here, so the arrow is the last column: 30px keeps the same
+           10px gap to the tag column (24 pad + 21 arrow + 16 gap - 21 - 10). */
         .fold-row > .news-carousel-section .news-carousel-next {
-            right: var(--fold-pad);
+            right: 30px;
         }
     }
 
