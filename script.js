@@ -703,6 +703,10 @@ document.addEventListener('DOMContentLoaded', function() {
             dots.forEach(function(d, i) {
                 d.classList.toggle('active', i === currentIndex);
             });
+            // Let the per-tag mini-carousels advance in lockstep with this one.
+            document.dispatchEvent(new CustomEvent('newsCarouselChange', {
+                detail: { index: currentIndex }
+            }));
         }
 
         function nextSlide() {
