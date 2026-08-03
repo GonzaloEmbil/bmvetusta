@@ -3521,8 +3521,9 @@ body {
     transform: scale(1.15);
 }
 
-/* Dots + "Ver todas" share one row so the link costs no extra vertical
-   space (the above-fold height is tight). */
+/* "Ver todas las noticias" — lives outside the carousel grid, on its own
+   row under the whole fold. Centred by default (mobile); aligned to the
+   carousel's left edge on desktop. */
 .news-carousel-footer {
     display: flex;
     align-items: center;
@@ -3530,6 +3531,22 @@ body {
     gap: 16px;
     margin-top: 12px;
     flex-shrink: 0;
+}
+
+/* Line the link up with the card's visible left edge, not the column's:
+   the prev arrow (21px) plus the flex gap (10px) sit inside the column
+   before the viewport starts. */
+@media (min-width: 769px) {
+    .news-carousel-footer {
+        justify-content: flex-start;
+        padding-left: calc(40px + 31px);   /* --fold-pad + arrow + gap */
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1279px) {
+    .news-carousel-footer {
+        padding-left: calc(24px + 31px);
+    }
 }
 
 .news-carousel-dots {

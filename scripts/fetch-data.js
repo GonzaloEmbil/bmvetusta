@@ -80,6 +80,23 @@ function normaliseName(name) {
   return (name || '').trim().toUpperCase();
 }
 
+/**
+ * Repair double-encoded text coming from the API. Some records (notably the
+ * /ws/estadio addresses) store UTF-8 bytes that were read as latin-1, so
+ * "Gijón" arrives as "GijÃ³n". Re-interpreting the bytes fixes it. Only
+ * strings showing the telltale Ã/Â are touched, and the result is discarded
+ * if it produced replacement characters.
+ */
+function fixMojibake(str) {
+  if (!str || !/[ÃÂ]/.test(str)) return str;
+  try {
+    const fixed = Buffer.from(str, 'latin1').toString('utf8');
+    return fixed.includes('�') ? str : fixed;
+  } catch (err) {
+    return str;
+  }
+}
+
 function isVetusta(name) {
   return normaliseName(name) === normaliseName(TEAM_NAME);
 }
@@ -713,16 +730,30 @@ function buildResultados(matches) {
  * Includes stadium info fetched from /ws/estadio.
  */
 async function buildProximoPartido(matches) {
-  const pending = matches
-    .filter((m) => {
-      const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-      return isPending && matchHasVetusta(m) && hasValidDate(m);
-    })
+  const pending = matches.filter((m) => {
+    const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
+    return isPending && matchHasVetusta(m);
+  });
+
+  const dated = pending
+    .filter(hasValidDate)
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
-  if (pending.length === 0) return null;
+  // In preseason the RFEBM publishes the fixture list before assigning
+  // kick-off times, so there is a next match but no date yet. Fall back to
+  // the earliest matchday and show "Por definir" rather than hiding the
+  // banner entirely.
+  let m = dated[0];
+  let dateUndefined = false;
+  if (!m) {
+    m = pending
+      .slice()
+      .sort((a, b) => (parseInt(a.jornada, 10) || 0) - (parseInt(b.jornada, 10) || 0))[0];
+    dateUndefined = true;
+  }
 
-  const m = pending[0];
+  if (!m) return null;
+
   const esLocal = sideIsVetusta(m, 'local');
 
   // Fetch stadium info for venue name and city
@@ -733,8 +764,8 @@ async function buildProximoPartido(matches) {
       console.log(`   🏟️  Fetching stadium ${m.id_estadio} …`);
       const stadium = await fetchStadium(m.id_estadio);
       if (stadium) {
-        venueName = stadium.nombre_estadio || null;
-        venueCity = extractCity(stadium.direccion) || null;
+        venueName = fixMojibake(stadium.nombre_estadio) || null;
+        venueCity = fixMojibake(extractCity(stadium.direccion)) || null;
       }
     } catch (err) {
       console.warn(`   ⚠ Failed to fetch stadium: ${err.message}`);
@@ -753,8 +784,9 @@ async function buildProximoPartido(matches) {
   }
 
   return {
-    fecha: m.fecha,
-    fecha_display: formatDateForBanner(m.fecha),
+    fecha: dateUndefined ? null : m.fecha,
+    fecha_display: dateUndefined ? 'Por definir' : formatDateForBanner(m.fecha),
+    fecha_por_definir: dateUndefined,
     jornada: m.jornada,
     es_local: esLocal,
     local: {

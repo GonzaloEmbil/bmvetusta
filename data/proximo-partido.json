@@ -1,1 +1,21 @@
-null
+{
+  "fecha": null,
+  "fecha_display": "Por definir",
+  "fecha_por_definir": true,
+  "jornada": "1",
+  "es_local": false,
+  "local": {
+    "nombre": "Real Grupo de Cultura Covadonga",
+    "nombre_corto": "Cultura Covadonga",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+    "es_vetusta": false
+  },
+  "visitante": {
+    "nombre": "Balonmano Vetusta",
+    "nombre_corto": "BM Vetusta",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+    "es_vetusta": true
+  },
+  "sede": "Braulio Garcia · Gijón",
+  "url_streaming": null
+}
