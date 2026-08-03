@@ -2995,10 +2995,13 @@ body {
 /* Fixed width + vertical stretch: fills the box without the circular
    sizing you get from a percentage height inside a stretched row. */
 .tag-card-thumb {
-    width: 84px;
+    /* Grows with the (now elastic) card so the thumb doesn't shrink into a
+       stamp on wide screens. Floor = the old fixed 84px, so narrow layouts
+       look exactly as before. Height is driven by the card via align-self. */
+    width: clamp(84px, 26%, 150px);
     height: auto;
     align-self: stretch;
-    flex: 0 0 84px;
+    flex: 0 0 auto;
     object-fit: cover;
     border-radius: 8px;
     display: block;
@@ -3227,11 +3230,18 @@ body {
     .fold-row {
         --fold-pad: 40px;
         --fold-gap: 20px;
-        --tags-col: 250px;
+        /* All three content columns grow with the viewport. Expressed in vw
+           (not fr or %) so the same value can be reused in the arrow's calc()
+           below — a percentage there would resolve against the padding box
+           instead of the grid's content box and drift by the padding. Floors
+           keep them readable on small laptops, ceilings stop them sprawling on
+           ultrawide screens. The tag column takes a slightly bigger share than
+           its old fixed 250px (295px at 1440), at the carousel's expense. */
+        --tags-col: clamp(250px, 20.5vw, 480px);
         /* Same natural width as the prev arrow (21px), so the glyph sits the
            same distance from its box edge on both sides. */
         --arrow-col: 21px;
-        --map-col: 420px;
+        --map-col: clamp(400px, 29vw, 620px);
         position: relative;
         display: grid;
         /* The empty arrow column reserves the slot the "next" button is
@@ -3269,7 +3279,7 @@ body {
         .fold-row {
             --fold-pad: 24px;
             --fold-gap: 16px;
-            --tags-col: 230px;
+            --tags-col: clamp(210px, 21vw, 260px);
             grid-template-columns: minmax(0, 1fr) var(--tags-col) var(--arrow-col);
         }
 
