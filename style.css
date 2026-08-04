@@ -384,8 +384,11 @@ body {
 }
 
 @media (max-width: 768px) {
+    /* Top padding = hueco header→banda (24px). Bottom padding = todo el
+       hueco banda→carrusel (24px), por eso la sección del carrusel entra
+       con padding-top 0 en móvil. */
     .match-banner {
-        padding: 8px 10px;
+        padding: 24px 10px;
     }
 
     .match-banner-inner {
@@ -3185,14 +3188,23 @@ body {
     .home-tournament-stack {
         width: 90%;
         max-width: 360px;
-        margin: 20px auto 8px;
+        /* margin-top = hueco último recuadro→póster (24px). Sin margen
+           inferior: el hueco póster→equipos lo pone .carousel-section. */
+        margin: 24px auto 0;
     }
 
     /* Tag carousels: full-width stack under the main carousel */
     .tag-carousels {
         width: 90%;
         max-width: 360px;
-        margin: 16px auto 0;
+        margin: 24px auto 0;
+    }
+
+    /* Hueco póster→primera foto de equipos. El 35px de la regla base es el
+       hueco de la versión desktop (fila del fold → equipos), así que aquí se
+       sobrescribe sólo el padding superior. */
+    .carousel-section {
+        padding-top: 24px;
     }
 
     .tag-carousel {
@@ -3669,8 +3681,11 @@ body {
 
 /* News Carousel responsive */
 @media (max-width: 768px) {
+    /* Sin padding vertical: los huecos de arriba y de abajo los fijan el
+       banner (padding-bottom) y .tag-carousels (margin-top), así cada hueco
+       tiene un único dueño y no hay sumas de dos reglas. */
     .news-carousel-section {
-        padding: 15px 12px 10px;
+        padding: 0 12px;
         max-width: 100%;
         width: 100%;
         box-sizing: border-box;
