@@ -384,11 +384,11 @@ body {
 }
 
 @media (max-width: 768px) {
-    /* Top padding = hueco header→banda (24px). Bottom padding = todo el
-       hueco banda→carrusel (24px), por eso la sección del carrusel entra
+    /* Top padding = hueco header→banda (18px). Bottom padding = todo el
+       hueco banda→carrusel (18px), por eso la sección del carrusel entra
        con padding-top 0 en móvil. */
     .match-banner {
-        padding: 24px 10px;
+        padding: 18px 10px;
     }
 
     .match-banner-inner {
@@ -3194,10 +3194,12 @@ body {
     }
 
     /* Tag carousels: full-width stack under the main carousel */
+    /* margin-top = hueco carrusel→primer recuadro (12px), el mismo que el
+       gap entre recuadros. */
     .tag-carousels {
         width: 90%;
         max-width: 360px;
-        margin: 24px auto 0;
+        margin: 12px auto 0;
     }
 
     /* Hueco póster→primera foto de equipos. El 35px de la regla base es el
