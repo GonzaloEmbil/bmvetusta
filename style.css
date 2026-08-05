@@ -262,7 +262,9 @@ body {
     background-color: #111;
     border: 1.5px solid #FDED3A;
     border-radius: 10px;
-    padding: 0 24px;
+    /* Hueco banda→escudo = este padding + el 1px del borde = 16px.
+       Móvil lo baja a 10px (11px en total) más abajo. */
+    padding: 0 15px;
     height: 58px;
     position: relative;
     overflow: hidden;
@@ -271,7 +273,8 @@ body {
 .match-team {
     display: flex;
     align-items: center;
-    gap: 14px;
+    /* Hueco escudo→nombre. Móvil lo baja a 11px. */
+    gap: 16px;
     flex: 1;
     z-index: 1;
 }
@@ -395,6 +398,10 @@ body {
         padding: 0 10px;
         height: 48px;
         border-radius: 8px;
+    }
+
+    .match-team {
+        gap: 11px;
     }
 
     .match-team-badge {
