@@ -1,7 +1,7 @@
 {
-  "fecha": null,
-  "fecha_display": "Horario por definir",
-  "fecha_por_definir": true,
+  "fecha": "2026-09-19 20:00:00",
+  "fecha_display": "Sáb 19 Sep · 20:00h",
+  "fecha_por_definir": false,
   "jornada": "1",
   "es_local": false,
   "local": {
