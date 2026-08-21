@@ -326,7 +326,7 @@ document.addEventListener('DOMContentLoaded', function() {
         },
         'historia/': {
             label: 'Historia',
-            desc: 'De 2012 a Primera Nacional',
+            desc: 'El camino del club: temporada a temporada',
             icon: '<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'
         },
         'enprensa/': {

@@ -1723,6 +1723,10 @@ body {
         column-gap: 14px;
         row-gap: 2px;
         align-items: start;
+        /* El desplegable de escritorio usa white-space: nowrap; aquí las
+           descripciones tienen que poder envolver, o en pantallas estrechas
+           (320px) se salen de la tarjeta y el overflow:hidden las corta. */
+        white-space: normal;
         /* Algo más de aire abajo que arriba: la descripción es la última
            línea de la caja y sus descendientes (la "g" de "hablan")
            rozaban el borde recortado de la tarjeta. */
