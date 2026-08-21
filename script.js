@@ -291,41 +291,146 @@ document.addEventListener('DOMContentLoaded', function() {
     // Menú hamburguesa
     const hamburger = document.querySelector('.hamburger');
     const nav = document.querySelector('.nav');
-    
-    if (hamburger && nav) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            nav.classList.toggle('active');
-        });
-        
-        // Cerrar menú al hacer clic en un enlace (excepto dropdown toggles)
-        const navLinks = document.querySelectorAll('.nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                hamburger.classList.remove('active');
-                nav.classList.remove('active');
+    const header = document.querySelector('.header');
+    const navDropdown = document.querySelector('.nav-dropdown');
+    const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
+
+    function isMobileNav() {
+        return window.innerWidth <= 768;
+    }
+
+    // El panel arranca justo debajo del header, cuya altura cambia con el
+    // breakpoint (60px de logo en móvil), así que se mide en vez de fijarla.
+    function syncNavTop() {
+        if (!nav || !header) return;
+        nav.style.setProperty('--nav-top', Math.round(header.getBoundingClientRect().height) + 'px');
+    }
+
+    function closeNav() {
+        if (!hamburger || !nav) return;
+        hamburger.classList.remove('active');
+        nav.classList.remove('active');
+        document.body.classList.remove('nav-open');
+        if (navDropdown && isMobileNav()) navDropdown.classList.remove('active');
+    }
+
+    // Cada subentrada del desplegable lleva icono y descripción. Se inyectan
+    // aquí y no en el HTML para no repetirlos en las 46 páginas; la clave es
+    // el final del href, que es igual en las dos variantes de ruta
+    // ("./noticias/" en la raíz, "../noticias/" en subpáginas).
+    const SUBNAV_META = {
+        'noticias/': {
+            label: 'Noticias',
+            desc: 'Toda la actualidad del club',
+            icon: '<path d="M4 6h11a1 1 0 0 1 1 1v11H6a2 2 0 0 1-2-2V6Z"/><path d="M16 9h3a1 1 0 0 1 1 1v6a2 2 0 0 1-2 2"/><path d="M7 9.5h6M7 12.5h6M7 15.5h4"/>'
+        },
+        'historia/': {
+            label: 'Historia',
+            desc: 'De 2012 a Primera Nacional',
+            icon: '<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'
+        },
+        'organigrama/': {
+            label: 'Organigrama',
+            desc: 'Quién es quién en el club',
+            icon: '<rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="16" width="6" height="4" rx="1"/><rect x="15" y="16" width="6" height="4" rx="1"/><path d="M12 7v4M6 16v-2h12v2"/>'
+        },
+        'enprensa/': {
+            label: 'En prensa',
+            desc: 'Los medios hablan del Vetusta',
+            icon: '<path d="M4 9.5v5h2.5L11 18V6L6.5 9.5H4Z"/><path d="M15 9.5a4 4 0 0 1 0 5"/><path d="M18 7a8 8 0 0 1 0 10"/>'
+        }
+    };
+
+    function decorateSubnav() {
+        if (!navDropdown) return;
+        navDropdown.querySelectorAll('.nav-dropdown-menu a').forEach(function(link) {
+            if (link.dataset.decorated) return;
+            const key = Object.keys(SUBNAV_META).find(function(k) {
+                return (link.getAttribute('href') || '').endsWith(k);
             });
+            if (!key) return;
+            const meta = SUBNAV_META[key];
+            const icon = document.createElement('span');
+            icon.className = 'nav-sub-icon';
+            icon.setAttribute('aria-hidden', 'true');
+            icon.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
+                'stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">' + meta.icon + '</svg>';
+            // El HTML trae el texto en mayúsculas (estilo del nav de escritorio);
+            // con descripción debajo se lee mejor en caja baja, así que se
+            // reemplaza por la etiqueta de la tabla envuelta en su propio span.
+            const title = document.createElement('span');
+            title.className = 'nav-sub-title';
+            title.textContent = meta.label;
+            link.textContent = '';
+            link.appendChild(title);
+            const desc = document.createElement('span');
+            desc.className = 'nav-sub-desc';
+            desc.textContent = meta.desc;
+            link.insertBefore(icon, link.firstChild);
+            link.appendChild(desc);
+            link.dataset.decorated = '1';
         });
     }
 
-    // Dropdown "El Club" — toggle only on desktop (mobile is always expanded via CSS)
-    const dropdownToggle = document.querySelector('.nav-dropdown-toggle');
-    const navDropdown = document.querySelector('.nav-dropdown');
-    
-    if (dropdownToggle && navDropdown) {
-        dropdownToggle.addEventListener('click', function(e) {
-            if (window.innerWidth > 768) {
-                e.preventDefault();
-                e.stopPropagation();
-                navDropdown.classList.toggle('active');
+    if (navDropdown && dropdownToggle) {
+        decorateSubnav();
+        // Chevron del toggle (sólo visible en móvil vía CSS).
+        if (!dropdownToggle.querySelector('.nav-chevron')) {
+            const chevron = document.createElement('span');
+            chevron.className = 'nav-chevron';
+            chevron.setAttribute('aria-hidden', 'true');
+            dropdownToggle.appendChild(chevron);
+        }
+        dropdownToggle.setAttribute('role', 'button');
+        dropdownToggle.setAttribute('tabindex', '0');
+        dropdownToggle.setAttribute('aria-expanded', 'false');
+
+        function toggleDropdown(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            navDropdown.classList.toggle('active');
+            dropdownToggle.setAttribute('aria-expanded', navDropdown.classList.contains('active') ? 'true' : 'false');
+        }
+
+        dropdownToggle.addEventListener('click', toggleDropdown);
+        dropdownToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') toggleDropdown(e);
+        });
+
+        // Cerrar al hacer clic fuera — sólo en desktop, donde el desplegable
+        // flota sobre la página; en móvil vive dentro del panel.
+        document.addEventListener('click', function(e) {
+            if (!isMobileNav() && !navDropdown.contains(e.target)) {
+                navDropdown.classList.remove('active');
+                dropdownToggle.setAttribute('aria-expanded', 'false');
+            }
+        });
+    }
+
+    if (hamburger && nav) {
+        syncNavTop();
+        window.addEventListener('resize', syncNavTop);
+
+        hamburger.addEventListener('click', function() {
+            const opening = !nav.classList.contains('active');
+            syncNavTop();
+            hamburger.classList.toggle('active', opening);
+            nav.classList.toggle('active', opening);
+            // Bloquear el scroll del fondo mientras el panel está abierto.
+            document.body.classList.toggle('nav-open', opening && isMobileNav());
+            if (!opening && navDropdown && isMobileNav()) {
+                navDropdown.classList.remove('active');
             }
         });
 
-        // Cerrar dropdown al hacer clic fuera (solo desktop)
-        document.addEventListener('click', function(e) {
-            if (window.innerWidth > 768 && !navDropdown.contains(e.target)) {
-                navDropdown.classList.remove('active');
-            }
+        // Cerrar al navegar. El toggle de CLUB no es un enlace, así que no
+        // entra aquí y el desplegable puede abrirse sin cerrar el panel.
+        document.querySelectorAll('.nav a').forEach(function(link) {
+            link.addEventListener('click', closeNav);
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && nav.classList.contains('active')) closeNav();
         });
     }
     

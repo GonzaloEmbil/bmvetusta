@@ -1517,64 +1517,221 @@ body {
         display: none !important;
     }
     
+    /* Mientras el panel está abierto el fondo no debe desplazarse. */
+    body.nav-open {
+        overflow: hidden;
+    }
+
+    /* ── Panel de navegación móvil ─────────────────────────────────
+       Ocupa toda la pantalla por debajo del header, así el logo y la X
+       (la propia hamburguesa animada) siguen visibles arriba y no hace
+       falta duplicarlos dentro del panel. Cada entrada es una tarjeta;
+       la de CLUB se despliega en su sitio. */
     .nav {
-        display: none;
-        position: absolute;
-        top: 100%;
+        display: flex;
+        position: fixed;
+        top: var(--nav-top, 76px);
         left: 0;
         right: 0;
+        bottom: 0;
         transform: none;
-        background: #000;
+        background: #0a0a0a;
         flex-direction: column;
-        padding: 20px;
-        gap: 15px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        align-items: stretch;
+        gap: 10px;
+        padding: 16px 16px calc(16px + env(safe-area-inset-bottom, 0px));
         margin-right: 0;
-        align-items: flex-start;
-    }
-    
-    .nav.active {
-        display: flex;
-    }
-    
-    .nav a,
-    .nav .nav-dropdown-toggle {
-        font-size: 14px;
-        padding: 8px;
-        text-align: left;
-        padding-left: 20px;
+        box-shadow: none;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        /* Fuera de pantalla en vez de display:none, para que la apertura
+           pueda animarse y el foco no salte. */
+        visibility: hidden;
+        opacity: 0;
+        transform: translateY(-8px);
+        pointer-events: none;
+        transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
     }
 
-    /* Mobile dropdown */
+    .nav.active {
+        visibility: visible;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
+    }
+
+    /* Tarjeta base: la comparten los enlaces simples y el toggle de CLUB */
+    .nav > a,
+    .nav .nav-dropdown-toggle {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        box-sizing: border-box;
+        min-height: 62px;
+        padding: 0 20px;
+        background: #161616;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        text-align: left;
+        color: #fff;
+        transition: background-color 0.2s ease;
+    }
+
+    .nav > a:active,
+    .nav .nav-dropdown-toggle:active {
+        background: #1f1f1f;
+    }
+
+    /* Página activa: el subrayado del escritorio no encaja en tarjetas, así
+       que se marca con una barra lateral. Va como pseudoelemento y no como
+       sombra `inset` porque la tarjeta de CLUB recorta con overflow:hidden y
+       radio, y la sombra salía curvada siguiendo la esquina. Los 12px de
+       margen arriba y abajo la mantienen en la parte recta del borde. */
+    .nav > a.nav-active,
+    .nav-dropdown.nav-active > .nav-dropdown-toggle {
+        position: relative;
+    }
+
+    .nav > a.nav-active::after,
+    .nav-dropdown.nav-active > .nav-dropdown-toggle::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 12px;
+        bottom: 12px;
+        width: 3px;
+        border-radius: 0 3px 3px 0;
+        background: #FDED3A;
+    }
+
+    /* ── CLUB: tarjeta desplegable ── */
     .nav-dropdown {
         width: 100%;
+        background: #161616;
+        border-radius: 14px;
+        overflow: hidden;
     }
 
-    .nav-dropdown-toggle {
-        display: flex;
-        width: 100%;
+    .nav-dropdown > .nav-dropdown-toggle {
+        justify-content: space-between;
+        border-radius: 14px;
+        cursor: pointer;
     }
 
+    /* Chevron dibujado en CSS: apunta a la derecha y gira 90° al abrir,
+       igual que el ">" que pasa a "v". */
+    .nav-dropdown > .nav-dropdown-toggle .nav-chevron {
+        flex: 0 0 auto;
+        width: 9px;
+        height: 9px;
+        margin-left: 12px;
+        border-right: 2px solid rgba(255, 255, 255, 0.65);
+        border-bottom: 2px solid rgba(255, 255, 255, 0.65);
+        transform: rotate(-45deg);
+        transition: transform 0.25s ease;
+    }
+
+    .nav-dropdown.active > .nav-dropdown-toggle .nav-chevron {
+        transform: rotate(45deg);
+    }
+
+    /* Colapsado por defecto (antes estaba siempre abierto con
+       display:flex !important). */
     .nav-dropdown-menu {
-        display: flex !important;
-        flex-direction: column;
+        display: block !important;
         position: static;
         transform: none;
         border: none;
-        border-left: 2px solid #FDED3A;
         border-radius: 0;
         box-shadow: none;
-        margin-top: 5px;
-        margin-left: 20px;
-        padding: 5px 0;
-        min-width: auto;
+        margin: 0;
+        min-width: 0;
         background-color: transparent;
+        overflow: hidden;
+        max-height: 0;
+        opacity: 0;
+        transition: max-height 0.28s ease, opacity 0.2s ease, padding 0.28s ease;
+        padding: 0 20px;
     }
 
+    .nav-dropdown.active > .nav-dropdown-menu {
+        max-height: 520px;
+        opacity: 1;
+        padding: 4px 20px 14px;
+    }
+
+    /* Subentrada: icono a la izquierda, título y descripción a la derecha.
+       El icono y la descripción los inyecta script.js. */
     .nav-dropdown-menu a {
-        font-size: 14px;
-        padding: 8px 15px;
-        padding-left: 20px;
+        display: grid;
+        grid-template-columns: 26px 1fr;
+        column-gap: 14px;
+        row-gap: 2px;
+        align-items: start;
+        padding: 12px 0;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        text-transform: none;
+        color: #fff;
+    }
+
+    .nav-dropdown-menu a .nav-sub-icon {
+        grid-row: 1 / span 2;
+        align-self: start;
+        width: 22px;
+        height: 22px;
+        margin-top: 1px;
+        color: #FDED3A;
+    }
+
+    .nav-dropdown-menu a .nav-sub-icon svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .nav-dropdown-menu a .nav-sub-title {
+        grid-column: 2;
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: 0.2px;
+        text-transform: none;
+        color: #fff;
+    }
+
+    .nav-dropdown-menu a .nav-sub-desc {
+        grid-column: 2;
+        font-size: 12.5px;
+        font-weight: 400;
+        letter-spacing: 0;
+        line-height: 1.35;
+        color: #9a9a9a;
+        text-transform: none;
+    }
+
+    /* ── ABÓNATE como llamada a la acción al final del panel ── */
+    .nav > a[href$="abonate/"] {
+        order: 99;
+        margin-top: 6px;
+        justify-content: center;
+        background: #FDED3A;
+        color: #000;
+        border-radius: 12px;
+        min-height: 56px;
+        letter-spacing: 2px;
+    }
+
+    .nav > a[href$="abonate/"]:active {
+        background: #e6d823;
+    }
+
+    /* La CTA ya destaca por sí sola; no lleva barra de activo. */
+    .nav > a[href$="abonate/"].nav-active::after {
+        display: none;
     }
     
     .body-social-media {
