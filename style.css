@@ -1535,7 +1535,9 @@ body {
         right: 0;
         bottom: 0;
         transform: none;
-        background: #0a0a0a;
+        /* Mismo negro que el header, para que el panel se lea como una
+           extensión de la cabecera. Las tarjetas van en #161616. */
+        background: #000;
         flex-direction: column;
         align-items: stretch;
         gap: 10px;
@@ -1713,26 +1715,6 @@ body {
         text-transform: none;
     }
 
-    /* ── ABÓNATE como llamada a la acción al final del panel ── */
-    .nav > a[href$="abonate/"] {
-        order: 99;
-        margin-top: 6px;
-        justify-content: center;
-        background: #FDED3A;
-        color: #000;
-        border-radius: 12px;
-        min-height: 56px;
-        letter-spacing: 2px;
-    }
-
-    .nav > a[href$="abonate/"]:active {
-        background: #e6d823;
-    }
-
-    /* La CTA ya destaca por sí sola; no lleva barra de activo. */
-    .nav > a[href$="abonate/"].nav-active::after {
-        display: none;
-    }
     
     .body-social-media {
         right: 20px;

@@ -383,7 +383,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         dropdownToggle.setAttribute('role', 'button');
         dropdownToggle.setAttribute('tabindex', '0');
-        dropdownToggle.setAttribute('aria-expanded', 'false');
+        dropdownToggle.setAttribute('aria-expanded', isMobileNav() ? 'true' : 'false');
 
         function toggleDropdown(e) {
             e.preventDefault();
@@ -418,8 +418,14 @@ document.addEventListener('DOMContentLoaded', function() {
             nav.classList.toggle('active', opening);
             // Bloquear el scroll del fondo mientras el panel está abierto.
             document.body.classList.toggle('nav-open', opening && isMobileNav());
-            if (!opening && navDropdown && isMobileNav()) {
-                navDropdown.classList.remove('active');
+            // CLUB entra desplegado cada vez que se abre el panel. En
+            // escritorio no se toca, porque allí `active` abre el menú
+            // flotante sobre la página.
+            if (navDropdown && isMobileNav()) {
+                navDropdown.classList.toggle('active', opening);
+                if (dropdownToggle) {
+                    dropdownToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
+                }
             }
         });
 
