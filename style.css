@@ -1562,6 +1562,17 @@ body {
         pointer-events: auto;
     }
 
+    /* Las tarjetas no se comprimen. Por defecto un hijo de flex tiene
+       flex-shrink:1, así que cuando el panel no daba de sí (pantalla corta,
+       CLUB desplegado, texto grande del sistema) se encogían en vez de
+       desbordar: la tarjeta de CLUB recortaba su submenú con su propio
+       overflow:hidden y el panel nunca llegaba a mostrar barra de scroll.
+       Con shrink 0 el contenido desborda y `overflow-y: auto` lo desplaza. */
+    .nav > a,
+    .nav > .nav-dropdown {
+        flex: 0 0 auto;
+    }
+
     /* Tarjeta base: la comparten los enlaces simples y el toggle de CLUB */
     .nav > a,
     .nav .nav-dropdown-toggle {
@@ -1659,10 +1670,18 @@ body {
         padding: 0 20px;
     }
 
+    /* Sin tope de altura: un valor fijo recortaba el último elemento en
+       cuanto el contenido crecía (fuente más grande por accesibilidad,
+       descripciones a dos líneas). La animación de apertura la hace
+       script.js midiendo la altura real y poniéndola en línea; este `none`
+       es además la red de seguridad si ese cálculo no llega a ejecutarse. */
     .nav-dropdown.active > .nav-dropdown-menu {
-        max-height: 520px;
+        max-height: none;
         opacity: 1;
-        padding: 4px 20px 14px;
+        /* 18px abajo: con 14px la descripción del último elemento quedaba
+           pegada al borde de la tarjeta, y como .nav-dropdown recorta con
+           overflow:hidden, cualquier píxel de más se veía cortado. */
+        padding: 4px 20px 18px;
     }
 
     /* Subentrada: icono a la izquierda, título y descripción a la derecha.
@@ -1673,7 +1692,10 @@ body {
         column-gap: 14px;
         row-gap: 2px;
         align-items: start;
-        padding: 12px 0;
+        /* Algo más de aire abajo que arriba: la descripción es la última
+           línea de la caja y sus descendientes (la "g" de "hablan")
+           rozaban el borde recortado de la tarjeta. */
+        padding: 12px 0 14px;
         font-size: 15px;
         font-weight: 600;
         letter-spacing: 0.2px;

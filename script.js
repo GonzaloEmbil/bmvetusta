@@ -385,12 +385,46 @@ document.addEventListener('DOMContentLoaded', function() {
         dropdownToggle.setAttribute('tabindex', '0');
         dropdownToggle.setAttribute('aria-expanded', isMobileNav() ? 'true' : 'false');
 
+        const dropdownMenu = navDropdown.querySelector('.nav-dropdown-menu');
+
+        // Anima la apertura midiendo la altura real del contenido y liberando
+        // el límite al terminar, para que nada lo recorte después (carga de
+        // fuentes, giro de pantalla, tamaño de texto del sistema).
+        function releaseHeight() {
+            if (dropdownMenu) dropdownMenu.style.maxHeight = '';
+        }
+
+        function animateDropdown(expanded) {
+            if (!dropdownMenu || !isMobileNav()) { releaseHeight(); return; }
+            clearTimeout(dropdownMenu._heightTimer);
+            if (expanded) {
+                // La clase `active` ya está puesta, así que el padding abierto
+                // cuenta en la medición.
+                dropdownMenu.style.maxHeight = 'none';
+                const target = dropdownMenu.scrollHeight;
+                dropdownMenu.style.maxHeight = '0px';
+                void dropdownMenu.offsetHeight;
+                dropdownMenu.style.maxHeight = target + 'px';
+                dropdownMenu._heightTimer = setTimeout(releaseHeight, 320);
+            } else {
+                dropdownMenu.style.maxHeight = dropdownMenu.scrollHeight + 'px';
+                void dropdownMenu.offsetHeight;
+                dropdownMenu.style.maxHeight = '0px';
+                dropdownMenu._heightTimer = setTimeout(releaseHeight, 320);
+            }
+        }
+
         function toggleDropdown(e) {
             e.preventDefault();
             e.stopPropagation();
-            navDropdown.classList.toggle('active');
-            dropdownToggle.setAttribute('aria-expanded', navDropdown.classList.contains('active') ? 'true' : 'false');
+            const expanded = !navDropdown.classList.contains('active');
+            navDropdown.classList.toggle('active', expanded);
+            dropdownToggle.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            animateDropdown(expanded);
         }
+
+        // Expuesto para que el botón de la hamburguesa lo reutilice.
+        navDropdown._releaseHeight = releaseHeight;
 
         dropdownToggle.addEventListener('click', toggleDropdown);
         dropdownToggle.addEventListener('keydown', function(e) {
@@ -426,6 +460,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (dropdownToggle) {
                     dropdownToggle.setAttribute('aria-expanded', opening ? 'true' : 'false');
                 }
+                // Aquí no se anima: el submenú entra ya desplegado junto con el
+                // panel, así que se deja sin altura en línea y manda el
+                // `max-height: none` del CSS. Así el estado por defecto no
+                // depende de ninguna medición.
+                if (navDropdown._releaseHeight) navDropdown._releaseHeight();
             }
         });
 
