@@ -329,13 +329,8 @@ document.addEventListener('DOMContentLoaded', function() {
             desc: 'De 2012 a Primera Nacional',
             icon: '<circle cx="12" cy="12" r="8"/><path d="M12 7.5V12l3 2"/>'
         },
-        'organigrama/': {
-            label: 'Organigrama',
-            desc: 'Quién es quién en el club',
-            icon: '<rect x="9" y="3" width="6" height="4" rx="1"/><rect x="3" y="16" width="6" height="4" rx="1"/><rect x="15" y="16" width="6" height="4" rx="1"/><path d="M12 7v4M6 16v-2h12v2"/>'
-        },
         'enprensa/': {
-            label: 'En prensa',
+            label: 'Prensa',
             desc: 'Los medios hablan del Vetusta',
             icon: '<path d="M4 9.5v5h2.5L11 18V6L6.5 9.5H4Z"/><path d="M15 9.5a4 4 0 0 1 0 5"/><path d="M18 7a8 8 0 0 1 0 10"/>'
         }

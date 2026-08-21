@@ -174,6 +174,21 @@ body {
     transform: none;
 }
 
+/* script.js inyecta un icono y una descripción en cada subentrada para el
+   panel móvil. En el desplegable de escritorio no van, y sin las reglas de
+   tamaño del bloque móvil el SVG crecía hasta ocupar todo el desplegable.
+   El título recupera aquí las mayúsculas del resto del nav. */
+@media (min-width: 769px) {
+    .nav-dropdown-menu a .nav-sub-icon,
+    .nav-dropdown-menu a .nav-sub-desc {
+        display: none;
+    }
+
+    .nav-dropdown-menu a .nav-sub-title {
+        text-transform: uppercase;
+    }
+}
+
 /* Abonamiento Banner */
 .abonamiento-banner {
     display: flex;
@@ -1560,6 +1575,22 @@ body {
         opacity: 1;
         transform: translateY(0);
         pointer-events: auto;
+    }
+
+    /* El :hover de escritorio (color amarillo + scale(1.1)) se queda pegado
+       tras un toque en pantallas táctiles: al pulsar CLUB la palabra se
+       volvía amarilla y se movía por el escalado. En el panel las tarjetas
+       ya tienen su propio estado :active, así que aquí se neutraliza. Los
+       mismos selectores que la regla de escritorio, para que gane por orden
+       en la cascada sin recurrir a !important. */
+    .nav a:hover,
+    .nav .nav-dropdown-toggle:hover {
+        color: #fff;
+        transform: none;
+    }
+
+    .nav-dropdown-menu a:hover {
+        background-color: transparent;
     }
 
     /* Las tarjetas no se comprimen. Por defecto un hijo de flex tiene
