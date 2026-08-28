@@ -2901,6 +2901,19 @@ body {
     border-radius: 10px;
 }
 
+/* Variante en vídeo: el contenedor recorta a 500px de alto, y un vídeo
+   vertical (4:5) a 800px de ancho pediría 1000px. Se suelta el tope y se
+   limita el ancho para que quepa entero sin dominar la página. */
+.news-article-video {
+    max-height: none;
+    max-width: 420px;
+}
+
+.news-article-video video {
+    height: auto;
+    max-height: none;
+}
+
 /* Full-image variant: show the whole image (maps, infographics) instead
    of cropping it to a fixed height. */
 .news-article-image-full {
