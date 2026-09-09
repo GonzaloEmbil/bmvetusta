@@ -4220,7 +4220,7 @@ body {
 /* 2. Cartel: vertical (4:5), centrado y con ancho contenido para que
       no se convierta en un scroll interminable en escritorio */
 .abono-poster {
-    margin: 44px 0 0;
+    margin: 12px 0 0;
     width: 100%;
     max-width: 540px;
 }
@@ -4291,7 +4291,7 @@ body {
     }
 
     .abono-poster {
-        margin-top: 28px;
+        margin-top: 8px;
     }
 
     .abono-btn {
