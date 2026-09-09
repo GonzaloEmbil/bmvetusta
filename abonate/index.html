@@ -13,7 +13,7 @@
     <title>Abónate - BM Vetusta</title>
     <meta name="description" content="Campaña de abonados 2026/2027 del Balonmano Vetusta. Únete a la #FamiliaVetusta: 15 partidos de Primera Nacional en el Florida Arena desde 20 €.">
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=abono-7">
+    <link rel="stylesheet" href="../style.css?v=abono-8">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -66,16 +66,20 @@
     <!-- Contenido principal vacío -->
     <main class="main-content">
         <section class="abono-section">
+            <!-- Alta en Cluber: encima de todo, en móvil y en escritorio. -->
+            <div class="abono-cta">
+                <a class="abono-btn" href="https://app.cluber.es/clubs/6852e57a881e9465680716/members/join" target="_blank" rel="noopener noreferrer">Hazte abonado</a>
+            </div>
+
             <!-- Vídeo + cartel. En escritorio van en la misma fila a todo el ancho
-                 (el botón de alta se coloca encima vía CSS); en móvil, apilados.
-                 Cuando exista el vídeo: descomentar el bloque y AÑADIR la clase
-                 "has-video" a este contenedor, que es la que activa la fila. -->
-            <div class="abono-media">
-                <!--
+                 ; en móvil, apilados.
+                 La clase "has-video" del contenedor es la que activa la fila. -->
+            <div class="abono-media has-video">
+                <!-- VÍDEO DE EJEMPLO (yEvgktEAMKE): sustituir el id por el de la
+                     campaña cuando esté subido. -->
                 <div class="abono-video">
-                    <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID" title="Campaña de abonados 2026/2027 del Balonmano Vetusta" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <iframe src="https://www.youtube-nocookie.com/embed/yEvgktEAMKE" title="Campaña de abonados 2026/2027 del Balonmano Vetusta" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                -->
 
                 <!-- Cartel con los precios. El alt lleva los precios para lectores
                      de pantalla y buscadores, ya que en la imagen no son texto. -->
@@ -89,12 +93,6 @@
                 </figure>
             </div>
 
-            <!-- Alta en Cluber. Va después en el HTML (orden de lectura y de
-                 móvil: primero los precios, luego el botón); en escritorio el CSS
-                 lo sube encima de la fila. -->
-            <div class="abono-cta">
-                <a class="abono-btn" href="https://app.cluber.es/clubs/6852e57a881e9465680716/members/join" target="_blank" rel="noopener noreferrer">Hazte abonado</a>
-            </div>
         </section>
     </main>
 
@@ -129,7 +127,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=abono-7"></script>
+    <script src="../script.js?v=abono-8"></script>
     <script>
     // Escritorio: vídeo y cartel deben caber en la primera pantalla. Se mide
     // cuánto alto queda bajo el botón y se pasa al CSS como --abono-avail-h;
