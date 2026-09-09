@@ -4336,10 +4336,11 @@ body {
        Así el cartel gana los ~76px del botón sin invadirlo, porque está más
        a la derecha. --H es la altura del cartel: la que quepa en pantalla,
        salvo que a esa altura cartel + vídeo + hueco no entren en el ancho.
-       k = 1,6 (bajó desde 1,8) para que el vídeo conserve su tamaño pese a
-       que la fila es ahora más alta. */
+       k compensa el alto de la fila para que el VÍDEO no cambie de tamaño:
+       cuanto más alto el cartel, menor k. Con el aire inferior en 56px,
+       k = 1,7. */
     .abono-section.has-video {
-        --k: 1.6;
+        --k: 1.7;
         --H: min(var(--avail), calc((100vw - 80px - 20px) / (0.8 * (1 + var(--k)))));
         display: grid;
         grid-template-columns: calc(var(--H) * 0.8 * var(--k)) calc(var(--H) * 0.8);
