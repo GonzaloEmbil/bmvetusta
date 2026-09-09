@@ -4332,10 +4332,11 @@ body {
     /* Con vídeo: una fila. El cartel marca la altura (la que quepa) y el
        vídeo mide --k veces el ancho del cartel, centrado en vertical. Con la
        misma altura un 16:9 sería 2,2 veces más ancho que un 4:5 y aplastaba
-       al cartel; con k = 1,5 el reparto queda 60/40.
+       al cartel; con 1,5 el vídeo quedaba corto de alto. Con k = 1,8 el
+       vídeo mide el 81% de la altura del cartel (reparto ~64/36).
        Ancho de la fila = 0,8h·(1+k) + hueco; si no cabe, manda el ancho. */
     .abono-media.has-video {
-        --k: 1.5;
+        --k: 1.8;
         --row-h: min(var(--avail), calc((100vw - 80px - 20px) / (0.8 * (1 + var(--k)))));
         height: var(--row-h);
         display: grid;
