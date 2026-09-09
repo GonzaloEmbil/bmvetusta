@@ -11,8 +11,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Abónate - BM Vetusta</title>
+    <meta name="description" content="Campaña de abonados 2026/2027 del Balonmano Vetusta. Únete a la #FamiliaVetusta: 15 partidos de Primera Nacional en el Florida Arena desde 20 €.">
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=chema-1">
+    <link rel="stylesheet" href="../style.css?v=abono-1">
+    <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
+    <meta property="og:description" content="Tu sitio en la grada del Florida Arena te espera: 15 partidos de Primera Nacional para vivirlos en familia. Desde 20 €.">
+    <meta property="og:image" content="https://balonmanovetusta.com/src/assets/cartel_abonados_2627.jpg">
+    <meta property="og:url" content="https://balonmanovetusta.com/abonate/">
+    <meta name="twitter:card" content="summary_large_image">
 </head>
 <body>
     <!-- Google Tag Manager (noscript) -->
@@ -57,6 +65,32 @@
 
     <!-- Contenido principal vacío -->
     <main class="main-content">
+        <section class="abono-section">
+            <span class="abono-badge">Campaña de abonados 2026/2027</span>
+            <h1 class="news-section-title">Abónate</h1>
+            <p class="abono-claim">Únete a la <span class="abono-hashtag">#FamiliaVetusta</span></p>
+            <p class="abono-lead">Tu sitio en la grada del Florida Arena te espera: 15 partidos de Primera Nacional para vivirlos en familia.</p>
+
+            <!-- 1. Vídeo de la campaña -->
+            <div class="abono-video">
+                <iframe src="https://www.youtube-nocookie.com/embed/VIDEO_ID_PENDIENTE" title="Campaña de abonados 2026/2027 del Balonmano Vetusta" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+
+            <!-- 2. Cartel con los precios. El alt lleva los precios para lectores
+                 de pantalla y buscadores, ya que en la imagen no son texto. -->
+            <figure class="abono-poster">
+                <picture>
+                    <source srcset="../src/assets/cartel_abonados_2627.webp" type="image/webp">
+                    <img src="../src/assets/cartel_abonados_2627.jpg" alt="Precios de la campaña de abonados 2026/2027: Sub 18, 20 euros; Adulto, 40 euros; Matrimonio (2 adultos), 70 euros; Familiar (2 adultos y 2 sub 18), 90 euros" decoding="async">
+                </picture>
+            </figure>
+
+            <!-- 3. Alta en Cluber -->
+            <div class="abono-cta">
+                <a class="abono-btn" href="https://app.cluber.es/clubs/6852e57a881e9465680716/members/join" target="_blank" rel="noopener noreferrer">Hazte abonado</a>
+                <p class="abono-cta-note">El alta se realiza en Cluber, la plataforma de gestión del club. También puedes abonarte en taquilla, en el Florida Arena.</p>
+            </div>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -90,6 +124,6 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=chema-1"></script>
+    <script src="../script.js?v=abono-1"></script>
 </body>
 </html>

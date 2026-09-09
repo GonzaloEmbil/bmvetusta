@@ -4147,3 +4147,157 @@ body {
         font-size: 1.2rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════
+   Página ABÓNATE — campaña de abonados
+   Orden fijo: vídeo → cartel con precios → alta en Cluber.
+   ═══════════════════════════════════════════════════════════════════ */
+.abono-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 20px 70px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.abono-badge {
+    display: inline-block;
+    background: #FDED3A;
+    color: #000;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    margin-bottom: 22px;
+}
+
+.abono-section .news-section-title {
+    margin-bottom: 26px;
+}
+
+.abono-claim {
+    color: #fff;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    margin: 0 0 14px;
+}
+
+.abono-hashtag {
+    color: #FDED3A;
+}
+
+.abono-lead {
+    color: #cfcfcf;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    max-width: 640px;
+    margin: 0 0 40px;
+}
+
+/* 1. Vídeo: 16:9 a todo el ancho de la sección */
+.abono-video {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #111;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.abono-video iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* 2. Cartel: vertical (4:5), centrado y con ancho contenido para que
+      no se convierta en un scroll interminable en escritorio */
+.abono-poster {
+    margin: 44px 0 0;
+    width: 100%;
+    max-width: 540px;
+}
+
+.abono-poster img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 3. Alta: botón principal relleno (el .abonamiento-btn del resto del
+      sitio es el secundario con borde; aquí es la acción que importa) */
+.abono-cta {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.abono-btn {
+    display: inline-block;
+    background: #FDED3A;
+    color: #000;
+    font-size: 1.05rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 18px 48px;
+    border-radius: 999px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    box-shadow: 0 6px 20px rgba(253, 237, 58, 0.25);
+}
+
+.abono-btn:hover {
+    background: #ffe500;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(253, 237, 58, 0.35);
+}
+
+.abono-btn:active {
+    transform: translateY(0);
+}
+
+.abono-cta-note {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    max-width: 520px;
+    margin: 0;
+}
+
+@media (max-width: 768px) {
+    .abono-section {
+        padding: 28px 16px 50px;
+    }
+
+    .abono-lead {
+        font-size: 1rem;
+        margin-bottom: 28px;
+    }
+
+    .abono-video {
+        border-radius: 10px;
+    }
+
+    .abono-poster {
+        margin-top: 28px;
+    }
+
+    .abono-btn {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 16px 24px;
+        font-size: 0.98rem;
+    }
+}
