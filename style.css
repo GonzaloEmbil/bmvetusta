@@ -4221,6 +4221,25 @@ body {
     max-width: 540px;
 }
 
+/* El cartel es un enlace al alta: el <a> ocupa exactamente la imagen y da
+   una pista de interactividad al pasar el ratón. */
+.abono-poster a {
+    display: block;
+    height: 100%;
+    border-radius: 14px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.abono-poster a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 14px 34px rgba(253, 237, 58, 0.18);
+}
+
+.abono-poster a:focus-visible {
+    outline: 3px solid #FDED3A;
+    outline-offset: 4px;
+}
+
 .abono-poster img {
     display: block;
     width: 100%;
@@ -4292,7 +4311,11 @@ body {
        ventana menos lo que ocupan header y botón), con un valor por
        defecto por si el script no llega a ejecutarse. */
     .abono-media {
-        --avail: var(--abono-avail-h, 540px);
+        /* Suelo de 400px de alto = cartel de 320px de ancho (4:5). En
+           portátiles bajos se prefiere un poco de scroll a un cartel ilegible.
+           El tope por ANCHO de la fila (más abajo) sigue siendo absoluto para
+           que nunca desborde en horizontal. */
+        --avail: max(400px, var(--abono-avail-h, 540px));
     }
 
     /* Sin vídeo: el cartel solo, tan alto como quepa (4:5 → ancho auto). */
