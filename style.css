@@ -4294,23 +4294,50 @@ body {
         margin: 0 0 36px;
     }
 
-    /* La fila sólo existe cuando hay vídeo. Las columnas guardan la
-       proporción entre un 16:9 y un 4:5 (1,7778 / 0,8 = 2,2222), así que
-       con el mismo alto los dos llenan el ancho sin recortes ni bandas. */
+    /* Todo tiene que verse entero nada más abrir la página, así que el
+       tamaño se deriva de la ALTURA disponible y no del ancho:
+       --abono-avail-h la mide un script en la propia página (alto de la
+       ventana menos lo que ocupan header y botón), con un valor por
+       defecto por si el script no llega a ejecutarse. */
+    .abono-media {
+        --avail: var(--abono-avail-h, 540px);
+    }
+
+    /* Sin vídeo: el cartel solo, tan alto como quepa (4:5 → ancho auto). */
+    .abono-poster {
+        max-width: none;
+        margin: 0;
+    }
+
+    .abono-media:not(.has-video) .abono-poster img {
+        height: var(--avail);
+        width: auto;
+        max-width: 100%;
+    }
+
+    /* Con vídeo: una fila. La altura es la que quepa, salvo que a esa altura
+       vídeo (16:9) + cartel (4:5) + hueco no entren en el ancho de página;
+       entonces manda el ancho: h = (ancho − márgenes − hueco) / (1,7778 + 0,8). */
     .abono-media.has-video {
+        --row-h: min(var(--avail), calc((100vw - 80px - 20px) / 2.5778));
+        height: var(--row-h);
         display: grid;
-        grid-template-columns: 2.2222fr 1fr;
+        grid-template-columns: calc(var(--row-h) * 1.7778) calc(var(--row-h) * 0.8);
         gap: 20px;
-        align-items: start;
+        justify-content: center;
+        align-items: stretch;
     }
 
     .abono-media.has-video .abono-video {
         width: 100%;
+        height: 100%;
+        aspect-ratio: auto;
     }
 
-    .abono-media.has-video .abono-poster {
-        max-width: none;
-        margin: 0;
+    .abono-media.has-video .abono-poster img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
     }
 }
 
