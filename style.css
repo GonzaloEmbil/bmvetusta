@@ -4343,7 +4343,9 @@ body {
         grid-template-columns: calc(var(--row-h) * 0.8 * var(--k)) calc(var(--row-h) * 0.8);
         gap: 20px;
         justify-content: center;
-        align-items: center;
+        /* Vídeo y cartel a ras por abajo: el vídeo es más bajo que el cartel
+           (90% de su altura con k=2) y el aire sobrante se acumula arriba. */
+        align-items: end;
     }
 
     .abono-media.has-video .abono-video {
