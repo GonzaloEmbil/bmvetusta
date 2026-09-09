@@ -4329,23 +4329,26 @@ body {
         max-width: 100%;
     }
 
-    /* Con vídeo: una fila. La altura es la que quepa, salvo que a esa altura
-       vídeo (16:9) + cartel (4:5) + hueco no entren en el ancho de página;
-       entonces manda el ancho: h = (ancho − márgenes − hueco) / (1,7778 + 0,8). */
+    /* Con vídeo: una fila. El cartel marca la altura (la que quepa) y el
+       vídeo mide --k veces el ancho del cartel, centrado en vertical. Con la
+       misma altura un 16:9 sería 2,2 veces más ancho que un 4:5 y aplastaba
+       al cartel; con k = 1,5 el reparto queda 60/40.
+       Ancho de la fila = 0,8h·(1+k) + hueco; si no cabe, manda el ancho. */
     .abono-media.has-video {
-        --row-h: min(var(--avail), calc((100vw - 80px - 20px) / 2.5778));
+        --k: 1.5;
+        --row-h: min(var(--avail), calc((100vw - 80px - 20px) / (0.8 * (1 + var(--k)))));
         height: var(--row-h);
         display: grid;
-        grid-template-columns: calc(var(--row-h) * 1.7778) calc(var(--row-h) * 0.8);
+        grid-template-columns: calc(var(--row-h) * 0.8 * var(--k)) calc(var(--row-h) * 0.8);
         gap: 20px;
         justify-content: center;
-        align-items: stretch;
+        align-items: center;
     }
 
     .abono-media.has-video .abono-video {
         width: 100%;
-        height: 100%;
-        aspect-ratio: auto;
+        height: auto;
+        aspect-ratio: 16 / 9;
     }
 
     .abono-media.has-video .abono-poster img {
