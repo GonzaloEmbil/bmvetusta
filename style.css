@@ -4292,6 +4292,28 @@ body {
     gap: 24px;
 }
 
+/* Texto explicativo. En móvil cierra la página, bajo el cartel; en
+   escritorio se coloca entre el botón y el vídeo (ver más abajo). */
+.abono-note {
+    color: #b9b9b9;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    max-width: 520px;
+    margin: 24px auto 0;
+}
+
+.abono-note strong {
+    color: #fff;
+    font-weight: 700;
+}
+
+.abono-note a {
+    color: #FDED3A;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    word-break: break-word;
+}
+
 /* ── Escritorio: botón encima y fila vídeo | cartel a todo el ancho ── */
 @media (min-width: 769px) {
     .abono-section {
@@ -4344,7 +4366,8 @@ body {
         --H: min(var(--avail), calc((100vw - 80px - 20px) / (0.8 * (1 + var(--k)))));
         display: grid;
         grid-template-columns: calc(var(--H) * 0.8 * var(--k)) calc(var(--H) * 0.8);
-        grid-template-rows: auto 1fr;
+        /* Columna izquierda: botón, texto y vídeo. El cartel abarca las tres. */
+        grid-template-rows: auto auto 1fr;
         column-gap: 20px;
         justify-content: center;
         align-items: end;
@@ -4362,25 +4385,32 @@ body {
         margin: 0 0 20px;
     }
 
-    .abono-section.has-video .abono-video {
+    .abono-section.has-video .abono-note {
         grid-column: 1;
         grid-row: 2;
+        margin: 0 auto 18px;
+    }
+
+    .abono-section.has-video .abono-video {
+        grid-column: 1;
+        grid-row: 3;
         width: 100%;
         height: auto;
         aspect-ratio: 16 / 9;
     }
 
+    /* Alto automático (4:5 sobre el ancho de columna) y anclado abajo: así el
+       cartel nunca se estira si la pila botón + texto + vídeo es más alta. */
     .abono-section.has-video .abono-poster {
         grid-column: 2;
-        grid-row: 1 / span 2;
-        height: 100%;
+        grid-row: 1 / span 3;
+        align-self: end;
+        height: auto;
     }
 
     .abono-section.has-video .abono-poster img {
         width: 100%;
-        height: 100%;
-        object-fit: contain;
-        object-position: bottom;
+        height: auto;
     }
 }
 

@@ -13,7 +13,7 @@
     <title>Abónate - BM Vetusta</title>
     <meta name="description" content="Campaña de abonados 2026/2027 del Balonmano Vetusta. Únete a la #FamiliaVetusta: 15 partidos de Primera Nacional en el Florida Arena desde 20 €.">
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=abono-16">
+    <link rel="stylesheet" href="../style.css?v=abono-18">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -95,6 +95,10 @@
                 </figure>
             </div>
 
+            <!-- Va al final del HTML (en móvil se lee tras el cartel); en
+                 escritorio el CSS lo coloca entre el botón y el vídeo. -->
+            <p class="abono-note">Puedes abonarte <strong>online</strong> pulsando el botón de arriba o <strong>presencialmente</strong> en el Florida Arena cualquier día que el Vetusta juegue como local. Si tienes cualquier duda, escríbenos a <a href="mailto:balonmanovetusta@gmail.com">balonmanovetusta@gmail.com</a>.</p>
+
         </section>
     </main>
 
@@ -129,7 +133,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=abono-16"></script>
+    <script src="../script.js?v=abono-18"></script>
     <script>
     // Escritorio: vídeo y cartel deben caber en la primera pantalla. Se mide
     // cuánto alto queda bajo el botón y se pasa al CSS como --abono-avail-h;
@@ -144,7 +148,22 @@
             var pad = parseFloat(getComputedStyle(section).paddingTop) || 0;
             var top = section.getBoundingClientRect().top + window.scrollY + pad;
             var avail = window.innerHeight - top - 56;   // aire hasta el borde inferior
-            section.style.setProperty('--abono-avail-h', Math.max(400, Math.round(avail)) + 'px');   // mismo suelo que el CSS
+
+            // En la columna izquierda se apilan botón, texto y vídeo. El vídeo
+            // mide 0,45·k·H de alto, así que la pila cabe si
+            // botón + texto + 0,45·k·H <= avail. Se despeja H y se toma el
+            // menor de los dos topes.
+            var K = 1.7;
+            function blockH(sel) {
+                var el = section.querySelector(sel);
+                if (!el) return 0;
+                var cs = getComputedStyle(el);
+                return el.getBoundingClientRect().height + (parseFloat(cs.marginBottom) || 0);
+            }
+            var stack = blockH('.abono-cta') + blockH('.abono-note');
+            var byStack = (avail - stack) / (0.45 * K);
+            var h = Math.min(avail, byStack);
+            section.style.setProperty('--abono-avail-h', Math.max(400, Math.round(h)) + 'px');   // mismo suelo que el CSS
         }
         fit();
         window.addEventListener('load', fit);
