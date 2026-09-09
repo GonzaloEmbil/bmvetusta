@@ -13,7 +13,7 @@
     <title>Abónate - BM Vetusta</title>
     <meta name="description" content="Campaña de abonados 2026/2027 del Balonmano Vetusta. Únete a la #FamiliaVetusta: 15 partidos de Primera Nacional en el Florida Arena desde 20 €.">
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=abono-14">
+    <link rel="stylesheet" href="../style.css?v=abono-15">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -65,7 +65,7 @@
 
     <!-- Contenido principal vacío -->
     <main class="main-content">
-        <section class="abono-section">
+        <section class="abono-section has-video">
             <!-- Alta en Cluber: encima de todo, en móvil y en escritorio. -->
             <div class="abono-cta">
                 <a class="abono-btn" href="https://app.cluber.es/clubs/6852e57a881e9465680716/members/join" target="_blank" rel="noopener noreferrer">Hazte abonado</a>
@@ -73,8 +73,10 @@
 
             <!-- Vídeo + cartel. En escritorio van en la misma fila a todo el ancho
                  ; en móvil, apilados.
-                 La clase "has-video" del contenedor es la que activa la fila. -->
-            <div class="abono-media has-video">
+                 La clase "has-video" va en la SECCIÓN y es la que activa la
+                 maquetación en L: botón y vídeo en la columna izquierda, cartel
+                 a la derecha abarcando ambas filas. -->
+            <div class="abono-media">
                 <!-- VÍDEO DE EJEMPLO (yEvgktEAMKE): sustituir el id por el de la
                      campaña cuando esté subido. -->
                 <div class="abono-video">
@@ -127,19 +129,22 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=abono-14"></script>
+    <script src="../script.js?v=abono-15"></script>
     <script>
     // Escritorio: vídeo y cartel deben caber en la primera pantalla. Se mide
     // cuánto alto queda bajo el botón y se pasa al CSS como --abono-avail-h;
     // de ahí el CSS deriva el tamaño de la fila. Se recalcula al redimensionar.
     (function () {
-        var media = document.querySelector('.abono-media');
-        if (!media) return;
+        var section = document.querySelector('.abono-section');
+        if (!section) return;
         function fit() {
-            if (window.innerWidth <= 768) { media.style.removeProperty('--abono-avail-h'); return; }
-            var top = media.getBoundingClientRect().top + window.scrollY;
+            if (window.innerWidth <= 768) { section.style.removeProperty('--abono-avail-h'); return; }
+            // Se mide desde el borde superior del CONTENIDO de la sección (bajo
+            // su padding), que es donde arranca el cartel en la maquetación en L.
+            var pad = parseFloat(getComputedStyle(section).paddingTop) || 0;
+            var top = section.getBoundingClientRect().top + window.scrollY + pad;
             var avail = window.innerHeight - top - 20;   // 20px de aire hasta el borde
-            media.style.setProperty('--abono-avail-h', Math.max(400, Math.round(avail)) + 'px');   // mismo suelo que el CSS
+            section.style.setProperty('--abono-avail-h', Math.max(400, Math.round(avail)) + 'px');   // mismo suelo que el CSS
         }
         fit();
         window.addEventListener('load', fit);
