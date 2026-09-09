@@ -4174,10 +4174,6 @@ body {
     margin-bottom: 22px;
 }
 
-.abono-section .news-section-title {
-    margin-bottom: 26px;
-}
-
 .abono-claim {
     color: #fff;
     font-size: clamp(1.6rem, 4vw, 2.4rem);
@@ -4274,6 +4270,48 @@ body {
     line-height: 1.5;
     max-width: 520px;
     margin: 0;
+}
+
+/* Contenedor de vídeo + cartel */
+.abono-media {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+/* ── Escritorio: botón encima y fila vídeo | cartel a todo el ancho ── */
+@media (min-width: 769px) {
+    .abono-section {
+        /* Mismo margen lateral que la fila de portada (--fold-pad: 40px) */
+        max-width: none;
+        padding: 40px 40px 70px;
+    }
+
+    .abono-cta {
+        order: -1;
+        margin: 0 0 36px;
+    }
+
+    /* La fila sólo existe cuando hay vídeo. Las columnas guardan la
+       proporción entre un 16:9 y un 4:5 (1,7778 / 0,8 = 2,2222), así que
+       con el mismo alto los dos llenan el ancho sin recortes ni bandas. */
+    .abono-media.has-video {
+        display: grid;
+        grid-template-columns: 2.2222fr 1fr;
+        gap: 20px;
+        align-items: start;
+    }
+
+    .abono-media.has-video .abono-video {
+        width: 100%;
+    }
+
+    .abono-media.has-video .abono-poster {
+        max-width: none;
+        margin: 0;
+    }
 }
 
 @media (max-width: 768px) {
