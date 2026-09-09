@@ -4264,14 +4264,6 @@ body {
     transform: translateY(0);
 }
 
-.abono-cta-note {
-    color: #9a9a9a;
-    font-size: 0.9rem;
-    line-height: 1.5;
-    max-width: 520px;
-    margin: 0;
-}
-
 /* Contenedor de vídeo + cartel */
 .abono-media {
     width: 100%;
