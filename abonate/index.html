@@ -13,7 +13,7 @@
     <title>Abónate - BM Vetusta</title>
     <meta name="description" content="Campaña de abonados 2026/2027 del Balonmano Vetusta. Únete a la #FamiliaVetusta: 15 partidos de Primera Nacional en el Florida Arena desde 20 €.">
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=abono-13">
+    <link rel="stylesheet" href="../style.css?v=abono-14">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -127,7 +127,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=abono-13"></script>
+    <script src="../script.js?v=abono-14"></script>
     <script>
     // Escritorio: vídeo y cartel deben caber en la primera pantalla. Se mide
     // cuánto alto queda bajo el botón y se pasa al CSS como --abono-avail-h;
@@ -138,7 +138,7 @@
         function fit() {
             if (window.innerWidth <= 768) { media.style.removeProperty('--abono-avail-h'); return; }
             var top = media.getBoundingClientRect().top + window.scrollY;
-            var avail = window.innerHeight - top - 40;   // 40px de aire hasta el borde
+            var avail = window.innerHeight - top - 20;   // 20px de aire hasta el borde
             media.style.setProperty('--abono-avail-h', Math.max(400, Math.round(avail)) + 'px');   // mismo suelo que el CSS
         }
         fit();

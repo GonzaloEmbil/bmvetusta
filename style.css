@@ -4297,11 +4297,13 @@ body {
     .abono-section {
         /* Mismo margen lateral que la fila de portada (--fold-pad: 40px) */
         max-width: none;
-        padding: 40px 40px 70px;
+        /* Padding superior ajustado (era 40px): cada píxel que se recorta aquí
+           es un píxel más de alto para el cartel. */
+        padding: 20px 40px 70px;
     }
 
     .abono-cta {
-        margin: 0 0 36px;
+        margin: 0 0 20px;
     }
 
     /* Todo tiene que verse entero nada más abrir la página, así que el
@@ -4332,11 +4334,12 @@ body {
     /* Con vídeo: una fila. El cartel marca la altura (la que quepa) y el
        vídeo mide --k veces el ancho del cartel, centrado en vertical. Con la
        misma altura un 16:9 sería 2,2 veces más ancho que un 4:5 y aplastaba
-       al cartel; con 2,2222 (= 16/9 ÷ 4/5) tendrían la misma altura. Con
-       k = 2 el vídeo mide el 90% de la altura del cartel.
+       al cartel; con 2,2222 (= 16/9 ÷ 4/5) tendrían la misma altura.
+       Al recuperar ~56px de alto, el cartel crece; k baja de 2 a 1,8 para
+       compensarlo y que el VÍDEO conserve el tamaño que tenía.
        Ancho de la fila = 0,8h·(1+k) + hueco; si no cabe, manda el ancho. */
     .abono-media.has-video {
-        --k: 2;
+        --k: 1.8;
         --row-h: min(var(--avail), calc((100vw - 80px - 20px) / (0.8 * (1 + var(--k)))));
         height: var(--row-h);
         display: grid;
@@ -4344,7 +4347,7 @@ body {
         gap: 20px;
         justify-content: center;
         /* Vídeo y cartel a ras por abajo: el vídeo es más bajo que el cartel
-           (90% de su altura con k=2) y el aire sobrante se acumula arriba. */
+           (81% de su altura con k=1,8) y el aire sobrante se acumula arriba. */
         align-items: end;
     }
 
