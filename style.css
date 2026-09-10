@@ -4306,6 +4306,16 @@ body {
     hyphens: auto;
 }
 
+.abono-note p {
+    margin: 0;
+}
+
+/* La segunda frase arranca en su propia línea. Va como párrafo aparte y no
+   como <br> para que la primera también quede justificada hasta el final. */
+.abono-note p + p {
+    margin-top: 10px;
+}
+
 .abono-note strong {
     color: #fff;
     font-weight: 700;
