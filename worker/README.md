@@ -10,8 +10,46 @@ activa, el proveedor de envío de correo.
 | Ruta | Método | Para qué |
 |---|---|---|
 | `/alta` | POST | Alta nueva. Devuelve `{ ok: true, numero }` |
-| `/export.csv?token=…` | GET | Descarga todas las altas en CSV |
+| `/admin` | GET | **Panel de abonados**: listado, marcar pagos y descargar CSV |
+| `/admin/login` | POST | Comprueba la clave y devuelve una sesión firmada |
+| `/admin/datos` | GET | Listado en JSON. Requiere sesión |
+| `/admin/pagado` | POST | Marca un alta como pagada. Requiere sesión |
+| `/export.csv` | GET | CSV. Requiere clave o sesión |
 | `/` | GET | Comprobación de vida |
+
+## El panel de abonados
+
+Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
+`ADMIN_TOKEN`. Muestra el listado completo, un resumen de altas, pagos y
+euros, un buscador, un filtro de pendientes, un botón por fila para marcar
+el pago y la descarga del CSV.
+
+**Por qué el repositorio no da acceso.** La página la sirve el Worker, no
+GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:
+la clave vive cifrada en los secretos de Cloudflare y la comprobación ocurre
+en el servidor. Clonar el repositorio no permite entrar ni leer un solo dato.
+
+Las defensas concretas:
+
+- **La sesión es un testigo firmado con HMAC-SHA256**, `caducidad.firma`, que
+  caduca a las 8 horas. No se guarda nada en servidor y no se puede falsificar
+  sin el secreto.
+- **Viaja en la cabecera `Authorization`, no en una cookie**, así que no hay
+  superficie para CSRF: un sitio ajeno no puede añadir cabeceras ni leer el
+  `sessionStorage` de otro origen.
+- **La clave se compara en tiempo constante**, para que el tiempo de respuesta
+  no revele cuántos caracteres son correctos.
+- **Ocho intentos de acceso por hora y IP.** Al noveno responde 429.
+- **Sin recursos externos** y con una `Content-Security-Policy` que sólo
+  permite conexiones al propio origen.
+- **`no-store` y `noindex`**: no queda en caché ni en buscadores.
+
+Si la clave se filtrase, se cambia en diez segundos y **todas las sesiones
+abiertas quedan invalidadas de inmediato**, porque la firma se deriva de ella:
+
+```bash
+wrangler secret put ADMIN_TOKEN
+```
 
 El **número de abonado/a** es el `id` autoincremental de la base de datos, así
 que se asigna solo: es el campo que en la ficha de papel quedaba «a rellenar por

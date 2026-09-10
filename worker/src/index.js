@@ -9,6 +9,8 @@
  *   GET  /              → comprobación de vida
  */
 
+import { ADMIN_HTML } from './admin.js';
+
 const PRECIOS = { 'Sub 18': 20, 'Adulto': 40, 'Matrimonio': 70, 'Familiar': 90 };
 const TEMPORADA = '2026/2027';
 
@@ -126,6 +128,61 @@ async function excedeLimite(env, ipHash, ruta, maximo, ventanaSeg) {
   return false;
 }
 
+// ── Sesión de administración ───────────────────────────────────────────────
+//
+// La sesión es un testigo firmado con HMAC-SHA256: "caducidad.firma". No se
+// guarda nada en servidor, y como la firma sólo se puede generar con el
+// secreto, no se puede falsificar. Viaja en la cabecera Authorization, no en
+// una cookie, para que no exista superficie de CSRF.
+
+const SESION_HORAS = 8;
+
+async function claveHmac(env) {
+  return crypto.subtle.importKey(
+    'raw',
+    new TextEncoder().encode('sesion|' + (env.ADMIN_TOKEN || '')),
+    { name: 'HMAC', hash: 'SHA-256' },
+    false,
+    ['sign']
+  );
+}
+
+function b64url(bytes) {
+  return btoa(String.fromCharCode(...new Uint8Array(bytes)))
+    .replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+}
+
+async function firmar(env, mensaje) {
+  const f = await crypto.subtle.sign('HMAC', await claveHmac(env), new TextEncoder().encode(mensaje));
+  return b64url(f);
+}
+
+async function crearSesion(env) {
+  const exp = String(Date.now() + SESION_HORAS * 3600 * 1000);
+  return exp + '.' + (await firmar(env, exp));
+}
+
+async function sesionValida(env, testigo) {
+  const partes = String(testigo || '').split('.');
+  if (partes.length !== 2) return false;
+  const [exp, firma] = partes;
+  if (!/^\d+$/.test(exp) || Date.now() > Number(exp)) return false;
+  return igualSeguro(firma, await firmar(env, exp));
+}
+
+/** Extrae el testigo de la cabecera Authorization. */
+function testigoDe(request) {
+  return (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+}
+
+/** Cabeceras para todo lo administrativo: nada de caché ni de indexación. */
+const CAB_ADMIN = {
+  'Cache-Control': 'no-store, no-cache, must-revalidate',
+  'X-Robots-Tag': 'noindex, nofollow',
+  'X-Content-Type-Options': 'nosniff',
+  'Referrer-Policy': 'no-referrer',
+};
+
 // ── Correo (opcional: solo si hay RESEND_API_KEY) ──────────────────────────
 
 function resumen(d, numero) {
@@ -202,6 +259,69 @@ export default {
       return json({ ok: true }, 200);
     }
 
+    // ── Administración ──────────────────────────────────────────────────
+    // La página se sirve desde aquí, no desde GitHub Pages: el repositorio
+    // sólo contiene su código, sin credenciales, y sin clave no devuelve
+    // ningún dato.
+
+    if (url.pathname === '/admin' && request.method === 'GET') {
+      return new Response(ADMIN_HTML, {
+        headers: {
+          'Content-Type': 'text/html; charset=utf-8',
+          // Sin recursos externos: si alguien lograse inyectar algo, no
+          // podría cargar ni enviar nada a otro origen.
+          'Content-Security-Policy':
+            "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
+            "connect-src 'self'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'",
+          ...CAB_ADMIN,
+        },
+      });
+    }
+
+    if (url.pathname === '/admin/login' && request.method === 'POST') {
+      const ipHash = await hashIP(request, env);
+      if (await excedeLimite(env, ipHash, 'login', 8, 3600)) {
+        return json({ ok: false, error: 'limite' }, 429, CAB_ADMIN);
+      }
+      let body = {};
+      try { body = await request.json(); } catch { /* clave vacía */ }
+      if (!env.ADMIN_TOKEN || !igualSeguro(body.clave, env.ADMIN_TOKEN)) {
+        return json({ ok: false }, 401, CAB_ADMIN);
+      }
+      return json({ ok: true, sesion: await crearSesion(env) }, 200, CAB_ADMIN);
+    }
+
+    if (url.pathname === '/admin/datos' && request.method === 'GET') {
+      if (!(await sesionValida(env, testigoDe(request)))) {
+        return json({ ok: false }, 401, CAB_ADMIN);
+      }
+      const { results } = await env.DB.prepare(
+        `SELECT id, creado, modalidad, pago, importe, pagado, nombre, dni, nacimiento,
+                telefono, email, localidad, imagen, comunicaciones, incluidas, tutor
+           FROM abonados ORDER BY id DESC`
+      ).all();
+      const abonados = (results || []).map((r) => ({
+        ...r,
+        pagado: !!r.pagado,
+        incluidas: JSON.parse(r.incluidas || '[]'),
+        tutor: r.tutor ? JSON.parse(r.tutor) : null,
+      }));
+      return json({ ok: true, abonados }, 200, CAB_ADMIN);
+    }
+
+    if (url.pathname === '/admin/pagado' && request.method === 'POST') {
+      if (!(await sesionValida(env, testigoDe(request)))) {
+        return json({ ok: false }, 401, CAB_ADMIN);
+      }
+      let body = {};
+      try { body = await request.json(); } catch { /* nada */ }
+      const id = parseInt(body.id, 10);
+      if (!Number.isInteger(id) || id < 1) return json({ ok: false }, 400, CAB_ADMIN);
+      await env.DB.prepare('UPDATE abonados SET pagado = ? WHERE id = ?')
+        .bind(body.pagado ? 1 : 0, id).run();
+      return json({ ok: true }, 200, CAB_ADMIN);
+    }
+
     // Exportación para el club: rellenar carnés, cuadrar transferencias.
     if (url.pathname === '/export.csv' && request.method === 'GET') {
       // El token se admite por cabecera (preferido: no queda en registros ni en
@@ -214,8 +334,10 @@ export default {
       if (await excedeLimite(env, ipHash, 'export', 10, 3600)) {
         return new Response('Demasiados intentos. Prueba dentro de un rato.', { status: 429 });
       }
-      if (!env.ADMIN_TOKEN || !igualSeguro(enviado, env.ADMIN_TOKEN)) {
-        return new Response('No autorizado', { status: 401 });
+      const conClave = env.ADMIN_TOKEN && igualSeguro(enviado, env.ADMIN_TOKEN);
+      const conSesion = await sesionValida(env, enviado);
+      if (!conClave && !conSesion) {
+        return new Response('No autorizado', { status: 401, headers: CAB_ADMIN });
       }
       const { results } = await env.DB.prepare(
         'SELECT * FROM abonados ORDER BY id'
@@ -231,6 +353,7 @@ export default {
         headers: {
           'Content-Type': 'text/csv; charset=utf-8',
           'Content-Disposition': 'attachment; filename="abonados-2026-2027.csv"',
+          ...CAB_ADMIN,
         },
       });
     }
