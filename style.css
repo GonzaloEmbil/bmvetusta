@@ -4323,16 +4323,15 @@ body {
     word-break: break-word;
 }
 
-/* Aviso final: más pequeño y algo más apagado, para que se lea como una nota
-   al pie y no como parte de la explicación. Se separa con padding y no con
-   margin porque en móvil el margen entre párrafos se anula, y mantiene
-   display:block para no fundirse con el párrafo anterior. */
+/* Aviso final. Mismo tamaño y mismo blanco que la explicación: lo único que
+   lo separa es el aire de arriba. Se separa con padding y no con margin
+   porque en móvil el margen entre párrafos se anula, y mantiene display:block
+   para no fundirse con el párrafo anterior. */
 .abono-note .abono-aviso {
     display: block;
     margin: 0;
     padding-top: 14px;
     font-size: 0.875rem;   /* 14px, igual que la explicación */
-    color: #c9ccd1;
 }
 
 /* ── Escritorio: botón encima y fila vídeo | cartel a todo el ancho ── */
