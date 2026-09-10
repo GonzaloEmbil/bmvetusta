@@ -4399,9 +4399,13 @@ body {
         margin: 0 0 20px;
     }
 
+    /* Tan ancho como el vídeo menos un 5% por lado. Se anula el max-width
+       base (520px), pensado para el móvil. */
     .abono-section.has-video .abono-note {
         grid-column: 1;
         grid-row: 2;
+        max-width: none;
+        width: 90%;
         margin: 0 auto 18px;
     }
 
@@ -4431,6 +4435,16 @@ body {
 @media (max-width: 768px) {
     .abono-section {
         padding: 28px 16px 50px;
+    }
+
+    /* En móvil las dos frases van seguidas, como un único párrafo. El salto
+       de línea del HTML entre ambas se colapsa en el espacio que las separa. */
+    .abono-note p {
+        display: inline;
+    }
+
+    .abono-note p + p {
+        margin-top: 0;
     }
 
     .abono-lead {
