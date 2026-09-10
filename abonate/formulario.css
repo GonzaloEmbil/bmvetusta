@@ -64,7 +64,7 @@ a { color: var(--tinta); }
 .f-main {
     max-width: 760px;
     margin: 0 auto;
-    padding: 44px 24px 90px;
+    padding: 52px 24px 90px;
 }
 
 .f-volver {
@@ -82,13 +82,14 @@ a { color: var(--tinta); }
     font-weight: 800;
     letter-spacing: -0.6px;
     line-height: 1.15;
-    margin: 0 0 12px;
+    margin: 0;
 }
 
+/* Sólo la usa la página de condiciones. */
 .f-lead {
     color: var(--tinta-2);
     font-size: 1.05rem;
-    margin: 0 0 8px;
+    margin: 10px 0 0;
 }
 
 /* ── Bloques numerados. Separación amplia: era lo que se pisaba antes ── */
