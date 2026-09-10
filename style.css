@@ -4399,14 +4399,14 @@ body {
         margin: 0 0 20px;
     }
 
-    /* Tan ancho como el vídeo menos un 5% por lado. Se anula el max-width
-       base (520px), pensado para el móvil. */
+    /* Arranca en el borde izquierdo del vídeo y llega al 95% del derecho.
+       Se anula el max-width base (520px), pensado para el móvil. */
     .abono-section.has-video .abono-note {
         grid-column: 1;
         grid-row: 2;
         max-width: none;
-        width: 90%;
-        margin: 0 auto 18px;
+        width: 95%;
+        margin: 0 auto 18px 0;
     }
 
     .abono-section.has-video .abono-video {
