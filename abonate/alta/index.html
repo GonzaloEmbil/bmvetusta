@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" href="../../src/assets/escudo.png">
     <!-- Hoja propia y tema claro: esta página es un trámite, no una sección
          más de la web, así que no carga style.css a propósito. -->
-    <link rel="stylesheet" href="../formulario.css?v=f-19">
+    <link rel="stylesheet" href="../formulario.css?v=f-20">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -41,11 +41,15 @@
     <main class="f-main">
         <div id="f-h1-hueco"></div>
 
+        <!-- Aviso general. Va FUERA del <form> a propósito: dentro entraría en
+             el grid de dos columnas de escritorio y se colocaría solo en una
+             celda libre en lugar de quedar centrado sobre los dos pasos. -->
+        <p class="f-aviso">Todos los jugadores y jugadoras del Balonmano Vetusta, de cualquier categoría, entran gratis a todos los partidos del club.</p>
+
         <form id="alta-form" class="f-form" novalidate>
 
             <fieldset class="f-step" id="alta-modalidad">
                 <legend><span class="f-n">1</span> Elige tu modalidad</legend>
-                <p class="f-hint">Si juegas en el Balonmano Vetusta no necesitas abono: los jugadores y jugadoras del club, de cualquier categoría, entran gratis a todos los partidos.</p>
                 <div class="f-mods" role="radiogroup" aria-label="Modalidad de abono">
                     <label class="f-mod">
                         <input type="radio" name="modalidad" value="Sub 18" data-precio="20" data-adultos="0" data-menores="0" required>

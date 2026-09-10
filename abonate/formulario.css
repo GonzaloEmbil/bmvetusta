@@ -108,6 +108,17 @@ a { color: var(--tinta); }
     padding: 40px 24px 36px;
 }
 
+/* Aviso sobre los pasos, centrado. Cuelga de .f-main y no del formulario,
+   así que se mantiene a todo el ancho aunque los pasos vayan en dos columnas. */
+.f-aviso {
+    margin: 0 0 32px;
+    text-align: center;
+    text-wrap: balance;
+    color: var(--tinta-2);
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
 .f-volver {
     display: inline-block;
     color: var(--tinta-2);
