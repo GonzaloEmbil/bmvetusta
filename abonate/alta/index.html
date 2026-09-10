@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" href="../../src/assets/escudo.png">
     <!-- Hoja propia y tema claro: esta página es un trámite, no una sección
          más de la web, así que no carga style.css a propósito. -->
-    <link rel="stylesheet" href="../formulario.css?v=f-16">
+    <link rel="stylesheet" href="../formulario.css?v=f-19">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -40,8 +40,6 @@
 
     <main class="f-main">
         <div id="f-h1-hueco"></div>
-
-        <p class="f-oblig"><span class="f-req" aria-hidden="true">*</span>Campos obligatorios</p>
 
         <form id="alta-form" class="f-form" novalidate>
 
@@ -87,33 +85,33 @@
             <fieldset class="f-step" id="alta-datos">
                 <legend><span class="f-n">2</span> Tus datos</legend>
                 <div class="f-grid">
-                    <label class="f-field f-wide">
-                        <span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>
+                    <label class="f-field">
+                        <span class="f-label">Nombre y apellidos</span>
                         <input type="text" name="nombre" autocomplete="name" required>
                         <span class="f-err" data-error-for="nombre"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">DNI o NIE</span>
                         <input type="text" name="dni" autocapitalize="characters" maxlength="9" placeholder="12345678Z" required>
                         <span class="f-err" data-error-for="dni"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Fecha de nacimiento<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">Fecha de nacimiento</span>
                         <input type="date" name="nacimiento" required>
                         <span class="f-err" data-error-for="nacimiento"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Teléfono móvil<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">Teléfono móvil</span>
                         <input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="600000000" required>
                         <span class="f-err" data-error-for="telefono"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Correo electrónico<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">Correo electrónico</span>
                         <input type="email" name="email" inputmode="email" autocomplete="email" required>
                         <span class="f-err" data-error-for="email"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Localidad<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">Localidad</span>
                         <input type="text" name="localidad" autocomplete="address-level2" required>
                         <span class="f-err" data-error-for="localidad"></span>
                     </label>
@@ -131,17 +129,17 @@
                 <p class="f-hint">Obligatorio porque el abonado/a titular es menor de edad.</p>
                 <div class="f-grid">
                     <label class="f-field f-wide">
-                        <span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">Nombre y apellidos</span>
                         <input type="text" name="tutor_nombre">
                         <span class="f-err" data-error-for="tutor_nombre"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">DNI o NIE</span>
                         <input type="text" name="tutor_dni" autocapitalize="characters" maxlength="9">
                         <span class="f-err" data-error-for="tutor_dni"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Teléfono móvil<span class="f-req" aria-hidden="true">*</span></span>
+                        <span class="f-label">Teléfono móvil</span>
                         <input type="tel" name="tutor_telefono" inputmode="tel">
                         <span class="f-err" data-error-for="tutor_telefono"></span>
                     </label>
@@ -229,6 +227,9 @@
             </div>
 
             <div class="f-submit-wrap">
+                <!-- Resumen de lo que falta. Lo rellena el script al intentar
+                     enviar, con un botón por paso incompleto. -->
+                <div class="f-resumen" id="alta-resumen" role="alert" hidden></div>
                 <button type="submit" class="f-submit">Enviar solicitud de alta</button>
                 <p class="f-hint f-hint-c" id="alta-estado"></p>
             </div>
@@ -275,6 +276,6 @@
         window.addEventListener('resize', colocar);
     })();
     </script>
-    <script src="../alta.js?v=alta-11"></script>
+    <script src="../alta.js?v=alta-13"></script>
 </body>
 </html>

@@ -61,13 +61,13 @@
         wrap.innerHTML =
             '<p class="f-persona-tit">' + tipo + '</p>' +
             '<div class="f-grid">' +
-            '  <label class="f-field f-wide"><span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>' +
+            '  <label class="f-field f-wide"><span class="f-label">Nombre y apellidos</span>' +
             '    <input type="text" name="inc' + i + '_nombre"><span class="f-err" data-error-for="inc' + i + '_nombre"></span></label>' +
-            '  <label class="f-field"><span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>' +
+            '  <label class="f-field"><span class="f-label">DNI o NIE</span>' +
             '    <input type="text" name="inc' + i + '_dni" autocapitalize="characters" maxlength="9"><span class="f-err" data-error-for="inc' + i + '_dni"></span></label>' +
-            '  <label class="f-field"><span class="f-label">Fecha de nacimiento<span class="f-req" aria-hidden="true">*</span></span>' +
+            '  <label class="f-field"><span class="f-label">Fecha de nacimiento</span>' +
             '    <input type="date" name="inc' + i + '_nacimiento"><span class="f-err" data-error-for="inc' + i + '_nacimiento"></span></label>' +
-            '  <label class="f-field"><span class="f-label">Parentesco<span class="f-req" aria-hidden="true">*</span></span>' +
+            '  <label class="f-field"><span class="f-label">Parentesco</span>' +
             '    <input type="text" name="inc' + i + '_parentesco" placeholder="Cónyuge, hijo/a…"><span class="f-err" data-error-for="inc' + i + '_parentesco"></span></label>' +
             '</div>';
         return wrap;
@@ -322,17 +322,70 @@
         });
     }
 
+    /**
+     * Qué pasos han quedado incompletos. Se deduce de los avisos ya pintados
+     * en cada bloque, en vez de mantener una lista de campos por paso: así no
+     * hay dos sitios que puedan desincronizarse al añadir un campo.
+     */
+    function pasosIncompletos() {
+        var faltan = [];
+        form.querySelectorAll('.f-step').forEach(function (fs) {
+            if (fs.hidden) return;
+            var hayError = [].some.call(fs.querySelectorAll('.f-err'), function (e) {
+                return e.textContent.trim();
+            });
+            if (!hayError) return;
+            var leg = fs.querySelector('legend');
+            var num = leg ? leg.querySelector('.f-n') : null;
+            var titulo = leg ? leg.textContent.trim() : '';
+            if (num) titulo = titulo.slice(num.textContent.length).trim();
+            faltan.push({ n: num ? num.textContent : '', titulo: titulo, el: fs });
+        });
+        return faltan;
+    }
+
+    function mostrarResumen(faltan) {
+        var caja = document.getElementById('alta-resumen');
+        if (!caja) return;
+        if (!faltan.length) {
+            caja.hidden = true;
+            caja.innerHTML = '';
+            return;
+        }
+        caja.hidden = false;
+        caja.innerHTML =
+            '<p class="f-resumen-tit">No podemos enviar el formulario: ' +
+            (faltan.length === 1 ? 'falta un paso por completar' : 'faltan ' + faltan.length + ' pasos por completar') +
+            '</p><ul class="f-resumen-lista">' +
+            faltan.map(function (f, i) {
+                return '<li><button type="button" data-ir="' + i + '">Paso ' + f.n + ': ' + f.titulo + '</button></li>';
+            }).join('') +
+            '</ul>';
+        caja.querySelectorAll('[data-ir]').forEach(function (b) {
+            b.addEventListener('click', function () {
+                var f = faltan[parseInt(b.dataset.ir, 10)];
+                f.el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                var primero = f.el.querySelector('.f-bad') ||
+                    f.el.querySelector('input:not([type="hidden"])');
+                if (primero) setTimeout(function () { primero.focus({ preventScroll: true }); }, 400);
+            });
+        });
+    }
+
     form.addEventListener('submit', function (ev) {
         ev.preventDefault();
         var errores = validar();
         if (errores.length) {
-            estado.textContent = 'Revisa los campos marcados en rojo.';
-            var primero = form.querySelector('.f-bad') ||
-                form.querySelector('[data-error-for="' + errores[0] + '"]');
-            if (primero) primero.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            estado.textContent = '';
+            var faltan = pasosIncompletos();
+            mostrarResumen(faltan);
+            // Se lleva la vista al resumen, que está junto al botón que se ha
+            // pulsado, y desde ahí se salta a cada paso.
+            document.getElementById('alta-resumen').scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
         estado.textContent = '';
+        mostrarResumen([]);
         var d = recoger();
         var btn = form.querySelector('.f-submit');
         btn.disabled = true;

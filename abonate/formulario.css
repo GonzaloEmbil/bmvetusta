@@ -300,6 +300,14 @@ a { color: var(--tinta); }
     margin-left: 3px;
 }
 
+/* En los títulos de paso el asterisco no debe competir con el tamaño del
+   encabezado: se deja algo más pequeño y alineado arriba. */
+.f-step > legend .f-req {
+    font-size: 0.85em;
+    align-self: flex-start;
+    margin-left: 1px;
+}
+
 .f-oblig {
     color: var(--tinta-3);
     font-size: 0.84rem;
@@ -711,3 +719,46 @@ a { color: var(--tinta); }
 .f-forma input:checked + .f-forma-box .f-pago-k { color: var(--tinta-3); }
 .f-forma input:checked + .f-forma-box .f-pago-v { color: var(--tinta); }
 .f-forma input:checked + .f-forma-box .f-iban { color: var(--tinta); }
+
+/* ── Resumen de pasos incompletos ──
+   Aparece junto al botón al intentar enviar. Cada paso es un botón que
+   lleva la vista hasta él y pone el foco en su primer campo. */
+.f-resumen {
+    text-align: left;
+    background: #fdf3f2;
+    border: 1.5px solid #e8b4ae;
+    border-radius: 12px;
+    padding: 18px 20px;
+    margin: 0 0 26px;
+}
+
+.f-resumen-tit {
+    color: #8f2b1f;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin: 0 0 10px;
+}
+
+.f-resumen-lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.f-resumen-lista button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    font-size: 0.92rem;
+    color: #8f2b1f;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.f-resumen-lista button:hover { color: #6d1f16; }
