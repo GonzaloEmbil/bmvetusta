@@ -9,7 +9,9 @@
 (function () {
     'use strict';
 
-    var ENDPOINT = '';                       // ← poner aquí la URL del receptor
+    // Worker propio (Cloudflare). Si falla el envío se ofrece el correo como
+    // salida, para que nadie se quede sin poder darse de alta.
+    var ENDPOINT = 'https://altas.balonmanovetusta.com/alta';
     var IBAN = 'IBAN_PENDIENTE';             // ← poner aquí el IBAN del club
     var DESTINO = 'balonmanovetusta@gmail.com';
 
@@ -228,6 +230,7 @@
             localidad: esc(form.localidad.value),
             imagen: (form.querySelector('input[name="imagen"]:checked') || {}).value || '',
             comunicaciones: (form.querySelector('input[name="comunicaciones"]:checked') || {}).value || '',
+            web: form.web ? form.web.value : '',   // trampa antispam: debe ir vacío
             incluidas: [],
             tutor: null,
             enviado: new Date().toISOString()
@@ -287,7 +290,12 @@
         return L.join('\n');
     }
 
-    function mostrarOk(d) {
+    function mostrarOk(d, numero) {
+        var slot = document.getElementById('alta-ok-numero');
+        if (slot) {
+            slot.textContent = numero ? numero : '';
+            slot.parentNode.hidden = !numero;
+        }
         document.getElementById('alta-ok-email').textContent = d.email;
         document.getElementById('alta-ok-pago').innerHTML =
             '<div class="alta-pago-fila"><span class="alta-pago-k">Importe</span><span class="alta-pago-v">' + d.importe + '</span></div>' +
@@ -317,7 +325,7 @@
             window.location.href = 'mailto:' + DESTINO +
                 '?subject=' + encodeURIComponent(asunto) +
                 '&body=' + encodeURIComponent(comoTexto(d));
-            mostrarOk(d);
+            mostrarOk(d, null);
             return;
         }
 
@@ -329,11 +337,37 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(d)
         }).then(function (r) {
-            if (!r.ok) throw new Error('HTTP ' + r.status);
-            mostrarOk(d);
+            return r.json().catch(function () { return {}; })
+                .then(function (j) { return { status: r.status, body: j }; });
+        }).then(function (res) {
+            if (res.status === 200 && res.body.ok) {
+                mostrarOk(d, res.body.numero);
+                return;
+            }
+            btn.disabled = false;
+            if (res.status === 409) {
+                estado.innerHTML = 'Ese DNI ya está dado de alta esta temporada. ' +
+                    'Si crees que es un error, escríbenos a <a href="mailto:' + DESTINO + '">' + DESTINO + '</a>';
+                return;
+            }
+            if (res.status === 422) {
+                estado.textContent = 'Hay algún dato que no cuadra. Revísalo e inténtalo de nuevo.';
+                return;
+            }
+            throw new Error('HTTP ' + res.status);
         }).catch(function () {
             btn.disabled = false;
-            estado.textContent = 'No hemos podido enviarlo. Inténtalo de nuevo o escríbenos a ' + DESTINO;
+            estado.innerHTML = 'No hemos podido enviarlo. ' +
+                '<a href="#" id="alta-por-correo">Envíanoslo por correo</a> o inténtalo más tarde.';
+            var enlace = document.getElementById('alta-por-correo');
+            if (enlace) {
+                enlace.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    window.location.href = 'mailto:' + DESTINO +
+                        '?subject=' + encodeURIComponent('Alta de abonado/a 26/27 · ' + d.nombre + ' ' + d.apellidos) +
+                        '&body=' + encodeURIComponent(comoTexto(d));
+                });
+            }
         });
     });
 

@@ -4951,3 +4951,26 @@ body {
     padding-top: 20px;
     border-top: 1px solid #222;
 }
+
+/* Campo trampa antispam: invisible sin usar display:none, que algunos bots
+   detectan y omiten. */
+.alta-trampa {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.alta-ok-numero-wrap {
+    display: inline-block;
+    background: #FDED3A;
+    color: #000;
+    font-size: 1rem;
+    font-weight: 700;
+    padding: 12px 22px;
+    border-radius: 999px;
+    margin: 0 0 22px;
+}
+
+.alta-ok-numero-wrap strong { font-weight: 900; }

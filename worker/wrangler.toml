@@ -1,0 +1,28 @@
+# Cloudflare Worker que recibe las altas de abonado/a.
+#
+# Despliegue:
+#   1. npm i -g wrangler && wrangler login
+#   2. wrangler d1 create bmvetusta-abonados      → copia el database_id aquí abajo
+#   3. wrangler d1 execute bmvetusta-abonados --remote --file=./schema.sql
+#   4. wrangler secret put ADMIN_TOKEN            → una contraseña larga a tu elección
+#   5. wrangler secret put RESEND_API_KEY         → opcional, para los avisos por correo
+#   6. wrangler deploy
+#
+# Los secretos NUNCA van en este archivo: se guardan cifrados con `wrangler secret put`.
+
+name = "bmvetusta-altas"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "bmvetusta-abonados"
+database_id = "PENDIENTE_TRAS_EL_PASO_2"
+
+[vars]
+# Solo se aceptan envíos desde estos orígenes.
+ORIGENES = "https://balonmanovetusta.com,https://www.balonmanovetusta.com"
+# Destinatario de los avisos de alta.
+AVISO_A = "balonmanovetusta@gmail.com"
+# Remitente de los correos. Debe ser un dominio verificado en el proveedor.
+AVISO_DE = "altas@balonmanovetusta.com"

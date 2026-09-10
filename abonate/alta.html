@@ -13,7 +13,7 @@
     <title>Alta de abonado/a - BM Vetusta</title>
     <meta name="description" content="Formulario de alta de abonado/a del Balonmano Vetusta para la temporada 2026/2027.">
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
-    <link rel="stylesheet" href="../style.css?v=alta-3">
+    <link rel="stylesheet" href="../style.css?v=alta-4">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Alta de abonado/a · Balonmano Vetusta 2026/2027">
@@ -241,6 +241,12 @@
                     <p class="alta-error" data-error-for="conformidad"></p>
                 </fieldset>
 
+                <!-- Trampa antispam: oculta y fuera del orden de tabulación. Si llega
+                     rellena, el Worker descarta el envío sin decir nada. -->
+                <div class="alta-trampa" aria-hidden="true">
+                    <label>Web<input type="text" name="web" tabindex="-1" autocomplete="off"></label>
+                </div>
+
                 <div class="alta-submit-wrap">
                     <button type="submit" class="alta-submit">Enviar solicitud de alta</button>
                     <p class="alta-hint alta-hint-center" id="alta-estado"></p>
@@ -250,6 +256,7 @@
             <!-- Pantalla de confirmación -->
             <div class="alta-ok" id="alta-ok" hidden>
                 <h2 class="alta-ok-title">Solicitud enviada</h2>
+                <p class="alta-ok-numero-wrap" hidden>Tu número de abonado/a es el <strong id="alta-ok-numero"></strong></p>
                 <p class="alta-ok-text">Hemos recibido tus datos. El último paso es la <strong>transferencia</strong>:</p>
                 <div class="alta-pago" id="alta-ok-pago"></div>
                 <p class="alta-ok-text">Cuando la recibamos te confirmamos el alta en <strong id="alta-ok-email"></strong>. Si tienes cualquier duda, escríbenos a <a href="mailto:balonmanovetusta@gmail.com">balonmanovetusta@gmail.com</a></p>
@@ -289,7 +296,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=alta-3"></script>
-    <script src="./alta.js?v=alta-3"></script>
+    <script src="../script.js?v=alta-4"></script>
+    <script src="./alta.js?v=alta-4"></script>
 </body>
 </html>
