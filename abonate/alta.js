@@ -1,16 +1,10 @@
 /* Alta de abonado/a online — Balonmano Vetusta 2026/2027
- *
- * El sitio es estático (GitHub Pages), así que no puede recibir el envío por
- * sí mismo. ENDPOINT es la URL que recibirá el POST con el formulario en JSON.
- * Mientras esté vacío, el envío cae al modo correo: se abre el gestor de
- * correo del usuario con los datos ya redactados. Así el formulario funciona
- * desde el primer día sin depender de terceros.
+ * Envía al Worker propio del club. Si el envío falla, se ofrece el correo
+ * como salida para que nadie se quede sin poder darse de alta.
  */
 (function () {
     'use strict';
 
-    // Worker propio (Cloudflare). Si falla el envío se ofrece el correo como
-    // salida, para que nadie se quede sin poder darse de alta.
     var ENDPOINT = 'https://altas.balonmanovetusta.com/alta';
     var IBAN = 'ES13 3059 0062 8530 2750 7320';
     var DESTINO = 'balonmanovetusta@gmail.com';
@@ -26,8 +20,8 @@
 
     // ── Utilidades ──────────────────────────────────────────────────────────
 
-    // DNI: 8 dígitos + letra. NIE: X/Y/Z + 7 dígitos + letra.
-    // La letra es un dígito de control, así que valida erratas de verdad.
+    // DNI: 8 dígitos + letra. NIE: X/Y/Z + 7 dígitos + letra. La letra es un
+    // dígito de control, así que valida erratas de verdad.
     function dniValido(v) {
         v = (v || '').toUpperCase().replace(/[\s-]/g, '');
         var m = /^([XYZ]?)(\d{7,8})([A-Z])$/.exec(v);
@@ -48,41 +42,33 @@
         return a;
     }
 
-    function fechaOk(iso) {
-        var e = edad(iso);
-        return e !== null && e >= 0 && e < 120;
-    }
-
-    function telOk(v) {
-        return /^[0-9]{9}$/.test((v || '').replace(/[\s()+-]/g, '').replace(/^34/, ''));
-    }
-
-    function emailOk(v) {
-        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v || '');
-    }
-
-    function modSel() {
-        return form.querySelector('input[name="modalidad"]:checked');
-    }
-
+    function fechaOk(iso) { var e = edad(iso); return e !== null && e >= 0 && e < 120; }
+    function telOk(v) { return /^[0-9]{9}$/.test((v || '').replace(/[\s()+-]/g, '').replace(/^34/, '')); }
+    function emailOk(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v || ''); }
+    function modSel() { return form.querySelector('input[name="modalidad"]:checked'); }
     function esc(s) { return (s || '').trim(); }
+
+    // El concepto de la transferencia, tal como lo pide el club.
+    function concepto(nombreCompleto, modalidad) {
+        return (nombreCompleto || 'Tu nombre') + ' - Abono' + (modalidad ? ' ' + modalidad : '');
+    }
 
     // ── Secciones que aparecen según la modalidad y la edad ─────────────────
 
     function filaIncluida(i, tipo) {
         var wrap = document.createElement('div');
-        wrap.className = 'alta-incluida';
+        wrap.className = 'f-persona';
         wrap.innerHTML =
-            '<p class="alta-incluida-tit">' + tipo + '</p>' +
-            '<div class="alta-grid">' +
-            '  <label class="alta-field alta-field-wide"><span class="alta-label">Nombre y apellidos</span>' +
-            '    <input type="text" name="inc' + i + '_nombre"><span class="alta-error" data-error-for="inc' + i + '_nombre"></span></label>' +
-            '  <label class="alta-field"><span class="alta-label">DNI o NIE</span>' +
-            '    <input type="text" name="inc' + i + '_dni" autocapitalize="characters" maxlength="9"><span class="alta-error" data-error-for="inc' + i + '_dni"></span></label>' +
-            '  <label class="alta-field"><span class="alta-label">Fecha de nacimiento</span>' +
-            '    <input type="date" name="inc' + i + '_nacimiento"><span class="alta-error" data-error-for="inc' + i + '_nacimiento"></span></label>' +
-            '  <label class="alta-field"><span class="alta-label">Parentesco</span>' +
-            '    <input type="text" name="inc' + i + '_parentesco" placeholder="Cónyuge, hijo/a…"><span class="alta-error" data-error-for="inc' + i + '_parentesco"></span></label>' +
+            '<p class="f-persona-tit">' + tipo + '</p>' +
+            '<div class="f-grid">' +
+            '  <label class="f-field f-wide"><span class="f-label">Nombre y apellidos</span>' +
+            '    <input type="text" name="inc' + i + '_nombre"><span class="f-err" data-error-for="inc' + i + '_nombre"></span></label>' +
+            '  <label class="f-field"><span class="f-label">DNI o NIE</span>' +
+            '    <input type="text" name="inc' + i + '_dni" autocapitalize="characters" maxlength="9"><span class="f-err" data-error-for="inc' + i + '_dni"></span></label>' +
+            '  <label class="f-field"><span class="f-label">Fecha de nacimiento</span>' +
+            '    <input type="date" name="inc' + i + '_nacimiento"><span class="f-err" data-error-for="inc' + i + '_nacimiento"></span></label>' +
+            '  <label class="f-field"><span class="f-label">Parentesco</span>' +
+            '    <input type="text" name="inc' + i + '_parentesco" placeholder="Cónyuge, hijo/a…"><span class="f-err" data-error-for="inc' + i + '_parentesco"></span></label>' +
             '</div>';
         return wrap;
     }
@@ -99,14 +85,14 @@
         } else {
             incluidas.hidden = false;
             incluidasHint.textContent = menores
-                ? 'Añade a la otra persona adulta y hasta dos menores de 18 años de la misma unidad familiar. Solo la persona adulta es obligatoria.'
-                : 'Añade a la otra persona adulta incluida en el abono.';
+                ? 'El abono Familiar cubre a dos personas adultas y dos menores de 18 años de la misma unidad familiar. Indica los datos de las tres personas.'
+                : 'Indica los datos de la otra persona adulta incluida en el abono.';
             // Se repinta sólo si cambia el número de filas, para no perder lo escrito
             if (incluidasFilas.children.length !== total) {
                 incluidasFilas.innerHTML = '';
                 for (var i = 1; i <= total; i++) {
                     incluidasFilas.appendChild(
-                        filaIncluida(i, i <= adultos ? 'Persona adulta' : 'Menor de 18 años (opcional)')
+                        filaIncluida(i, i <= adultos ? 'Persona adulta' : 'Menor de 18 años')
                     );
                 }
             }
@@ -118,24 +104,21 @@
         actualizarPago();
     }
 
-    // Los bloques ocultos no deben dejar huecos en la numeración: se renumeran
-    // los visibles de 1 a N cada vez que cambia la visibilidad.
+    // Los bloques ocultos no deben dejar huecos en la numeración.
     function renumerar() {
         var n = 0;
-        form.querySelectorAll('.alta-step').forEach(function (fs) {
+        form.querySelectorAll('.f-step').forEach(function (fs) {
             if (fs.hidden) return;
-            var badge = fs.querySelector('.alta-step-n');
+            var badge = fs.querySelector('.f-n');
             if (badge) badge.textContent = String(++n);
         });
     }
 
     function actualizarPago() {
         var m = modSel();
-        var imp = document.getElementById('alta-importe');
-        var con = document.getElementById('alta-concepto');
-        imp.textContent = m ? m.dataset.precio + ' €' : '—';
+        document.getElementById('alta-importe').textContent = m ? m.dataset.precio + ' €' : '—';
         var nom = (esc(form.nombre.value) + ' ' + esc(form.apellidos.value)).trim();
-        con.textContent = 'Abono 26/27 · ' + (nom || 'tu nombre') + (m ? ' · ' + m.value : '');
+        document.getElementById('alta-concepto').textContent = concepto(nom, m ? m.value : '');
         document.getElementById('alta-iban').textContent = IBAN;
     }
 
@@ -145,15 +128,15 @@
         var slot = form.querySelector('[data-error-for="' + campo + '"]');
         if (slot) slot.textContent = msg || '';
         var el = form.elements[campo];
-        if (el && el.classList) el.classList.toggle('alta-invalid', !!msg);
+        if (el && el.classList) el.classList.toggle('f-bad', !!msg);
     }
 
     function validar() {
         var errores = [];
         function fallo(campo, msg) { pintarError(campo, msg); errores.push(campo); }
 
-        form.querySelectorAll('.alta-error').forEach(function (s) { s.textContent = ''; });
-        form.querySelectorAll('.alta-invalid').forEach(function (s) { s.classList.remove('alta-invalid'); });
+        form.querySelectorAll('.f-err').forEach(function (s) { s.textContent = ''; });
+        form.querySelectorAll('.f-bad').forEach(function (s) { s.classList.remove('f-bad'); });
 
         if (!modSel()) fallo('modalidad', 'Elige una modalidad.');
 
@@ -164,6 +147,7 @@
         if (!telOk(form.telefono.value)) fallo('telefono', 'Un móvil de 9 cifras.');
         if (!emailOk(form.email.value)) fallo('email', 'Revisa el correo electrónico.');
         if (!esc(form.localidad.value)) fallo('localidad', 'Indica tu localidad.');
+        if (!esc(form.provincia.value)) fallo('provincia', 'Indica tu provincia.');
 
         // Coherencia entre modalidad y edad
         var e = edad(form.nacimiento.value);
@@ -172,33 +156,29 @@
             if (m.value === 'Sub 18' && e >= 18) {
                 fallo('modalidad', 'La modalidad Sub 18 es para menores de 18 años. Elige Adulto.');
             }
-            if (m.value !== 'Sub 18' && e < 18 && m.value === 'Adulto') {
+            if (m.value === 'Adulto' && e < 18) {
                 fallo('modalidad', 'Tienes menos de 18 años: te corresponde la modalidad Sub 18.');
             }
         }
 
-        // Personas incluidas: obligatoria la primera (la persona adulta)
+        // Personas incluidas: todas obligatorias, adultos y menores.
         if (!incluidas.hidden) {
-            ['nombre', 'dni', 'nacimiento', 'parentesco'].forEach(function (k) {
-                var el = form.elements['inc1_' + k];
-                if (el && !esc(el.value)) fallo('inc1_' + k, 'Campo obligatorio.');
-            });
-            var d1 = form.elements['inc1_dni'];
-            if (d1 && esc(d1.value) && !dniValido(d1.value)) fallo('inc1_dni', 'Revisa el DNI o NIE.');
-            // Los menores son opcionales, pero si se empieza uno hay que completarlo
-            [2, 3].forEach(function (i) {
-                var campos = ['nombre', 'dni', 'nacimiento', 'parentesco'].map(function (k) {
-                    return form.elements['inc' + i + '_' + k];
-                }).filter(Boolean);
-                if (!campos.length) return;
-                var algo = campos.some(function (el) { return esc(el.value); });
-                if (!algo) return;
-                campos.forEach(function (el) {
-                    if (!esc(el.value)) fallo(el.name, 'Completa también este campo.');
+            var filas = incluidasFilas.children.length;
+            for (var i = 1; i <= filas; i++) {
+                ['nombre', 'dni', 'nacimiento', 'parentesco'].forEach(function (k) {
+                    var el = form.elements['inc' + i + '_' + k];
+                    if (el && !esc(el.value)) fallo('inc' + i + '_' + k, 'Campo obligatorio.');
                 });
                 var d = form.elements['inc' + i + '_dni'];
                 if (d && esc(d.value) && !dniValido(d.value)) fallo(d.name, 'Revisa el DNI o NIE.');
-            });
+                // Un Sub 18 del abono Familiar tiene que ser menor de verdad.
+                var f = form.elements['inc' + i + '_nacimiento'];
+                var esMenorEsperado = m && i > parseInt(m.dataset.adultos, 10);
+                if (f && esc(f.value) && esMenorEsperado) {
+                    var ei = edad(f.value);
+                    if (ei !== null && ei >= 18) fallo(f.name, 'Esta plaza es para menores de 18 años.');
+                }
+            }
         }
 
         if (!tutor.hidden) {
@@ -228,6 +208,7 @@
             telefono: esc(form.telefono.value),
             email: esc(form.email.value),
             localidad: esc(form.localidad.value),
+            provincia: esc(form.provincia.value),
             imagen: (form.querySelector('input[name="imagen"]:checked') || {}).value || '',
             comunicaciones: (form.querySelector('input[name="comunicaciones"]:checked') || {}).value || '',
             web: form.web ? form.web.value : '',   // trampa antispam: debe ir vacío
@@ -235,7 +216,7 @@
             tutor: null,
             enviado: new Date().toISOString()
         };
-        [1, 2, 3].forEach(function (i) {
+        for (var i = 1; i <= incluidasFilas.children.length; i++) {
             var n = form.elements['inc' + i + '_nombre'];
             if (n && esc(n.value)) {
                 d.incluidas.push({
@@ -245,7 +226,7 @@
                     parentesco: esc(form.elements['inc' + i + '_parentesco'].value)
                 });
             }
-        });
+        }
         if (!tutor.hidden) {
             d.tutor = {
                 nombre: esc(form.tutor_nombre.value),
@@ -257,53 +238,59 @@
     }
 
     function comoTexto(d) {
-        var L = [];
-        L.push('ALTA DE ABONADO/A · TEMPORADA 2026/2027');
-        L.push('');
-        L.push('Modalidad: ' + d.modalidad + ' (' + d.importe + ')');
-        L.push('');
-        L.push('TITULAR');
-        L.push('Nombre: ' + d.nombre + ' ' + d.apellidos);
-        L.push('DNI/NIE: ' + d.dni);
-        L.push('Nacimiento: ' + d.nacimiento);
-        L.push('Móvil: ' + d.telefono);
-        L.push('Correo: ' + d.email);
-        L.push('Localidad: ' + d.localidad);
+        var L = ['ALTA DE ABONADO/A · TEMPORADA 2026/2027', '',
+            'Modalidad: ' + d.modalidad + ' (' + d.importe + ')', '',
+            'TITULAR',
+            'Nombre: ' + d.nombre + ' ' + d.apellidos,
+            'DNI/NIE: ' + d.dni,
+            'Nacimiento: ' + d.nacimiento,
+            'Móvil: ' + d.telefono,
+            'Correo: ' + d.email,
+            'Localidad: ' + d.localidad + ' (' + d.provincia + ')'];
         if (d.incluidas.length) {
-            L.push('');
-            L.push('PERSONAS INCLUIDAS');
+            L.push('', 'PERSONAS INCLUIDAS');
             d.incluidas.forEach(function (p) {
                 L.push('- ' + p.nombre + ' | ' + p.dni + ' | ' + p.nacimiento + ' | ' + p.parentesco);
             });
         }
         if (d.tutor) {
-            L.push('');
-            L.push('TUTOR/A LEGAL');
-            L.push(d.tutor.nombre + ' | ' + d.tutor.dni + ' | ' + d.tutor.telefono);
+            L.push('', 'TUTOR/A LEGAL', d.tutor.nombre + ' | ' + d.tutor.dni + ' | ' + d.tutor.telefono);
         }
-        L.push('');
-        L.push('CONSENTIMIENTOS');
-        L.push('Derechos de imagen: ' + d.imagen);
-        L.push('Comunicaciones: ' + d.comunicaciones);
-        L.push('');
-        L.push('Conformidad aceptada. Enviado: ' + d.enviado);
+        L.push('', 'CONSENTIMIENTOS',
+            'Derechos de imagen: ' + d.imagen,
+            'Comunicaciones: ' + d.comunicaciones,
+            '', 'Conformidad aceptada. Enviado: ' + d.enviado);
         return L.join('\n');
     }
 
     function mostrarOk(d, numero) {
-        var slot = document.getElementById('alta-ok-numero');
-        if (slot) {
-            slot.textContent = numero ? numero : '';
-            slot.parentNode.hidden = !numero;
+        var wrap = document.getElementById('alta-ok-numero-wrap');
+        if (wrap) {
+            document.getElementById('alta-ok-numero').textContent = numero || '';
+            wrap.hidden = !numero;
         }
         document.getElementById('alta-ok-email').textContent = d.email;
         document.getElementById('alta-ok-pago').innerHTML =
-            '<div class="alta-pago-fila"><span class="alta-pago-k">Importe</span><span class="alta-pago-v">' + d.importe + '</span></div>' +
-            '<div class="alta-pago-fila"><span class="alta-pago-k">IBAN</span><span class="alta-pago-v alta-pago-iban">' + IBAN + '</span></div>' +
-            '<div class="alta-pago-fila"><span class="alta-pago-k">Concepto</span><span class="alta-pago-v">Abono 26/27 · ' + d.nombre + ' ' + d.apellidos + ' · ' + d.modalidad + '</span></div>';
+            '<div class="f-pago-fila"><span class="f-pago-k">Importe</span><span class="f-pago-v">' + d.importe + '</span></div>' +
+            '<div class="f-pago-fila"><span class="f-pago-k">IBAN</span><span class="f-pago-v f-iban">' + IBAN + '</span></div>' +
+            '<div class="f-pago-fila"><span class="f-pago-k">Concepto</span><span class="f-pago-v">' +
+                concepto(d.nombre + ' ' + d.apellidos, d.modalidad) + '</span></div>';
         form.hidden = true;
         document.getElementById('alta-ok').hidden = false;
         window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function salidaPorCorreo(d) {
+        estado.innerHTML = 'No hemos podido enviarlo. ' +
+            '<a href="#" id="alta-por-correo">Envíanoslo por correo</a> o inténtalo más tarde.';
+        var enlace = document.getElementById('alta-por-correo');
+        if (!enlace) return;
+        enlace.addEventListener('click', function (ev) {
+            ev.preventDefault();
+            window.location.href = 'mailto:' + DESTINO +
+                '?subject=' + encodeURIComponent('Alta de abonado/a 26/27 · ' + d.nombre + ' ' + d.apellidos) +
+                '&body=' + encodeURIComponent(comoTexto(d));
+        });
     }
 
     form.addEventListener('submit', function (ev) {
@@ -311,27 +298,17 @@
         var errores = validar();
         if (errores.length) {
             estado.textContent = 'Revisa los campos marcados en rojo.';
-            var primero = form.querySelector('.alta-invalid') ||
+            var primero = form.querySelector('.f-bad') ||
                 form.querySelector('[data-error-for="' + errores[0] + '"]');
             if (primero) primero.scrollIntoView({ behavior: 'smooth', block: 'center' });
             return;
         }
         estado.textContent = '';
         var d = recoger();
-
-        if (!ENDPOINT) {
-            // Modo correo: se abre el gestor del usuario con todo redactado.
-            var asunto = 'Alta de abonado/a 26/27 · ' + d.nombre + ' ' + d.apellidos;
-            window.location.href = 'mailto:' + DESTINO +
-                '?subject=' + encodeURIComponent(asunto) +
-                '&body=' + encodeURIComponent(comoTexto(d));
-            mostrarOk(d, null);
-            return;
-        }
-
-        var btn = form.querySelector('.alta-submit');
+        var btn = form.querySelector('.f-submit');
         btn.disabled = true;
         estado.textContent = 'Enviando…';
+
         fetch(ENDPOINT, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -340,10 +317,7 @@
             return r.json().catch(function () { return {}; })
                 .then(function (j) { return { status: r.status, body: j }; });
         }).then(function (res) {
-            if (res.status === 200 && res.body.ok) {
-                mostrarOk(d, res.body.numero);
-                return;
-            }
+            if (res.status === 200 && res.body.ok) { mostrarOk(d, res.body.numero); return; }
             btn.disabled = false;
             if (res.status === 409) {
                 estado.innerHTML = 'Ese DNI ya está dado de alta esta temporada. ' +
@@ -354,20 +328,14 @@
                 estado.textContent = 'Hay algún dato que no cuadra. Revísalo e inténtalo de nuevo.';
                 return;
             }
+            if (res.status === 429) {
+                estado.textContent = 'Demasiados envíos desde esta conexión. Prueba dentro de un rato.';
+                return;
+            }
             throw new Error('HTTP ' + res.status);
         }).catch(function () {
             btn.disabled = false;
-            estado.innerHTML = 'No hemos podido enviarlo. ' +
-                '<a href="#" id="alta-por-correo">Envíanoslo por correo</a> o inténtalo más tarde.';
-            var enlace = document.getElementById('alta-por-correo');
-            if (enlace) {
-                enlace.addEventListener('click', function (e) {
-                    e.preventDefault();
-                    window.location.href = 'mailto:' + DESTINO +
-                        '?subject=' + encodeURIComponent('Alta de abonado/a 26/27 · ' + d.nombre + ' ' + d.apellidos) +
-                        '&body=' + encodeURIComponent(comoTexto(d));
-                });
-            }
+            salidaPorCorreo(d);
         });
     });
 
@@ -380,7 +348,9 @@
         form[k].addEventListener('input', actualizarPago);
     });
     form.dni.addEventListener('blur', function () {
-        if (esc(form.dni.value)) pintarError('dni', dniValido(form.dni.value) ? '' : 'Revisa el DNI o NIE: la letra no cuadra.');
+        if (esc(form.dni.value)) {
+            pintarError('dni', dniValido(form.dni.value) ? '' : 'Revisa el DNI o NIE: la letra no cuadra.');
+        }
     });
 
     pintarSecciones();

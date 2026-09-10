@@ -39,7 +39,7 @@ const fechaOk = (v) => /^\d{4}-\d{2}-\d{2}$/.test(String(v || ''));
 function validar(d) {
   const e = [];
   if (!PRECIOS[d.modalidad]) e.push('modalidad');
-  ['nombre', 'apellidos', 'localidad'].forEach((k) => { if (!texto(d[k])) e.push(k); });
+  ['nombre', 'apellidos', 'localidad', 'provincia'].forEach((k) => { if (!texto(d[k])) e.push(k); });
   if (!dniValido(d.dni)) e.push('dni');
   if (!fechaOk(d.nacimiento)) e.push('nacimiento');
   const años = edad(d.nacimiento);
@@ -59,12 +59,24 @@ function validar(d) {
     const t = d.tutor || {};
     if (!texto(t.nombre) || !dniValido(t.dni)) e.push('tutor');
   }
-  // Matrimonio y Familiar exigen al menos la segunda persona adulta.
-  if (['Matrimonio', 'Familiar'].includes(d.modalidad)) {
-    const p = Array.isArray(d.incluidas) ? d.incluidas : [];
-    if (!p.length || !texto(p[0].nombre) || !dniValido(p[0].dni)) e.push('incluidas');
-    if (d.modalidad === 'Matrimonio' && p.length > 1) e.push('incluidas');
-    if (d.modalidad === 'Familiar' && p.length > 3) e.push('incluidas');
+  // Nº exacto de personas incluidas: 1 en Matrimonio (la otra persona adulta)
+  // y 3 en Familiar (otra persona adulta + dos menores). Ya no son opcionales.
+  const esperadas = { 'Matrimonio': 1, 'Familiar': 3 }[d.modalidad] || 0;
+  const p = Array.isArray(d.incluidas) ? d.incluidas : [];
+  if (esperadas) {
+    if (p.length !== esperadas) e.push('incluidas');
+    p.slice(0, esperadas).forEach((x, i) => {
+      if (!texto(x.nombre) || !dniValido(x.dni) || !fechaOk(x.nacimiento) || !texto(x.parentesco)) {
+        e.push('incluidas_' + (i + 1));
+      }
+      // En Familiar, las plazas 2 y 3 son de menores de 18.
+      if (d.modalidad === 'Familiar' && i >= 1) {
+        const ex = edad(x.nacimiento);
+        if (ex === null || ex >= 18) e.push('incluidas_' + (i + 1) + '_edad');
+      }
+    });
+  } else if (p.length) {
+    e.push('incluidas');
   }
   return e;
 }
@@ -124,7 +136,7 @@ function resumen(d, numero) {
     `Nacimiento: ${d.nacimiento} (${edad(d.nacimiento)} años)`,
     `Móvil: ${d.telefono}`,
     `Correo: ${d.email}`,
-    `Localidad: ${d.localidad}`,
+    `Localidad: ${d.localidad} (${d.provincia || ''})`,
   ];
   if (d.incluidas && d.incluidas.length) {
     L.push('', 'PERSONAS INCLUIDAS');
@@ -204,7 +216,7 @@ export default {
         'SELECT * FROM abonados ORDER BY id'
       ).all();
       const cols = ['id', 'creado', 'modalidad', 'importe', 'pagado', 'nombre', 'apellidos',
-        'dni', 'nacimiento', 'telefono', 'email', 'localidad', 'imagen', 'comunicaciones',
+        'dni', 'nacimiento', 'telefono', 'email', 'localidad', 'provincia', 'imagen', 'comunicaciones',
         'incluidas', 'tutor'];
       const escapar = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
       const csv = [cols.join(';')]
@@ -261,6 +273,7 @@ export default {
       telefono: texto(d.telefono, 20),
       email: texto(d.email, 160),
       localidad: texto(d.localidad, 80),
+      provincia: texto(d.provincia, 60),
       imagen: d.imagen,
       comunicaciones: d.comunicaciones,
       incluidas: JSON.stringify(
@@ -281,13 +294,14 @@ export default {
       const res = await env.DB.prepare(
         `INSERT INTO abonados
            (temporada, creado, modalidad, importe, nombre, apellidos, dni, nacimiento,
-            telefono, email, localidad, imagen, comunicaciones, incluidas, tutor, ip_pais)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+            telefono, email, localidad, provincia, imagen, comunicaciones, incluidas,
+            tutor, ip_pais)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
       ).bind(
         fila.temporada, fila.creado, fila.modalidad, fila.importe, fila.nombre,
         fila.apellidos, fila.dni, fila.nacimiento, fila.telefono, fila.email,
-        fila.localidad, fila.imagen, fila.comunicaciones, fila.incluidas,
-        fila.tutor, fila.ip_pais
+        fila.localidad, fila.provincia, fila.imagen, fila.comunicaciones,
+        fila.incluidas, fila.tutor, fila.ip_pais
       ).run();
       numero = res.meta.last_row_id;
     } catch (err) {
@@ -318,7 +332,7 @@ export default {
           'Queda un último paso, la transferencia:',
           `  Importe: ${fila.importe} €`,
           `  IBAN: ${env.IBAN || '(pendiente)'}`,
-          `  Concepto: Abono 26/27 · ${fila.nombre} ${fila.apellidos} · ${fila.modalidad}`,
+          `  Concepto: ${fila.nombre} ${fila.apellidos} - Abono ${fila.modalidad}`,
           '',
           'Cuando la recibamos te confirmamos el alta y te avisamos de cuándo recoger el carné.',
           '',

@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS abonados (
   telefono      TEXT    NOT NULL,
   email         TEXT    NOT NULL,
   localidad     TEXT    NOT NULL,
+  provincia     TEXT    NOT NULL DEFAULT '',
   imagen        TEXT    NOT NULL,              -- consentimiento: Sí / No
   comunicaciones TEXT   NOT NULL,              -- consentimiento: Sí / No
   incluidas     TEXT    NOT NULL DEFAULT '[]', -- JSON

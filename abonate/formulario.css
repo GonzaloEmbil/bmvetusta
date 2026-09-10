@@ -1,0 +1,493 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Formulario de alta y condiciones · tema claro
+   Hoja INDEPENDIENTE: estas dos páginas no cargan style.css a propósito.
+   La idea es que el usuario sienta que "sale de la web" y entra en un
+   trámite: fondo blanco, sin navegación y sin nada que distraiga.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+:root {
+    --tinta:    #14161a;   /* texto principal */
+    --tinta-2:  #4a5058;   /* texto secundario */
+    --tinta-3:  #7b828b;   /* apoyo */
+    --linea:    #e2e5ea;
+    --linea-2:  #cbd1d9;
+    --fondo:    #ffffff;
+    --fondo-2:  #f6f7f9;   /* tarjetas y bloques */
+    --amarillo: #FDED3A;
+    --acento:   #14161a;   /* el negro del club hace de acento */
+    --error:    #c0392b;
+    --ok:       #17803d;
+}
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+    margin: 0;
+    background: var(--fondo);
+    color: var(--tinta);
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--tinta); }
+
+/* ── Cabecera mínima ── */
+.f-header {
+    border-bottom: 1px solid var(--linea);
+    background: var(--fondo);
+}
+
+.f-header-in {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.f-header img { height: 44px; width: auto; display: block; }
+
+.f-header-txt {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--tinta-3);
+}
+
+/* ── Contenedor ── */
+.f-main {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 44px 24px 90px;
+}
+
+.f-volver {
+    display: inline-block;
+    color: var(--tinta-2);
+    font-size: 0.88rem;
+    text-decoration: none;
+    margin-bottom: 26px;
+}
+
+.f-volver:hover { color: var(--tinta); text-decoration: underline; }
+
+.f-title {
+    font-size: clamp(1.7rem, 4.5vw, 2.3rem);
+    font-weight: 800;
+    letter-spacing: -0.6px;
+    line-height: 1.15;
+    margin: 0 0 12px;
+}
+
+.f-lead {
+    color: var(--tinta-2);
+    font-size: 1.05rem;
+    margin: 0 0 8px;
+}
+
+/* ── Bloques numerados. Separación amplia: era lo que se pisaba antes ── */
+.f-form { margin-top: 44px; }   /* aire entre la entradilla y el primer bloque */
+
+.f-step {
+    border: none;
+    margin: 0;
+    padding: 0;
+}
+
+.f-step + .f-step {
+    margin-top: 56px;
+    padding-top: 44px;
+    border-top: 1px solid var(--linea);
+}
+
+.f-step > legend {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    float: left;          /* un legend no acepta margen inferior de forma fiable */
+    width: 100%;
+    padding: 0;
+    margin: 0 0 26px;
+    font-size: 1.14rem;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.f-step > legend + * { clear: both; }
+
+.f-n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 27px;
+    height: 27px;
+    flex: 0 0 27px;
+    background: var(--tinta);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.f-hint {
+    color: var(--tinta-3);
+    font-size: 0.9rem;
+    margin: -14px 0 22px;
+}
+
+.f-hint-c { text-align: center; margin: 16px 0 0; }
+
+/* ── Modalidades ── */
+.f-mods {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(165px, 1fr));
+    gap: 12px;
+}
+
+.f-mod input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.f-mod-box {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    height: 100%;
+    padding: 18px 16px;
+    background: var(--fondo);
+    border: 1.5px solid var(--linea-2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s, background-color 0.15s;
+}
+
+.f-mod-box:hover { border-color: var(--tinta-2); }
+
+.f-mod input:checked + .f-mod-box {
+    border-color: var(--tinta);
+    background: #fffdf0;
+    box-shadow: inset 0 0 0 1px var(--tinta), 0 0 0 4px var(--amarillo);
+}
+
+.f-mod input:focus-visible + .f-mod-box {
+    outline: 3px solid var(--amarillo);
+    outline-offset: 2px;
+}
+
+.f-mod-nom {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: var(--tinta-2);
+}
+
+.f-mod-eur { font-size: 1.7rem; font-weight: 800; letter-spacing: -1px; }
+.f-mod-det { font-size: 0.82rem; color: var(--tinta-3); }
+
+/* ── Campos ── */
+.f-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+    gap: 22px 20px;
+}
+
+.f-field { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
+.f-wide { grid-column: 1 / -1; }
+
+.f-label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--tinta-2);
+}
+
+.f-form input[type="text"],
+.f-form input[type="tel"],
+.f-form input[type="email"],
+.f-form input[type="date"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    background: var(--fondo);
+    border: 1.5px solid var(--linea-2);
+    border-radius: 10px;
+    color: var(--tinta);
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.f-form input::placeholder { color: #a8aeb6; }
+
+.f-form input:focus {
+    outline: none;
+    border-color: var(--tinta);
+    box-shadow: 0 0 0 3px rgba(253, 237, 58, 0.55);
+}
+
+.f-form input.f-bad { border-color: var(--error); }
+
+.f-form input.f-bad:focus { box-shadow: 0 0 0 3px rgba(192, 57, 43, 0.18); }
+
+.f-err {
+    color: var(--error);
+    font-size: 0.84rem;
+    line-height: 1.4;
+}
+
+.f-err:empty { display: none; }
+
+/* ── Personas incluidas ── */
+.f-persona {
+    background: var(--fondo-2);
+    border: 1px solid var(--linea);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.f-persona + .f-persona { margin-top: 16px; }
+
+.f-persona-tit {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    color: var(--tinta-2);
+    margin: 0 0 18px;
+}
+
+/* ── Consentimientos ── */
+.f-consent {
+    background: var(--fondo-2);
+    border: 1px solid var(--linea);
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.f-consent + .f-consent { margin-top: 16px; }
+
+.f-consent-txt {
+    color: var(--tinta-2);
+    font-size: 0.92rem;
+    margin: 0 0 16px;
+}
+
+.f-consent-txt strong { color: var(--tinta); }
+
+.f-sino { display: flex; gap: 10px; }
+
+.f-sino input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.f-sino label span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 88px;
+    padding: 11px 20px;
+    background: var(--fondo);
+    border: 1.5px solid var(--linea-2);
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s;
+}
+
+.f-sino input:checked + span {
+    background: var(--tinta);
+    border-color: var(--tinta);
+    color: #fff;
+}
+
+.f-sino input:focus-visible + span {
+    outline: 3px solid var(--amarillo);
+    outline-offset: 2px;
+}
+
+/* ── Pago ── */
+.f-pago {
+    background: var(--fondo-2);
+    border: 1px solid var(--linea);
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.f-pago-fila {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 18px;
+    padding: 15px 20px;
+}
+
+.f-pago-fila + .f-pago-fila { border-top: 1px solid var(--linea); }
+
+.f-pago-k {
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+    text-transform: uppercase;
+    color: var(--tinta-3);
+    flex: 0 0 auto;
+}
+
+.f-pago-v {
+    font-size: 1rem;
+    font-weight: 700;
+    text-align: right;
+    word-break: break-word;
+}
+
+.f-iban {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.98rem;
+    letter-spacing: 0.4px;
+}
+
+/* ── Conformidad ── */
+.f-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 13px;
+    color: var(--tinta-2);
+    font-size: 0.92rem;
+    cursor: pointer;
+}
+
+.f-check input {
+    flex: 0 0 auto;
+    width: 21px;
+    height: 21px;
+    margin-top: 2px;
+    accent-color: var(--tinta);
+}
+
+.f-check a { color: var(--tinta); text-decoration: underline; text-underline-offset: 2px; }
+
+/* ── Enviar ── */
+.f-submit-wrap { margin-top: 52px; text-align: center; }
+
+.f-submit {
+    display: inline-block;
+    width: 100%;
+    max-width: 400px;
+    padding: 17px 32px;
+    background: var(--tinta);
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 1.02rem;
+    font-weight: 700;
+    letter-spacing: 0.3px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.15s, transform 0.12s;
+}
+
+.f-submit:hover:not(:disabled) { background: #000; transform: translateY(-1px); }
+.f-submit:disabled { opacity: 0.5; cursor: default; }
+
+.f-submit-alt {
+    background: var(--fondo);
+    color: var(--tinta);
+    border: 1.5px solid var(--linea-2);
+    margin-top: 30px;
+}
+
+.f-submit-alt:hover { background: var(--fondo-2); }
+
+/* ── Confirmación ── */
+.f-ok { text-align: center; padding-top: 20px; }
+
+.f-ok-icono {
+    width: 62px;
+    height: 62px;
+    margin: 0 auto 22px;
+    background: var(--amarillo);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.9rem;
+}
+
+.f-ok-title { font-size: 1.7rem; font-weight: 800; margin: 0 0 14px; }
+
+.f-num {
+    display: inline-block;
+    background: var(--tinta);
+    color: #fff;
+    font-size: 1rem;
+    padding: 11px 22px;
+    border-radius: 999px;
+    margin: 0 0 24px;
+}
+
+.f-num strong { font-weight: 800; }
+
+.f-ok-txt { color: var(--tinta-2); margin: 0 0 20px; }
+.f-ok-txt strong { color: var(--tinta); }
+.f-ok-txt a { color: var(--tinta); text-decoration: underline; }
+.f-ok .f-pago { text-align: left; margin-bottom: 26px; }
+
+/* ── Trampa antispam ── */
+.f-trampa { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+
+/* ── Pie ── */
+.f-footer {
+    border-top: 1px solid var(--linea);
+    background: var(--fondo-2);
+}
+
+.f-footer-in {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 26px 24px 34px;
+    color: var(--tinta-3);
+    font-size: 0.8rem;
+    line-height: 1.6;
+}
+
+.f-footer a { color: var(--tinta-2); }
+
+/* ── Condiciones ── */
+.f-legal-lista { color: var(--tinta-2); font-size: 0.95rem; padding-left: 22px; margin: 26px 0 0; }
+.f-legal-lista li { margin-bottom: 15px; }
+.f-legal-lista strong { color: var(--tinta); }
+
+.f-h2 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 48px 0 0;
+    padding-top: 30px;
+    border-top: 1px solid var(--linea);
+}
+
+.f-dl { margin: 22px 0 0; }
+
+.f-dl dt {
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--tinta);
+    margin-top: 22px;
+}
+
+.f-dl dd { color: var(--tinta-2); font-size: 0.93rem; margin: 6px 0 0; }
+.f-dl a, .f-legal-lista a { color: var(--tinta); text-decoration: underline; word-break: break-word; }
+
+@media (max-width: 600px) {
+    .f-main { padding: 30px 18px 70px; }
+    .f-header-in, .f-footer-in { padding-left: 18px; padding-right: 18px; }
+    .f-mods { grid-template-columns: repeat(2, 1fr); }
+    .f-grid { grid-template-columns: 1fr; }
+    .f-step + .f-step { margin-top: 44px; padding-top: 36px; }
+    .f-pago-fila { flex-direction: column; gap: 5px; }
+    .f-pago-v { text-align: left; }
+}
