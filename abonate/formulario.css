@@ -60,6 +60,29 @@ a { color: var(--tinta); }
     min-width: 0;
 }
 
+/* En escritorio el escudo queda anclado a la izquierda y el título va
+   centrado en la página. Se centra respecto al ancho completo, no respecto
+   al espacio que sobra: el escudo se saca del flujo con posición absoluta,
+   así el bloque del título ocupa toda la fila y su centro coincide con el
+   centro real de la cabecera. */
+@media (min-width: 900px) {
+    .f-header-in {
+        position: relative;
+        max-width: 1140px;
+        justify-content: center;
+        gap: 0;
+    }
+
+    .f-header-in > a {
+        position: absolute;
+        left: 24px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .f-header-tit { align-items: center; text-align: center; }
+}
+
 /* En el header el título es más pequeño; en el cuerpo (móvil) mantiene su
    tamaño grande, que lo define .f-title. */
 .f-header-tit > .f-title {
@@ -670,3 +693,21 @@ a { color: var(--tinta); }
 
 .f-forma-tit { font-size: 0.98rem; font-weight: 700; }
 .f-forma-det { font-size: 0.84rem; color: var(--tinta-3); }
+
+/* Los datos de la cuenta viven dentro del recuadro de la transferencia y se
+   ven siempre. Al estar dentro de un <label>, se construyen con <span> en
+   lugar de <div>: un <div> dentro de un label es HTML inválido. */
+.f-forma-transf .f-pago {
+    display: block;
+    margin-top: 14px;
+    background: var(--fondo);
+    border-color: var(--linea);
+}
+
+.f-forma-transf .f-pago-fila { display: flex; }
+
+/* Seleccionada la tarjeta se vuelve negra; el bloque de datos se queda claro
+   para que el IBAN siga leyéndose con el contraste de siempre. */
+.f-forma input:checked + .f-forma-box .f-pago-k { color: var(--tinta-3); }
+.f-forma input:checked + .f-forma-box .f-pago-v { color: var(--tinta); }
+.f-forma input:checked + .f-forma-box .f-iban { color: var(--tinta); }

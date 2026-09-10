@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-NPPNNCKB');</script>
+    <!-- End Google Tag Manager -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alta de abonado/a · Balonmano Vetusta 2026/2027</title>
+    <meta name="description" content="Formulario de alta de abonado/a del Balonmano Vetusta para la temporada 2026/2027.">
+    <meta name="robots" content="noindex">
+    <link rel="canonical" href="https://balonmanovetusta.com/abonate/alta/">
+    <link rel="icon" type="image/png" href="../../src/assets/escudo.png">
+    <!-- Hoja propia y tema claro: esta página es un trámite, no una sección
+         más de la web, así que no carga style.css a propósito. -->
+    <link rel="stylesheet" href="../formulario.css?v=f-16">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NPPNNCKB"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <header class="f-header">
+        <div class="f-header-in">
+            <a href="https://balonmanovetusta.com/"><img src="../../src/assets/escudo_negro.png" alt="Balonmano Vetusta"></a>
+            <div class="f-header-tit">
+                <h1 class="f-title" id="f-h1">Alta de abonado/a</h1>
+                <span class="f-header-txt">Campaña de abonados 2026/2027</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="f-main">
+        <div id="f-h1-hueco"></div>
+
+        <p class="f-oblig"><span class="f-req" aria-hidden="true">*</span>Campos obligatorios</p>
+
+        <form id="alta-form" class="f-form" novalidate>
+
+            <fieldset class="f-step" id="alta-modalidad">
+                <legend><span class="f-n">1</span> Elige tu modalidad</legend>
+                <div class="f-mods" role="radiogroup" aria-label="Modalidad de abono">
+                    <label class="f-mod">
+                        <input type="radio" name="modalidad" value="Sub 18" data-precio="20" data-adultos="0" data-menores="0" required>
+                        <span class="f-mod-box">
+                            <span class="f-mod-nom">Sub 18</span>
+                            <span class="f-mod-eur">20 €</span>
+                            <span class="f-mod-det">Menores de 18 años</span>
+                        </span>
+                    </label>
+                    <label class="f-mod">
+                        <input type="radio" name="modalidad" value="Adulto" data-precio="40" data-adultos="0" data-menores="0">
+                        <span class="f-mod-box">
+                            <span class="f-mod-nom">Adulto</span>
+                            <span class="f-mod-eur">40 €</span>
+                            <span class="f-mod-det">Individual</span>
+                        </span>
+                    </label>
+                    <label class="f-mod">
+                        <input type="radio" name="modalidad" value="Matrimonio" data-precio="70" data-adultos="1" data-menores="0">
+                        <span class="f-mod-box">
+                            <span class="f-mod-nom">Matrimonio</span>
+                            <span class="f-mod-eur">70 €</span>
+                            <span class="f-mod-det">2 personas adultas</span>
+                        </span>
+                    </label>
+                    <label class="f-mod">
+                        <input type="radio" name="modalidad" value="Familiar" data-precio="90" data-adultos="1" data-menores="2">
+                        <span class="f-mod-box">
+                            <span class="f-mod-nom">Familiar</span>
+                            <span class="f-mod-eur">90 €</span>
+                            <span class="f-mod-det">2 adultos + 2 Sub 18</span>
+                        </span>
+                    </label>
+                </div>
+                <p class="f-err" data-error-for="modalidad"></p>
+            </fieldset>
+
+            <fieldset class="f-step" id="alta-datos">
+                <legend><span class="f-n">2</span> Tus datos</legend>
+                <div class="f-grid">
+                    <label class="f-field f-wide">
+                        <span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="text" name="nombre" autocomplete="name" required>
+                        <span class="f-err" data-error-for="nombre"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="text" name="dni" autocapitalize="characters" maxlength="9" placeholder="12345678Z" required>
+                        <span class="f-err" data-error-for="dni"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">Fecha de nacimiento<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="date" name="nacimiento" required>
+                        <span class="f-err" data-error-for="nacimiento"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">Teléfono móvil<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="600000000" required>
+                        <span class="f-err" data-error-for="telefono"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">Correo electrónico<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="email" name="email" inputmode="email" autocomplete="email" required>
+                        <span class="f-err" data-error-for="email"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">Localidad<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="text" name="localidad" autocomplete="address-level2" required>
+                        <span class="f-err" data-error-for="localidad"></span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="f-step" id="alta-incluidas" hidden>
+                <legend><span class="f-n">3</span> Personas incluidas en el abono</legend>
+                <p class="f-hint" id="alta-incluidas-hint"></p>
+                <div id="alta-incluidas-filas"></div>
+            </fieldset>
+
+            <fieldset class="f-step" id="alta-tutor" hidden>
+                <legend><span class="f-n">4</span> Madre, padre o tutor/a legal</legend>
+                <p class="f-hint">Obligatorio porque el abonado/a titular es menor de edad.</p>
+                <div class="f-grid">
+                    <label class="f-field f-wide">
+                        <span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="text" name="tutor_nombre">
+                        <span class="f-err" data-error-for="tutor_nombre"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="text" name="tutor_dni" autocapitalize="characters" maxlength="9">
+                        <span class="f-err" data-error-for="tutor_dni"></span>
+                    </label>
+                    <label class="f-field">
+                        <span class="f-label">Teléfono móvil<span class="f-req" aria-hidden="true">*</span></span>
+                        <input type="tel" name="tutor_telefono" inputmode="tel">
+                        <span class="f-err" data-error-for="tutor_telefono"></span>
+                    </label>
+                </div>
+            </fieldset>
+
+            <fieldset class="f-step" id="alta-consentimientos">
+                <legend><span class="f-n">5</span> Consentimientos</legend>
+                <div class="f-consent">
+                    <p class="f-consent-txt"><strong>Derechos de imagen.</strong> Autorizo al Club Balonmano Vetusta a captar y publicar imágenes y vídeos tomados en los partidos y actos del club en su web y en sus perfiles de redes sociales, sin finalidad comercial y sin derecho a contraprestación.</p>
+                    <div class="f-sino" role="radiogroup" aria-label="Derechos de imagen">
+                        <label><input type="radio" name="imagen" value="Sí" required><span>Sí</span></label>
+                        <label><input type="radio" name="imagen" value="No"><span>No</span></label>
+                    </div>
+                    <p class="f-err" data-error-for="imagen"></p>
+                </div>
+                <div class="f-consent">
+                    <p class="f-consent-txt"><strong>Comunicaciones del club.</strong> Quiero recibir por correo electrónico información sobre horarios de partidos, convocatorias, sorteos y actividades del club.</p>
+                    <div class="f-sino" role="radiogroup" aria-label="Comunicaciones del club">
+                        <label><input type="radio" name="comunicaciones" value="Sí" required><span>Sí</span></label>
+                        <label><input type="radio" name="comunicaciones" value="No"><span>No</span></label>
+                    </div>
+                    <p class="f-err" data-error-for="comunicaciones"></p>
+                </div>
+            </fieldset>
+
+            <fieldset class="f-step" id="alta-pago">
+                <legend><span class="f-n">6</span> Forma de pago</legend>
+
+                <div class="f-formas" role="radiogroup" aria-label="Forma de pago">
+                    <label class="f-forma">
+                        <input type="radio" name="pago" value="Presencial" required>
+                        <span class="f-forma-box">
+                            <span class="f-forma-tit">En el Florida Arena</span>
+                            <span class="f-forma-det">Cualquier día que el Balonmano Vetusta juegue como local</span>
+                        </span>
+                    </label>
+
+                    <!-- Los datos de la cuenta van dentro del recuadro de la
+                         transferencia, siempre visibles: no se ocultan ni se
+                         despliegan, para que se puedan consultar sin elegir. -->
+                    <label class="f-forma f-forma-transf">
+                        <input type="radio" name="pago" value="Transferencia">
+                        <span class="f-forma-box">
+                            <span class="f-forma-tit">Transferencia bancaria</span>
+                            <span class="f-forma-det">Ahora mismo, desde tu banco</span>
+                            <span class="f-pago" id="alta-datos-transf">
+                                <span class="f-pago-fila">
+                                    <span class="f-pago-k">Importe</span>
+                                    <span class="f-pago-v" id="alta-importe">—</span>
+                                </span>
+                                <span class="f-pago-fila">
+                                    <span class="f-pago-k">Destinatario</span>
+                                    <span class="f-pago-v">Club Balonmano Vetusta</span>
+                                </span>
+                                <span class="f-pago-fila">
+                                    <span class="f-pago-k">IBAN</span>
+                                    <span class="f-pago-v f-iban" id="alta-iban">ES13 3059 0062 8530 2750 7320</span>
+                                </span>
+                                <span class="f-pago-fila">
+                                    <span class="f-pago-k">Concepto</span>
+                                    <span class="f-pago-v" id="alta-concepto">Tu nombre - Abono</span>
+                                </span>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+                <p class="f-err" data-error-for="pago"></p>
+
+                <p class="f-hint" id="alta-pago-presencial" hidden>Al terminar te damos de alta y podrás pagar los <strong id="alta-importe-pres">—</strong> en el Florida Arena.</p>
+            </fieldset>
+
+            <fieldset class="f-step" id="alta-conformidad">
+                <legend><span class="f-n">7</span> Conformidad</legend>
+                <label class="f-check">
+                    <input type="checkbox" name="conformidad" required>
+                    <span>Declaro que los datos facilitados son ciertos, manifiesto mi voluntad de formar parte como abonado/a del CDB Club Balonmano Vetusta durante la temporada 2026/2027 y acepto las <a href="../condiciones/" target="_blank" rel="noopener">condiciones del abono y la información sobre protección de datos</a>.</span>
+                </label>
+                <p class="f-err" data-error-for="conformidad"></p>
+            </fieldset>
+
+            <!-- Trampa antispam: oculta y fuera del orden de tabulación. -->
+            <div class="f-trampa" aria-hidden="true">
+                <label>Web<input type="text" name="web" tabindex="-1" autocomplete="off"></label>
+            </div>
+
+            <div class="f-submit-wrap">
+                <button type="submit" class="f-submit">Enviar solicitud de alta</button>
+                <p class="f-hint f-hint-c" id="alta-estado"></p>
+            </div>
+        </form>
+
+        <div id="alta-ok" hidden>
+            <div class="f-ok">
+                <div class="f-ok-icono" aria-hidden="true">✓</div>
+                <h2 class="f-ok-title">Solicitud enviada</h2>
+                <p class="f-num" id="alta-ok-numero-wrap" hidden>Tu número de abonado/a es el <strong id="alta-ok-numero"></strong></p>
+                <p class="f-ok-txt" id="alta-ok-intro">Hemos recibido tus datos.</p>
+                <div class="f-pago" id="alta-ok-pago"></div>
+                <p class="f-ok-txt">Cuando la recibamos te confirmamos el alta en <strong id="alta-ok-email"></strong>. Si tienes cualquier duda, escríbenos a <a href="mailto:balonmanovetusta@gmail.com">balonmanovetusta@gmail.com</a></p>
+                <a href="https://balonmanovetusta.com/" class="f-submit f-submit-alt">Volver a la web del club</a>
+            </div>
+        </div>
+    </main>
+
+    <footer class="f-footer">
+        <div class="f-footer-in">
+            CDB Club Balonmano Vetusta · CIF G74174277 · El Llano 11, Naranco · 33194 Oviedo<br>
+            <a href="../condiciones/">Condiciones del abono y protección de datos</a> ·
+            <a href="https://balonmanovetusta.com/">balonmanovetusta.com</a>
+        </div>
+    </footer>
+
+    <script>
+    // El título vive en el header en escritorio y en el cuerpo en móvil.
+    // Se mueve el mismo elemento en vez de duplicarlo, para no tener dos h1
+    // ni contenido oculto que los lectores de pantalla tendrían que ignorar.
+    (function () {
+        var h1 = document.getElementById('f-h1');
+        var hueco = document.getElementById('f-h1-hueco');
+        var cabecera = document.querySelector('.f-header-tit');
+        if (!h1 || !hueco || !cabecera) return;
+        function colocar() {
+            var desktop = window.innerWidth >= 900;
+            var destino = desktop ? cabecera : hueco;
+            if (h1.parentNode !== destino) {
+                destino.insertBefore(h1, desktop ? destino.firstChild : null);
+            }
+        }
+        colocar();
+        window.addEventListener('resize', colocar);
+    })();
+    </script>
+    <script src="../alta.js?v=alta-11"></script>
+</body>
+</html>

@@ -39,7 +39,10 @@ const fechaOk = (v) => /^\d{4}-\d{2}-\d{2}$/.test(String(v || ''));
 function validar(d) {
   const e = [];
   if (!PRECIOS[d.modalidad]) e.push('modalidad');
-  ['nombre', 'apellidos', 'localidad'].forEach((k) => { if (!texto(d[k])) e.push(k); });
+  ['nombre', 'localidad'].forEach((k) => { if (!texto(d[k])) e.push(k); });
+  // El formulario recoge nombre y apellidos en un único campo, así que se
+  // exige que traiga al menos dos palabras.
+  if (texto(d.nombre).split(/\s+/).filter(Boolean).length < 2) e.push('nombre');
   if (!dniValido(d.dni)) e.push('dni');
   if (!fechaOk(d.nacimiento)) e.push('nacimiento');
   const años = edad(d.nacimiento);
@@ -133,7 +136,7 @@ function resumen(d, numero) {
     `Forma de pago: ${d.pago}`,
     '',
     'TITULAR',
-    `${d.nombre} ${d.apellidos}`,
+    `${d.nombre}`,
     `DNI/NIE: ${d.dni}`,
     `Nacimiento: ${d.nacimiento} (${edad(d.nacimiento)} años)`,
     `Móvil: ${d.telefono}`,
@@ -320,7 +323,7 @@ export default {
     try {
       await enviarCorreo(env, {
         para: env.AVISO_A,
-        asunto: `Alta de abonado/a nº ${numero} · ${fila.nombre} ${fila.apellidos}`,
+        asunto: `Alta de abonado/a nº ${numero} · ${fila.nombre}`,
         texto: cuerpo,
       });
       await enviarCorreo(env, {
@@ -340,7 +343,7 @@ export default {
             `  Importe: ${fila.importe} €`,
             '  Destinatario: Club Balonmano Vetusta',
             `  IBAN: ${env.IBAN || '(pendiente)'}`,
-            `  Concepto: ${fila.nombre} ${fila.apellidos} - Abono ${fila.modalidad}`,
+            `  Concepto: ${fila.nombre} - Abono ${fila.modalidad}`,
           ]),
           '',
           'Cuando recibamos el pago te confirmamos el alta y te avisamos de cuándo recoger el carné.',

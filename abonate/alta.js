@@ -123,13 +123,13 @@
         var importe = m ? m.dataset.precio + ' €' : '—';
         document.getElementById('alta-importe').textContent = importe;
         document.getElementById('alta-importe-pres').textContent = importe;
-        var nom = (esc(form.nombre.value) + ' ' + esc(form.apellidos.value)).trim();
+        var nom = esc(form.nombre.value);
         document.getElementById('alta-concepto').textContent = concepto(nom, m ? m.value : '');
         document.getElementById('alta-iban').textContent = IBAN;
 
-        // Los datos de la transferencia sólo tienen sentido si se paga así.
+        // Los datos de la cuenta están siempre visibles dentro de su recuadro;
+        // sólo el aviso del pago presencial aparece y desaparece.
         var p = pagoSel();
-        document.getElementById('alta-datos-transf').hidden = !(p && p.value === 'Transferencia');
         document.getElementById('alta-pago-presencial').hidden = !(p && p.value === 'Presencial');
     }
 
@@ -151,8 +151,14 @@
 
         if (!modSel()) fallo('modalidad', 'Elige una modalidad.');
 
-        if (!esc(form.nombre.value)) fallo('nombre', 'Escribe tu nombre.');
-        if (!esc(form.apellidos.value)) fallo('apellidos', 'Escribe tus apellidos.');
+        // Un solo campo para nombre y apellidos: se exige algo más que una
+        // palabra, porque el club necesita el nombre completo para el carné.
+        var nomCompleto = esc(form.nombre.value);
+        if (!nomCompleto) {
+            fallo('nombre', 'Escribe tu nombre y apellidos.');
+        } else if (nomCompleto.split(/\s+/).length < 2) {
+            fallo('nombre', 'Escribe también los apellidos.');
+        }
         if (!dniValido(form.dni.value)) fallo('dni', 'Revisa el DNI o NIE: la letra no cuadra.');
         if (!fechaOk(form.nacimiento.value)) fallo('nacimiento', 'Indica tu fecha de nacimiento.');
         if (!telOk(form.telefono.value)) fallo('telefono', 'Un móvil de 9 cifras.');
@@ -214,7 +220,7 @@
             pago: (pagoSel() || {}).value || '',
             importe: m ? m.dataset.precio + ' €' : '',
             nombre: esc(form.nombre.value),
-            apellidos: esc(form.apellidos.value),
+            apellidos: '',            // el formulario recoge el nombre completo en un campo
             dni: esc(form.dni.value).toUpperCase(),
             nacimiento: form.nacimiento.value,
             telefono: esc(form.telefono.value),
@@ -253,7 +259,7 @@
             'Modalidad: ' + d.modalidad + ' (' + d.importe + ')',
             'Forma de pago: ' + d.pago, '',
             'TITULAR',
-            'Nombre: ' + d.nombre + ' ' + d.apellidos,
+            'Nombre: ' + d.nombre,
             'DNI/NIE: ' + d.dni,
             'Nacimiento: ' + d.nacimiento,
             'Móvil: ' + d.telefono,
@@ -296,7 +302,7 @@
                 '<div class="f-pago-fila"><span class="f-pago-k">Destinatario</span><span class="f-pago-v">Club Balonmano Vetusta</span></div>' +
                 '<div class="f-pago-fila"><span class="f-pago-k">IBAN</span><span class="f-pago-v f-iban">' + IBAN + '</span></div>' +
                 '<div class="f-pago-fila"><span class="f-pago-k">Concepto</span><span class="f-pago-v">' +
-                    concepto(d.nombre + ' ' + d.apellidos, d.modalidad) + '</span></div>';
+                    concepto(d.nombre, d.modalidad) + '</span></div>';
         }
         form.hidden = true;
         document.getElementById('alta-ok').hidden = false;
@@ -311,7 +317,7 @@
         enlace.addEventListener('click', function (ev) {
             ev.preventDefault();
             window.location.href = 'mailto:' + DESTINO +
-                '?subject=' + encodeURIComponent('Alta de abonado/a 26/27 · ' + d.nombre + ' ' + d.apellidos) +
+                '?subject=' + encodeURIComponent('Alta de abonado/a 26/27 · ' + d.nombre) +
                 '&body=' + encodeURIComponent(comoTexto(d));
         });
     }
@@ -370,9 +376,7 @@
     form.querySelectorAll('input[name="pago"]').forEach(function (r) {
         r.addEventListener('change', actualizarPago);
     });
-    ['nombre', 'apellidos'].forEach(function (k) {
-        form[k].addEventListener('input', actualizarPago);
-    });
+    form.nombre.addEventListener('input', actualizarPago);
     form.dni.addEventListener('blur', function () {
         if (esc(form.dni.value)) {
             pintarError('dni', dniValido(form.dni.value) ? '' : 'Revisa el DNI o NIE: la letra no cuadra.');
