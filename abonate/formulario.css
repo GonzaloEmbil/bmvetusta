@@ -50,12 +50,27 @@ a { color: var(--tinta); }
     gap: 14px;
 }
 
-.f-header img { height: 44px; width: auto; display: block; }
+.f-header img { height: 52px; width: auto; display: block; }
+
+/* Título y etiqueta de campaña, apilados junto al escudo. */
+.f-header-tit {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+/* En el header el título es más pequeño; en el cuerpo (móvil) mantiene su
+   tamaño grande, que lo define .f-title. */
+.f-header-tit > .f-title {
+    font-size: 1.4rem;
+    line-height: 1.15;
+}
 
 .f-header-txt {
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 700;
-    letter-spacing: 1.6px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     color: var(--tinta-3);
 }
@@ -64,7 +79,7 @@ a { color: var(--tinta); }
 .f-main {
     max-width: 760px;
     margin: 0 auto;
-    padding: 52px 24px 90px;
+    padding: 40px 24px 90px;
 }
 
 .f-volver {
@@ -93,7 +108,7 @@ a { color: var(--tinta); }
 }
 
 /* ── Bloques numerados. Separación amplia: era lo que se pisaba antes ── */
-.f-form { margin-top: 44px; }   /* aire entre la entradilla y el primer bloque */
+.f-form { margin-top: 0; }   /* el título está en el header: el formulario abre */
 
 .f-step {
     border: none;
@@ -507,15 +522,19 @@ a { color: var(--tinta); }
         grid-template-columns: 1fr 1fr;
         column-gap: 48px;
         align-items: start;
-        margin-top: 38px;
+        margin-top: 0;
     }
 
+    /* Fila 1: modalidad y datos. Filas 2 y 3: los dos bloques condicionales,
+       a lo ancho, que al ocultarse dejan su fila en cero. Fila 4:
+       consentimientos y pago. Filas 5 y 6: conformidad y botón, a lo ancho.
+       Así los números se leen de izquierda a derecha y de arriba abajo. */
     #alta-modalidad       { grid-area: 1 / 1; }
-    #alta-datos           { grid-area: 2 / 1; }
-    #alta-incluidas       { grid-area: 3 / 1; }
-    #alta-tutor           { grid-area: 4 / 1; }
-    #alta-consentimientos { grid-area: 1 / 2; }
-    #alta-pago            { grid-area: 2 / 2; }
+    #alta-datos           { grid-area: 1 / 2; }
+    #alta-incluidas       { grid-area: 2 / 1 / 3 / -1; }
+    #alta-tutor           { grid-area: 3 / 1 / 4 / -1; }
+    #alta-consentimientos { grid-area: 4 / 1; }
+    #alta-pago            { grid-area: 4 / 2; }
     #alta-conformidad     { grid-area: 5 / 1 / 6 / -1; }
     .f-submit-wrap        { grid-area: 6 / 1 / 7 / -1; }
     .f-trampa             { grid-area: 7 / 1 / 8 / -1; }
@@ -530,15 +549,18 @@ a { color: var(--tinta); }
 
     /* Los de la fila 2 en adelante llevan su línea y su aire. Los de la
        fila 1 abren columna y no la necesitan. */
-    #alta-datos,
-    #alta-pago,
+    /* Los que abren fila nueva llevan línea y aire; los de la fila 1, no. */
     #alta-incluidas,
     #alta-tutor,
+    #alta-consentimientos,
+    #alta-pago,
     #alta-conformidad {
         margin-top: 44px;
         padding-top: 40px;
         border-top: 1px solid var(--linea);
     }
+
+    #alta-datos { margin-top: 0; padding-top: 0; border-top: none; }
 
     /* Dos columnas dejan la mitad de ancho: los campos van de dos en dos y
        las cuatro modalidades en cuadro. */
@@ -550,6 +572,11 @@ a { color: var(--tinta); }
     .f-persona .f-grid { grid-template-columns: 1fr 1fr; }
 
     .f-submit-wrap { margin-top: 44px; }
+}
+
+@media (max-width: 899px) {
+    /* El título ha vuelto al cuerpo: necesita aire antes del formulario. */
+    #f-h1-hueco:not(:empty) { margin-bottom: 34px; }
 }
 
 @media (max-width: 600px) {
