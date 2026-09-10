@@ -4296,7 +4296,7 @@ body {
    escritorio se coloca entre el botón y el vídeo (ver más abajo). */
 .abono-note {
     color: #fff;
-    font-size: 0.92rem;
+    font-size: 0.875rem;   /* 14px */
     line-height: 1.6;
     max-width: 520px;
     margin: 24px auto 0;
@@ -4316,11 +4316,6 @@ body {
     margin-top: 10px;
 }
 
-.abono-note strong {
-    color: #fff;
-    font-weight: 700;
-}
-
 .abono-note a {
     color: #FDED3A;
     text-decoration: underline;
@@ -4336,7 +4331,7 @@ body {
     display: block;
     margin: 0;
     padding-top: 14px;
-    font-size: 0.82rem;
+    font-size: 0.875rem;   /* 14px, igual que la explicación */
     color: #c9ccd1;
 }
 
