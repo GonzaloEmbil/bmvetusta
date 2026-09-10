@@ -223,7 +223,11 @@ function resumen(d, numero, socios) {
   return L.join('\n');
 }
 
-async function enviarCorreo(env, { para, asunto, texto: cuerpo }) {
+// El dominio no tiene correo entrante, así que se envía DESDE
+// altas@balonmanovetusta.com pero se responde al buzón que el club lee de
+// verdad: sin esto, quien contestara al aviso escribiría a un buzón que no
+// existe y le rebotaría.
+async function enviarCorreo(env, { para, asunto, texto: cuerpo, responder }) {
   if (!env.RESEND_API_KEY) return { saltado: true };
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -231,8 +235,19 @@ async function enviarCorreo(env, { para, asunto, texto: cuerpo }) {
       Authorization: `Bearer ${env.RESEND_API_KEY}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ from: env.AVISO_DE, to: [para], subject: asunto, text: cuerpo }),
+    body: JSON.stringify({
+      from: env.AVISO_DE,
+      to: [para],
+      subject: asunto,
+      text: cuerpo,
+      reply_to: responder || env.AVISO_A,
+    }),
   });
+  // Un fallo no puede tumbar el alta, pero tiene que dejar rastro: sin esto un
+  // dominio sin verificar en Resend se traduce en silencio absoluto.
+  if (!r.ok) {
+    console.warn('resend', r.status, await r.text().catch(() => ''));
+  }
   return { ok: r.ok, status: r.status };
 }
 
@@ -523,6 +538,7 @@ export default {
         para: env.AVISO_A,
         asunto: `Alta de abonado/a nº ${numero} · ${fila.nombre}`,
         texto: cuerpo,
+        responder: fila.email,
       });
       await enviarCorreo(env, {
         para: fila.email,

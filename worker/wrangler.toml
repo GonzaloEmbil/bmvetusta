@@ -18,6 +18,11 @@ compatibility_date = "2026-09-01"
 # custom_domain crea el registro DNS y la ruta al desplegar.
 workers_dev = false
 
+# Deja rastro de los console.warn: sin esto, un correo que Resend rechace
+# no se ve en ningún sitio.
+[observability]
+enabled = true
+
 [[routes]]
 pattern = "altas.balonmanovetusta.com"
 custom_domain = true
@@ -34,3 +39,5 @@ ORIGENES = "https://balonmanovetusta.com,https://www.balonmanovetusta.com"
 AVISO_A = "balonmanovetusta@gmail.com"
 # Remitente de los correos. Debe ser un dominio verificado en el proveedor.
 AVISO_DE = "altas@balonmanovetusta.com"
+# El dominio no recibe correo, así que las respuestas se dirigen a AVISO_A.
+# Excepción: el aviso al club se responde al abonado.
