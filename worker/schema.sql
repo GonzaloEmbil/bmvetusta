@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS abonados (
   temporada     TEXT    NOT NULL DEFAULT '2026/2027',
   creado        TEXT    NOT NULL,              -- ISO 8601 UTC
   modalidad     TEXT    NOT NULL,
+  pago          TEXT    NOT NULL DEFAULT '',   -- Transferencia | Presencial
   importe       INTEGER NOT NULL,              -- en euros
   nombre        TEXT    NOT NULL,
   apellidos     TEXT    NOT NULL,

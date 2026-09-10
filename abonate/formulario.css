@@ -79,7 +79,10 @@ a { color: var(--tinta); }
 .f-main {
     max-width: 760px;
     margin: 0 auto;
-    padding: 40px 24px 90px;
+    /* El padding inferior iguala el hueco botón→pie con el de texto→botón.
+       Se le descuentan los 16px de margen del mensaje de estado, que va
+       entre ambos aunque esté vacío. */
+    padding: 40px 24px 36px;
 }
 
 .f-volver {
@@ -198,7 +201,9 @@ a { color: var(--tinta); }
 }
 
 .f-mod input:focus-visible + .f-mod-box {
-    outline: 3px solid var(--amarillo);
+    /* Anillo de foco en gris, no amarillo. Se mantiene porque es la única
+       pista de posición para quien navega con teclado. */
+    outline: 2px solid var(--tinta-2);
     outline-offset: 2px;
 }
 
@@ -247,10 +252,43 @@ a { color: var(--tinta); }
 
 .f-form input::placeholder { color: #a8aeb6; }
 
+/* Safari en iOS le da al campo de fecha su propio ancho intrínseco y se
+   salta el width:100%, así que sale más ancho que los demás. Anulando la
+   apariencia nativa y el ancho mínimo vuelve a comportarse como el resto.
+   Los pseudoelementos quitan el relleno y el centrado que añade iOS. */
+.f-form input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 0;
+    max-width: 100%;
+}
+
+.f-form input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+    margin: 0;
+}
+
+.f-form input[type="date"]::-webkit-datetime-edit { padding: 0; }
+
+/* Asterisco de campo obligatorio */
+.f-req {
+    color: var(--error);
+    font-weight: 700;
+    margin-left: 3px;
+}
+
+.f-oblig {
+    color: var(--tinta-3);
+    font-size: 0.84rem;
+    margin: 0 0 22px;
+}
+
+.f-oblig .f-req { margin-left: 0; margin-right: 3px; }
+
 .f-form input:focus {
     outline: none;
     border-color: var(--tinta);
-    box-shadow: 0 0 0 3px rgba(253, 237, 58, 0.55);
+    box-shadow: 0 0 0 3px rgba(20, 22, 26, 0.12);
 }
 
 .f-form input.f-bad { border-color: var(--error); }
@@ -328,7 +366,9 @@ a { color: var(--tinta); }
 }
 
 .f-sino input:focus-visible + span {
-    outline: 3px solid var(--amarillo);
+    /* Anillo de foco en gris, no amarillo. Se mantiene porque es la única
+       pista de posición para quien navega con teclado. */
+    outline: 2px solid var(--tinta-2);
     outline-offset: 2px;
 }
 
@@ -572,6 +612,9 @@ a { color: var(--tinta); }
     .f-persona .f-grid { grid-template-columns: 1fr 1fr; }
 
     .f-submit-wrap { margin-top: 44px; }
+
+    /* 44px de hueco menos los 16px del mensaje de estado. */
+    .f-main { padding-bottom: 28px; }
 }
 
 @media (max-width: 899px) {
@@ -580,7 +623,7 @@ a { color: var(--tinta); }
 }
 
 @media (max-width: 600px) {
-    .f-main { padding: 30px 18px 70px; }
+    .f-main { padding: 30px 18px 36px; }
     .f-header-in, .f-footer-in { padding-left: 18px; padding-right: 18px; }
     .f-mods { grid-template-columns: repeat(2, 1fr); }
     .f-grid { grid-template-columns: 1fr; }
@@ -588,3 +631,42 @@ a { color: var(--tinta); }
     .f-pago-fila { flex-direction: column; gap: 5px; }
     .f-pago-v { text-align: left; }
 }
+
+/* ── Formas de pago ── */
+.f-formas {
+    display: grid;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.f-forma input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.f-forma-box {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 16px 18px;
+    background: var(--fondo);
+    border: 1.5px solid var(--linea-2);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background-color 0.15s;
+}
+
+.f-forma-box:hover { border-color: var(--tinta-2); }
+
+.f-forma input:checked + .f-forma-box {
+    background: var(--tinta);
+    border-color: var(--tinta);
+}
+
+.f-forma input:checked + .f-forma-box .f-forma-tit,
+.f-forma input:checked + .f-forma-box .f-forma-det { color: #fff; }
+
+.f-forma input:focus-visible + .f-forma-box {
+    outline: 2px solid var(--tinta-2);
+    outline-offset: 2px;
+}
+
+.f-forma-tit { font-size: 0.98rem; font-weight: 700; }
+.f-forma-det { font-size: 0.84rem; color: var(--tinta-3); }

@@ -61,13 +61,13 @@
         wrap.innerHTML =
             '<p class="f-persona-tit">' + tipo + '</p>' +
             '<div class="f-grid">' +
-            '  <label class="f-field f-wide"><span class="f-label">Nombre y apellidos</span>' +
+            '  <label class="f-field f-wide"><span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>' +
             '    <input type="text" name="inc' + i + '_nombre"><span class="f-err" data-error-for="inc' + i + '_nombre"></span></label>' +
-            '  <label class="f-field"><span class="f-label">DNI o NIE</span>' +
+            '  <label class="f-field"><span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>' +
             '    <input type="text" name="inc' + i + '_dni" autocapitalize="characters" maxlength="9"><span class="f-err" data-error-for="inc' + i + '_dni"></span></label>' +
-            '  <label class="f-field"><span class="f-label">Fecha de nacimiento</span>' +
+            '  <label class="f-field"><span class="f-label">Fecha de nacimiento<span class="f-req" aria-hidden="true">*</span></span>' +
             '    <input type="date" name="inc' + i + '_nacimiento"><span class="f-err" data-error-for="inc' + i + '_nacimiento"></span></label>' +
-            '  <label class="f-field"><span class="f-label">Parentesco</span>' +
+            '  <label class="f-field"><span class="f-label">Parentesco<span class="f-req" aria-hidden="true">*</span></span>' +
             '    <input type="text" name="inc' + i + '_parentesco" placeholder="Cónyuge, hijo/a…"><span class="f-err" data-error-for="inc' + i + '_parentesco"></span></label>' +
             '</div>';
         return wrap;
@@ -114,12 +114,23 @@
         });
     }
 
+    function pagoSel() {
+        return form.querySelector('input[name="pago"]:checked');
+    }
+
     function actualizarPago() {
         var m = modSel();
-        document.getElementById('alta-importe').textContent = m ? m.dataset.precio + ' €' : '—';
+        var importe = m ? m.dataset.precio + ' €' : '—';
+        document.getElementById('alta-importe').textContent = importe;
+        document.getElementById('alta-importe-pres').textContent = importe;
         var nom = (esc(form.nombre.value) + ' ' + esc(form.apellidos.value)).trim();
         document.getElementById('alta-concepto').textContent = concepto(nom, m ? m.value : '');
         document.getElementById('alta-iban').textContent = IBAN;
+
+        // Los datos de la transferencia sólo tienen sentido si se paga así.
+        var p = pagoSel();
+        document.getElementById('alta-datos-transf').hidden = !(p && p.value === 'Transferencia');
+        document.getElementById('alta-pago-presencial').hidden = !(p && p.value === 'Presencial');
     }
 
     // ── Validación ──────────────────────────────────────────────────────────
@@ -147,7 +158,6 @@
         if (!telOk(form.telefono.value)) fallo('telefono', 'Un móvil de 9 cifras.');
         if (!emailOk(form.email.value)) fallo('email', 'Revisa el correo electrónico.');
         if (!esc(form.localidad.value)) fallo('localidad', 'Indica tu localidad.');
-        if (!esc(form.provincia.value)) fallo('provincia', 'Indica tu provincia.');
 
         // Coherencia entre modalidad y edad
         var e = edad(form.nacimiento.value);
@@ -187,6 +197,7 @@
             if (!telOk(form.tutor_telefono.value)) fallo('tutor_telefono', 'Un móvil de 9 cifras.');
         }
 
+        if (!pagoSel()) fallo('pago', 'Elige cómo quieres pagar.');
         if (!form.querySelector('input[name="imagen"]:checked')) fallo('imagen', 'Marca Sí o No.');
         if (!form.querySelector('input[name="comunicaciones"]:checked')) fallo('comunicaciones', 'Marca Sí o No.');
         if (!form.conformidad.checked) fallo('conformidad', 'Necesitamos tu conformidad para tramitar el alta.');
@@ -200,6 +211,7 @@
         var m = modSel();
         var d = {
             modalidad: m ? m.value : '',
+            pago: (pagoSel() || {}).value || '',
             importe: m ? m.dataset.precio + ' €' : '',
             nombre: esc(form.nombre.value),
             apellidos: esc(form.apellidos.value),
@@ -208,7 +220,6 @@
             telefono: esc(form.telefono.value),
             email: esc(form.email.value),
             localidad: esc(form.localidad.value),
-            provincia: esc(form.provincia.value),
             imagen: (form.querySelector('input[name="imagen"]:checked') || {}).value || '',
             comunicaciones: (form.querySelector('input[name="comunicaciones"]:checked') || {}).value || '',
             web: form.web ? form.web.value : '',   // trampa antispam: debe ir vacío
@@ -239,14 +250,15 @@
 
     function comoTexto(d) {
         var L = ['ALTA DE ABONADO/A · TEMPORADA 2026/2027', '',
-            'Modalidad: ' + d.modalidad + ' (' + d.importe + ')', '',
+            'Modalidad: ' + d.modalidad + ' (' + d.importe + ')',
+            'Forma de pago: ' + d.pago, '',
             'TITULAR',
             'Nombre: ' + d.nombre + ' ' + d.apellidos,
             'DNI/NIE: ' + d.dni,
             'Nacimiento: ' + d.nacimiento,
             'Móvil: ' + d.telefono,
             'Correo: ' + d.email,
-            'Localidad: ' + d.localidad + ' (' + d.provincia + ')'];
+            'Localidad: ' + d.localidad];
         if (d.incluidas.length) {
             L.push('', 'PERSONAS INCLUIDAS');
             d.incluidas.forEach(function (p) {
@@ -270,12 +282,22 @@
             wrap.hidden = !numero;
         }
         document.getElementById('alta-ok-email').textContent = d.email;
-        document.getElementById('alta-ok-pago').innerHTML =
-            '<div class="f-pago-fila"><span class="f-pago-k">Importe</span><span class="f-pago-v">' + d.importe + '</span></div>' +
-            '<div class="f-pago-fila"><span class="f-pago-k">Destinatario</span><span class="f-pago-v">Club Balonmano Vetusta</span></div>' +
-            '<div class="f-pago-fila"><span class="f-pago-k">IBAN</span><span class="f-pago-v f-iban">' + IBAN + '</span></div>' +
-            '<div class="f-pago-fila"><span class="f-pago-k">Concepto</span><span class="f-pago-v">' +
-                concepto(d.nombre + ' ' + d.apellidos, d.modalidad) + '</span></div>';
+        var intro = document.getElementById('alta-ok-intro');
+        if (d.pago === 'Presencial') {
+            intro.innerHTML = 'Hemos recibido tus datos. Puedes pagar los <strong>' + d.importe +
+                '</strong> en el Florida Arena cualquier día que el Balonmano Vetusta juegue como local.';
+            document.getElementById('alta-ok-pago').innerHTML = '';
+            document.getElementById('alta-ok-pago').hidden = true;
+        } else {
+            intro.innerHTML = 'Hemos recibido tus datos. El último paso es la <strong>transferencia</strong>:';
+            document.getElementById('alta-ok-pago').hidden = false;
+            document.getElementById('alta-ok-pago').innerHTML =
+                '<div class="f-pago-fila"><span class="f-pago-k">Importe</span><span class="f-pago-v">' + d.importe + '</span></div>' +
+                '<div class="f-pago-fila"><span class="f-pago-k">Destinatario</span><span class="f-pago-v">Club Balonmano Vetusta</span></div>' +
+                '<div class="f-pago-fila"><span class="f-pago-k">IBAN</span><span class="f-pago-v f-iban">' + IBAN + '</span></div>' +
+                '<div class="f-pago-fila"><span class="f-pago-k">Concepto</span><span class="f-pago-v">' +
+                    concepto(d.nombre + ' ' + d.apellidos, d.modalidad) + '</span></div>';
+        }
         form.hidden = true;
         document.getElementById('alta-ok').hidden = false;
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -345,6 +367,9 @@
         r.addEventListener('change', pintarSecciones);
     });
     form.nacimiento.addEventListener('change', pintarSecciones);
+    form.querySelectorAll('input[name="pago"]').forEach(function (r) {
+        r.addEventListener('change', actualizarPago);
+    });
     ['nombre', 'apellidos'].forEach(function (k) {
         form[k].addEventListener('input', actualizarPago);
     });

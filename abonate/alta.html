@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
     <!-- Hoja propia y tema claro: esta página es un trámite, no una sección
          más de la web, así que no carga style.css a propósito. -->
-    <link rel="stylesheet" href="./formulario.css?v=f-9">
+    <link rel="stylesheet" href="./formulario.css?v=f-13">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -39,6 +39,8 @@
 
     <main class="f-main">
         <div id="f-h1-hueco"></div>
+
+        <p class="f-oblig"><span class="f-req" aria-hidden="true">*</span>Campos obligatorios</p>
 
         <form id="alta-form" class="f-form" novalidate>
 
@@ -85,44 +87,39 @@
                 <legend><span class="f-n">2</span> Tus datos</legend>
                 <div class="f-grid">
                     <label class="f-field">
-                        <span class="f-label">Nombre</span>
+                        <span class="f-label">Nombre<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="text" name="nombre" autocomplete="given-name" required>
                         <span class="f-err" data-error-for="nombre"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Apellidos</span>
+                        <span class="f-label">Apellidos<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="text" name="apellidos" autocomplete="family-name" required>
                         <span class="f-err" data-error-for="apellidos"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">DNI o NIE</span>
+                        <span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="text" name="dni" autocapitalize="characters" maxlength="9" placeholder="12345678Z" required>
                         <span class="f-err" data-error-for="dni"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Fecha de nacimiento</span>
+                        <span class="f-label">Fecha de nacimiento<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="date" name="nacimiento" required>
                         <span class="f-err" data-error-for="nacimiento"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Teléfono móvil</span>
+                        <span class="f-label">Teléfono móvil<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="tel" name="telefono" inputmode="tel" autocomplete="tel" placeholder="600000000" required>
                         <span class="f-err" data-error-for="telefono"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Correo electrónico</span>
+                        <span class="f-label">Correo electrónico<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="email" name="email" inputmode="email" autocomplete="email" required>
                         <span class="f-err" data-error-for="email"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Localidad</span>
+                        <span class="f-label">Localidad<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="text" name="localidad" autocomplete="address-level2" required>
                         <span class="f-err" data-error-for="localidad"></span>
-                    </label>
-                    <label class="f-field">
-                        <span class="f-label">Provincia</span>
-                        <input type="text" name="provincia" autocomplete="address-level1" required>
-                        <span class="f-err" data-error-for="provincia"></span>
                     </label>
                 </div>
             </fieldset>
@@ -138,17 +135,17 @@
                 <p class="f-hint">Obligatorio porque el abonado/a titular es menor de edad.</p>
                 <div class="f-grid">
                     <label class="f-field f-wide">
-                        <span class="f-label">Nombre y apellidos</span>
+                        <span class="f-label">Nombre y apellidos<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="text" name="tutor_nombre">
                         <span class="f-err" data-error-for="tutor_nombre"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">DNI o NIE</span>
+                        <span class="f-label">DNI o NIE<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="text" name="tutor_dni" autocapitalize="characters" maxlength="9">
                         <span class="f-err" data-error-for="tutor_dni"></span>
                     </label>
                     <label class="f-field">
-                        <span class="f-label">Teléfono móvil</span>
+                        <span class="f-label">Teléfono móvil<span class="f-req" aria-hidden="true">*</span></span>
                         <input type="tel" name="tutor_telefono" inputmode="tel">
                         <span class="f-err" data-error-for="tutor_telefono"></span>
                     </label>
@@ -176,8 +173,28 @@
             </fieldset>
 
             <fieldset class="f-step" id="alta-pago">
-                <legend><span class="f-n">6</span> Pago por transferencia</legend>
-                <div class="f-pago">
+                <legend><span class="f-n">6</span> Forma de pago</legend>
+
+                <div class="f-formas" role="radiogroup" aria-label="Forma de pago">
+                    <label class="f-forma">
+                        <input type="radio" name="pago" value="Transferencia" required>
+                        <span class="f-forma-box">
+                            <span class="f-forma-tit">Transferencia bancaria</span>
+                            <span class="f-forma-det">Ahora mismo, desde tu banco</span>
+                        </span>
+                    </label>
+                    <label class="f-forma">
+                        <input type="radio" name="pago" value="Presencial">
+                        <span class="f-forma-box">
+                            <span class="f-forma-tit">En el Florida Arena</span>
+                            <span class="f-forma-det">Cualquier día de partido como local</span>
+                        </span>
+                    </label>
+                </div>
+                <p class="f-err" data-error-for="pago"></p>
+
+                <!-- Datos de la transferencia: sólo si se elige esa forma. -->
+                <div class="f-pago" id="alta-datos-transf" hidden>
                     <div class="f-pago-fila">
                         <span class="f-pago-k">Importe</span>
                         <span class="f-pago-v" id="alta-importe">—</span>
@@ -195,6 +212,8 @@
                         <span class="f-pago-v" id="alta-concepto">Tu nombre - Abono</span>
                     </div>
                 </div>
+
+                <p class="f-hint" id="alta-pago-presencial" hidden>Al terminar te damos de alta y podrás pagar los <strong id="alta-importe-pres">—</strong> en el Florida Arena cualquier día que el Balonmano Vetusta juegue como local.</p>
             </fieldset>
 
             <fieldset class="f-step" id="alta-conformidad">
@@ -222,7 +241,7 @@
                 <div class="f-ok-icono" aria-hidden="true">✓</div>
                 <h2 class="f-ok-title">Solicitud enviada</h2>
                 <p class="f-num" id="alta-ok-numero-wrap" hidden>Tu número de abonado/a es el <strong id="alta-ok-numero"></strong></p>
-                <p class="f-ok-txt">Hemos recibido tus datos. El último paso es la <strong>transferencia</strong>:</p>
+                <p class="f-ok-txt" id="alta-ok-intro">Hemos recibido tus datos.</p>
                 <div class="f-pago" id="alta-ok-pago"></div>
                 <p class="f-ok-txt">Cuando la recibamos te confirmamos el alta en <strong id="alta-ok-email"></strong>. Si tienes cualquier duda, escríbenos a <a href="mailto:balonmanovetusta@gmail.com">balonmanovetusta@gmail.com</a></p>
                 <a href="https://balonmanovetusta.com/" class="f-submit f-submit-alt">Volver a la web del club</a>
@@ -258,6 +277,6 @@
         window.addEventListener('resize', colocar);
     })();
     </script>
-    <script src="./alta.js?v=alta-7"></script>
+    <script src="./alta.js?v=alta-9"></script>
 </body>
 </html>

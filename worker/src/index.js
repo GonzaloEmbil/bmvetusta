@@ -39,13 +39,14 @@ const fechaOk = (v) => /^\d{4}-\d{2}-\d{2}$/.test(String(v || ''));
 function validar(d) {
   const e = [];
   if (!PRECIOS[d.modalidad]) e.push('modalidad');
-  ['nombre', 'apellidos', 'localidad', 'provincia'].forEach((k) => { if (!texto(d[k])) e.push(k); });
+  ['nombre', 'apellidos', 'localidad'].forEach((k) => { if (!texto(d[k])) e.push(k); });
   if (!dniValido(d.dni)) e.push('dni');
   if (!fechaOk(d.nacimiento)) e.push('nacimiento');
   const años = edad(d.nacimiento);
   if (años === null || años < 0 || años > 120) e.push('nacimiento');
   if (!/^[0-9]{9}$/.test(texto(d.telefono).replace(/[\s()+-]/g, '').replace(/^34/, ''))) e.push('telefono');
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(texto(d.email))) e.push('email');
+  if (!['Transferencia', 'Presencial'].includes(d.pago)) e.push('pago');
   if (!['Sí', 'No'].includes(d.imagen)) e.push('imagen');
   if (!['Sí', 'No'].includes(d.comunicaciones)) e.push('comunicaciones');
 
@@ -129,6 +130,7 @@ function resumen(d, numero) {
     `ALTA DE ABONADO/A Nº ${numero} · TEMPORADA ${TEMPORADA}`,
     '',
     `Modalidad: ${d.modalidad} (${PRECIOS[d.modalidad]} €)`,
+    `Forma de pago: ${d.pago}`,
     '',
     'TITULAR',
     `${d.nombre} ${d.apellidos}`,
@@ -136,7 +138,7 @@ function resumen(d, numero) {
     `Nacimiento: ${d.nacimiento} (${edad(d.nacimiento)} años)`,
     `Móvil: ${d.telefono}`,
     `Correo: ${d.email}`,
-    `Localidad: ${d.localidad} (${d.provincia || ''})`,
+    `Localidad: ${d.localidad}`,
   ];
   if (d.incluidas && d.incluidas.length) {
     L.push('', 'PERSONAS INCLUIDAS');
@@ -215,8 +217,8 @@ export default {
       const { results } = await env.DB.prepare(
         'SELECT * FROM abonados ORDER BY id'
       ).all();
-      const cols = ['id', 'creado', 'modalidad', 'importe', 'pagado', 'nombre', 'apellidos',
-        'dni', 'nacimiento', 'telefono', 'email', 'localidad', 'provincia', 'imagen', 'comunicaciones',
+      const cols = ['id', 'creado', 'modalidad', 'pago', 'importe', 'pagado', 'nombre', 'apellidos',
+        'dni', 'nacimiento', 'telefono', 'email', 'localidad', 'imagen', 'comunicaciones',
         'incluidas', 'tutor'];
       const escapar = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
       const csv = [cols.join(';')]
@@ -265,6 +267,7 @@ export default {
       temporada: TEMPORADA,
       creado: new Date().toISOString(),
       modalidad: d.modalidad,
+      pago: d.pago,
       importe: PRECIOS[d.modalidad],          // el precio lo pone el servidor
       nombre: texto(d.nombre),
       apellidos: texto(d.apellidos),
@@ -293,12 +296,12 @@ export default {
     try {
       const res = await env.DB.prepare(
         `INSERT INTO abonados
-           (temporada, creado, modalidad, importe, nombre, apellidos, dni, nacimiento,
-            telefono, email, localidad, provincia, imagen, comunicaciones, incluidas,
-            tutor, ip_pais)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
+           (temporada, creado, modalidad, pago, importe, nombre, apellidos, dni,
+            nacimiento, telefono, email, localidad, provincia, imagen, comunicaciones,
+            incluidas, tutor, ip_pais)
+         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
       ).bind(
-        fila.temporada, fila.creado, fila.modalidad, fila.importe, fila.nombre,
+        fila.temporada, fila.creado, fila.modalidad, fila.pago, fila.importe, fila.nombre,
         fila.apellidos, fila.dni, fila.nacimiento, fila.telefono, fila.email,
         fila.localidad, fila.provincia, fila.imagen, fila.comunicaciones,
         fila.incluidas, fila.tutor, fila.ip_pais
@@ -329,13 +332,18 @@ export default {
           `Hemos recibido tu solicitud de alta como abonado/a para la temporada ${TEMPORADA}.`,
           `Tu número de abonado/a es el ${numero}.`,
           '',
-          'Queda un último paso, la transferencia:',
-          `  Importe: ${fila.importe} €`,
-          '  Destinatario: Club Balonmano Vetusta',
-          `  IBAN: ${env.IBAN || '(pendiente)'}`,
-          `  Concepto: ${fila.nombre} ${fila.apellidos} - Abono ${fila.modalidad}`,
+          ...(fila.pago === 'Presencial' ? [
+            `Puedes pagar los ${fila.importe} € en el Florida Arena cualquier día que`,
+            'el Balonmano Vetusta juegue como local.',
+          ] : [
+            'Queda un último paso, la transferencia:',
+            `  Importe: ${fila.importe} €`,
+            '  Destinatario: Club Balonmano Vetusta',
+            `  IBAN: ${env.IBAN || '(pendiente)'}`,
+            `  Concepto: ${fila.nombre} ${fila.apellidos} - Abono ${fila.modalidad}`,
+          ]),
           '',
-          'Cuando la recibamos te confirmamos el alta y te avisamos de cuándo recoger el carné.',
+          'Cuando recibamos el pago te confirmamos el alta y te avisamos de cuándo recoger el carné.',
           '',
           'Cualquier duda, responde a este correo.',
           'Balonmano Vetusta',
