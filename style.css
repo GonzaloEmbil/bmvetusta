@@ -4379,7 +4379,14 @@ body {
         --k: 1.7;
         --H: min(var(--avail), calc((100vw - 80px - 20px) / (0.8 * (1 + var(--k)))));
         display: grid;
-        grid-template-columns: calc(var(--H) * 0.8 * var(--k)) calc(var(--H) * 0.8);
+        /* Los anchos de columna los calcula el script de la página: son la
+           única solución que cumple a la vez que el vídeo cierre la columna
+           izquierda, que el cartel arranque a media altura del botón y que
+           ambos acaben en la misma línea. Los valores de reserva mantienen
+           una proporción razonable si el script no llega a ejecutarse. */
+        grid-template-columns:
+            var(--col-video, calc(var(--H) * 0.8 * var(--k)))
+            var(--col-poster, calc(var(--H) * 0.8));
         /* Columna izquierda: botón, texto y vídeo. El cartel abarca las tres. */
         grid-template-rows: auto auto 1fr;
         column-gap: 20px;
