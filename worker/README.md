@@ -58,8 +58,10 @@ Si preferís otro proveedor, la única función que hay que cambiar es
 ## Consultar las altas
 
 ```bash
-# Todas, en CSV
-curl -o abonados.csv "https://altas.balonmanovetusta.com/export.csv?token=EL_TOKEN"
+# Todas, en CSV. Mejor por cabecera: así el token no queda en los registros
+# del servidor ni en el historial del navegador.
+curl -o abonados.csv -H "Authorization: Bearer EL_TOKEN" \
+  https://altas.balonmanovetusta.com/export.csv
 
 # Marcar una transferencia como recibida
 wrangler d1 execute bmvetusta-abonados --remote \
@@ -85,3 +87,10 @@ wrangler d1 execute bmvetusta-abonados --remote \
 - **Sólo se aceptan envíos** desde los orígenes de `ORIGENES`.
 - **Campo trampa**: el formulario lleva un campo oculto `web`; si llega
   rellenado, el Worker responde 200 y descarta el envío sin guardar nada.
+- **CORS no autentica.** Cualquiera puede enviar la cabecera `Origin` que
+  quiera desde fuera de un navegador, así que lo que de verdad contiene el
+  abuso es el **límite por IP**: 6 altas por hora y 10 intentos de descarga
+  por hora. Se cuenta sobre un **hash** de la IP, no sobre la IP, y las filas
+  se borran a las 24 horas.
+- **El token se compara en tiempo constante**, para que el tiempo de respuesta
+  no revele cuántos caracteres son correctos.

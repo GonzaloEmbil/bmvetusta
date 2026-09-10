@@ -69,6 +69,47 @@ function validar(d) {
   return e;
 }
 
+// ── Seguridad ──────────────────────────────────────────────────────────────
+
+/**
+ * Comparación en tiempo constante. Con `!==` el número de caracteres que
+ * coinciden se nota en el tiempo de respuesta y permite adivinar el token
+ * carácter a carácter.
+ */
+function igualSeguro(a, b) {
+  const A = new TextEncoder().encode(String(a || ''));
+  const B = new TextEncoder().encode(String(b || ''));
+  if (A.length !== B.length) return false;
+  let d = 0;
+  for (let i = 0; i < A.length; i++) d |= A[i] ^ B[i];
+  return d === 0;
+}
+
+/** Hash de la IP: permite contar intentos sin guardar la IP en claro. */
+async function hashIP(request, env) {
+  const ip = request.headers.get('CF-Connecting-IP') || '0';
+  const datos = new TextEncoder().encode(ip + '|' + (env.ADMIN_TOKEN || 'sal'));
+  const h = await crypto.subtle.digest('SHA-256', datos);
+  return [...new Uint8Array(h)].slice(0, 16).map((b) => b.toString(16).padStart(2, '0')).join('');
+}
+
+/**
+ * Límite de intentos por IP y ruta en una ventana de tiempo.
+ * Devuelve true si se ha excedido. Las filas viejas se borran aquí mismo,
+ * así no hace falta ninguna tarea programada.
+ */
+async function excedeLimite(env, ipHash, ruta, maximo, ventanaSeg) {
+  const ahora = Math.floor(Date.now() / 1000);
+  await env.DB.prepare('DELETE FROM limites WHERE ts < ?').bind(ahora - 86400).run();
+  const { results } = await env.DB.prepare(
+    'SELECT COUNT(*) AS n FROM limites WHERE ruta = ? AND ip_hash = ? AND ts > ?'
+  ).bind(ruta, ipHash, ahora - ventanaSeg).all();
+  if ((results[0] && results[0].n) >= maximo) return true;
+  await env.DB.prepare('INSERT INTO limites (ip_hash, ruta, ts) VALUES (?,?,?)')
+    .bind(ipHash, ruta, ahora).run();
+  return false;
+}
+
 // ── Correo (opcional: solo si hay RESEND_API_KEY) ──────────────────────────
 
 function resumen(d, numero) {
@@ -141,12 +182,22 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cabeceras });
 
     if (url.pathname === '/') {
-      return json({ ok: true, servicio: 'altas', temporada: TEMPORADA }, 200);
+      return json({ ok: true }, 200);
     }
 
     // Exportación para el club: rellenar carnés, cuadrar transferencias.
     if (url.pathname === '/export.csv' && request.method === 'GET') {
-      if (!env.ADMIN_TOKEN || url.searchParams.get('token') !== env.ADMIN_TOKEN) {
+      // El token se admite por cabecera (preferido: no queda en registros ni en
+      // el historial del navegador) y, por comodidad, también por parámetro.
+      const cabecera = (request.headers.get('Authorization') || '').replace(/^Bearer\s+/i, '');
+      const enviado = cabecera || url.searchParams.get('token') || '';
+
+      // Sin límite, el token se podría probar a fuerza bruta.
+      const ipHash = await hashIP(request, env);
+      if (await excedeLimite(env, ipHash, 'export', 10, 3600)) {
+        return new Response('Demasiados intentos. Prueba dentro de un rato.', { status: 429 });
+      }
+      if (!env.ADMIN_TOKEN || !igualSeguro(enviado, env.ADMIN_TOKEN)) {
         return new Response('No autorizado', { status: 401 });
       }
       const { results } = await env.DB.prepare(
@@ -183,6 +234,14 @@ export default {
 
     // Trampa antispam: un campo invisible que sólo rellenan los bots.
     if (texto(d.web)) return json({ ok: true, numero: 0 }, 200, cabeceras);
+
+    // CORS no autentica: cualquiera puede enviar la cabecera Origin que quiera
+    // desde fuera de un navegador. El límite por IP es lo que de verdad
+    // contiene el abuso de un endpoint de escritura abierto.
+    const ipHash = await hashIP(request, env);
+    if (await excedeLimite(env, ipHash, 'alta', 6, 3600)) {
+      return json({ ok: false, error: 'limite' }, 429, cabeceras);
+    }
 
     const errores = validar(d);
     if (errores.length) {

@@ -12,7 +12,7 @@
     // Worker propio (Cloudflare). Si falla el envío se ofrece el correo como
     // salida, para que nadie se quede sin poder darse de alta.
     var ENDPOINT = 'https://altas.balonmanovetusta.com/alta';
-    var IBAN = 'IBAN_PENDIENTE';             // ← poner aquí el IBAN del club
+    var IBAN = 'ES13 3059 0062 8530 2750 7320';
     var DESTINO = 'balonmanovetusta@gmail.com';
 
     var form = document.getElementById('alta-form');

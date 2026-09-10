@@ -26,3 +26,14 @@ CREATE TABLE IF NOT EXISTS abonados (
 -- Un DNI no puede darse de alta dos veces en la misma temporada.
 CREATE UNIQUE INDEX IF NOT EXISTS abonados_dni_temporada
   ON abonados (dni, temporada);
+
+-- Control de abuso. Se guarda un HASH de la IP, no la IP: sirve para contar
+-- intentos sin conservar un dato personal identificable, y las filas se
+-- borran solas al cabo de una hora.
+CREATE TABLE IF NOT EXISTS limites (
+  ip_hash TEXT NOT NULL,
+  ruta    TEXT NOT NULL,
+  ts      INTEGER NOT NULL          -- epoch en segundos
+);
+
+CREATE INDEX IF NOT EXISTS limites_busqueda ON limites (ruta, ip_hash, ts);
