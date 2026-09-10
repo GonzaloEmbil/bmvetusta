@@ -4300,10 +4300,11 @@ body {
     line-height: 1.6;
     max-width: 520px;
     margin: 24px auto 0;
-    /* La sección centra todo su texto; aquí se justifica. */
-    text-align: justify;
+    /* La sección centra todo su texto; aquí se alinea a la izquierda. Sin
+       justificar no hacen falta los guiones de partición, que estaban sólo
+       para que el texto justificado no abriera huecos entre palabras. */
+    text-align: left;
     text-wrap: pretty;
-    hyphens: auto;
 }
 
 .abono-note p {
