@@ -14,10 +14,18 @@ name = "bmvetusta-altas"
 main = "src/index.js"
 compatibility_date = "2026-09-01"
 
+# Nada de workers.dev: el Worker responde sólo en el dominio del club.
+# custom_domain crea el registro DNS y la ruta al desplegar.
+workers_dev = false
+
+[[routes]]
+pattern = "altas.balonmanovetusta.com"
+custom_domain = true
+
 [[d1_databases]]
 binding = "DB"
 database_name = "bmvetusta-abonados"
-database_id = "PENDIENTE_TRAS_EL_PASO_2"
+database_id = "c72f6ecc-1402-47e7-9d90-dc769b6e6ee8"
 
 [vars]
 # Solo se aceptan envíos desde estos orígenes.

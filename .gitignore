@@ -11,3 +11,17 @@ __pycache__/
 
 # Datos y CSVs grandes (opcional, si no quieres subirlos a GitHub)
 *.csv
+
+# Cloudflare Worker: estado local y variables de desarrollo.
+# .dev.vars guarda secretos en claro para pruebas locales: NUNCA se sube.
+worker/.wrangler/
+.wrangler/
+.dev.vars
+.dev.vars.*
+
+# Dependencias
+node_modules/
+
+# Exportaciones de abonados: contienen datos personales (DNI, menores).
+# El *.csv de arriba ya las cubre, pero se deja explícito por si se cambia.
+abonados*.csv
