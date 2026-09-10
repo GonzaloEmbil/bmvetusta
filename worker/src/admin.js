@@ -61,6 +61,8 @@ tbody tr.asoc td.nom{padding-left:26px;position:relative}
 tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var(--t3)}
 .vinc{font-size:.82rem;color:var(--t2)}
 .detalle{font-size:.82rem;color:var(--t2);white-space:normal;max-width:280px}
+.vacio{color:var(--t3)}
+th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px}
 .filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
 </style>
@@ -92,7 +94,7 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
       <thead><tr>
         <th>Nº socio</th><th>Pagado</th><th>Nombre</th><th>Vínculo</th><th>Alta</th>
         <th>Modalidad</th><th>Pago</th><th>Importe</th><th>DNI/NIE</th><th>Nacimiento</th>
-        <th>Móvil</th><th>Correo</th><th>Localidad</th><th>Imagen</th><th>Comunic.</th><th>Tutor/a</th>
+        <th>Móvil</th><th>Correo</th><th>Localidad</th><th>Imagen</th><th>Comunic.</th><th title="Madre, padre o tutor/a legal. El formulario sólo lo pide cuando quien titula el abono es menor de edad.">Tutor/a legal</th>
       </tr></thead>
       <tbody id="cuerpo"></tbody>
     </table></div>
@@ -198,7 +200,7 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
       kpi(cobrado+' €','Cobrado') + kpi(euros+' €','Comprometido');
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
-      var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '';
+      var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
       var asociado = !!a.titular_id;
       var vinculo = asociado
         ? '<span class="vinc">'+esc(a.parentesco)+' de '+esc(a.titular_nombre)+' (nº '+a.titular_id+')</span>'
@@ -214,8 +216,8 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
         '<td>'+(a.importe ? esc(a.importe)+' €' : '—')+'</td>'+
         '<td>'+esc(a.dni)+'</td>'+
         '<td>'+esc(a.nacimiento)+'</td>'+
-        '<td>'+esc(a.telefono)+'</td>'+
-        '<td>'+esc(a.email)+'</td>'+
+        '<td>'+dato(a.telefono)+'</td>'+
+        '<td>'+dato(a.email)+'</td>'+
         '<td>'+esc(a.localidad)+'</td>'+
         '<td>'+esc(a.imagen)+'</td>'+
         '<td>'+esc(a.comunicaciones)+'</td>'+
@@ -227,6 +229,10 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
       b.addEventListener('click', function(){ alternarPago(parseInt(b.dataset.pagar,10), b); });
     });
   }
+
+  // Sólo el titular facilita móvil y correo, así que las filas de las personas
+  // incluidas en su abono los tienen vacíos a propósito.
+  function dato(v){ return v ? esc(v) : '<span class="vacio">—</span>'; }
 
   function kpi(v,t){ return '<div class="kpi"><b>'+esc(v)+'</b><span>'+esc(t)+'</span></div>'; }
 

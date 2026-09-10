@@ -66,7 +66,8 @@ socio con su propio número**. En la base de datos eso son varias filas:
   **importe completo** del abono.
 - Cada persona incluida lleva `titular_id` con el número del titular, su
   `parentesco` (Pareja, Hijo, Hija…) e **importe 0**, porque la cuota se paga
-  una sola vez. Hereda teléfono, correo, localidad y consentimientos.
+  una sola vez. Hereda localidad y consentimientos, pero **no teléfono ni
+  correo**: el formulario pide un único contacto, el del titular.
 
 Consecuencias prácticas:
 
@@ -76,7 +77,9 @@ Consecuencias prácticas:
 - Marcar el pago afecta a **todo el grupo**: el panel resuelve
   `COALESCE(titular_id, id)` y actualiza titular e incluidas de una vez.
 - El panel ordena por abono y muestra las personas incluidas indentadas bajo su
-  titular. Los euros se cuentan **sólo en los titulares**, así que «Cobrado» y
+  titular, con «—» en las columnas que sólo tiene el titular.
+- La columna **Tutor/a legal** es la madre, el padre o el tutor/a legal, y sólo
+  se rellena cuando quien titula el abono es menor de edad. Los euros se cuentan **sólo en los titulares**, así que «Cobrado» y
   «Comprometido» no se duplican.
 
 ## Despliegue

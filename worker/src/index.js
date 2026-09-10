@@ -490,13 +490,15 @@ export default {
       numero = res.meta.last_row_id;
       socios.push({ numero, nombre: fila.nombre, parentesco: 'Titular' });
 
-      // Las personas incluidas heredan del titular el contacto, la localidad
-      // y los consentimientos: son la misma unidad familiar y así el club
-      // puede localizarlas. Importe 0, porque la cuota ya está en el titular.
+      // Las personas incluidas heredan del titular la localidad y los
+      // consentimientos, pero NO el teléfono ni el correo: el formulario pide
+      // un solo contacto, el del titular, y repetirlo en cada fila daría a
+      // entender que cada persona facilitó el suyo. Importe 0, porque la
+      // cuota ya está en el titular.
       for (const p of incluidas) {
         const r = await env.DB.prepare(SQL).bind(
           fila.temporada, fila.creado, fila.modalidad, fila.pago, 0,
-          p.nombre, '', p.dni, p.nacimiento, fila.telefono, fila.email,
+          p.nombre, '', p.dni, p.nacimiento, '', '',
           fila.localidad, fila.provincia, fila.imagen, fila.comunicaciones,
           '[]', null, fila.ip_pais, numero, p.parentesco || 'Incluido/a'
         ).run();
