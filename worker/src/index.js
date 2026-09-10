@@ -331,6 +331,7 @@ export default {
           '',
           'Queda un último paso, la transferencia:',
           `  Importe: ${fila.importe} €`,
+          '  Destinatario: Club Balonmano Vetusta',
           `  IBAN: ${env.IBAN || '(pendiente)'}`,
           `  Concepto: ${fila.nombre} ${fila.apellidos} - Abono ${fila.modalidad}`,
           '',

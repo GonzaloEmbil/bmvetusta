@@ -168,10 +168,18 @@ a { color: var(--tinta); }
 
 .f-mod-box:hover { border-color: var(--tinta-2); }
 
+/* Seleccionada: negro con el texto en blanco. Se invierten también los tres
+   textos internos, que tienen su propio color. */
 .f-mod input:checked + .f-mod-box {
+    background: var(--tinta);
     border-color: var(--tinta);
-    background: #fffdf0;
-    box-shadow: inset 0 0 0 1px var(--tinta), 0 0 0 4px var(--amarillo);
+    color: #fff;
+}
+
+.f-mod input:checked + .f-mod-box .f-mod-nom,
+.f-mod input:checked + .f-mod-box .f-mod-eur,
+.f-mod input:checked + .f-mod-box .f-mod-det {
+    color: #fff;
 }
 
 .f-mod input:focus-visible + .f-mod-box {
@@ -482,6 +490,67 @@ a { color: var(--tinta); }
 
 .f-dl dd { color: var(--tinta-2); font-size: 0.93rem; margin: 6px 0 0; }
 .f-dl a, .f-legal-lista a { color: var(--tinta); text-decoration: underline; word-break: break-word; }
+
+/* ── Escritorio: dos columnas para que quepa todo de un vistazo ──
+   Columna izquierda, lo que cuentas de ti: modalidad, datos y, si procede,
+   personas incluidas y tutor. Columna derecha, lo que aceptas y pagas.
+   Conformidad y botón, a lo ancho, al final.
+   Los bloques se colocan a mano por fila y columna, no al flujo, porque dos
+   de ellos son condicionales: cuando se ocultan, su fila se queda en cero y
+   no deja hueco. La numeración la recalcula el script sobre el orden del
+   HTML, que no cambia. */
+@media (min-width: 900px) {
+    .f-main { max-width: 1140px; }
+
+    .f-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        column-gap: 48px;
+        align-items: start;
+        margin-top: 38px;
+    }
+
+    #alta-modalidad       { grid-area: 1 / 1; }
+    #alta-datos           { grid-area: 2 / 1; }
+    #alta-incluidas       { grid-area: 3 / 1; }
+    #alta-tutor           { grid-area: 4 / 1; }
+    #alta-consentimientos { grid-area: 1 / 2; }
+    #alta-pago            { grid-area: 2 / 2; }
+    #alta-conformidad     { grid-area: 5 / 1 / 6 / -1; }
+    .f-submit-wrap        { grid-area: 6 / 1 / 7 / -1; }
+    .f-trampa             { grid-area: 7 / 1 / 8 / -1; }
+
+    /* La separación la daba `.f-step + .f-step`, que en una rejilla ya no
+       corresponde al orden visual. Se sustituye por una regla por bloque. */
+    .f-form > .f-step + .f-step {
+        margin-top: 0;
+        padding-top: 0;
+        border-top: none;
+    }
+
+    /* Los de la fila 2 en adelante llevan su línea y su aire. Los de la
+       fila 1 abren columna y no la necesitan. */
+    #alta-datos,
+    #alta-pago,
+    #alta-incluidas,
+    #alta-tutor,
+    #alta-conformidad {
+        margin-top: 44px;
+        padding-top: 40px;
+        border-top: 1px solid var(--linea);
+    }
+
+    /* Dos columnas dejan la mitad de ancho: los campos van de dos en dos y
+       las cuatro modalidades en cuadro. */
+    .f-grid { grid-template-columns: 1fr 1fr; }
+    .f-mods { grid-template-columns: 1fr 1fr; }
+
+    /* Personas incluidas sí necesita las cuatro columnas internas cuando
+       está a media anchura: se deja en dos para que respire. */
+    .f-persona .f-grid { grid-template-columns: 1fr 1fr; }
+
+    .f-submit-wrap { margin-top: 44px; }
+}
 
 @media (max-width: 600px) {
     .f-main { padding: 30px 18px 70px; }

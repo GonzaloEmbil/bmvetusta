@@ -272,6 +272,7 @@
         document.getElementById('alta-ok-email').textContent = d.email;
         document.getElementById('alta-ok-pago').innerHTML =
             '<div class="f-pago-fila"><span class="f-pago-k">Importe</span><span class="f-pago-v">' + d.importe + '</span></div>' +
+            '<div class="f-pago-fila"><span class="f-pago-k">Destinatario</span><span class="f-pago-v">Club Balonmano Vetusta</span></div>' +
             '<div class="f-pago-fila"><span class="f-pago-k">IBAN</span><span class="f-pago-v f-iban">' + IBAN + '</span></div>' +
             '<div class="f-pago-fila"><span class="f-pago-k">Concepto</span><span class="f-pago-v">' +
                 concepto(d.nombre + ' ' + d.apellidos, d.modalidad) + '</span></div>';

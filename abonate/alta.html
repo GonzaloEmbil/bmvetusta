@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" href="../src/assets/escudo.png">
     <!-- Hoja propia y tema claro: esta página es un trámite, no una sección
          más de la web, así que no carga style.css a propósito. -->
-    <link rel="stylesheet" href="./formulario.css?v=f-4">
+    <link rel="stylesheet" href="./formulario.css?v=f-7">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -39,7 +39,7 @@
 
         <form id="alta-form" class="f-form" novalidate>
 
-            <fieldset class="f-step">
+            <fieldset class="f-step" id="alta-modalidad">
                 <legend><span class="f-n">1</span> Elige tu modalidad</legend>
                 <div class="f-mods" role="radiogroup" aria-label="Modalidad de abono">
                     <label class="f-mod">
@@ -78,7 +78,7 @@
                 <p class="f-err" data-error-for="modalidad"></p>
             </fieldset>
 
-            <fieldset class="f-step">
+            <fieldset class="f-step" id="alta-datos">
                 <legend><span class="f-n">2</span> Tus datos</legend>
                 <div class="f-grid">
                     <label class="f-field">
@@ -152,7 +152,7 @@
                 </div>
             </fieldset>
 
-            <fieldset class="f-step">
+            <fieldset class="f-step" id="alta-consentimientos">
                 <legend><span class="f-n">5</span> Consentimientos</legend>
                 <div class="f-consent">
                     <p class="f-consent-txt"><strong>Derechos de imagen.</strong> Autorizo al Club Balonmano Vetusta a captar y publicar imágenes y vídeos tomados en los partidos y actos del club en su web y en sus perfiles de redes sociales, sin finalidad comercial y sin derecho a contraprestación.</p>
@@ -172,12 +172,16 @@
                 </div>
             </fieldset>
 
-            <fieldset class="f-step">
+            <fieldset class="f-step" id="alta-pago">
                 <legend><span class="f-n">6</span> Pago por transferencia</legend>
                 <div class="f-pago">
                     <div class="f-pago-fila">
                         <span class="f-pago-k">Importe</span>
                         <span class="f-pago-v" id="alta-importe">—</span>
+                    </div>
+                    <div class="f-pago-fila">
+                        <span class="f-pago-k">Destinatario</span>
+                        <span class="f-pago-v">Club Balonmano Vetusta</span>
                     </div>
                     <div class="f-pago-fila">
                         <span class="f-pago-k">IBAN</span>
@@ -188,10 +192,9 @@
                         <span class="f-pago-v" id="alta-concepto">Tu nombre - Abono</span>
                     </div>
                 </div>
-                <p class="f-hint">Haz la transferencia con ese concepto. En cuanto la recibamos te confirmamos el alta por correo y te avisamos de cuándo recoger el carné.</p>
             </fieldset>
 
-            <fieldset class="f-step">
+            <fieldset class="f-step" id="alta-conformidad">
                 <legend><span class="f-n">7</span> Conformidad</legend>
                 <label class="f-check">
                     <input type="checkbox" name="conformidad" required>
@@ -232,6 +235,6 @@
         </div>
     </footer>
 
-    <script src="./alta.js?v=alta-6"></script>
+    <script src="./alta.js?v=alta-7"></script>
 </body>
 </html>
