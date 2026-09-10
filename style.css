@@ -4295,11 +4295,15 @@ body {
 /* Texto explicativo. En móvil cierra la página, bajo el cartel; en
    escritorio se coloca entre el botón y el vídeo (ver más abajo). */
 .abono-note {
-    color: #b9b9b9;
+    color: #fff;
     font-size: 0.92rem;
     line-height: 1.6;
     max-width: 520px;
     margin: 24px auto 0;
+    /* La sección centra todo su texto; aquí se justifica. */
+    text-align: justify;
+    text-wrap: pretty;
+    hyphens: auto;
 }
 
 .abono-note strong {
