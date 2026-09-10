@@ -60,7 +60,7 @@ tbody tr.asoc td.num{font-weight:600;color:var(--t2)}
 tbody tr.asoc td.nom{padding-left:26px;position:relative}
 tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var(--t3)}
 .vinc{font-size:.82rem;color:var(--t2)}
-.detalle{font-size:.82rem;color:var(--t2);white-space:normal;max-width:280px}
+.detalle{font-size:.82rem;color:var(--t2);white-space:normal;min-width:200px;max-width:280px}
 .vacio{color:var(--t3)}
 th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px}
 .filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
