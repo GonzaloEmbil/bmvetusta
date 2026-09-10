@@ -196,38 +196,7 @@ const CAB_ADMIN = {
 
 // ── Correo (opcional: solo si hay RESEND_API_KEY) ──────────────────────────
 
-function resumen(d, numero, socios) {
-  const L = [
-    `ALTA DE ABONADO/A Nº ${numero} · TEMPORADA ${TEMPORADA}`,
-    '',
-    `Modalidad: ${d.modalidad} (${PRECIOS[d.modalidad]} €)`,
-    `Forma de pago: ${d.pago}`,
-    '',
-    'TITULAR',
-    `${d.nombre}`,
-    `DNI/NIE: ${d.dni}`,
-    `Nacimiento: ${d.nacimiento} (${edad(d.nacimiento)} años)`,
-    `Móvil: ${d.telefono}`,
-    `Correo: ${d.email}`,
-    `Localidad: ${d.localidad}`,
-  ];
-  if (socios && socios.length > 1) {
-    L.push('', 'SOCIOS DEL ABONO (cada uno con su número)');
-    socios.forEach((s) => L.push(`- Nº ${s.numero} · ${s.nombre} (${s.parentesco})`));
-  }
-  if (d.tutor) {
-    L.push('', 'TUTOR/A LEGAL', `${d.tutor.nombre} | ${d.tutor.dni} | ${d.tutor.telefono}`);
-  }
-  L.push('', 'CONSENTIMIENTOS', `Derechos de imagen: ${d.imagen}`, `Comunicaciones: ${d.comunicaciones}`);
-  L.push('', 'Pendiente de comprobar la transferencia.');
-  return L.join('\n');
-}
-
-// El dominio no tiene correo entrante, así que se envía DESDE
-// altas@balonmanovetusta.com pero se responde al buzón que el club lee de
-// verdad: sin esto, quien contestara al aviso escribiría a un buzón que no
-// existe y le rebotaría.
-async function enviarCorreo(env, { para, asunto, texto: cuerpo, responder }) {
+async function enviarCorreo(env, { para, copia, asunto, texto: cuerpo, responder }) {
   if (!env.RESEND_API_KEY) return { saltado: true };
   const r = await fetch('https://api.resend.com/emails', {
     method: 'POST',
@@ -238,6 +207,7 @@ async function enviarCorreo(env, { para, asunto, texto: cuerpo, responder }) {
     body: JSON.stringify({
       from: env.AVISO_DE,
       to: [para],
+      ...(copia ? { cc: [copia] } : {}),
       subject: asunto,
       text: cuerpo,
       reply_to: responder || env.AVISO_A,
@@ -531,25 +501,25 @@ export default {
       return json({ ok: false, error: 'bd' }, 500, cabeceras);
     }
 
-    // Los correos no deben tumbar el alta: ya está guardada.
-    const cuerpo = resumen({ ...d, dni }, numero, socios);
+    // Un solo envío: va al abonado y el club queda en copia. Antes eran dos
+    // correos y el del club repetía en texto lo que el panel ya muestra mejor,
+    // así que se gasta la mitad del cupo del proveedor sin perder el registro:
+    // el club recibe una copia por cada alta.
+    // Nunca puede tumbar el alta, que ya está guardada.
     try {
       await enviarCorreo(env, {
-        para: env.AVISO_A,
-        asunto: `Alta de abonado/a nº ${numero} · ${fila.nombre}`,
-        texto: cuerpo,
-        responder: fila.email,
-      });
-      await enviarCorreo(env, {
         para: fila.email,
+        copia: env.AVISO_A,
         asunto: `Tu alta como abonado/a del Balonmano Vetusta · nº ${numero}`,
         texto: [
           `Hola ${fila.nombre}:`,
           '',
           `Hemos recibido tu solicitud de alta como abonado/a para la temporada ${TEMPORADA}.`,
+          '',
+          `Modalidad: ${fila.modalidad} (${fila.importe} €)`,
           ...(socios.length > 1
             ? ['Números de abonado/a de este abono:',
-               ...socios.map((s) => `  Nº ${s.numero} · ${s.nombre}`)]
+               ...socios.map((s) => `  Nº ${s.numero} · ${s.nombre} (${s.parentesco})`)]
             : [`Tu número de abonado/a es el ${numero}.`]),
           '',
           ...(fila.pago === 'Presencial' ? [

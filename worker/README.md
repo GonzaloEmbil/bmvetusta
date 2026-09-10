@@ -112,10 +112,17 @@ apunta `abonate/alta.js`. Si prefieres otra, cámbiala en ese archivo.
 El envío es **opcional**. Sin `RESEND_API_KEY` el alta se guarda igual y no se
 manda nada; conviene activarlo para no tener que vigilar el CSV.
 
-Con la clave puesta se envían dos correos por alta: el aviso al club con todos
-los datos y la confirmación al socio con su número y las instrucciones de la
-transferencia. El remitente (`AVISO_DE` en `wrangler.toml`) debe ser un dominio
-verificado en el proveedor.
+Con la clave puesta se envía **un correo por alta**: va al abonado, con su
+número o números y las instrucciones de pago, y el buzón del club (`AVISO_A`)
+queda **en copia**. Así el club conserva un registro de cada alta gastando la
+mitad del cupo del proveedor, y el detalle completo sigue estando donde se lee
+mejor, en el panel y en el CSV.
+
+El remitente es `AVISO_DE`, `socios@balonmanovetusta.com`. Su dominio tiene que
+estar verificado en el proveedor, pero **no hace falta que el buzón exista**:
+lo que autoriza el envío es ser dueño del dominio. Como el dominio no recibe
+correo, todos los envíos llevan un `Reply-To` al buzón del club para que las
+respuestas no reboten.
 
 Si preferís otro proveedor, la única función que hay que cambiar es
 `enviarCorreo`.
