@@ -7,7 +7,7 @@
 
     var ENDPOINT = 'https://altas.balonmanovetusta.com/alta';
     var IBAN = 'ES13 3059 0062 8530 2750 7320';
-    var DESTINO = 'balonmanovetusta@gmail.com';
+    var DESTINO = 'sociosbalonmanovetusta@gmail.com';
 
     var form = document.getElementById('alta-form');
     if (!form) return;

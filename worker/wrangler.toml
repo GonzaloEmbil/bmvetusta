@@ -36,7 +36,7 @@ database_id = "c72f6ecc-1402-47e7-9d90-dc769b6e6ee8"
 # Solo se aceptan envíos desde estos orígenes.
 ORIGENES = "https://balonmanovetusta.com,https://www.balonmanovetusta.com"
 # Destinatario de los avisos de alta.
-AVISO_A = "balonmanovetusta@gmail.com"
+AVISO_A = "sociosbalonmanovetusta@gmail.com"
 # Remitente de los correos. Debe ser un dominio verificado en el proveedor.
 AVISO_DE = "altas@balonmanovetusta.com"
 # El dominio no recibe correo, así que las respuestas se dirigen a AVISO_A.
