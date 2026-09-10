@@ -10,6 +10,7 @@
  */
 
 import { ADMIN_HTML } from './admin.js';
+import { correoAlta } from './correo.js';
 
 const PRECIOS = { 'Sub 18': 20, 'Adulto': 40, 'Matrimonio': 70, 'Familiar': 90 };
 const TEMPORADA = '2026/2027';
@@ -195,43 +196,6 @@ const CAB_ADMIN = {
 };
 
 // ── Correo (opcional: solo si hay RESEND_API_KEY) ──────────────────────────
-
-// El correo se describe UNA sola vez, como una lista de líneas, y de ahí salen
-// las dos versiones que se envían: el texto plano y el HTML. Es la única forma
-// de tener negrita —text/plain no tiene marcas de estilo— sin acabar con dos
-// plantillas que se desincronizan en cuanto se cambia una frase.
-//
-// Una línea es un texto suelto, o un array de trozos donde negrita() marca los
-// que van resaltados.
-const negrita = (v) => ({ fuerte: String(v) });
-
-const trozos = (linea) => (Array.isArray(linea) ? linea : [linea]);
-
-function comoTextoPlano(lineas) {
-  return lineas
-    .map((l) => trozos(l).map((x) => (x && x.fuerte !== undefined ? x.fuerte : x)).join(''))
-    .join('\n');
-}
-
-function escaparHtml(s) {
-  return String(s).replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-}
-
-function comoHtml(lineas) {
-  const cuerpo = lineas
-    .map((l) => trozos(l)
-      .map((x) => (x && x.fuerte !== undefined
-        ? `<strong>${escaparHtml(x.fuerte)}</strong>`
-        : escaparHtml(x)))
-      .join('')
-      // El HTML colapsa los espacios seguidos: las líneas sangradas de los
-      // datos de pago perderían su sangría sin esto.
-      .replace(/^ +/, (m) => '&nbsp;'.repeat(m.length)))
-    .join('<br>');
-  // Sin logo, sin colores y sin maquetación a propósito: se busca que se lea
-  // como un correo escrito a mano, sólo con las cifras resaltadas.
-  return `<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.55;color:#14161a">${cuerpo}</div>`;
-}
 
 async function enviarCorreo(env, { para, copia, asunto, texto: cuerpo, html, responder }) {
   if (!env.RESEND_API_KEY) return { saltado: true };
@@ -544,48 +508,20 @@ export default {
     // así que se gasta la mitad del cupo del proveedor sin perder el registro:
     // el club recibe una copia por cada alta.
     // Nunca puede tumbar el alta, que ya está guardada.
-    const L = [
-      `Hola ${fila.nombre}:`,
-      '',
-      `Hemos recibido tu solicitud de alta como abonado/a para la temporada ${TEMPORADA}.`,
-      '',
-      ['Modalidad: ', negrita(`${fila.modalidad} (${fila.importe} €)`)],
-    ];
-    if (socios.length > 1) {
-      L.push('Números de abonado/a de este abono:');
-      socios.forEach((s) => L.push(
-        ['  Nº ', negrita(s.numero), ` · ${s.nombre} (${s.parentesco})`]
-      ));
-    } else {
-      L.push(['Tu número de abonado/a es el ', negrita(numero), '.']);
-    }
-    L.push('');
-    if (fila.pago === 'Presencial') {
-      L.push(['Puedes pagar los ', negrita(`${fila.importe} €`),
-              ' en el Florida Arena cualquier día que el Balonmano Vetusta juegue como local.']);
-    } else {
-      L.push('Datos para la transferencia:');
-      L.push(['  Importe: ', negrita(`${fila.importe} €`)]);
-      L.push('  Destinatario: Club Balonmano Vetusta');
-      L.push(['  IBAN: ', negrita(env.IBAN || '(pendiente)')]);
-      L.push(['  Concepto: ', negrita(`${fila.nombre} - Abono ${fila.modalidad}`)]);
-    }
-    L.push(
-      '',
-      '¡Puedes recoger tu carnet de abonado en el Florida Arena en cualquier partido del primer equipo del Balonmano Vetusta!',
-      '',
-      'Muchas gracias, ¡te esperamos en el Florida Arena!',
-      '',
-      'Balonmano Vetusta'
-    );
+    // Ojo con el nombre: desestructurar aquí un `texto` taparía la función
+    // texto() del módulo en TODO el manejador, y por la zona muerta temporal
+    // del const, las llamadas anteriores a texto() reventarían.
+    const correo = correoAlta({
+      fila, socios, numero, temporada: TEMPORADA, iban: env.IBAN || '(pendiente)',
+    });
 
     try {
       await enviarCorreo(env, {
         para: fila.email,
         copia: env.AVISO_A,
         asunto: `Tu alta como abonado/a del Balonmano Vetusta · nº ${numero}`,
-        texto: comoTextoPlano(L),
-        html: comoHtml(L),
+        texto: correo.texto,
+        html: correo.html,
       });
     } catch { /* sin efecto sobre el alta */ }
 
