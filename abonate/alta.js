@@ -281,10 +281,18 @@
         return L.join('\n');
     }
 
-    function mostrarOk(d, numero) {
+    function mostrarOk(d, numero, socios) {
         var wrap = document.getElementById('alta-ok-numero-wrap');
         if (wrap) {
-            document.getElementById('alta-ok-numero').textContent = numero || '';
+            // Cada persona del abono es un socio con su número: si hay varios
+            // se listan todos, porque cada uno necesita el suyo.
+            if (socios && socios.length > 1) {
+                wrap.innerHTML = 'Números de abonado/a:<br>' + socios.map(function (s) {
+                    return '<strong>' + s.numero + '</strong> · ' + s.nombre;
+                }).join('<br>');
+            } else {
+                wrap.innerHTML = 'Tu número de abonado/a es el <strong>' + (numero || '') + '</strong>';
+            }
             wrap.hidden = !numero;
         }
         document.getElementById('alta-ok-email').textContent = d.email;
@@ -399,10 +407,11 @@
             return r.json().catch(function () { return {}; })
                 .then(function (j) { return { status: r.status, body: j }; });
         }).then(function (res) {
-            if (res.status === 200 && res.body.ok) { mostrarOk(d, res.body.numero); return; }
+            if (res.status === 200 && res.body.ok) { mostrarOk(d, res.body.numero, res.body.socios); return; }
             btn.disabled = false;
             if (res.status === 409) {
-                estado.innerHTML = 'Ese DNI ya está dado de alta esta temporada. ' +
+                var repes = (res.body.dnis || []).join(', ');
+                estado.innerHTML = (repes ? 'Ya hay un alta con este DNI: ' + repes + '. ' : 'Ese DNI ya está dado de alta esta temporada. ') +
                     'Si crees que es un error, escríbenos a <a href="mailto:' + DESTINO + '">' + DESTINO + '</a>';
                 return;
             }

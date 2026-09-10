@@ -196,7 +196,7 @@ const CAB_ADMIN = {
 
 // ── Correo (opcional: solo si hay RESEND_API_KEY) ──────────────────────────
 
-function resumen(d, numero) {
+function resumen(d, numero, socios) {
   const L = [
     `ALTA DE ABONADO/A Nº ${numero} · TEMPORADA ${TEMPORADA}`,
     '',
@@ -211,9 +211,9 @@ function resumen(d, numero) {
     `Correo: ${d.email}`,
     `Localidad: ${d.localidad}`,
   ];
-  if (d.incluidas && d.incluidas.length) {
-    L.push('', 'PERSONAS INCLUIDAS');
-    d.incluidas.forEach((p) => L.push(`- ${p.nombre} | ${p.dni} | ${p.nacimiento} | ${p.parentesco}`));
+  if (socios && socios.length > 1) {
+    L.push('', 'SOCIOS DEL ABONO (cada uno con su número)');
+    socios.forEach((s) => L.push(`- Nº ${s.numero} · ${s.nombre} (${s.parentesco})`));
   }
   if (d.tutor) {
     L.push('', 'TUTOR/A LEGAL', `${d.tutor.nombre} | ${d.tutor.dni} | ${d.tutor.telefono}`);
@@ -308,15 +308,20 @@ export default {
       if (!(await sesionValida(env, testigoDe(request)))) {
         return json({ ok: false }, 401, CAB_ADMIN);
       }
+      // Cada socio es una fila. Los asociados traen el nombre de su titular
+      // resuelto aquí, para que el panel no tenga que cruzarlo.
       const { results } = await env.DB.prepare(
-        `SELECT id, creado, modalidad, pago, importe, pagado, nombre, dni, nacimiento,
-                telefono, email, localidad, imagen, comunicaciones, incluidas, tutor
-           FROM abonados ORDER BY id DESC`
+        `SELECT a.id, a.creado, a.modalidad, a.pago, a.importe, a.pagado, a.nombre,
+                a.dni, a.nacimiento, a.telefono, a.email, a.localidad, a.imagen,
+                a.comunicaciones, a.tutor, a.titular_id, a.parentesco,
+                t.nombre AS titular_nombre
+           FROM abonados a
+           LEFT JOIN abonados t ON t.id = a.titular_id
+          ORDER BY COALESCE(a.titular_id, a.id) DESC, a.titular_id IS NOT NULL, a.id`
       ).all();
       const abonados = (results || []).map((r) => ({
         ...r,
         pagado: !!r.pagado,
-        incluidas: JSON.parse(r.incluidas || '[]'),
         tutor: r.tutor ? JSON.parse(r.tutor) : null,
       }));
       return json({ ok: true, abonados }, 200, CAB_ADMIN);
@@ -330,9 +335,16 @@ export default {
       try { body = await request.json(); } catch { /* nada */ }
       const id = parseInt(body.id, 10);
       if (!Number.isInteger(id) || id < 1) return json({ ok: false }, 400, CAB_ADMIN);
-      await env.DB.prepare('UPDATE abonados SET pagado = ? WHERE id = ?')
-        .bind(body.pagado ? 1 : 0, id).run();
-      return json({ ok: true }, 200, CAB_ADMIN);
+      // El pago es del abono, no de cada socio: se marca el grupo entero,
+      // titular y asociados, para que no queden estados incoherentes.
+      const { results } = await env.DB.prepare(
+        'SELECT COALESCE(titular_id, id) AS grupo FROM abonados WHERE id = ?'
+      ).bind(id).all();
+      const grupo = results[0] && results[0].grupo;
+      if (!grupo) return json({ ok: false }, 404, CAB_ADMIN);
+      await env.DB.prepare('UPDATE abonados SET pagado = ? WHERE id = ? OR titular_id = ?')
+        .bind(body.pagado ? 1 : 0, grupo, grupo).run();
+      return json({ ok: true, grupo }, 200, CAB_ADMIN);
     }
 
     // Exportación para el club: rellenar carnés, cuadrar transferencias.
@@ -357,9 +369,9 @@ export default {
       const { results } = await env.DB.prepare(
         'SELECT * FROM abonados ORDER BY id'
       ).all();
-      const cols = ['id', 'creado', 'modalidad', 'pago', 'importe', 'pagado', 'nombre', 'apellidos',
-        'dni', 'nacimiento', 'telefono', 'email', 'localidad', 'imagen', 'comunicaciones',
-        'incluidas', 'tutor'];
+      const cols = ['id', 'titular_id', 'parentesco', 'creado', 'modalidad', 'pago',
+        'importe', 'pagado', 'nombre', 'dni', 'nacimiento', 'telefono', 'email',
+        'localidad', 'imagen', 'comunicaciones', 'tutor'];
       const escapar = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
       const csv = [cols.join(';')]
         .concat((results || []).map((r) => cols.map((c) => escapar(r[c])).join(';')))
@@ -434,23 +446,68 @@ export default {
       ip_pais: request.headers.get('CF-IPCountry') || null,
     };
 
+    // Cada persona del abono es un socio con su propio número, así que se
+    // insertan varias filas: el titular y una por cada persona incluida,
+    // enlazadas por titular_id. El importe va sólo en el titular: la cuota es
+    // del abono, no de cada persona, y si se repitiera los totales de dinero
+    // saldrían multiplicados.
+    const incluidas = JSON.parse(fila.incluidas);
+
+    // Se comprueban todos los DNI antes de escribir nada: si uno ya está
+    // dado de alta, es mejor rechazar el conjunto que dejar medio abono
+    // creado. El índice único sigue siendo la garantía final.
+    const dnis = [dni, ...incluidas.map((p) => p.dni)];
+    if (new Set(dnis).size !== dnis.length) {
+      return json({ ok: false, error: 'dni_repetido' }, 422, cabeceras);
+    }
+    const marcadores = dnis.map(() => '?').join(',');
+    const yaExisten = await env.DB.prepare(
+      `SELECT dni FROM abonados WHERE temporada = ? AND dni IN (${marcadores})`
+    ).bind(TEMPORADA, ...dnis).all();
+    if ((yaExisten.results || []).length) {
+      return json({
+        ok: false,
+        error: 'duplicado',
+        dnis: yaExisten.results.map((r) => r.dni),
+      }, 409, cabeceras);
+    }
+
+    const SQL = `INSERT INTO abonados
+        (temporada, creado, modalidad, pago, importe, nombre, apellidos, dni,
+         nacimiento, telefono, email, localidad, provincia, imagen, comunicaciones,
+         incluidas, tutor, ip_pais, titular_id, parentesco)
+       VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`;
+
     let numero;
+    const socios = [];
     try {
-      const res = await env.DB.prepare(
-        `INSERT INTO abonados
-           (temporada, creado, modalidad, pago, importe, nombre, apellidos, dni,
-            nacimiento, telefono, email, localidad, provincia, imagen, comunicaciones,
-            incluidas, tutor, ip_pais)
-         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)`
-      ).bind(
-        fila.temporada, fila.creado, fila.modalidad, fila.pago, fila.importe, fila.nombre,
-        fila.apellidos, fila.dni, fila.nacimiento, fila.telefono, fila.email,
-        fila.localidad, fila.provincia, fila.imagen, fila.comunicaciones,
-        fila.incluidas, fila.tutor, fila.ip_pais
+      const res = await env.DB.prepare(SQL).bind(
+        fila.temporada, fila.creado, fila.modalidad, fila.pago, fila.importe,
+        fila.nombre, fila.apellidos, fila.dni, fila.nacimiento, fila.telefono,
+        fila.email, fila.localidad, fila.provincia, fila.imagen,
+        fila.comunicaciones, '[]', fila.tutor, fila.ip_pais, null, 'Titular'
       ).run();
       numero = res.meta.last_row_id;
+      socios.push({ numero, nombre: fila.nombre, parentesco: 'Titular' });
+
+      // Las personas incluidas heredan del titular el contacto, la localidad
+      // y los consentimientos: son la misma unidad familiar y así el club
+      // puede localizarlas. Importe 0, porque la cuota ya está en el titular.
+      for (const p of incluidas) {
+        const r = await env.DB.prepare(SQL).bind(
+          fila.temporada, fila.creado, fila.modalidad, fila.pago, 0,
+          p.nombre, '', p.dni, p.nacimiento, fila.telefono, fila.email,
+          fila.localidad, fila.provincia, fila.imagen, fila.comunicaciones,
+          '[]', null, fila.ip_pais, numero, p.parentesco || 'Incluido/a'
+        ).run();
+        socios.push({ numero: r.meta.last_row_id, nombre: p.nombre, parentesco: p.parentesco });
+      }
     } catch (err) {
-      // El índice único salta si ese DNI ya está dado de alta esta temporada.
+      // Si falla a mitad, se retira lo escrito para no dejar un abono partido.
+      if (numero) {
+        await env.DB.prepare('DELETE FROM abonados WHERE id = ? OR titular_id = ?')
+          .bind(numero, numero).run();
+      }
       if (String(err && err.message).includes('UNIQUE')) {
         return json({ ok: false, error: 'duplicado' }, 409, cabeceras);
       }
@@ -458,7 +515,7 @@ export default {
     }
 
     // Los correos no deben tumbar el alta: ya está guardada.
-    const cuerpo = resumen({ ...d, dni }, numero);
+    const cuerpo = resumen({ ...d, dni }, numero, socios);
     try {
       await enviarCorreo(env, {
         para: env.AVISO_A,
@@ -472,7 +529,10 @@ export default {
           `Hola ${fila.nombre}:`,
           '',
           `Hemos recibido tu solicitud de alta como abonado/a para la temporada ${TEMPORADA}.`,
-          `Tu número de abonado/a es el ${numero}.`,
+          ...(socios.length > 1
+            ? ['Números de abonado/a de este abono:',
+               ...socios.map((s) => `  Nº ${s.numero} · ${s.nombre}`)]
+            : [`Tu número de abonado/a es el ${numero}.`]),
           '',
           ...(fila.pago === 'Presencial' ? [
             `Puedes pagar los ${fila.importe} € en el Florida Arena cualquier día que`,
@@ -493,6 +553,6 @@ export default {
       });
     } catch { /* sin efecto sobre el alta */ }
 
-    return json({ ok: true, numero }, 200, cabeceras);
+    return json({ ok: true, numero, socios }, 200, cabeceras);
   },
 };

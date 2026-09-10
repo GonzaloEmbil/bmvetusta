@@ -55,6 +55,11 @@ td.num{font-weight:800}
 .chip{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid var(--l2)}
 .chip.si{background:#e7f7ec;border-color:#a9dcb8;color:var(--ok)}
 .chip.no{background:#fdf3f2;border-color:#e8b4ae;color:var(--err)}
+.chip.tit{background:#eef1f6;color:var(--t2)}
+tbody tr.asoc td.num{font-weight:600;color:var(--t2)}
+tbody tr.asoc td.nom{padding-left:26px;position:relative}
+tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var(--t3)}
+.vinc{font-size:.82rem;color:var(--t2)}
 .detalle{font-size:.82rem;color:var(--t2);white-space:normal;max-width:280px}
 .filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
@@ -85,9 +90,9 @@ td.num{font-weight:800}
     </div>
     <div class="tabla-wrap"><table>
       <thead><tr>
-        <th>Nº</th><th>Pagado</th><th>Alta</th><th>Modalidad</th><th>Pago</th><th>Importe</th>
-        <th>Nombre</th><th>DNI/NIE</th><th>Nacimiento</th><th>Móvil</th><th>Correo</th>
-        <th>Localidad</th><th>Imagen</th><th>Comunic.</th><th>Incluidas</th><th>Tutor/a</th>
+        <th>Nº socio</th><th>Pagado</th><th>Nombre</th><th>Vínculo</th><th>Alta</th>
+        <th>Modalidad</th><th>Pago</th><th>Importe</th><th>DNI/NIE</th><th>Nacimiento</th>
+        <th>Móvil</th><th>Correo</th><th>Localidad</th><th>Imagen</th><th>Comunic.</th><th>Tutor/a</th>
       </tr></thead>
       <tbody id="cuerpo"></tbody>
     </table></div>
@@ -175,30 +180,38 @@ td.num{font-weight:800}
     var lista = datos.filter(function(a){
       if (soloPend && a.pagado) return false;
       if (!q) return true;
-      return [a.nombre,a.dni,a.email,a.telefono,a.localidad,a.modalidad]
+      return [a.nombre,a.dni,a.email,a.telefono,a.localidad,a.modalidad,a.titular_nombre,String(a.id)]
         .join(' ').toLowerCase().indexOf(q) >= 0;
     });
 
-    var total = datos.length;
-    var pagados = datos.filter(function(a){return a.pagado;}).length;
-    var euros = datos.reduce(function(s,a){return s+(a.importe||0);},0);
-    var cobrado = datos.filter(function(a){return a.pagado;}).reduce(function(s,a){return s+(a.importe||0);},0);
+    // Socios y abonos no son lo mismo: un abono Familiar son cuatro socios.
+    // El dinero se cuenta sobre los titulares, que es donde está la cuota.
+    var socios = datos.length;
+    var titulares = datos.filter(function(a){return !a.titular_id;});
+    var abonosPag = titulares.filter(function(a){return a.pagado;}).length;
+    var euros = titulares.reduce(function(s,a){return s+(a.importe||0);},0);
+    var cobrado = titulares.filter(function(a){return a.pagado;})
+      .reduce(function(s,a){return s+(a.importe||0);},0);
     document.getElementById('kpis').innerHTML =
-      kpi(total,'Altas') + kpi(pagados,'Pagadas') + kpi(total-pagados,'Pendientes') +
+      kpi(socios,'Socios') + kpi(titulares.length,'Abonos') +
+      kpi(abonosPag,'Abonos pagados') + kpi(titulares.length-abonosPag,'Pendientes') +
       kpi(cobrado+' €','Cobrado') + kpi(euros+' €','Comprometido');
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
-      var inc = (a.incluidas||[]).map(function(p){
-        return esc(p.nombre)+' ('+esc(p.parentesco)+')'; }).join('<br>');
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '';
-      return '<tr class="'+(a.pagado?'pagado':'')+'">'+
+      var asociado = !!a.titular_id;
+      var vinculo = asociado
+        ? '<span class="vinc">'+esc(a.parentesco)+' de '+esc(a.titular_nombre)+' (nº '+a.titular_id+')</span>'
+        : '<span class="chip tit">Titular</span>';
+      return '<tr class="'+(a.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
         '<td class="num">'+a.id+'</td>'+
         '<td><button data-pagar="'+a.id+'" class="chip '+(a.pagado?'si':'no')+'">'+(a.pagado?'Sí':'No')+'</button></td>'+
+        '<td class="nom">'+esc(a.nombre)+'</td>'+
+        '<td class="detalle">'+vinculo+'</td>'+
         '<td>'+esc((a.creado||'').slice(0,10))+'</td>'+
         '<td>'+esc(a.modalidad)+'</td>'+
         '<td>'+esc(a.pago)+'</td>'+
-        '<td>'+esc(a.importe)+' €</td>'+
-        '<td>'+esc(a.nombre)+'</td>'+
+        '<td>'+(a.importe ? esc(a.importe)+' €' : '—')+'</td>'+
         '<td>'+esc(a.dni)+'</td>'+
         '<td>'+esc(a.nacimiento)+'</td>'+
         '<td>'+esc(a.telefono)+'</td>'+
@@ -206,7 +219,6 @@ td.num{font-weight:800}
         '<td>'+esc(a.localidad)+'</td>'+
         '<td>'+esc(a.imagen)+'</td>'+
         '<td>'+esc(a.comunicaciones)+'</td>'+
-        '<td class="detalle">'+inc+'</td>'+
         '<td class="detalle">'+tu+'</td>'+
         '</tr>';
     }).join('') || '<tr><td colspan="16" style="padding:22px;color:#7b828b">Todavía no hay altas.</td></tr>';
@@ -228,7 +240,13 @@ td.num{font-weight:800}
       body: JSON.stringify({ id: id, pagado: nuevo })
     }).then(function(r){
       if (!r.ok) throw new Error();
-      a.pagado = nuevo;
+      return r.json();
+    }).then(function(j){
+      // El pago es del abono: se refleja en el titular y en sus asociados.
+      var grupo = j.grupo || id;
+      datos.forEach(function(x){
+        if (x.id === grupo || x.titular_id === grupo) x.pagado = !!nuevo;
+      });
       pintar();
     }).catch(function(){
       btn.disabled = false;

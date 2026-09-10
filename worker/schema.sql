@@ -22,12 +22,23 @@ CREATE TABLE IF NOT EXISTS abonados (
   incluidas     TEXT    NOT NULL DEFAULT '[]', -- JSON
   tutor         TEXT,                          -- JSON o NULL
   pagado        INTEGER NOT NULL DEFAULT 0,    -- lo marca el club al ver la transferencia
-  ip_pais       TEXT
+  ip_pais       TEXT,
+  -- Cada persona de un abono Matrimonio o Familiar es un socio con su propio
+  -- número. La fila del titular lleva titular_id NULL y parentesco 'Titular';
+  -- las personas incluidas apuntan al número del titular y no llevan importe.
+  titular_id    INTEGER,
+  parentesco    TEXT    NOT NULL DEFAULT ''
 );
 
 -- Un DNI no puede darse de alta dos veces en la misma temporada.
 CREATE UNIQUE INDEX IF NOT EXISTS abonados_dni_temporada
   ON abonados (dni, temporada);
+
+-- Para agrupar en el panel cada abono con las personas que incluye.
+CREATE INDEX IF NOT EXISTS abonados_titular ON abonados (titular_id);
+
+-- La numeración de socios arranca en el 101: el primer alta será el 101.
+INSERT OR IGNORE INTO sqlite_sequence (name, seq) VALUES ('abonados', 100);
 
 -- Control de abuso. Se guarda un HASH de la IP, no la IP: sirve para contar
 -- intentos sin conservar un dato personal identificable, y las filas se

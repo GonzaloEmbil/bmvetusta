@@ -9,7 +9,7 @@ activa, el proveedor de envío de correo.
 
 | Ruta | Método | Para qué |
 |---|---|---|
-| `/alta` | POST | Alta nueva. Devuelve `{ ok: true, numero }` |
+| `/alta` | POST | Alta nueva. Devuelve `{ ok: true, numero, socios }` |
 | `/admin` | GET | **Panel de abonados**: listado, marcar pagos y descargar CSV |
 | `/admin/login` | POST | Comprueba la clave y devuelve una sesión firmada |
 | `/admin/datos` | GET | Listado en JSON. Requiere sesión |
@@ -55,7 +55,29 @@ wrangler secret put ADMIN_TOKEN
 
 El **número de abonado/a** es el `id` autoincremental de la base de datos, así
 que se asigna solo: es el campo que en la ficha de papel quedaba «a rellenar por
-el club».
+el club». La numeración arranca en el **101**.
+
+## Un socio por persona
+
+Un abono Matrimonio o Familiar da de alta a **varias personas y cada una es un
+socio con su propio número**. En la base de datos eso son varias filas:
+
+- La del **titular** lleva `titular_id` NULL, `parentesco` «Titular» y el
+  **importe completo** del abono.
+- Cada persona incluida lleva `titular_id` con el número del titular, su
+  `parentesco` (Pareja, Hijo, Hija…) e **importe 0**, porque la cuota se paga
+  una sola vez. Hereda teléfono, correo, localidad y consentimientos.
+
+Consecuencias prácticas:
+
+- Un DNI repetido dentro del mismo abono se rechaza (`dni_repetido`), y los
+  DNI se comprueban **todos antes de insertar nada**; si algo falla a mitad, se
+  borra el grupo entero para no dejar un abono partido.
+- Marcar el pago afecta a **todo el grupo**: el panel resuelve
+  `COALESCE(titular_id, id)` y actualiza titular e incluidas de una vez.
+- El panel ordena por abono y muestra las personas incluidas indentadas bajo su
+  titular. Los euros se cuentan **sólo en los titulares**, así que «Cobrado» y
+  «Comprometido» no se duplican.
 
 ## Despliegue
 
