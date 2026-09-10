@@ -112,9 +112,11 @@ async function hashIP(request, env) {
 }
 
 /**
- * Límite de intentos por IP y ruta en una ventana de tiempo.
- * Devuelve true si se ha excedido. Las filas viejas se borran aquí mismo,
- * así no hace falta ninguna tarea programada.
+ * Consulta si se ha excedido el límite de intentos, SIN apuntar uno nuevo.
+ * Separar la consulta del apunte permite contar sólo lo que interesa: en el
+ * acceso y en la descarga se apuntan únicamente los FALLOS, porque contar
+ * también los aciertos dejaba fuera a quien usa el panel con normalidad.
+ * Las filas viejas se borran aquí, así no hace falta tarea programada.
  */
 async function excedeLimite(env, ipHash, ruta, maximo, ventanaSeg) {
   const ahora = Math.floor(Date.now() / 1000);
@@ -122,10 +124,19 @@ async function excedeLimite(env, ipHash, ruta, maximo, ventanaSeg) {
   const { results } = await env.DB.prepare(
     'SELECT COUNT(*) AS n FROM limites WHERE ruta = ? AND ip_hash = ? AND ts > ?'
   ).bind(ruta, ipHash, ahora - ventanaSeg).all();
-  if ((results[0] && results[0].n) >= maximo) return true;
+  return (results[0] && results[0].n) >= maximo;
+}
+
+/** Apunta un intento. */
+async function apuntarIntento(env, ipHash, ruta) {
   await env.DB.prepare('INSERT INTO limites (ip_hash, ruta, ts) VALUES (?,?,?)')
-    .bind(ipHash, ruta, ahora).run();
-  return false;
+    .bind(ipHash, ruta, Math.floor(Date.now() / 1000)).run();
+}
+
+/** Borra los intentos de una IP: se llama tras un acierto. */
+async function limpiarIntentos(env, ipHash, ruta) {
+  await env.DB.prepare('DELETE FROM limites WHERE ruta = ? AND ip_hash = ?')
+    .bind(ruta, ipHash).run();
 }
 
 // ── Sesión de administración ───────────────────────────────────────────────
@@ -286,8 +297,10 @@ export default {
       let body = {};
       try { body = await request.json(); } catch { /* clave vacía */ }
       if (!env.ADMIN_TOKEN || !igualSeguro(body.clave, env.ADMIN_TOKEN)) {
+        await apuntarIntento(env, ipHash, 'login');   // sólo cuentan los fallos
         return json({ ok: false }, 401, CAB_ADMIN);
       }
+      await limpiarIntentos(env, ipHash, 'login');    // el acierto libera el contador
       return json({ ok: true, sesion: await crearSesion(env) }, 200, CAB_ADMIN);
     }
 
@@ -337,8 +350,10 @@ export default {
       const conClave = env.ADMIN_TOKEN && igualSeguro(enviado, env.ADMIN_TOKEN);
       const conSesion = await sesionValida(env, enviado);
       if (!conClave && !conSesion) {
+        await apuntarIntento(env, ipHash, 'export');
         return new Response('No autorizado', { status: 401, headers: CAB_ADMIN });
       }
+      await limpiarIntentos(env, ipHash, 'export');
       const { results } = await env.DB.prepare(
         'SELECT * FROM abonados ORDER BY id'
       ).all();
@@ -379,9 +394,10 @@ export default {
     // desde fuera de un navegador. El límite por IP es lo que de verdad
     // contiene el abuso de un endpoint de escritura abierto.
     const ipHash = await hashIP(request, env);
-    if (await excedeLimite(env, ipHash, 'alta', 6, 3600)) {
+    if (await excedeLimite(env, ipHash, 'alta', 15, 3600)) {
       return json({ ok: false, error: 'limite' }, 429, cabeceras);
     }
+    await apuntarIntento(env, ipHash, 'alta');
 
     const errores = validar(d);
     if (errores.length) {

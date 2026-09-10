@@ -39,7 +39,9 @@ Las defensas concretas:
   `sessionStorage` de otro origen.
 - **La clave se compara en tiempo constante**, para que el tiempo de respuesta
   no revele cuántos caracteres son correctos.
-- **Ocho intentos de acceso por hora y IP.** Al noveno responde 429.
+- **Ocho intentos FALLIDOS de acceso por hora y IP.** Sólo se apuntan los
+  fallos y un acierto borra el contador, así que usar el panel con normalidad
+  nunca te deja fuera.
 - **Sin recursos externos** y con una `Content-Security-Policy` que sólo
   permite conexiones al propio origen.
 - **`no-store` y `noindex`**: no queda en caché ni en buscadores.
@@ -127,8 +129,13 @@ wrangler d1 execute bmvetusta-abonados --remote \
   rellenado, el Worker responde 200 y descarta el envío sin guardar nada.
 - **CORS no autentica.** Cualquiera puede enviar la cabecera `Origin` que
   quiera desde fuera de un navegador, así que lo que de verdad contiene el
-  abuso es el **límite por IP**: 6 altas por hora y 10 intentos de descarga
-  por hora. Se cuenta sobre un **hash** de la IP, no sobre la IP, y las filas
-  se borran a las 24 horas.
+  abuso es el **límite por IP**: 15 altas por hora, y 10 descargas fallidas
+  por hora. En las altas se cuentan también los aciertos, porque es un
+  endpoint de escritura abierto; el tope es holgado para que una cola de gente
+  apuntándose desde la wifi del pabellón no se bloquee. Se cuenta sobre un
+  **hash** de la IP, no sobre la IP, y las filas se borran a las 24 horas.
+
+  Si alguna vez hay que desbloquear a alguien:
+  `wrangler d1 execute bmvetusta-abonados --remote --command "DELETE FROM limites"`
 - **El token se compara en tiempo constante**, para que el tiempo de respuesta
   no revele cuántos caracteres son correctos.
