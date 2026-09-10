@@ -17,7 +17,7 @@
     <link rel="icon" type="image/png" href="../../src/assets/escudo.png">
     <!-- Hoja propia y tema claro: esta página es un trámite, no una sección
          más de la web, así que no carga style.css a propósito. -->
-    <link rel="stylesheet" href="../formulario.css?v=f-20">
+    <link rel="stylesheet" href="../formulario.css?v=f-21">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -39,7 +39,6 @@
     </header>
 
     <main class="f-main">
-        <div id="f-h1-hueco"></div>
 
         <!-- Aviso general. Va FUERA del <form> a propósito: dentro entraría en
              el grid de dos columnas de escritorio y se colocaría solo en una
@@ -261,26 +260,6 @@
         </div>
     </footer>
 
-    <script>
-    // El título vive en el header en escritorio y en el cuerpo en móvil.
-    // Se mueve el mismo elemento en vez de duplicarlo, para no tener dos h1
-    // ni contenido oculto que los lectores de pantalla tendrían que ignorar.
-    (function () {
-        var h1 = document.getElementById('f-h1');
-        var hueco = document.getElementById('f-h1-hueco');
-        var cabecera = document.querySelector('.f-header-tit');
-        if (!h1 || !hueco || !cabecera) return;
-        function colocar() {
-            var desktop = window.innerWidth >= 900;
-            var destino = desktop ? cabecera : hueco;
-            if (h1.parentNode !== destino) {
-                destino.insertBefore(h1, desktop ? destino.firstChild : null);
-            }
-        }
-        colocar();
-        window.addEventListener('resize', colocar);
-    })();
-    </script>
-    <script src="../alta.js?v=alta-16"></script>
+    <script src="../alta.js?v=alta-17"></script>
 </body>
 </html>

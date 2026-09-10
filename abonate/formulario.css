@@ -83,10 +83,11 @@ a { color: var(--tinta); }
     .f-header-tit { align-items: center; text-align: center; }
 }
 
-/* En el header el título es más pequeño; en el cuerpo (móvil) mantiene su
-   tamaño grande, que lo define .f-title. */
+/* El título vive siempre en la cabecera. Va más contenido que el de la página
+   de condiciones, que sí usa el tamaño grande de .f-title, y se encoge en
+   pantallas estrechas para no empujar al escudo. */
 .f-header-tit > .f-title {
-    font-size: 1.4rem;
+    font-size: clamp(1.15rem, 4.6vw, 1.4rem);
     line-height: 1.15;
 }
 
@@ -660,8 +661,12 @@ a { color: var(--tinta); }
 }
 
 @media (max-width: 899px) {
-    /* El título ha vuelto al cuerpo: necesita aire antes del formulario. */
-    #f-h1-hueco:not(:empty) { margin-bottom: 34px; }
+    /* En una sola columna el aviso se lee mejor alineado a la izquierda: en
+       varias líneas, el centrado deja los bordes irregulares. */
+    .f-aviso {
+        text-align: left;
+        text-wrap: pretty;
+    }
 }
 
 @media (max-width: 600px) {
