@@ -72,7 +72,9 @@ td.num{font-weight:800}
 tbody tr.asoc td.num{font-weight:600;color:var(--t2)}
 tbody tr.asoc td.nom{padding-left:26px;position:relative}
 tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var(--t3)}
-.vinc{font-size:.82rem;color:var(--t2)}
+.vinc{display:block;margin-top:5px;font-size:.82rem;color:var(--t2)}
+/* La de asociado va en hueco, para que la de titular siga destacando. */
+.chip.aso{background:var(--bg);color:var(--t3)}
 .detalle{font-size:.82rem;color:var(--t2);white-space:normal;min-width:200px;max-width:280px}
 .vacio{color:var(--t3)}
 th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px}
@@ -236,7 +238,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
       var asociado = !!a.titular_id;
       var vinculo = asociado
-        ? '<span class="vinc">'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'</span>'
+        ? '<span class="chip aso">Asociado</span><span class="vinc">'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'</span>'
         : '<span class="chip tit">Titular</span>';
       return '<tr class="'+(a.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
         '<td class="num">'+a.id+'</td>'+
