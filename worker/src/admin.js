@@ -29,7 +29,7 @@ export const ADMIN_HTML = `<!DOCTYPE html>
 body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 header{border-bottom:1px solid var(--l);padding:16px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 header h1{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:-.2px}
-header .escudo{width:34px;height:34px;display:block;flex:0 0 auto}
+header .escudo{width:44px;height:44px;display:block;flex:0 0 auto}
 header .sp{flex:1}
 button{font:inherit;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
 button:hover{background:var(--bg2)}
@@ -85,7 +85,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 
 <div id="panel" hidden>
   <header>
-    <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="34" height="34">
+    <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="44" height="44">
     <h1>Abonados 2026/2027</h1>
     <span class="sp"></span>
     <button id="recargar">Recargar</button>
