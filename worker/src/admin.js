@@ -250,7 +250,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
         '<td>'+esc(a.pago)+'</td>'+
         '<td>'+(a.importe ? esc(a.importe)+' €' : '—')+'</td>'+
         '<td>'+esc(a.dni)+'</td>'+
-        '<td>'+esc(a.nacimiento)+'</td>'+
+        '<td>'+fechaSuelta(a.nacimiento)+'</td>'+
         '<td>'+dato(a.telefono)+'</td>'+
         '<td>'+dato(a.email)+'</td>'+
         '<td>'+esc(a.localidad)+'</td>'+
@@ -274,6 +274,15 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   // La fecha se guarda en UTC. Se pasa por Date para mostrarla en la hora de
   // quien mira el panel: si no, un alta hecha a las 00:30 en España aparecería
   // con la fecha del día anterior, que es cuando era en UTC.
+  // La fecha de nacimiento es un día suelto, sin hora: se le da la vuelta a
+  // los trozos y ya está. Pasarla por Date sería un error, porque la
+  // interpretaría como medianoche UTC y en husos por detrás de Greenwich
+  // mostraría el día anterior.
+  function fechaSuelta(s){
+    var p = String(s || '').slice(0, 10).split('-');
+    return p.length === 3 ? p[2] + '/' + p[1] + '/' + p[0] : esc(s || '');
+  }
+
   function fecha(iso){
     if (!iso) return '';
     var d = new Date(iso);
