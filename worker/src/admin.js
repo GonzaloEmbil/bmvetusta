@@ -97,7 +97,11 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
 .detalle{font-size:.82rem;color:var(--t2);white-space:normal;min-width:200px;max-width:280px}
 .vacio{color:var(--t3)}
 th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px}
-.filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:14px}
+/* Modalidades a la izquierda y buscador a la derecha, alineados por abajo
+   para que el borde inferior del campo case con el de las tarjetas. El
+   margen automático es lo que lo empuja al extremo derecho. */
+.fila-mods{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
+.filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
 </style>
 </head>
@@ -122,11 +126,15 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   <main>
     <div class="resumen">
       <div class="kpis" id="kpis"></div>
-      <p class="bloque-tit">Reparto por modalidad</p>
-      <div class="mods" id="mods"></div>
-    </div>
-    <div class="filtros">
-      <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
+      <div class="fila-mods">
+        <div>
+          <p class="bloque-tit">Reparto por modalidad</p>
+          <div class="mods" id="mods"></div>
+        </div>
+        <div class="filtros">
+          <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
+        </div>
+      </div>
     </div>
     <div class="tabla-wrap"><table>
       <thead><tr>
