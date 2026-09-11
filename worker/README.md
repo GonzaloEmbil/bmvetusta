@@ -24,7 +24,7 @@ Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
 buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
 descarga del CSV.
 
-Arriba, dos árboles y una fila de dinero.
+Arriba, tres árboles.
 
 **Abonados** son personas y de esa tarjeta cuelga el reparto por **tipo**:
 cuántas compraron su abono y cuántas van incluidas en el de otra. **Compras**
@@ -32,8 +32,10 @@ son abonos —un Familiar es una compra y cuatro abonados— y de ella cuelga el
 reparto por **modalidad**, que por tanto cuenta ventas, no personas. Se
 muestran las cuatro modalidades siempre, aunque alguna esté a cero.
 
-Debajo, el dinero: **Cobrado** y **Por cobrar** son las dos mitades del total y
-no se solapan, y **ARPU abonado** es `(Cobrado + Por cobrar) / Abonados`, lo que
+**Ingresos** es el dinero de la campaña, y de ahí cuelgan sus dos mitades,
+**Cobrado** y **Por cobrar**, que por tanto suman el total y no se solapan.
+
+Debajo, **ARPU abonado**: `(Cobrado + Por cobrar) / Abonados`, lo que
 aporta de media cada persona con abono. Sale por debajo del precio de cualquier
 modalidad porque los abonos compartidos reparten una sola cuota entre varias
 personas.

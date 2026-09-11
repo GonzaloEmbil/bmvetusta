@@ -166,6 +166,12 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
           <div class="ramas"><i></i><i></i><i></i><i></i></div>
           <div class="mods" id="mods"></div>
         </div>
+        <div class="arbol dos">
+          <div class="kpi raiz"><b id="raiz-ingresos">0</b><span>Ingresos</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i></div>
+          <div class="mods" id="ingresos"></div>
+        </div>
       </div>
       <div class="fila-mods">
         <div class="kpis" id="kpis"></div>
@@ -282,10 +288,9 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     // que sumarlos da el dinero de la campaña sin contar nada dos veces.
     var porCobrar = euros - cobrado;
     var arpu = abonados ? (cobrado + porCobrar) / abonados : 0;
-    // Abonados y Compras ya no están en esta fila: son la raíz de sus árboles.
-    document.getElementById('kpis').innerHTML =
-      kpi(cobrado+' €','Cobrado') + kpi(porCobrar+' €','Por cobrar') +
-      kpi(eur(arpu),'ARPU abonado');
+    // Abonados, Compras e Ingresos ya no están en esta fila: son la raíz de
+    // sus árboles, y el dinero se desglosa colgando de la última.
+    document.getElementById('kpis').innerHTML = kpi(eur(arpu),'ARPU abonado');
 
     // La modalidad es del abono, no de la persona: un Familiar es UNA venta.
     // Se listan las cuatro siempre, aunque estén a cero, para que se vea el
@@ -301,8 +306,13 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       tarjeta(titulares.length, 'Titular') +
       tarjeta(abonados - titulares.length, 'Asociado');
 
+    document.getElementById('ingresos').innerHTML =
+      tarjeta(cobrado + ' €', 'Cobrado') +
+      tarjeta(porCobrar + ' €', 'Por cobrar');
+
     document.getElementById('raiz-compras').textContent = titulares.length;
     document.getElementById('raiz-abonados').textContent = abonados;
+    document.getElementById('raiz-ingresos').textContent = euros + ' €';
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
