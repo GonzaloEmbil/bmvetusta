@@ -63,6 +63,7 @@ main{padding:22px}
    cuatro cifras sueltas parecen más indicadores con nombres crípticos. */
 .bloque-tit{margin:18px 0 8px;font-size:.7rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
 .mods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:512px}
+.mods.dos{grid-template-columns:repeat(2,minmax(0,1fr));max-width:251px}
 .mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:0}
 .mod b{display:block;font-size:1.1rem;line-height:1.2}
 .mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
@@ -130,6 +131,10 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
         <div>
           <p class="bloque-tit">Reparto por modalidad</p>
           <div class="mods" id="mods"></div>
+        </div>
+        <div>
+          <p class="bloque-tit">Reparto por tipo</p>
+          <div class="mods dos" id="tipos"></div>
         </div>
         <div class="filtros">
           <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
@@ -257,9 +262,15 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     // Se listan las cuatro siempre, aunque estén a cero, para que se vea el
     // reparto de un vistazo y no sólo lo que se ha vendido.
     document.getElementById('mods').innerHTML = MODALIDADES.map(function(m){
-      var n = titulares.filter(function(a){return a.modalidad === m;}).length;
-      return '<div class="mod"><b>'+n+'</b><span>'+esc(m)+'</span></div>';
+      return tarjeta(titulares.filter(function(a){return a.modalidad === m;}).length, m);
     }).join('');
+
+    // Aquí se cuentan personas, no ventas: cuántas compraron el abono y
+    // cuántas van incluidas en el de otra persona. Los titulares coinciden
+    // con las compras, porque cada compra tiene exactamente un titular.
+    document.getElementById('tipos').innerHTML =
+      tarjeta(titulares.length, 'Titular') +
+      tarjeta(abonados - titulares.length, 'Asociado');
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
@@ -322,6 +333,8 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   // Un decimal y coma, como se escriben los números en español.
   function dec(n){ return n.toFixed(1).replace('.', ','); }
   function eur(n){ return dec(n) + ' €'; }
+
+  function tarjeta(n,t){ return '<div class="mod"><b>'+esc(n)+'</b><span>'+esc(t)+'</span></div>'; }
 
   function kpi(v,t){ return '<div class="kpi"><b>'+esc(v)+'</b><span>'+esc(t)+'</span></div>'; }
 

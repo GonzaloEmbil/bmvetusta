@@ -33,9 +33,11 @@ mitades del dinero de la campaña y no se solapan, así que sumarlos da el total
 cada persona con abono. Sale por debajo del precio de cualquier modalidad
 porque los abonos compartidos reparten una sola cuota entre varias personas.
 
-El reparto por modalidad cuenta **ventas, no personas**: un Familiar suma uno.
-Se muestran las cuatro siempre, aunque alguna esté a cero, para que el reparto
-se lea de un vistazo.
+Debajo hay dos repartos. El de **modalidad** cuenta ventas, no personas: un
+Familiar suma uno, y se muestran las cuatro siempre, aunque alguna esté a cero,
+para que se lea de un vistazo. El de **tipo** cuenta al revés, personas: cuántas
+compraron su abono y cuántas van incluidas en el de otra. Los titulares
+coinciden con las compras, porque cada compra tiene exactamente un titular.
 
 **Por qué el repositorio no da acceso.** La página la sirve el Worker, no
 GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:
