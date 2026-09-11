@@ -26,10 +26,10 @@ descarga del CSV.
 
 Arriba, cinco indicadores. **Abonados** son personas y **Compras** son abonos:
 un Familiar es una compra y cuatro abonados. **Cobrado** y **Comprometido** son
-euros ya recibidos y euros totales. **ARPU abonado** es lo comprometido dividido
-entre las personas, es decir lo que aporta de media cada abonado; sale por
-debajo del precio de cualquier modalidad porque los abonos compartidos reparten
-una sola cuota entre varias personas.
+euros ya recibidos y euros totales. **ARPU abonado** es
+`(Cobrado + Comprometido) / Abonados`, la fórmula que pidió el club. Conviene
+saber que comprometido ya contiene lo cobrado, así que el dinero ya pagado suma
+dos veces.
 
 **Por qué el repositorio no da acceso.** La página la sirve el Worker, no
 GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:

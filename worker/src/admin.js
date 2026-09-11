@@ -196,10 +196,10 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     var euros = titulares.reduce(function(s,a){return s+(a.importe||0);},0);
     var cobrado = titulares.filter(function(a){return a.pagado;})
       .reduce(function(s,a){return s+(a.importe||0);},0);
-    // Lo que aporta de media cada persona con abono. Sale más bajo que el
-    // precio de cualquier modalidad porque los abonos compartidos reparten
-    // una sola cuota entre varias personas: es justo lo que mide.
-    var arpu = abonados ? euros / abonados : 0;
+    // ARPU tal y como lo define el club: (Cobrado + Comprometido) / Abonados.
+    // OJO: comprometido ya incluye lo cobrado, así que el dinero ya pagado
+    // entra dos veces en la suma. Se deja así porque es la fórmula pedida.
+    var arpu = abonados ? (cobrado + euros) / abonados : 0;
     document.getElementById('kpis').innerHTML =
       kpi(abonados,'Abonados') + kpi(titulares.length,'Compras') +
       kpi(cobrado+' €','Cobrado') + kpi(euros+' €','Comprometido') +
