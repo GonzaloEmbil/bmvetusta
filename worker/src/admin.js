@@ -188,16 +188,22 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 
     // Socios y abonos no son lo mismo: un abono Familiar son cuatro socios.
     // El dinero se cuenta sobre los titulares, que es donde está la cuota.
-    var socios = datos.length;
+    // Personas frente a compras: un abono Familiar es UNA compra y CUATRO
+    // abonados. El dinero se cuenta sólo en los titulares, que son quienes
+    // llevan el importe; si se sumaran todas las filas saldría multiplicado.
+    var abonados = datos.length;
     var titulares = datos.filter(function(a){return !a.titular_id;});
-    var abonosPag = titulares.filter(function(a){return a.pagado;}).length;
     var euros = titulares.reduce(function(s,a){return s+(a.importe||0);},0);
     var cobrado = titulares.filter(function(a){return a.pagado;})
       .reduce(function(s,a){return s+(a.importe||0);},0);
+    // Lo que aporta de media cada persona con abono. Sale más bajo que el
+    // precio de cualquier modalidad porque los abonos compartidos reparten
+    // una sola cuota entre varias personas: es justo lo que mide.
+    var arpu = abonados ? euros / abonados : 0;
     document.getElementById('kpis').innerHTML =
-      kpi(socios,'Socios') + kpi(titulares.length,'Abonos') +
-      kpi(abonosPag,'Abonos pagados') + kpi(titulares.length-abonosPag,'Pendientes') +
-      kpi(cobrado+' €','Cobrado') + kpi(euros+' €','Comprometido');
+      kpi(abonados,'Abonados') + kpi(titulares.length,'Compras') +
+      kpi(cobrado+' €','Cobrado') + kpi(euros+' €','Comprometido') +
+      kpi(eur(arpu),'ARPU abonado');
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
@@ -233,6 +239,9 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   // Sólo el titular facilita móvil y correo, así que las filas de las personas
   // incluidas en su abono los tienen vacíos a propósito.
   function dato(v){ return v ? esc(v) : '<span class="vacio">—</span>'; }
+
+  // Un decimal y coma, como se escriben los euros en español.
+  function eur(n){ return n.toFixed(1).replace('.', ',') + ' €'; }
 
   function kpi(v,t){ return '<div class="kpi"><b>'+esc(v)+'</b><span>'+esc(t)+'</span></div>'; }
 

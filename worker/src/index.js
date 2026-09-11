@@ -304,7 +304,10 @@ export default {
                 t.nombre AS titular_nombre
            FROM abonados a
            LEFT JOIN abonados t ON t.id = a.titular_id
-          ORDER BY COALESCE(a.titular_id, a.id) DESC, a.titular_id IS NOT NULL, a.id`
+          -- De menor a mayor número. Los abonos siguen saliendo agrupados
+          -- sin pedirlo: las personas incluidas se insertan justo después de
+          -- su titular, así que cada abono es un bloque de ids consecutivos.
+          ORDER BY a.id`
       ).all();
       const abonados = (results || []).map((r) => ({
         ...r,

@@ -20,9 +20,16 @@ activa, el proveedor de envío de correo.
 ## El panel de abonados
 
 Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
-`ADMIN_TOKEN`. Muestra el listado completo, un resumen de altas, pagos y
-euros, un buscador, un filtro de pendientes, un botón por fila para marcar
-el pago y la descarga del CSV.
+`ADMIN_TOKEN`. Muestra el listado completo ordenado por número de abonado, un
+buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
+descarga del CSV.
+
+Arriba, cinco indicadores. **Abonados** son personas y **Compras** son abonos:
+un Familiar es una compra y cuatro abonados. **Cobrado** y **Comprometido** son
+euros ya recibidos y euros totales. **ARPU abonado** es lo comprometido dividido
+entre las personas, es decir lo que aporta de media cada abonado; sale por
+debajo del precio de cualquier modalidad porque los abonos compartidos reparten
+una sola cuota entre varias personas.
 
 **Por qué el repositorio no da acceso.** La página la sirve el Worker, no
 GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:
