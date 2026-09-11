@@ -47,8 +47,14 @@ main{padding:22px}
 .msg{font-size:.9rem;margin-top:12px;min-height:20px}
 .msg.bad{color:var(--err)}
 /* Resumen */
-.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
 .kpi{background:var(--bg2);border:1px solid var(--l);border-radius:11px;padding:12px 16px;min-width:120px}
+/* Reparto por modalidad: misma familia visual pero en segundo plano, para que
+   no compita con los indicadores de arriba. */
+.mods{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:104px}
+.mod b{display:block;font-size:1.1rem;line-height:1.2}
+.mod span{font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
 .kpi b{display:block;font-size:1.5rem;letter-spacing:-.5px}
 .kpi span{font-size:.72rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
 /* Tabla */
@@ -94,6 +100,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   </header>
   <main>
     <div class="kpis" id="kpis"></div>
+    <div class="mods" id="mods"></div>
     <div class="filtros">
       <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
       <label><input type="checkbox" id="solo-pendientes"> Solo pendientes de pago</label>
@@ -208,10 +215,22 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     // que sumarlos da el dinero de la campaña sin contar nada dos veces.
     var porCobrar = euros - cobrado;
     var arpu = abonados ? (cobrado + porCobrar) / abonados : 0;
+    // Cuántas personas entran de media en cada abono vendido. Explica el ARPU:
+    // cuanto más alto, más peso tienen las modalidades compartidas.
+    var porCompra = titulares.length ? abonados / titulares.length : 0;
     document.getElementById('kpis').innerHTML =
       kpi(abonados,'Abonados') + kpi(titulares.length,'Compras') +
+      kpi(dec(porCompra),'Abonados por compra') +
       kpi(cobrado+' €','Cobrado') + kpi(porCobrar+' €','Por cobrar') +
       kpi(eur(arpu),'ARPU abonado');
+
+    // La modalidad es del abono, no de la persona: un Familiar es UNA venta.
+    // Se listan las cuatro siempre, aunque estén a cero, para que se vea el
+    // reparto de un vistazo y no sólo lo que se ha vendido.
+    document.getElementById('mods').innerHTML = MODALIDADES.map(function(m){
+      var n = titulares.filter(function(a){return a.modalidad === m;}).length;
+      return '<div class="mod"><b>'+n+'</b><span>'+esc(m)+'</span></div>';
+    }).join('');
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
@@ -248,8 +267,11 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   // incluidas en su abono los tienen vacíos a propósito.
   function dato(v){ return v ? esc(v) : '<span class="vacio">—</span>'; }
 
-  // Un decimal y coma, como se escriben los euros en español.
-  function eur(n){ return n.toFixed(1).replace('.', ',') + ' €'; }
+  var MODALIDADES = ['Sub 18', 'Adulto', 'Matrimonio', 'Familiar'];
+
+  // Un decimal y coma, como se escriben los números en español.
+  function dec(n){ return n.toFixed(1).replace('.', ','); }
+  function eur(n){ return dec(n) + ' €'; }
 
   function kpi(v,t){ return '<div class="kpi"><b>'+esc(v)+'</b><span>'+esc(t)+'</span></div>'; }
 

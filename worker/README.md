@@ -24,12 +24,18 @@ Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
 buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
 descarga del CSV.
 
-Arriba, cinco indicadores. **Abonados** son personas y **Compras** son abonos:
-un Familiar es una compra y cuatro abonados. **Cobrado** y **Por cobrar** son las dos
+Arriba, seis indicadores y, debajo, el reparto por modalidad. **Abonados** son personas y **Compras** son abonos:
+un Familiar es una compra y cuatro abonados. **Abonados por compra** son las personas que entran de media en cada abono
+vendido: explica el ARPU, porque cuanto más alto, más peso tienen las
+modalidades compartidas. **Cobrado** y **Por cobrar** son las dos
 mitades del dinero de la campaña y no se solapan, así que sumarlos da el total.
 **ARPU abonado** es `(Cobrado + Por cobrar) / Abonados`: lo que aporta de media
 cada persona con abono. Sale por debajo del precio de cualquier modalidad
 porque los abonos compartidos reparten una sola cuota entre varias personas.
+
+El reparto por modalidad cuenta **ventas, no personas**: un Familiar suma uno.
+Se muestran las cuatro siempre, aunque alguna esté a cero, para que el reparto
+se lea de un vistazo.
 
 **Por qué el repositorio no da acceso.** La página la sirve el Worker, no
 GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:
