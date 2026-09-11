@@ -236,7 +236,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
       var asociado = !!a.titular_id;
       var vinculo = asociado
-        ? '<span class="vinc">'+esc(a.parentesco)+' de '+esc(a.titular_nombre)+' (nº '+a.titular_id+')</span>'
+        ? '<span class="vinc">'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'</span>'
         : '<span class="chip tit">Titular</span>';
       return '<tr class="'+(a.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
         '<td class="num">'+a.id+'</td>'+
