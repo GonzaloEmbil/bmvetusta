@@ -69,9 +69,16 @@ main{padding:22px}
    El raíl horizontal se dibuja con el borde superior de cada rama, estirado
    desde su centro hasta el centro de la siguiente; la última no lo lleva, y
    por eso no sobresale por los lados. */
-.arboles{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:20px}
-.arbol{max-width:512px}
-.arbol.dos{max-width:251px}
+/* Los cuatro árboles reparten todo el ancho: crecen en proporción a cuántas
+   ramas tienen —cuatro el de modalidad, dos los demás—, así que las tarjetas
+   salen prácticamente del mismo tamaño en los cuatro. El hueco entre árboles
+   es igual, y el primero y el último quedan a ras de los márgenes.
+   El ancho de referencia es a la vez el punto en que se parte: cuando no
+   caben en una línea, bajan. El tope evita que un árbol suelto en su propia
+   línea se estire a lo absurdo. */
+.arboles{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:20px}
+.arbol{flex:4 1 512px;max-width:840px}
+.arbol.dos{flex:2 1 251px;max-width:420px}
 /* La raíz se centra sobre el grupo para que el tronco caiga por su eje. El
    alto mínimo iguala las cuatro: la del ARPU no lleva cifra, y sin él quedaría
    más baja y desalinearía su árbol respecto a los demás. */
@@ -87,13 +94,18 @@ main{padding:22px}
 .mods,.ramas{grid-template-columns:repeat(2,minmax(0,1fr))}
 .mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:0}
 .mod b{display:block;font-size:1.1rem;line-height:1.2}
-.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--t3);white-space:nowrap}
+.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--t3)}
 /* Los cortes van a mano y no con auto-fit: seis y cuatro tarjetas se reparten
    bien en 2, 3 y 6 columnas, mientras que dejando decidir al navegador se
    quedaba una suelta al final de la fila. */
+/* Con sitio para los cuatro, se les prohíbe partirse: prefieren encogerse
+   todos a la vez, repartidos en la misma proporción, antes que dejar uno
+   suelto en una segunda línea. Por debajo de eso sí bajan. */
+@media (min-width:1100px){
+  .arboles{flex-wrap:nowrap}
+}
 @media (min-width:620px){
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .arbol{flex:0 0 auto}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
      dejaría de caer sobre el centro de cada una. */
   .arbol:not(.dos) .mods,
