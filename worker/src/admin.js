@@ -196,13 +196,13 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     var euros = titulares.reduce(function(s,a){return s+(a.importe||0);},0);
     var cobrado = titulares.filter(function(a){return a.pagado;})
       .reduce(function(s,a){return s+(a.importe||0);},0);
-    // ARPU tal y como lo define el club: (Cobrado + Comprometido) / Abonados.
-    // OJO: comprometido ya incluye lo cobrado, así que el dinero ya pagado
-    // entra dos veces en la suma. Se deja así porque es la fórmula pedida.
-    var arpu = abonados ? (cobrado + euros) / abonados : 0;
+    // Cobrado y Por cobrar no se solapan: son las dos mitades del total, así
+    // que sumarlos da el dinero de la campaña sin contar nada dos veces.
+    var porCobrar = euros - cobrado;
+    var arpu = abonados ? (cobrado + porCobrar) / abonados : 0;
     document.getElementById('kpis').innerHTML =
       kpi(abonados,'Abonados') + kpi(titulares.length,'Compras') +
-      kpi(cobrado+' €','Cobrado') + kpi(euros+' €','Comprometido') +
+      kpi(cobrado+' €','Cobrado') + kpi(porCobrar+' €','Por cobrar') +
       kpi(eur(arpu),'ARPU abonado');
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){

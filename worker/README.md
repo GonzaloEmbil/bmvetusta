@@ -25,11 +25,11 @@ buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
 descarga del CSV.
 
 Arriba, cinco indicadores. **Abonados** son personas y **Compras** son abonos:
-un Familiar es una compra y cuatro abonados. **Cobrado** y **Comprometido** son
-euros ya recibidos y euros totales. **ARPU abonado** es
-`(Cobrado + Comprometido) / Abonados`, la fórmula que pidió el club. Conviene
-saber que comprometido ya contiene lo cobrado, así que el dinero ya pagado suma
-dos veces.
+un Familiar es una compra y cuatro abonados. **Cobrado** y **Por cobrar** son las dos
+mitades del dinero de la campaña y no se solapan, así que sumarlos da el total.
+**ARPU abonado** es `(Cobrado + Por cobrar) / Abonados`: lo que aporta de media
+cada persona con abono. Sale por debajo del precio de cualquier modalidad
+porque los abonos compartidos reparten una sola cuota entre varias personas.
 
 **Por qué el repositorio no da acceso.** La página la sirve el Worker, no
 GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:
