@@ -54,9 +54,6 @@ main{padding:22px}
    máximo evita que en un monitor grande queden seis tarjetas larguísimas con
    un número diminuto dentro. */
 .resumen{margin-bottom:22px}
-/* Los ARPU van apilados y pegados abajo, para que su borde inferior case con
-   el de las tarjetas de los árboles. */
-.arpus{display:grid;gap:10px;width:186px;align-self:flex-end}
 .kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:522px}
 .kpi{background:var(--bg2);border:1px solid var(--l);border-radius:11px;padding:12px 16px;min-width:0}
 .kpi b{display:block;font-size:1.5rem;letter-spacing:-.5px}
@@ -75,8 +72,13 @@ main{padding:22px}
 .arboles{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:20px}
 .arbol{max-width:512px}
 .arbol.dos{max-width:251px}
-/* La raíz se centra sobre el grupo para que el tronco caiga por su eje. */
-.raiz{width:min(100%,186px);margin:0 auto}
+/* «Por abonado» no cabe en una tarjeta de 120px y se partía en dos líneas. */
+.arbol.arpu{max-width:286px}
+/* La raíz se centra sobre el grupo para que el tronco caiga por su eje. El
+   alto mínimo iguala las cuatro: la del ARPU no lleva cifra, y sin él quedaría
+   más baja y desalinearía su árbol respecto a los demás. */
+.raiz{width:min(100%,186px);margin:0 auto;min-height:69px;display:flex;flex-direction:column;justify-content:center}
+.raiz.sin-cifra span{font-size:.95rem;letter-spacing:.6px;color:var(--t)}
 .tronco{width:0;height:11px;margin:0 auto;border-left:1px solid var(--l2)}
 .ramas{display:grid;gap:10px;height:9px}
 .ramas i{position:relative}
@@ -175,7 +177,12 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
           <div class="ramas"><i></i><i></i></div>
           <div class="mods" id="ingresos"></div>
         </div>
-        <div class="arpus" id="arpus"></div>
+        <div class="arbol dos arpu">
+          <div class="kpi raiz sin-cifra"><span>ARPU</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i></div>
+          <div class="mods" id="arpus"></div>
+        </div>
       </div>
       <div class="fila-mods">
         <div class="filtros">
@@ -295,7 +302,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     // de dos de ellos, así que van aparte, al final de la fila.
     var arpuCompra = titulares.length ? euros / titulares.length : 0;
     document.getElementById('arpus').innerHTML =
-      kpi(eur(arpu), 'ARPU abonado') + kpi(eur(arpuCompra), 'ARPU compra');
+      tarjeta(eur(arpu), 'Por abonado') + tarjeta(eur(arpuCompra), 'Por compra');
 
     // La modalidad es del abono, no de la persona: un Familiar es UNA venta.
     // Se listan las cuatro siempre, aunque estén a cero, para que se vea el

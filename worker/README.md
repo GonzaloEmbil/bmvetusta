@@ -24,7 +24,7 @@ Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
 buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
 descarga del CSV.
 
-Arriba, tres árboles.
+Arriba, cuatro árboles.
 
 **Abonados** son personas y de esa tarjeta cuelga el reparto por **tipo**:
 cuántas compraron su abono y cuántas van incluidas en el de otra. **Compras**
@@ -35,12 +35,13 @@ muestran las cuatro modalidades siempre, aunque alguna esté a cero.
 **Ingresos** es el dinero de la campaña, y de ahí cuelgan sus dos mitades,
 **Cobrado** y **Por cobrar**, que por tanto suman el total y no se solapan.
 
-A la derecha, los dos ARPU, que no cuelgan de ningún árbol porque son
-cocientes entre las cifras de dos de ellos. **ARPU abonado** es
-`Ingresos / Abonados`, lo que aporta de media cada persona, y sale por debajo
-del precio de cualquier modalidad porque los abonos compartidos reparten una
-sola cuota entre varias. **ARPU compra** es `Ingresos / Compras`, el importe
-medio de cada abono vendido.
+El último, **ARPU**, no lleva cifra en la raíz: a diferencia de los otros tres
+no es un total que se reparte, sino dos maneras de dividir los ingresos. **Por
+abonado** es `Ingresos / Abonados`, lo que aporta de media cada persona, y sale
+por debajo del precio de cualquier modalidad porque los abonos compartidos
+reparten una sola cuota entre varias. **Por compra** es `Ingresos / Compras`, el
+importe medio de cada abono vendido. La distancia entre los dos mide cuánto
+están repartiendo los abonos compartidos.
 
 Si la clave se filtrase, se cambia en diez segundos y **todas las sesiones
 abiertas quedan invalidadas de inmediato**, porque la firma se deriva de ella:
