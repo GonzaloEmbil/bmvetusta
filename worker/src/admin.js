@@ -61,9 +61,24 @@ main{padding:22px}
 /* Reparto por modalidad: misma familia visual pero en segundo plano, para que
    no compita con los indicadores de arriba. Lleva rótulo porque si no, esas
    cuatro cifras sueltas parecen más indicadores con nombres crípticos. */
-.bloque-tit{margin:18px 0 8px;font-size:.7rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
-.mods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:512px}
-.mods.dos{grid-template-columns:repeat(2,minmax(0,1fr));max-width:251px}
+/* Cada reparto cuelga en forma de árbol del número del que sale, en vez de
+   llevar un rótulo: así se ve que las cuatro modalidades son el desglose de
+   las compras, y los dos tipos el de los abonados.
+   El raíl horizontal se dibuja con el borde superior de cada rama, estirado
+   desde su centro hasta el centro de la siguiente; la última no lo lleva, y
+   por eso no sobresale por los lados. */
+.arbol{max-width:512px;margin-top:18px}
+.arbol.dos{max-width:251px}
+.raiz{margin:0 0 6px;text-align:center;font-size:.7rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
+.raiz b{font-size:1rem;letter-spacing:-.2px;color:var(--t)}
+.tronco{width:0;height:9px;margin:0 auto;border-left:1px solid var(--l2)}
+.ramas{display:grid;gap:10px;height:9px}
+.ramas i{position:relative}
+.ramas i::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:1px solid var(--l2)}
+.ramas i::after{content:"";position:absolute;left:50%;right:calc(-10px - 50%);top:0;border-top:1px solid var(--l2)}
+.ramas i:last-child::after{content:none}
+.mods{display:grid;gap:10px}
+.mods,.ramas{grid-template-columns:repeat(2,minmax(0,1fr))}
 .mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:0}
 .mod b{display:block;font-size:1.1rem;line-height:1.2}
 .mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
@@ -72,10 +87,20 @@ main{padding:22px}
    quedaba una suelta al final de la fila. */
 @media (min-width:620px){
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
-  .mods{grid-template-columns:repeat(4,minmax(0,1fr))}
+  /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
+     dejaría de caer sobre el centro de cada una. */
+  .arbol:not(.dos) .mods,
+  .arbol:not(.dos) .ramas{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
 @media (min-width:1040px){
   .kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
+/* En estrecho las cuatro modalidades bajan a dos filas, y un árbol de una sola
+   rama por columna dejaría el raíl colgando sobre la fila de arriba. Se
+   retiran los trazos y queda el número como rótulo, que es lo que dicen. */
+@media (max-width:619px){
+  .tronco,.ramas{display:none}
+  .raiz{text-align:left}
 }
 /* Tabla */
 .tabla-wrap{overflow-x:auto;border:1px solid var(--l);border-radius:12px}
@@ -128,13 +153,17 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     <div class="resumen">
       <div class="kpis" id="kpis"></div>
       <div class="fila-mods">
-        <div>
-          <p class="bloque-tit">Reparto por modalidad</p>
+        <div class="arbol">
+          <p class="raiz"><b id="raiz-compras">0</b> compras</p>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i><i></i><i></i></div>
           <div class="mods" id="mods"></div>
         </div>
-        <div>
-          <p class="bloque-tit">Reparto por tipo</p>
-          <div class="mods dos" id="tipos"></div>
+        <div class="arbol dos">
+          <p class="raiz"><b id="raiz-abonados">0</b> abonados</p>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i></div>
+          <div class="mods" id="tipos"></div>
         </div>
         <div class="filtros">
           <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
@@ -271,6 +300,9 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     document.getElementById('tipos').innerHTML =
       tarjeta(titulares.length, 'Titular') +
       tarjeta(abonados - titulares.length, 'Asociado');
+
+    document.getElementById('raiz-compras').textContent = titulares.length;
+    document.getElementById('raiz-abonados').textContent = abonados;
 
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';

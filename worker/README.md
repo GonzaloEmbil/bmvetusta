@@ -33,7 +33,8 @@ mitades del dinero de la campaña y no se solapan, así que sumarlos da el total
 cada persona con abono. Sale por debajo del precio de cualquier modalidad
 porque los abonos compartidos reparten una sola cuota entre varias personas.
 
-Debajo hay dos repartos. El de **modalidad** cuenta ventas, no personas: un
+Debajo hay dos repartos, cada uno colgando en forma de árbol del número del
+que sale. El de **modalidad** cuenta ventas, no personas: un
 Familiar suma uno, y se muestran las cuatro siempre, aunque alguna esté a cero,
 para que se lea de un vistazo. El de **tipo** cuenta al revés, personas: cuántas
 compraron su abono y cuántas van incluidas en el de otra. Los titulares
