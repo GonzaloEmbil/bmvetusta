@@ -46,17 +46,36 @@ main{padding:22px}
 #login button{width:100%}
 .msg{font-size:.9rem;margin-top:12px;min-height:20px}
 .msg.bad{color:var(--err)}
-/* Resumen */
-.kpis{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:10px}
-.kpi{background:var(--bg2);border:1px solid var(--l);border-radius:11px;padding:12px 16px;min-width:120px}
-/* Reparto por modalidad: misma familia visual pero en segundo plano, para que
-   no compita con los indicadores de arriba. */
-.mods{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
-.mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:104px}
-.mod b{display:block;font-size:1.1rem;line-height:1.2}
-.mod span{font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
+/* Resumen.
+   En rejilla y no en fila: con flex, cada tarjeta se anchaba según lo largo
+   que fuera su texto y la fila quedaba desigual. Con columnas iguales se
+   alinean todas y, al no caber las seis, bajan de tres en tres, que es
+   justamente como se agrupan: tres de gente y tres de dinero. El ancho
+   máximo evita que en un monitor grande queden seis tarjetas larguísimas con
+   un número diminuto dentro. */
+.resumen{margin-bottom:22px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:1044px}
+.kpi{background:var(--bg2);border:1px solid var(--l);border-radius:11px;padding:12px 16px;min-width:0}
 .kpi b{display:block;font-size:1.5rem;letter-spacing:-.5px}
-.kpi span{font-size:.72rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
+.kpi span{display:block;font-size:.72rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3);line-height:1.3}
+/* Reparto por modalidad: misma familia visual pero en segundo plano, para que
+   no compita con los indicadores de arriba. Lleva rótulo porque si no, esas
+   cuatro cifras sueltas parecen más indicadores con nombres crípticos. */
+.bloque-tit{margin:18px 0 8px;font-size:.7rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
+.mods{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:512px}
+.mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:0}
+.mod b{display:block;font-size:1.1rem;line-height:1.2}
+.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
+/* Los cortes van a mano y no con auto-fit: seis y cuatro tarjetas se reparten
+   bien en 2, 3 y 6 columnas, mientras que dejando decidir al navegador se
+   quedaba una suelta al final de la fila. */
+@media (min-width:620px){
+  .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .mods{grid-template-columns:repeat(4,minmax(0,1fr))}
+}
+@media (min-width:1040px){
+  .kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
+}
 /* Tabla */
 .tabla-wrap{overflow-x:auto;border:1px solid var(--l);border-radius:12px}
 table{border-collapse:collapse;width:100%;font-size:.88rem}
@@ -102,11 +121,13 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     <button id="salir">Salir</button>
   </header>
   <main>
-    <div class="kpis" id="kpis"></div>
-    <div class="mods" id="mods"></div>
+    <div class="resumen">
+      <div class="kpis" id="kpis"></div>
+      <p class="bloque-tit">Reparto por modalidad</p>
+      <div class="mods" id="mods"></div>
+    </div>
     <div class="filtros">
       <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
-      <label><input type="checkbox" id="solo-pendientes"> Solo pendientes de pago</label>
     </div>
     <div class="tabla-wrap"><table>
       <thead><tr>
@@ -196,9 +217,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 
   function pintar(){
     var q = document.getElementById('buscar').value.toLowerCase().trim();
-    var soloPend = document.getElementById('solo-pendientes').checked;
     var lista = datos.filter(function(a){
-      if (soloPend && a.pagado) return false;
       if (!q) return true;
       return [a.nombre,a.dni,a.email,a.telefono,a.localidad,a.modalidad,a.titular_nombre,String(a.id)]
         .join(' ').toLowerCase().indexOf(q) >= 0;
@@ -326,7 +345,6 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 
   document.getElementById('recargar').addEventListener('click', cargar);
   document.getElementById('buscar').addEventListener('input', pintar);
-  document.getElementById('solo-pendientes').addEventListener('change', pintar);
   document.getElementById('salir').addEventListener('click', function(){
     guardar(''); pintarAcceso('');
     document.getElementById('login').hidden = false;
