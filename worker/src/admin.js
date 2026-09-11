@@ -72,8 +72,6 @@ main{padding:22px}
 .arboles{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:20px}
 .arbol{max-width:512px}
 .arbol.dos{max-width:251px}
-/* «Por abonado» no cabe en una tarjeta de 120px y se partía en dos líneas. */
-.arbol.arpu{max-width:286px}
 /* La raíz se centra sobre el grupo para que el tronco caiga por su eje. El
    alto mínimo iguala las cuatro: la del ARPU no lleva cifra, y sin él quedaría
    más baja y desalinearía su árbol respecto a los demás. */
@@ -89,7 +87,7 @@ main{padding:22px}
 .mods,.ramas{grid-template-columns:repeat(2,minmax(0,1fr))}
 .mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:0}
 .mod b{display:block;font-size:1.1rem;line-height:1.2}
-.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
+.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--t3);white-space:nowrap}
 /* Los cortes van a mano y no con auto-fit: seis y cuatro tarjetas se reparten
    bien en 2, 3 y 6 columnas, mientras que dejando decidir al navegador se
    quedaba una suelta al final de la fila. */
@@ -177,7 +175,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
           <div class="ramas"><i></i><i></i></div>
           <div class="mods" id="ingresos"></div>
         </div>
-        <div class="arbol dos arpu">
+        <div class="arbol dos">
           <div class="kpi raiz sin-cifra"><span>ARPU</span></div>
           <div class="tronco"></div>
           <div class="ramas"><i></i><i></i></div>
