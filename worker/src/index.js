@@ -267,10 +267,13 @@ export default {
         headers: {
           'Content-Type': 'text/html; charset=utf-8',
           // Sin recursos externos: si alguien lograse inyectar algo, no
-          // podría cargar ni enviar nada a otro origen.
+          // podría cargar ni enviar nada a otro origen. El escudo es una
+          // data: URI incrustada en el HTML, así que img-src no abre la puerta
+          // a ningún servidor.
           'Content-Security-Policy':
             "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
-            "connect-src 'self'; form-action 'none'; base-uri 'none'; frame-ancestors 'none'",
+            "img-src data:; connect-src 'self'; form-action 'none'; base-uri 'none'; " +
+            "frame-ancestors 'none'",
           ...CAB_ADMIN,
         },
       });
