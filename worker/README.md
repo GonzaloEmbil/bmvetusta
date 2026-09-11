@@ -35,10 +35,12 @@ muestran las cuatro modalidades siempre, aunque alguna esté a cero.
 **Ingresos** es el dinero de la campaña, y de ahí cuelgan sus dos mitades,
 **Cobrado** y **Por cobrar**, que por tanto suman el total y no se solapan.
 
-Debajo, **ARPU abonado**: `(Cobrado + Por cobrar) / Abonados`, lo que
-aporta de media cada persona con abono. Sale por debajo del precio de cualquier
-modalidad porque los abonos compartidos reparten una sola cuota entre varias
-personas.
+A la derecha, los dos ARPU, que no cuelgan de ningún árbol porque son
+cocientes entre las cifras de dos de ellos. **ARPU abonado** es
+`Ingresos / Abonados`, lo que aporta de media cada persona, y sale por debajo
+del precio de cualquier modalidad porque los abonos compartidos reparten una
+sola cuota entre varias. **ARPU compra** es `Ingresos / Compras`, el importe
+medio de cada abono vendido.
 
 Si la clave se filtrase, se cambia en diez segundos y **todas las sesiones
 abiertas quedan invalidadas de inmediato**, porque la firma se deriva de ella:

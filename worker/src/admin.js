@@ -54,6 +54,9 @@ main{padding:22px}
    máximo evita que en un monitor grande queden seis tarjetas larguísimas con
    un número diminuto dentro. */
 .resumen{margin-bottom:22px}
+/* Los ARPU van apilados y pegados abajo, para que su borde inferior case con
+   el de las tarjetas de los árboles. */
+.arpus{display:grid;gap:10px;width:186px;align-self:flex-end}
 .kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:522px}
 .kpi{background:var(--bg2);border:1px solid var(--l);border-radius:11px;padding:12px 16px;min-width:0}
 .kpi b{display:block;font-size:1.5rem;letter-spacing:-.5px}
@@ -172,9 +175,9 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
           <div class="ramas"><i></i><i></i></div>
           <div class="mods" id="ingresos"></div>
         </div>
+        <div class="arpus" id="arpus"></div>
       </div>
       <div class="fila-mods">
-        <div class="kpis" id="kpis"></div>
         <div class="filtros">
           <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
         </div>
@@ -288,9 +291,11 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     // que sumarlos da el dinero de la campaña sin contar nada dos veces.
     var porCobrar = euros - cobrado;
     var arpu = abonados ? (cobrado + porCobrar) / abonados : 0;
-    // Abonados, Compras e Ingresos ya no están en esta fila: son la raíz de
-    // sus árboles, y el dinero se desglosa colgando de la última.
-    document.getElementById('kpis').innerHTML = kpi(eur(arpu),'ARPU abonado');
+    // Los dos ARPU no cuelgan de ningún árbol: son cocientes entre las cifras
+    // de dos de ellos, así que van aparte, al final de la fila.
+    var arpuCompra = titulares.length ? euros / titulares.length : 0;
+    document.getElementById('arpus').innerHTML =
+      kpi(eur(arpu), 'ARPU abonado') + kpi(eur(arpuCompra), 'ARPU compra');
 
     // La modalidad es del abono, no de la persona: un Familiar es UNA venta.
     // Se listan las cuatro siempre, aunque estén a cero, para que se vea el
