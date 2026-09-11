@@ -69,16 +69,11 @@ main{padding:22px}
    El raíl horizontal se dibuja con el borde superior de cada rama, estirado
    desde su centro hasta el centro de la siguiente; la última no lo lleva, y
    por eso no sobresale por los lados. */
-/* Los cuatro árboles reparten todo el ancho: crecen en proporción a cuántas
-   ramas tienen —cuatro el de modalidad, dos los demás—, así que las tarjetas
-   salen prácticamente del mismo tamaño en los cuatro. El hueco entre árboles
-   es igual, y el primero y el último quedan a ras de los márgenes.
-   El ancho de referencia es a la vez el punto en que se parte: cuando no
-   caben en una línea, bajan. El tope evita que un árbol suelto en su propia
-   línea se estire a lo absurdo. */
-.arboles{display:flex;gap:26px;flex-wrap:wrap;margin-bottom:20px}
-.arbol{flex:4 1 512px;max-width:840px}
-.arbol.dos{flex:2 1 251px;max-width:420px}
+/* Cuatro columnas idénticas que reparten todo el ancho: mismo hueco entre
+   árboles y el primero y el último a ras de los márgenes. Que las columnas
+   sean iguales tiene un precio: el árbol de modalidad mete cuatro tarjetas
+   donde los demás meten dos, así que las suyas salen más estrechas. */
+.arboles{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-bottom:20px}
 /* La raíz se centra sobre el grupo para que el tronco caiga por su eje. El
    alto mínimo iguala las cuatro: la del ARPU no lleva cifra, y sin él quedaría
    más baja y desalinearía su árbol respecto a los demás. */
@@ -92,19 +87,17 @@ main{padding:22px}
 .ramas i:last-child::after{content:none}
 .mods{display:grid;gap:10px}
 .mods,.ramas{grid-template-columns:repeat(2,minmax(0,1fr))}
-.mod{border:1px solid var(--l);border-radius:9px;padding:8px 14px;min-width:0}
+.mod{border:1px solid var(--l);border-radius:9px;padding:8px 11px;min-width:0}
 .mod b{display:block;font-size:1.1rem;line-height:1.2}
-.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--t3)}
+/* Con cuatro columnas iguales, las tarjetas del árbol de modalidad son la
+   mitad de anchas que las de los demás y «MATRIMONIO» no cabe en una línea.
+   Se parte con guion en vez de desbordar el recuadro. */
+.mod span{display:block;font-size:.7rem;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--t3);overflow-wrap:break-word;hyphens:auto}
 /* Los cortes van a mano y no con auto-fit: seis y cuatro tarjetas se reparten
    bien en 2, 3 y 6 columnas, mientras que dejando decidir al navegador se
    quedaba una suelta al final de la fila. */
-/* Con sitio para los cuatro, se les prohíbe partirse: prefieren encogerse
-   todos a la vez, repartidos en la misma proporción, antes que dejar uno
-   suelto en una segunda línea. Por debajo de eso sí bajan. */
-@media (min-width:1100px){
-  .arboles{flex-wrap:nowrap}
-}
 @media (min-width:620px){
+  .arboles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
      dejaría de caer sobre el centro de cada una. */
@@ -115,6 +108,17 @@ main{padding:22px}
 /* En estrecho las cuatro modalidades bajan a dos filas, y un árbol de una sola
    rama por columna dejaría el raíl colgando sobre la fila de arriba. Se
    retiran los trazos y queda el número como rótulo, que es lo que dicen. */
+/* Los cuatro en fila sólo a partir de aquí. Con columnas iguales, el árbol de
+   modalidad mete cuatro tarjetas donde los demás meten dos, y por debajo de
+   este ancho sus rótulos empiezan a partirse en varias líneas. Antes que eso,
+   mejor dos y dos, que da tarjetas holgadas. */
+@media (min-width:1650px){
+  .arboles{grid-template-columns:repeat(4,minmax(0,1fr))}
+  /* Ese árbol lleva el rótulo un punto más pequeño: es lo justo para que
+     «MATRIMONIO» entre en una línea en la mitad de ancho. */
+  .arbol:not(.dos) .mod{padding-left:8px;padding-right:8px}
+  .arbol:not(.dos) .mod span{font-size:.6rem;letter-spacing:.1px}
+}
 @media (max-width:619px){
   .tronco,.ramas{display:none}
   .raiz{text-align:left}
