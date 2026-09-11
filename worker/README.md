@@ -24,43 +24,19 @@ Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
 buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
 descarga del CSV.
 
-Arriba, seis indicadores y, debajo, el reparto por modalidad. **Abonados** son personas y **Compras** son abonos:
-un Familiar es una compra y cuatro abonados. **Abonados por compra** son las personas que entran de media en cada abono
-vendido: explica el ARPU, porque cuanto más alto, más peso tienen las
-modalidades compartidas. **Cobrado** y **Por cobrar** son las dos
-mitades del dinero de la campaña y no se solapan, así que sumarlos da el total.
-**ARPU abonado** es `(Cobrado + Por cobrar) / Abonados`: lo que aporta de media
-cada persona con abono. Sale por debajo del precio de cualquier modalidad
-porque los abonos compartidos reparten una sola cuota entre varias personas.
+Arriba, dos árboles y una fila de dinero.
 
-Debajo hay dos repartos, cada uno colgando en forma de árbol del número del
-que sale. El de **modalidad** cuenta ventas, no personas: un
-Familiar suma uno, y se muestran las cuatro siempre, aunque alguna esté a cero,
-para que se lea de un vistazo. El de **tipo** cuenta al revés, personas: cuántas
-compraron su abono y cuántas van incluidas en el de otra. Los titulares
-coinciden con las compras, porque cada compra tiene exactamente un titular.
+**Abonados** son personas y de esa tarjeta cuelga el reparto por **tipo**:
+cuántas compraron su abono y cuántas van incluidas en el de otra. **Compras**
+son abonos —un Familiar es una compra y cuatro abonados— y de ella cuelga el
+reparto por **modalidad**, que por tanto cuenta ventas, no personas. Se
+muestran las cuatro modalidades siempre, aunque alguna esté a cero.
 
-**Por qué el repositorio no da acceso.** La página la sirve el Worker, no
-GitHub Pages, y este repositorio contiene sólo su código, sin credenciales:
-la clave vive cifrada en los secretos de Cloudflare y la comprobación ocurre
-en el servidor. Clonar el repositorio no permite entrar ni leer un solo dato.
-
-Las defensas concretas:
-
-- **La sesión es un testigo firmado con HMAC-SHA256**, `caducidad.firma`, que
-  caduca a las 8 horas. No se guarda nada en servidor y no se puede falsificar
-  sin el secreto.
-- **Viaja en la cabecera `Authorization`, no en una cookie**, así que no hay
-  superficie para CSRF: un sitio ajeno no puede añadir cabeceras ni leer el
-  `sessionStorage` de otro origen.
-- **La clave se compara en tiempo constante**, para que el tiempo de respuesta
-  no revele cuántos caracteres son correctos.
-- **Ocho intentos FALLIDOS de acceso por hora y IP.** Sólo se apuntan los
-  fallos y un acierto borra el contador, así que usar el panel con normalidad
-  nunca te deja fuera.
-- **Sin recursos externos** y con una `Content-Security-Policy` que sólo
-  permite conexiones al propio origen.
-- **`no-store` y `noindex`**: no queda en caché ni en buscadores.
+Debajo, el dinero: **Cobrado** y **Por cobrar** son las dos mitades del total y
+no se solapan, y **ARPU abonado** es `(Cobrado + Por cobrar) / Abonados`, lo que
+aporta de media cada persona con abono. Sale por debajo del precio de cualquier
+modalidad porque los abonos compartidos reparten una sola cuota entre varias
+personas.
 
 Si la clave se filtrase, se cambia en diez segundos y **todas las sesiones
 abiertas quedan invalidadas de inmediato**, porque la firma se deriva de ella:

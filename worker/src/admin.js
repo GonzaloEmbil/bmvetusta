@@ -54,24 +54,27 @@ main{padding:22px}
    máximo evita que en un monitor grande queden seis tarjetas larguísimas con
    un número diminuto dentro. */
 .resumen{margin-bottom:22px}
-.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:1044px}
+.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-width:522px}
 .kpi{background:var(--bg2);border:1px solid var(--l);border-radius:11px;padding:12px 16px;min-width:0}
 .kpi b{display:block;font-size:1.5rem;letter-spacing:-.5px}
 .kpi span{display:block;font-size:.72rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3);line-height:1.3}
 /* Reparto por modalidad: misma familia visual pero en segundo plano, para que
    no compita con los indicadores de arriba. Lleva rótulo porque si no, esas
    cuatro cifras sueltas parecen más indicadores con nombres crípticos. */
-/* Cada reparto cuelga en forma de árbol del número del que sale, en vez de
-   llevar un rótulo: así se ve que las cuatro modalidades son el desglose de
-   las compras, y los dos tipos el de los abonados.
+/* Cada reparto cuelga de SU indicador: la tarjeta de Abonados o la de Compras
+   hace de raíz y el desglose cuelga de ella. Por eso esas dos no están en la
+   fila de indicadores de abajo — estarían contadas dos veces, y además el
+   árbol no podría nacer de ellas: un grupo de cuatro tarjetas no cabe bajo una
+   sola columna de esa fila.
    El raíl horizontal se dibuja con el borde superior de cada rama, estirado
    desde su centro hasta el centro de la siguiente; la última no lo lleva, y
    por eso no sobresale por los lados. */
-.arbol{max-width:512px;margin-top:18px}
+.arboles{display:flex;gap:22px;flex-wrap:wrap;margin-bottom:20px}
+.arbol{max-width:512px}
 .arbol.dos{max-width:251px}
-.raiz{margin:0 0 6px;text-align:center;font-size:.7rem;font-weight:700;letter-spacing:1.1px;text-transform:uppercase;color:var(--t3)}
-.raiz b{font-size:1rem;letter-spacing:-.2px;color:var(--t)}
-.tronco{width:0;height:9px;margin:0 auto;border-left:1px solid var(--l2)}
+/* La raíz se centra sobre el grupo para que el tronco caiga por su eje. */
+.raiz{width:min(100%,186px);margin:0 auto}
+.tronco{width:0;height:11px;margin:0 auto;border-left:1px solid var(--l2)}
 .ramas{display:grid;gap:10px;height:9px}
 .ramas i{position:relative}
 .ramas i::before{content:"";position:absolute;left:50%;top:0;bottom:0;border-left:1px solid var(--l2)}
@@ -87,14 +90,13 @@ main{padding:22px}
    quedaba una suelta al final de la fila. */
 @media (min-width:620px){
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .arbol{flex:0 0 auto}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
      dejaría de caer sobre el centro de cada una. */
   .arbol:not(.dos) .mods,
   .arbol:not(.dos) .ramas{grid-template-columns:repeat(4,minmax(0,1fr))}
 }
-@media (min-width:1040px){
-  .kpis{grid-template-columns:repeat(6,minmax(0,1fr))}
-}
+
 /* En estrecho las cuatro modalidades bajan a dos filas, y un árbol de una sola
    rama por columna dejaría el raíl colgando sobre la fila de arriba. Se
    retiran los trazos y queda el número como rótulo, que es lo que dicen. */
@@ -123,9 +125,9 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
 .detalle{font-size:.82rem;color:var(--t2);white-space:normal;min-width:200px;max-width:280px}
 .vacio{color:var(--t3)}
 th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px}
-/* Modalidades a la izquierda y buscador a la derecha, alineados por abajo
-   para que el borde inferior del campo case con el de las tarjetas. El
-   margen automático es lo que lo empuja al extremo derecho. */
+/* Dinero a la izquierda y buscador a la derecha, alineados por abajo para que
+   el borde inferior del campo case con el de las tarjetas. El margen
+   automático es lo que lo empuja al extremo derecho. */
 .fila-mods{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
 .filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
@@ -151,20 +153,22 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   </header>
   <main>
     <div class="resumen">
-      <div class="kpis" id="kpis"></div>
-      <div class="fila-mods">
-        <div class="arbol">
-          <p class="raiz"><b id="raiz-compras">0</b> compras</p>
-          <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i><i></i><i></i></div>
-          <div class="mods" id="mods"></div>
-        </div>
+      <div class="arboles">
         <div class="arbol dos">
-          <p class="raiz"><b id="raiz-abonados">0</b> abonados</p>
+          <div class="kpi raiz"><b id="raiz-abonados">0</b><span>Abonados</span></div>
           <div class="tronco"></div>
           <div class="ramas"><i></i><i></i></div>
           <div class="mods" id="tipos"></div>
         </div>
+        <div class="arbol">
+          <div class="kpi raiz"><b id="raiz-compras">0</b><span>Compras</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i><i></i><i></i></div>
+          <div class="mods" id="mods"></div>
+        </div>
+      </div>
+      <div class="fila-mods">
+        <div class="kpis" id="kpis"></div>
         <div class="filtros">
           <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
         </div>
@@ -278,12 +282,8 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     // que sumarlos da el dinero de la campaña sin contar nada dos veces.
     var porCobrar = euros - cobrado;
     var arpu = abonados ? (cobrado + porCobrar) / abonados : 0;
-    // Cuántas personas entran de media en cada abono vendido. Explica el ARPU:
-    // cuanto más alto, más peso tienen las modalidades compartidas.
-    var porCompra = titulares.length ? abonados / titulares.length : 0;
+    // Abonados y Compras ya no están en esta fila: son la raíz de sus árboles.
     document.getElementById('kpis').innerHTML =
-      kpi(abonados,'Abonados') + kpi(titulares.length,'Compras') +
-      kpi(dec(porCompra),'Abonados por compra') +
       kpi(cobrado+' €','Cobrado') + kpi(porCobrar+' €','Por cobrar') +
       kpi(eur(arpu),'ARPU abonado');
 
