@@ -243,7 +243,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
         '<td><button data-pagar="'+a.id+'" class="chip '+(a.pagado?'si':'no')+'">'+(a.pagado?'Sí':'No')+'</button></td>'+
         '<td class="nom">'+esc(a.nombre)+'</td>'+
         '<td class="detalle">'+vinculo+'</td>'+
-        '<td>'+esc((a.creado||'').slice(0,10))+'</td>'+
+        '<td>'+fecha(a.creado)+'</td>'+
         '<td>'+esc(a.modalidad)+'</td>'+
         '<td>'+esc(a.pago)+'</td>'+
         '<td>'+(a.importe ? esc(a.importe)+' €' : '—')+'</td>'+
@@ -268,6 +268,18 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   function dato(v){ return v ? esc(v) : '<span class="vacio">—</span>'; }
 
   var MODALIDADES = ['Sub 18', 'Adulto', 'Matrimonio', 'Familiar'];
+
+  // La fecha se guarda en UTC. Se pasa por Date para mostrarla en la hora de
+  // quien mira el panel: si no, un alta hecha a las 00:30 en España aparecería
+  // con la fecha del día anterior, que es cuando era en UTC.
+  function fecha(iso){
+    if (!iso) return '';
+    var d = new Date(iso);
+    if (isNaN(d)) return esc(String(iso).slice(0, 10));
+    var dd = String(d.getDate()).padStart(2, '0');
+    var mm = String(d.getMonth() + 1).padStart(2, '0');
+    return dd + '/' + mm + '/' + d.getFullYear();
+  }
 
   // Un decimal y coma, como se escriben los números en español.
   function dec(n){ return n.toFixed(1).replace('.', ','); }
