@@ -88,7 +88,6 @@ td.num{font-weight:800}
 .chip.si{background:#e7f7ec;border-color:#a9dcb8;color:var(--ok)}
 .chip.no{background:#fdf3f2;border-color:#e8b4ae;color:var(--err)}
 .chip.tit{background:#eef1f6;color:var(--t2)}
-tbody tr.asoc td.num{font-weight:600;color:var(--t2)}
 tbody tr.asoc td.nom{padding-left:26px;position:relative}
 tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var(--t3)}
 /* La de asociado va en hueco, para que la de titular siga destacando. El
