@@ -2990,6 +2990,13 @@ body {
     opacity: 0.8;
 }
 
+/* El botón no es un enlace de texto: manda su propio estilo, el mismo que en
+   la página de la campaña. */
+.news-article-body .abono-btn {
+    color: #000;
+    text-decoration: none;
+}
+
 .news-article-body blockquote {
     border-left: 3px solid #FDED3A;
     margin: 20px 0;
@@ -3021,6 +3028,15 @@ body {
 
 .news-article-body .news-article-image {
     margin: 24px 0;
+}
+
+/* Una imagen que se muestra entera suele ser más estrecha que la columna de
+   texto —un cartel vertical, un mapa—, y pegada al margen izquierdo parece
+   descolocada. La regla de arriba anula los márgenes automáticos del
+   contenedor base, así que aquí se devuelven. */
+.news-article-body .news-article-image-full {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .news-article-gallery {
