@@ -124,6 +124,9 @@ main{padding:22px}
   .raiz{text-align:left}
 }
 /* Tabla */
+/* El scroll lateral se queda sólo como red de seguridad: lo normal es que la
+   tabla se encoja hasta caber, y sólo si tuviera que encogerse tanto que
+   dejara de leerse se permite arrastrarla. */
 .tabla-wrap{overflow-x:auto;border:1px solid var(--l);border-radius:12px}
 table{border-collapse:collapse;width:100%;font-size:.88rem}
 th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--l);white-space:nowrap;vertical-align:top}
@@ -369,6 +372,8 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     document.querySelectorAll('[data-pagar]').forEach(function(b){
       b.addEventListener('click', function(){ alternarPago(parseInt(b.dataset.pagar,10), b); });
     });
+
+    encajarTabla();
   }
 
   // Sólo el titular facilita móvil y correo, así que las filas de las personas
@@ -402,6 +407,27 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   function dec(n){ return n.toFixed(1).replace('.', ','); }
   function eur(n){ return dec(n) + ' €'; }
 
+  // La tabla tiene dieciséis columnas y rara vez cabe. En vez de dejar que se
+  // arrastre de lado —que obliga a perder de vista el nombre para ver el
+  // correo—, se reduce lo justo para que entre entera, como un zoom del
+  // navegador pero sólo sobre la tabla.
+  //
+  // Se usa zoom y no transform:scale porque zoom recalcula la maquetación:
+  // con scale, el hueco que ocupaba la tabla sin escalar se quedaría vacío
+  // debajo y habría que compensarlo a mano.
+  var MINIMO = 0.62;   // por debajo de esto ya no se lee: mejor arrastrarla
+
+  function encajarTabla(){
+    var env = document.querySelector('.tabla-wrap');
+    var tabla = env && env.querySelector('table');
+    if (!tabla) return;
+    tabla.style.zoom = '';
+    var natural = env.scrollWidth, hueco = env.clientWidth;
+    if (!natural || !hueco) return;
+    var k = hueco / natural;
+    tabla.style.zoom = k >= 1 ? '' : Math.max(k, MINIMO);
+  }
+
   function tarjeta(n,t){ return '<div class="mod"><b>'+esc(n)+'</b><span>'+esc(t)+'</span></div>'; }
 
   function kpi(v,t){ return '<div class="kpi"><b>'+esc(v)+'</b><span>'+esc(t)+'</span></div>'; }
@@ -430,6 +456,14 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       m.className='msg bad'; m.textContent='No se ha podido guardar el cambio.';
     });
   }
+
+  // Al cambiar el ancho de la ventana hay que volver a medir. Se espera a que
+  // el arrastre del ratón pare, o se recalcularía en cada píxel.
+  var temporizador;
+  window.addEventListener('resize', function(){
+    clearTimeout(temporizador);
+    temporizador = setTimeout(encajarTabla, 120);
+  });
 
   document.getElementById('recargar').addEventListener('click', cargar);
   document.getElementById('buscar').addEventListener('input', pintar);
