@@ -3483,10 +3483,41 @@ body {
         margin: 12px auto 0;
     }
 
-    /* Hueco póster→primera foto de equipos. El 35px de la regla base es el
-       hueco de la versión desktop (fila del fold → equipos), así que aquí se
-       sobrescribe sólo el padding superior. */
+    /* Toda la columna respira igual: 24px entre bloque y bloque. Cada hueco
+       lo forman dos propiedades —el margen de abajo de uno y el de arriba del
+       siguiente—, así que se pone una a cero y la otra a 24 en lugar de
+       repartirlos, que es lo que hacía que ninguno midiera lo previsto. */
     .carousel-section {
+        padding-top: 24px;
+        padding-bottom: 0;
+    }
+
+    .liga-section {
+        margin-top: 24px;
+        margin-bottom: 24px;
+    }
+
+    .home-poster-movil {
+        margin-top: 0;
+        margin-bottom: 24px;
+    }
+
+    /* El h2 trae su margen superior por defecto del navegador, y la sección
+       tiene el suyo propio: los dos suman al hueco que deja el mapa. */
+    .prensa-preview-title {
+        margin-top: 0;
+    }
+
+    .prensa-preview-section {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+
+    .prensa-preview-cta {
+        margin-top: 24px;
+    }
+
+    .sponsors-carousel-section {
         padding-top: 24px;
     }
 
