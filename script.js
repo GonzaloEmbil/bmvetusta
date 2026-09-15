@@ -930,7 +930,6 @@ document.addEventListener('DOMContentLoaded', function() {
     (function loadNextMatchBanner() {
         var banner = document.getElementById('match-banner');
         var bannerLink = document.getElementById('match-banner-link');
-        var btn = document.getElementById('header-streaming-btn');
 
         // Determine base path to data/ depending on page depth
         var scriptTags = document.querySelectorAll('script[src*="script.js"]');
@@ -942,7 +941,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Only the homepage has the full banner; subpages only get streaming btn
+        // El banner completo sólo existe en la portada.
         var isHomepage = !!banner;
 
         fetch(basePath + 'data/proximo-partido.json?v=' + Date.now())
@@ -987,12 +986,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
 
-                // ── Streaming link (banner + header button) ──
+                // ── Enlace al directo desde el banner de portada ──
                 if (match.url_streaming) {
-                    if (btn) {
-                        btn.href = match.url_streaming;
-                        btn.style.display = '';
-                    }
                     if (bannerLink) {
                         bannerLink.href = match.url_streaming;
                     }

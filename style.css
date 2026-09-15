@@ -1441,35 +1441,8 @@ body {
 }
 
 /* Header Streaming Button */
-.header-streaming-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: #e53935;
-    color: #fff;
-    text-decoration: none;
-    font-weight: 700;
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    white-space: nowrap;
-    animation: streaming-pulse 2s ease-in-out infinite;
-    transition: background 0.2s, transform 0.2s;
-    position: fixed;
-    top: 14px;
-    right: 24px;
-    z-index: 101;
-}
 
-.header-streaming-btn:hover {
-    background: #c62828;
-    transform: scale(1.05);
-}
 
-.header-streaming-btn svg {
-    flex-shrink: 0;
-}
 
 @keyframes streaming-pulse {
     0%, 100% { box-shadow: 0 0 0 0 rgba(229, 57, 53, 0.5); }
@@ -1528,9 +1501,6 @@ body {
         justify-content: space-between;
     }
 
-    .header-streaming-btn {
-        display: none !important;
-    }
     
     /* Mientras el panel está abierto el fondo no debe desplazarse. */
     body.nav-open {
@@ -2912,6 +2882,27 @@ body {
 .news-article-video video {
     height: auto;
     max-height: none;
+}
+
+/* Vídeo incrustado de YouTube dentro de un artículo. El hueco se reserva con
+   aspect-ratio, así que la página no pega un salto cuando el iframe carga. */
+.news-article-embed {
+    max-height: none;
+    max-width: none;
+    aspect-ratio: 16 / 9;
+}
+
+.news-article-embed iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+/* Llamada a la acción dentro del cuerpo de un artículo. */
+.news-article-cta {
+    text-align: center;
+    margin: 32px 0;
 }
 
 /* Full-image variant: show the whole image (maps, infographics) instead

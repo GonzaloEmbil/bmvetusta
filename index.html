@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BM Vetusta</title>
     <link rel="icon" type="image/png" href="src/assets/escudo.png">
-    <link rel="stylesheet" href="style.css?v=campana-7">
+    <link rel="stylesheet" href="style.css?v=campana-9">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -44,10 +44,6 @@
                 <a href="./patrocinadores/">PATROCINIOS</a>
                 <a href="./contacto/">CONTACTO</a>
             </nav>
-            <a id="header-streaming-btn" href="#" target="_blank" rel="noopener noreferrer" class="header-streaming-btn" style="display:none;" title="Ver en directo">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                <span>EN DIRECTO</span>
-            </a>
             <button class="hamburger" aria-label="Menú">
                 <span></span>
                 <span></span>
@@ -90,7 +86,21 @@
                 <div class="news-carousel-viewport">
                     <div class="news-carousel-slides">
                         <!-- 1. 2026-09-07 -->
-                        <a href="./noticias/renovacion-chema-carbajo-2026-09-07.html" class="news-carousel-slide active">
+                        <a href="./noticias/campana-abonados-2026-09-10.html" class="news-carousel-slide active">
+                            <div class="news-carousel-slide-image">
+                                <picture>
+                                    <source srcset="src/assets/cartel_abonados_2627.webp" type="image/webp">
+                                    <img src="src/assets/cartel_abonados_2627.jpg" alt="Campaña de abonados 2026/2027 del Balonmano Vetusta" fetchpriority="high">
+                                </picture>
+                            </div>
+                            <div class="news-carousel-slide-content">
+                                <span class="news-carousel-slide-date">10 de septiembre de 2026</span>
+                                <h3 class="news-carousel-slide-title">El Balonmano Vetusta lanza su campaña de abonados 2026/2027</h3>
+                                <p class="news-carousel-slide-excerpt">Ya puedes hacerte abonado online, con cuatro modalidades desde 20 euros</p>
+                            </div>
+                        </a>
+                        <!-- 2. 2026-09-07 -->
+                        <a href="./noticias/renovacion-chema-carbajo-2026-09-07.html" class="news-carousel-slide">
                             <div class="news-carousel-slide-image">
                                 <picture>
                                     <source srcset="src/assets/renovacion_chema.webp" type="image/webp">
@@ -631,7 +641,14 @@
             <div class="tag-carousels">
                 <div class="tag-carousel" data-tag="club">
                     <div class="tag-carousel-track">
-                        <a href="./noticias/premio-eduardo-valdes-2026-06-26.html" class="tag-card active">
+                        <a href="./noticias/campana-abonados-2026-09-10.html" class="tag-card active">
+                            <img src="src/assets/thumbs/campana_abonados.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
+                            <span class="tag-card-body">
+                                <span class="news-tag news-tag-club">Club</span>
+                                <span class="tag-card-title">El Balonmano Vetusta lanza su campaña de abonados 2026/2027</span>
+                            </span>
+                        </a>
+                        <a href="./noticias/premio-eduardo-valdes-2026-06-26.html" class="tag-card">
                             <img src="src/assets/thumbs/premiolabordirectiva.webp" alt="" class="tag-card-thumb" loading="lazy" decoding="async">
                             <span class="tag-card-body">
                                 <span class="news-tag news-tag-club">Club</span>
@@ -1406,7 +1423,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-7"></script>
+    <script src="script.js?v=campana-9"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No
