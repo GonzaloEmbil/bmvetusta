@@ -2899,6 +2899,23 @@ body {
     border: 0;
 }
 
+/* Evita el fogonazo blanco al aparecer: hasta que el reproductor de YouTube
+   se pinta, el navegador rellena el iframe con su lienzo por defecto, que es
+   blanco. Con color-scheme oscuro y fondo negro, ese instante pasa
+   desapercibido sobre el fondo de la web. */
+.news-article-embed,
+.home-video,
+.abono-video {
+    background: #000;
+}
+
+.news-article-embed iframe,
+.home-video iframe,
+.abono-video iframe {
+    background: #000;
+    color-scheme: dark;
+}
+
 /* Llamada a la acción dentro del cuerpo de un artículo. */
 .news-article-cta {
     text-align: center;
