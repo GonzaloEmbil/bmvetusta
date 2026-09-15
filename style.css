@@ -3406,8 +3406,49 @@ body {
     display: none;
 }
 
+/* El vídeo de la campaña y el mapa de la liga se turnan en el hueco de la
+   portada: en escritorio manda el mapa —ahí no se toca nada—, y en móvil sale
+   el vídeo y el mapa baja al final, entre los goleadores y Prensa. */
+.home-video,
+.home-poster-movil {
+    display: none;
+}
+
 /* Mobile: centred below the news carousel, in natural flow */
 @media (max-width: 768px) {
+    /* El mapa cede su sitio al vídeo. */
+    .home-poster-row .home-poster { display: none; }
+
+    .home-video {
+        display: block;
+        width: 100%;
+        aspect-ratio: 16 / 9;
+    }
+
+    .home-video iframe {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+        border-radius: 12px;
+    }
+
+    /* El mapa, ya abajo. Mismo ancho que el resto de bloques de la columna. */
+    .home-poster-movil {
+        display: block;
+        width: 90%;
+        max-width: 360px;
+        margin: 0 auto 34px;
+    }
+
+    .home-poster-movil img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+    }
+
     .home-tournament-stack {
         width: 90%;
         max-width: 360px;

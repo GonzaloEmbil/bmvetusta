@@ -12,7 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BM Vetusta</title>
     <link rel="icon" type="image/png" href="src/assets/escudo.png">
-    <link rel="stylesheet" href="style.css?v=campana-10">
+    <link rel="stylesheet" href="style.css?v=campana-11">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -941,6 +941,10 @@
             </div>
             <!-- League map poster on the right, matching the news carousel height -->
             <div class="home-tournament-stack home-poster-row">
+                <!-- Sólo en móvil: ocupa el sitio del mapa, que baja al final. -->
+                <div class="home-video">
+                    <iframe src="https://www.youtube-nocookie.com/embed/cFKJLLbQ0Co" title="Campaña de abonados 2026/2027 del Balonmano Vetusta" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
                 <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster" aria-label="Grupo B de Primera Nacional 2026/2027">
                     <picture>
                         <source srcset="src/assets/mapaliga.webp" type="image/webp">
@@ -1217,6 +1221,16 @@
             </div>
         </section>
 
+        <!-- El mapa de la liga, sólo en móvil. Va duplicado porque arriba y aquí
+             caen en secciones distintas y no hay forma de reordenarlo con CSS;
+             la imagen es la misma, así que el navegador la descarga una vez. -->
+        <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster-movil" aria-label="Grupo B de Primera Nacional 2026/2027">
+            <picture>
+                <source srcset="src/assets/mapaliga.webp" type="image/webp">
+                <img loading="lazy" decoding="async" src="src/assets/mapaliga.png" alt="Grupo B de Primera Nacional 2026/2027">
+            </picture>
+        </a>
+
         <!-- Prensa Preview -->
         <section class="prensa-preview-section">
             <h2 class="prensa-preview-title">Prensa</h2>
@@ -1423,7 +1437,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-10"></script>
+    <script src="script.js?v=campana-11"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No
