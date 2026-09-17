@@ -4388,48 +4388,10 @@ body {
     gap: 24px;
 }
 
-/* Texto explicativo. En móvil cierra la página, bajo el cartel; en
-   escritorio se coloca entre el botón y el vídeo (ver más abajo). */
-.abono-note {
-    color: #fff;
-    font-size: 0.875rem;   /* 14px */
-    line-height: 1.6;
-    max-width: 520px;
-    margin: 24px auto 0;
-    /* La sección centra todo su texto; aquí se alinea a la izquierda. Sin
-       justificar no hacen falta los guiones de partición, que estaban sólo
-       para que el texto justificado no abriera huecos entre palabras. */
-    text-align: left;
-    text-wrap: pretty;
-}
 
-.abono-note p {
-    margin: 0;
-}
 
-/* La segunda frase arranca en su propia línea. Va como párrafo aparte y no
-   como <br> para que la primera también quede justificada hasta el final. */
-.abono-note p + p {
-    margin-top: 10px;
-}
 
-.abono-note a {
-    color: #FDED3A;
-    text-decoration: underline;
-    text-underline-offset: 2px;
-    word-break: break-word;
-}
 
-/* Aviso final. Mismo tamaño y mismo blanco que la explicación: lo único que
-   lo separa es el aire de arriba. Se separa con padding y no con margin
-   porque en móvil el margen entre párrafos se anula, y mantiene display:block
-   para no fundirse con el párrafo anterior. */
-.abono-note .abono-aviso {
-    display: block;
-    margin: 0;
-    padding-top: 14px;
-    font-size: 0.875rem;   /* 14px, igual que la explicación */
-}
 
 /* ── Escritorio: botón encima y fila vídeo | cartel a todo el ancho ── */
 @media (min-width: 769px) {
@@ -4509,19 +4471,10 @@ body {
         margin: 0 0 20px;
     }
 
-    /* Arranca en el borde izquierdo del vídeo y llega al 95% del derecho.
-       Se anula el max-width base (520px), pensado para el móvil. */
-    .abono-section.has-video .abono-note {
-        grid-column: 1;
-        grid-row: 2;
-        max-width: none;
-        width: 95%;
-        margin: 0 auto 18px 0;
-    }
-
+    
     .abono-section.has-video .abono-video {
         grid-column: 1;
-        grid-row: 3;
+        grid-row: 2;
         width: 100%;
         height: auto;
         aspect-ratio: 16 / 9;
@@ -4531,7 +4484,7 @@ body {
        cartel nunca se estira si la pila botón + texto + vídeo es más alta. */
     .abono-section.has-video .abono-poster {
         grid-column: 2;
-        grid-row: 1 / span 3;
+        grid-row: 1 / span 2;
         align-self: end;
         height: auto;
     }
@@ -4547,15 +4500,7 @@ body {
         padding: 28px 16px 50px;
     }
 
-    /* En móvil los párrafos de la explicación van seguidos, como uno solo.
-       El aviso final queda fuera: tiene su propia regla display:block. */
-    .abono-note p {
-        display: inline;
-    }
-
-    .abono-note p + p {
-        margin-top: 0;
-    }
+    
 
     .abono-lead {
         font-size: 1rem;
