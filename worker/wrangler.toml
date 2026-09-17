@@ -27,6 +27,13 @@ enabled = true
 pattern = "altas.balonmanovetusta.com"
 custom_domain = true
 
+# Zona privada del club. Mismo Worker, otra puerta: comparte la base de datos
+# y los secretos, así que no hay nada que duplicar ni que mantener por partida
+# doble. El control de acceso lo pone Cloudflare Access por delante.
+[[routes]]
+pattern = "admin.balonmanovetusta.com"
+custom_domain = true
+
 [[d1_databases]]
 binding = "DB"
 database_name = "bmvetusta-abonados"

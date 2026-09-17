@@ -12,6 +12,8 @@
 import { ADMIN_HTML } from './admin.js';
 import { correoAlta } from './correo.js';
 
+const PRIVADO = 'admin.balonmanovetusta.com';
+
 const PRECIOS = { 'Sub 18': 20, 'Adulto': 40, 'Matrimonio': 70, 'Familiar': 90 };
 const TEMPORADA = '2026/2027';
 
@@ -195,6 +197,24 @@ const CAB_ADMIN = {
   'Referrer-Policy': 'no-referrer',
 };
 
+/** Lo único que ve quien llegue a la zona privada sin pasar por Access. */
+const PORTADA_PRIVADA = `<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Zona privada · Balonmano Vetusta</title>
+<style>
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+     background:#14161a;color:#fff;text-align:center;padding:24px;
+     font:16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+h1{font-size:1.15rem;margin:0 0 8px}
+p{margin:0;color:#9aa0a8;font-size:.92rem}
+</style></head>
+<body><div>
+<h1>Zona privada del Balonmano Vetusta</h1>
+<p>Acceso restringido.</p>
+</div></body></html>`;
+
 // ── Correo (opcional: solo si hay RESEND_API_KEY) ──────────────────────────
 
 async function enviarCorreo(env, { para, copia, asunto, texto: cuerpo, html, responder }) {
@@ -252,6 +272,18 @@ export default {
     const cabeceras = cors(origen, env);
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cabeceras });
+
+    // ── Zona privada ────────────────────────────────────────────────────────
+    // admin.balonmanovetusta.com es otra puerta del mismo Worker. De momento
+    // no sirve nada: quien entre se lleva un 403. El guardia lo pondrá
+    // Cloudflare Access por delante, y hasta que esté no se expone aquí ni
+    // una fila de la base de datos.
+    if (url.hostname === PRIVADO) {
+      return new Response(PORTADA_PRIVADA, {
+        status: 403,
+        headers: { 'Content-Type': 'text/html; charset=utf-8', ...CAB_ADMIN },
+      });
+    }
 
     if (url.pathname === '/') {
       return json({ ok: true }, 200);
