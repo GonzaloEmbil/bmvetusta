@@ -14,7 +14,9 @@
 // es para ESTA aplicación, que no ha caducado, y —ya que lo tenemos— que el
 // correo sigue estando en la lista.
 
-const COOKIE = 'CF-Authorization';
+// Con guion BAJO: es como la escribe Cloudflare. Con guion medio no existe,
+// y buscarla así deja fuera a todo el mundo sin decir por qué.
+const COOKIE = 'CF_Authorization';
 const CABECERA = 'Cf-Access-Jwt-Assertion';
 
 // Las claves públicas del equipo se guardan en memoria: cambian muy de tarde
