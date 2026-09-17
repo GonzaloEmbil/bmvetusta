@@ -51,11 +51,11 @@ AVISO_DE = "socios@balonmanovetusta.com"
 
 # ── Cloudflare Access ──
 # El equipo que firma los testigos de la zona privada.
-ACCESS_EQUIPO = "purple-dew-ca4c.cloudflareaccess.com"
+ACCESS_EQUIPO = "balonmanovetusta.cloudflareaccess.com"
 # Identificador de la aplicación de Access. Sin él no se entra: el Worker
 # falla cerrado a propósito. Se copia del panel de la aplicación (Application
 # Audience Tag).
-ACCESS_AUD = ""
+ACCESS_AUD = "1682a850cc47f07a3b6fb7e01436b4782026d8d1dd2acc2578776c6c81b264d1"
 # Segunda lista, además de la política de Access. Si allí se colase alguien
 # por un error de configuración, aquí se para.
 ACCESS_CORREOS = "gonzalomembil@gmail.com,gmembil@gmail.com,gonzalo.martinez@bookline.ai,balonmanovetusta@gmail.com,heviaembilmaria93@gmail.com,onaitz@gmail.com"
