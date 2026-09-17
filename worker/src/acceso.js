@@ -33,6 +33,9 @@ function base64url(s) {
 
 const comoTexto = (s) => new TextDecoder().decode(base64url(s));
 
+const emisoresDe = (env) =>
+  String(env.ACCESS_EQUIPO || '').split(',').map((s) => s.trim()).filter(Boolean);
+
 function galleta(request, nombre) {
   const crudo = request.headers.get('Cookie') || '';
   for (const trozo of crudo.split(';')) {
@@ -60,7 +63,12 @@ async function clavesDe(equipo) {
  * se resuelve negando el paso.
  */
 export async function accesoValido(request, env) {
-  const equipo = env.ACCESS_EQUIPO;
+  // ACCESS_EQUIPO admite varios nombres separados por comas. Hace falta porque
+  // al renombrar el equipo, Cloudflare sigue firmando con el nombre anterior
+  // los testigos ya emitidos: rechazarlos deja a la gente fuera sin motivo.
+  // Las claves públicas se piden siempre al primero.
+  const equipos = emisoresDe(env);
+  const equipo = equipos[0];
   const aud = env.ACCESS_AUD;
   if (!equipo || !aud) return null;   // sin configurar, no se entra
 
@@ -86,7 +94,7 @@ export async function accesoValido(request, env) {
   const auds = Array.isArray(cuerpo.aud) ? cuerpo.aud : [cuerpo.aud];
   if (!auds.includes(aud)) return null;
 
-  if (cuerpo.iss && cuerpo.iss !== `https://${equipo}`) return null;
+  if (cuerpo.iss && !equipos.some((e) => cuerpo.iss === `https://${e}`)) return null;
 
   let claves;
   try { claves = await clavesDe(equipo); } catch { return null; }
@@ -121,3 +129,4 @@ export async function accesoValido(request, env) {
 
   return correo;
 }
+

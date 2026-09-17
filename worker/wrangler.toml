@@ -50,8 +50,10 @@ AVISO_DE = "socios@balonmanovetusta.com"
 # El dominio no recibe correo, así que las respuestas se dirigen a AVISO_A.
 
 # ── Cloudflare Access ──
-# El equipo que firma los testigos de la zona privada.
-ACCESS_EQUIPO = "balonmanovetusta.cloudflareaccess.com"
+# Emisores aceptados para los testigos de la zona privada. Van dos porque el
+# equipo se renombró y Cloudflare sigue firmando con el nombre anterior los
+# testigos ya emitidos. Las claves públicas se piden al primero.
+ACCESS_EQUIPO = "balonmanovetusta.cloudflareaccess.com,purple-dew-ca4c.cloudflareaccess.com"
 # Identificador de la aplicación de Access. Sin él no se entra: el Worker
 # falla cerrado a propósito. Se copia del panel de la aplicación (Application
 # Audience Tag).
