@@ -144,6 +144,9 @@ tbody tr.asoc td.nom::before{content:"↳";position:absolute;left:12px;color:var
    borde a trazos y el cursor avisan de que guarda algo debajo: el vínculo y
    el número del titular salen al posar el ratón. */
 .chip.aso{background:var(--bg);color:var(--t3);border-style:dashed;cursor:help}
+/* En escritorio el vínculo vive en el título emergente de la etiqueta; en
+   táctil no hay forma de sacarlo, así que allí se escribe. */
+.vinc-tactil{display:none}
 .detalle{font-size:.82rem;color:var(--t2);white-space:normal;min-width:200px;max-width:280px}
 .vacio{color:var(--t3)}
 th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset:3px}
@@ -152,6 +155,83 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
    automático es lo que lo empuja al extremo derecho. */
 .fila-mods{display:flex;gap:16px;align-items:flex-end;flex-wrap:wrap}
 .filtros{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-left:auto}
+
+/* ── Móvil ────────────────────────────────────────────────────────────────
+   Dieciséis columnas no caben en un teléfono por mucho que se encojan, así
+   que la tabla se deshace: cada fila pasa a ser una ficha y cada celda una
+   línea de «etiqueta … valor». La etiqueta sale del data-k de la celda, de
+   modo que la cabecera de la tabla y las fichas no pueden desincronizarse:
+   son el mismo HTML. */
+@media (max-width: 768px){
+  main{padding:14px}
+  header{padding:14px 16px;gap:10px}
+  header h1{font-size:1rem}
+  /* El separador deja de empujar: los botones bajan a su propia línea. */
+  header .sp{flex-basis:100%;height:0}
+  header button{flex:1 1 0;padding:9px 8px;font-size:.82rem;white-space:nowrap}
+  header .escudo{width:34px;height:34px}
+
+  .filtros{margin-left:0;width:100%}
+  .filtros input{width:100%;min-width:0}
+
+  .tabla-wrap{border:0;border-radius:0;overflow:visible}
+  table{font-size:.9rem}
+  thead{display:none}
+
+  tbody tr{
+    display:flex;
+    flex-direction:column;
+    border:1px solid var(--l);
+    border-radius:12px;
+    padding:12px 14px;
+    margin-bottom:10px;
+  }
+  tbody tr.asoc{margin-left:14px}
+  tbody tr.asoc td.nom{padding-left:0}
+  tbody tr.asoc td.nom::before{content:none}
+
+  tbody td{
+    order:2;          /* número y nombre se adelantan; el resto, en su orden */
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:14px;
+    padding:4px 0;
+    border:0;
+    white-space:normal;
+    text-align:right;
+    min-width:0;
+  }
+
+  tbody td::before{
+    content:attr(data-k);
+    flex:0 0 auto;
+    font-size:.68rem;
+    font-weight:700;
+    letter-spacing:.8px;
+    text-transform:uppercase;
+    color:var(--t3);
+    text-align:left;
+  }
+
+  /* Número y nombre hacen de titular de la ficha: sin etiqueta y en grande. */
+  tbody td.num{order:0}
+  tbody td.nom{order:1}
+  tbody td.num,
+  tbody td.nom{display:block;text-align:left;padding:0}
+  tbody td.num::before,
+  tbody td.nom::before{content:none}
+  tbody td.num{font-size:1.35rem;line-height:1.1}
+  tbody td.nom{font-size:1rem;font-weight:600;padding-bottom:8px;border-bottom:1px solid var(--l);margin-bottom:8px}
+
+  /* Las filas sin dato no ocupan sitio: una ficha con ocho rayas no dice nada. */
+  tbody td:has(> .vacio:only-child){display:none}
+
+  .detalle{max-width:none;min-width:0;text-align:right}
+
+  .chip.aso{cursor:default}
+  .vinc-tactil{display:block;font-size:.82rem;color:var(--t2);padding-top:4px}
+}
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
 </style>
 </head>
@@ -347,25 +427,29 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
       var asociado = !!a.titular_id;
       var vinculo = asociado
-        ? '<span class="chip aso" title="'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'">Asociado</span>'
+        ? '<span class="chip aso" title="'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'">Asociado</span>'+
+          '<span class="vinc-tactil">'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'</span>'
         : '<span class="chip tit">Titular</span>';
+      // data-k lleva el nombre de la columna. En pantalla ancha no se usa; en
+      // móvil, donde la tabla se deshace en fichas y la cabecera desaparece,
+      // es lo que pone la etiqueta delante de cada dato.
       return '<tr class="'+(a.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
-        '<td class="num">'+a.id+'</td>'+
-        '<td><button data-pagar="'+a.id+'" class="chip '+(a.pagado?'si':'no')+'">'+(a.pagado?'Sí':'No')+'</button></td>'+
-        '<td class="nom">'+esc(a.nombre)+'</td>'+
-        '<td>'+vinculo+'</td>'+
-        '<td>'+fecha(a.creado)+'</td>'+
-        '<td>'+esc(a.modalidad)+'</td>'+
-        '<td>'+esc(a.pago)+'</td>'+
-        '<td>'+(a.importe ? esc(a.importe)+' €' : '—')+'</td>'+
-        '<td>'+esc(a.dni)+'</td>'+
-        '<td>'+fechaSuelta(a.nacimiento)+'</td>'+
-        '<td>'+dato(a.telefono)+'</td>'+
-        '<td>'+dato(a.email)+'</td>'+
-        '<td>'+esc(a.localidad)+'</td>'+
-        '<td>'+esc(a.imagen)+'</td>'+
-        '<td>'+esc(a.comunicaciones)+'</td>'+
-        '<td class="detalle">'+tu+'</td>'+
+        '<td class="num" data-k="Nº socio">'+a.id+'</td>'+
+        '<td data-k="Pagado"><button data-pagar="'+a.id+'" class="chip '+(a.pagado?'si':'no')+'">'+(a.pagado?'Sí':'No')+'</button></td>'+
+        '<td class="nom" data-k="Nombre">'+esc(a.nombre)+'</td>'+
+        '<td data-k="Vínculo">'+vinculo+'</td>'+
+        '<td data-k="Alta">'+fecha(a.creado)+'</td>'+
+        '<td data-k="Modalidad">'+esc(a.modalidad)+'</td>'+
+        '<td data-k="Pago">'+esc(a.pago)+'</td>'+
+        '<td data-k="Importe">'+(a.importe ? esc(a.importe)+' €' : '<span class="vacio">—</span>')+'</td>'+
+        '<td data-k="DNI/NIE">'+esc(a.dni)+'</td>'+
+        '<td data-k="Nacimiento">'+fechaSuelta(a.nacimiento)+'</td>'+
+        '<td data-k="Móvil">'+dato(a.telefono)+'</td>'+
+        '<td data-k="Correo">'+dato(a.email)+'</td>'+
+        '<td data-k="Localidad">'+esc(a.localidad)+'</td>'+
+        '<td data-k="Imagen">'+esc(a.imagen)+'</td>'+
+        '<td data-k="Comunic.">'+esc(a.comunicaciones)+'</td>'+
+        '<td class="detalle" data-k="Tutor/a legal">'+tu+'</td>'+
         '</tr>';
     }).join('') || '<tr><td colspan="16" style="padding:22px;color:#7b828b">Todavía no hay altas.</td></tr>';
 
@@ -422,6 +506,8 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     var tabla = env && env.querySelector('table');
     if (!tabla) return;
     tabla.style.zoom = '';
+    // En móvil la tabla se deshace en fichas: no hay nada que encoger.
+    if (window.innerWidth <= 768) return;
     var natural = env.scrollWidth, hueco = env.clientWidth;
     if (!natural || !hueco) return;
     var k = hueco / natural;

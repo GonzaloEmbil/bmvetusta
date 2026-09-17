@@ -20,7 +20,10 @@ activa, el proveedor de envío de correo.
 ## El panel de abonados
 
 Está en **https://altas.balonmanovetusta.com/admin** y se entra con el
-`ADMIN_TOKEN`. Muestra el listado completo ordenado por número de abonado, un
+`ADMIN_TOKEN`. En un teléfono la tabla se deshace en fichas, una por socio:
+dieciséis columnas no caben por mucho que se encojan. La etiqueta de cada
+línea sale del `data-k` de la celda, así que la cabecera de la tabla y las
+fichas no pueden decir cosas distintas. Muestra el listado completo ordenado por número de abonado, un
 buscador, un filtro de pendientes, un botón por fila para marcar el pago y la
 descarga del CSV.
 
