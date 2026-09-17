@@ -11,6 +11,7 @@
 
 import { ADMIN_HTML } from './admin.js';
 import { correoAlta } from './correo.js';
+import { accesoValido } from './acceso.js';
 
 const PRIVADO = 'admin.balonmanovetusta.com';
 
@@ -197,6 +198,29 @@ const CAB_ADMIN = {
   'Referrer-Policy': 'no-referrer',
 };
 
+/**
+ * Sin recursos externos: si alguien lograse inyectar algo, no podría cargar ni
+ * enviar nada a otro origen. El escudo es una data: URI incrustada en el HTML,
+ * así que img-src no abre la puerta a ningún servidor.
+ */
+const CSP_PANEL = {
+  'Content-Security-Policy':
+    "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
+    "img-src data:; connect-src 'self'; form-action 'none'; base-uri 'none'; " +
+    "frame-ancestors 'none'",
+};
+
+/**
+ * El panel es el mismo en las dos puertas. Lo único que cambia es quién dice
+ * que puedes pasar: tras Access no hay pantalla de clave, porque la identidad
+ * ya está resuelta y pedir una contraseña encima sólo sería ceremonia.
+ */
+function panelHtml(porAccess, correo) {
+  return ADMIN_HTML
+    .replace('__POR_ACCESS__', porAccess ? 'true' : 'false')
+    .replace('__CORREO__', JSON.stringify(correo || ''));
+}
+
 /** Lo único que ve quien llegue a la zona privada sin pasar por Access. */
 const PORTADA_PRIVADA = `<!DOCTYPE html>
 <html lang="es"><head><meta charset="utf-8">
@@ -274,15 +298,25 @@ export default {
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cabeceras });
 
     // ── Zona privada ────────────────────────────────────────────────────────
-    // admin.balonmanovetusta.com es otra puerta del mismo Worker. De momento
-    // no sirve nada: quien entre se lleva un 403. El guardia lo pondrá
-    // Cloudflare Access por delante, y hasta que esté no se expone aquí ni
-    // una fila de la base de datos.
+    // Cloudflare Access filtra por delante y aquí se vuelve a comprobar su
+    // testigo: si la aplicación de Access se borrase o se configurase mal,
+    // esto falla cerrado en vez de dejar el panel abierto.
+    const porAccess = url.hostname === PRIVADO ? await accesoValido(request, env) : null;
+
     if (url.hostname === PRIVADO) {
-      return new Response(PORTADA_PRIVADA, {
-        status: 403,
-        headers: { 'Content-Type': 'text/html; charset=utf-8', ...CAB_ADMIN },
-      });
+      if (!porAccess) {
+        return new Response(PORTADA_PRIVADA, {
+          status: 403,
+          headers: { 'Content-Type': 'text/html; charset=utf-8', ...CAB_ADMIN },
+        });
+      }
+      // Dentro sólo vive, por ahora, el panel de abonados. Cuando haya más
+      // secciones, la raíz pasará a ser un índice y cada una tendrá su ruta.
+      if (url.pathname === '/' || url.pathname === '/abonados') {
+        return new Response(panelHtml(true, porAccess), {
+          headers: { 'Content-Type': 'text/html; charset=utf-8', ...CAB_ADMIN, ...CSP_PANEL },
+        });
+      }
     }
 
     if (url.pathname === '/') {
@@ -295,19 +329,8 @@ export default {
     // ningún dato.
 
     if (url.pathname === '/admin' && request.method === 'GET') {
-      return new Response(ADMIN_HTML, {
-        headers: {
-          'Content-Type': 'text/html; charset=utf-8',
-          // Sin recursos externos: si alguien lograse inyectar algo, no
-          // podría cargar ni enviar nada a otro origen. El escudo es una
-          // data: URI incrustada en el HTML, así que img-src no abre la puerta
-          // a ningún servidor.
-          'Content-Security-Policy':
-            "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
-            "img-src data:; connect-src 'self'; form-action 'none'; base-uri 'none'; " +
-            "frame-ancestors 'none'",
-          ...CAB_ADMIN,
-        },
+      return new Response(panelHtml(false, null), {
+        headers: { 'Content-Type': 'text/html; charset=utf-8', ...CAB_ADMIN, ...CSP_PANEL },
       });
     }
 
@@ -327,7 +350,9 @@ export default {
     }
 
     if (url.pathname === '/admin/datos' && request.method === 'GET') {
-      if (!(await sesionValida(env, testigoDe(request)))) {
+      // Dos formas de estar autorizado: haber pasado por Access en el dominio
+      // privado, o traer la sesión firmada del panel antiguo.
+      if (!porAccess && !(await sesionValida(env, testigoDe(request)))) {
         return json({ ok: false }, 401, CAB_ADMIN);
       }
       // Cada socio es una fila. Los asociados traen el nombre de su titular
@@ -353,7 +378,9 @@ export default {
     }
 
     if (url.pathname === '/admin/pagado' && request.method === 'POST') {
-      if (!(await sesionValida(env, testigoDe(request)))) {
+      // Dos formas de estar autorizado: haber pasado por Access en el dominio
+      // privado, o traer la sesión firmada del panel antiguo.
+      if (!porAccess && !(await sesionValida(env, testigoDe(request)))) {
         return json({ ok: false }, 401, CAB_ADMIN);
       }
       let body = {};
@@ -386,7 +413,7 @@ export default {
       }
       const conClave = env.ADMIN_TOKEN && igualSeguro(enviado, env.ADMIN_TOKEN);
       const conSesion = await sesionValida(env, enviado);
-      if (!conClave && !conSesion) {
+      if (!porAccess && !conClave && !conSesion) {
         await apuntarIntento(env, ipHash, 'export');
         return new Response('No autorizado', { status: 401, headers: CAB_ADMIN });
       }

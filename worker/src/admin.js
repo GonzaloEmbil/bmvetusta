@@ -30,6 +30,8 @@ body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 -apple-system,Bl
 header{border-bottom:1px solid var(--l);padding:16px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 header h1{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:-.2px}
 header .escudo{width:44px;height:44px;display:block;flex:0 0 auto}
+/* Quién está dentro. Sólo aparece tras Access, que es cuando se sabe. */
+.quien{font-size:.8rem;color:var(--t3);white-space:nowrap}
 header .sp{flex:1}
 button{font:inherit;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
 button:hover{background:var(--bg2)}
@@ -168,6 +170,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   header h1{font-size:1rem}
   /* El separador deja de empujar: los botones bajan a su propia línea. */
   header .sp{flex-basis:100%;height:0}
+  .quien{flex-basis:100%;order:1}
   header button{flex:1 1 0;padding:9px 8px;font-size:.82rem;white-space:nowrap}
   header .escudo{width:34px;height:34px}
 
@@ -249,6 +252,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="44" height="44">
     <h1>Abonados 2026/2027</h1>
     <span class="sp"></span>
+    <span class="quien" id="quien" hidden></span>
     <button id="recargar">Recargar</button>
     <button id="csv">Descargar CSV</button>
     <button id="salir">Salir</button>
@@ -307,6 +311,11 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   var SES = 'bmv_admin_ses';
   var datos = [];
 
+  // Los rellena el servidor al servir la página. Tras Access la identidad ya
+  // está resuelta, así que no hay pantalla de clave ni sesión que guardar.
+  var POR_ACCESS = __POR_ACCESS__;
+  var CORREO = __CORREO__;
+
   function ses(){ try { return sessionStorage.getItem(SES) || ''; } catch(e){ return ''; } }
   function guardar(v){ try { v ? sessionStorage.setItem(SES,v) : sessionStorage.removeItem(SES); } catch(e){} }
   function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){
@@ -314,9 +323,16 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 
   function api(ruta, opts){
     opts = opts || {};
-    opts.headers = Object.assign({'Authorization':'Bearer '+ses()}, opts.headers||{});
+    // Tras Access la autorización viaja en su propia cookie, que el navegador
+    // manda sola: añadir una cabecera nuestra aquí no pintaría nada.
+    if (!POR_ACCESS) {
+      opts.headers = Object.assign({'Authorization':'Bearer '+ses()}, opts.headers||{});
+    }
     return fetch(ruta, opts).then(function(r){
-      if (r.status === 401) { guardar(''); pintarAcceso('La sesión ha caducado.'); throw new Error('401'); }
+      if (r.status === 401) {
+        if (POR_ACCESS) { location.reload(); throw new Error('401'); }
+        guardar(''); pintarAcceso('La sesión ha caducado.'); throw new Error('401');
+      }
       return r;
     });
   }
@@ -554,6 +570,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   document.getElementById('recargar').addEventListener('click', cargar);
   document.getElementById('buscar').addEventListener('input', pintar);
   document.getElementById('salir').addEventListener('click', function(){
+    if (POR_ACCESS) { location.href = '/cdn-cgi/access/logout'; return; }
     guardar(''); pintarAcceso('');
     document.getElementById('login').hidden = false;
   });
@@ -571,7 +588,13 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
     }).catch(function(){ btn.disabled = false; });
   });
 
-  if (ses()) abrirPanel(); else pintarAcceso('');
+  if (POR_ACCESS && CORREO) {
+    var q = document.getElementById('quien');
+    q.textContent = CORREO;
+    q.hidden = false;
+  }
+
+  if (POR_ACCESS || ses()) abrirPanel(); else pintarAcceso('');
 })();
 </script>
 </body>

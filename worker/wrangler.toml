@@ -48,3 +48,14 @@ AVISO_A = "balonmanovetusta@gmail.com"
 # no hace falta que exista el buzón, basta con ser dueño del dominio.
 AVISO_DE = "socios@balonmanovetusta.com"
 # El dominio no recibe correo, así que las respuestas se dirigen a AVISO_A.
+
+# ── Cloudflare Access ──
+# El equipo que firma los testigos de la zona privada.
+ACCESS_EQUIPO = "purple-dew-ca4c.cloudflareaccess.com"
+# Identificador de la aplicación de Access. Sin él no se entra: el Worker
+# falla cerrado a propósito. Se copia del panel de la aplicación (Application
+# Audience Tag).
+ACCESS_AUD = ""
+# Segunda lista, además de la política de Access. Si allí se colase alguien
+# por un error de configuración, aquí se para.
+ACCESS_CORREOS = "gonzalomembil@gmail.com,gmembil@gmail.com,gonzalo.martinez@bookline.ai,balonmanovetusta@gmail.com,heviaembilmaria93@gmail.com,onaitz@gmail.com"
