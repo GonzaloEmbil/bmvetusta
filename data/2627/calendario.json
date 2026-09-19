@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-09-19 20:00:00",
-    "jornada": "1",
-    "es_local": false,
-    "rival": "REAL GRUPO DE CULTURA COVADONGA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-    "url_streaming": "https://youtube.com/live/PJFHUlA3MZo?feature=share"
-  },
-  {
     "fecha": "2026-09-26 18:00:00",
     "jornada": "2",
     "es_local": true,
@@ -21,6 +13,14 @@
     "es_local": false,
     "rival": "ROYAL PREMIUM GIJON",
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "2026-10-10 17:30:00",
+    "jornada": "4",
+    "es_local": true,
+    "rival": "CLUB BALONMANO ALCOBENDAS",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "url_streaming": null
   }
 ]

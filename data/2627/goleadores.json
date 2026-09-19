@@ -1,1 +1,65 @@
-[]
+[
+  {
+    "nombre": "DE MIGUEL TORRECILLA, SAUL",
+    "goles": 5,
+    "partidos": 1,
+    "media": 5,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+  },
+  {
+    "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+    "goles": 4,
+    "partidos": 1,
+    "media": 4,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+  },
+  {
+    "nombre": "ONDO NSUA, CRISTIAN",
+    "goles": 3,
+    "partidos": 1,
+    "media": 3,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+  },
+  {
+    "nombre": "GARCIA CID, CARLOS",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_303533367970676d6b30.jpg"
+  },
+  {
+    "nombre": "SANCHEZ DE POSADA ORIHUELA, PEDRO",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_38613162303531313637303036323335.jpg"
+  },
+  {
+    "nombre": "CANO COTO, MARTIN",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+  },
+  {
+    "nombre": "CARBAJO DEAN, JOSE MARIA",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
+  },
+  {
+    "nombre": "GAMONAL MENENDEZ, LUIS",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
+  },
+  {
+    "nombre": "REY CURBELO, DIEGO",
+    "goles": 1,
+    "partidos": 1,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_356e68756a6834763834.jpg"
+  }
+]

@@ -259,5 +259,21 @@
     "GC": 828,
     "DIF": -83,
     "en_curso": false
+  },
+  {
+    "temporada": "2026/2027",
+    "division": "1ª Nacional",
+    "fase": "Liga Regular",
+    "pos": 14,
+    "equipos": 16,
+    "PJ": 1,
+    "PG": 0,
+    "PE": 0,
+    "PP": 1,
+    "puntos": 0,
+    "GF": 18,
+    "GC": 30,
+    "DIF": -12,
+    "en_curso": true
   }
 ]
