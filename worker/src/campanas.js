@@ -31,6 +31,7 @@ const PUBLICO = 'https://altas.balonmanovetusta.com';
 const LISTAS = {
   actuales: 'Abonados ' + TEMPORADA,
   anteriores: 'Abonados ' + TEMPORADA_ANTERIOR,
+  otros: 'Otros',
 };
 
 // Resend acepta hasta 100 correos por llamada en su envío por lotes.
@@ -61,6 +62,10 @@ const SQL_LISTAS = {
   anteriores: `SELECT email, nombre FROM socios_anteriores
                 WHERE temporada = ? AND email <> '' AND comunicaciones = 'Sí'
                   AND lower(email) NOT IN (SELECT email FROM bajas)`,
+  // Contactos sueltos: como los de Cluber, una baja gana siempre.
+  otros: `SELECT email, nombre FROM contactos
+           WHERE lista = 'otros' AND email <> '' AND comunicaciones = 'Sí'
+             AND lower(email) NOT IN (SELECT email FROM bajas)`,
 };
 const TEMPORADA_DE = { actuales: TEMPORADA, anteriores: TEMPORADA_ANTERIOR };
 
@@ -71,7 +76,8 @@ async function destinatarios(env, listas) {
   const vistos = new Map();
   for (const l of listas) {
     if (!SQL_LISTAS[l]) continue;
-    const { results } = await env.DB.prepare(SQL_LISTAS[l]).bind(TEMPORADA_DE[l]).all();
+    const consulta = env.DB.prepare(SQL_LISTAS[l]);
+    const { results } = await (TEMPORADA_DE[l] ? consulta.bind(TEMPORADA_DE[l]) : consulta).all();
     for (const r of results || []) {
       const email = String(r.email).trim().toLowerCase();
       if (correoValido(email) && !vistos.has(email)) vistos.set(email, { email, nombre: r.nombre });
@@ -80,13 +86,19 @@ async function destinatarios(env, listas) {
   return [...vistos.values()];
 }
 
+/**
+ * Cuántas personas hay en cada combinación de listas, contando una vez a
+ * quien esté en varias. La clave son los nombres unidos con «+», en el orden
+ * de LISTAS: 'actuales', 'actuales+otros', 'actuales+anteriores+otros'…
+ */
 async function tamanosListas(env) {
-  const [a, b, juntas] = await Promise.all([
-    destinatarios(env, ['actuales']),
-    destinatarios(env, ['anteriores']),
-    destinatarios(env, ['actuales', 'anteriores']),
-  ]);
-  return { actuales: a.length, anteriores: b.length, ambas: juntas.length };
+  const nombres = Object.keys(LISTAS);
+  const combinaciones = [];
+  for (let m = 1; m < 1 << nombres.length; m++) {
+    combinaciones.push(nombres.filter((_, i) => m & (1 << i)));
+  }
+  const tamanos = await Promise.all(combinaciones.map((c) => destinatarios(env, c)));
+  return Object.fromEntries(combinaciones.map((c, i) => [c.join('+'), tamanos[i].length]));
 }
 
 // ── Enlace de baja ─────────────────────────────────────────────────────────
@@ -557,6 +569,7 @@ export async function rutasPublicas(request, env, url) {
   await env.DB.batch([
     env.DB.prepare(`UPDATE abonados SET comunicaciones = 'No' WHERE lower(email) = ?`).bind(email),
     env.DB.prepare(`UPDATE socios_anteriores SET comunicaciones = 'No' WHERE lower(email) = ?`).bind(email),
+    env.DB.prepare(`UPDATE contactos SET comunicaciones = 'No' WHERE lower(email) = ?`).bind(email),
     env.DB.prepare('INSERT INTO bajas (email, fecha, campana_id) VALUES (?,?,?)').bind(email, fecha, campanaId || null),
   ]);
   return new Response(pagina('Baja confirmada',

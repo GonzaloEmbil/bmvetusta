@@ -33,6 +33,9 @@ Qué se descarta a propósito:
   · La fila repetida de quien titula un abono familiar: Cluber la lista una
     vez como titular y otra dentro de su propio abono, con otro número. Se
     conserva la de titular, que es la que trae DNI, teléfono y correo.
+  · Quien empezó el alta y nunca la completó: sin número de socio, sin fecha
+    de alta y sin ningún pago. No llegó a ser abonado. (Si interesa su correo
+    para campañas, va a mano a la tabla contactos, lista «otros».)
 """
 import re
 import sys
@@ -226,6 +229,14 @@ def main():
         })
 
     cargos, añadidos = (aplicar_cargos(socios, sys.argv[4], temporada) if len(sys.argv) == 5 else (0, []))
+
+    completos = []
+    for s in socios:
+        if not s['titular'] and not s['numero'] and not s['alta'] and not s['pagado']:
+            descartes.append(f'{s["nombre"]} (nunca completó el alta: sin número, fecha ni pago)')
+        else:
+            completos.append(s)
+    socios = completos
 
     campos = list(socios[0].keys()) if socios else []
     with open(salida, 'w', encoding='utf-8') as out:

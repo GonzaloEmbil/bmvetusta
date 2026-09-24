@@ -72,6 +72,22 @@ CREATE TABLE IF NOT EXISTS socios_anteriores (
 
 CREATE INDEX IF NOT EXISTS socios_anteriores_temporada ON socios_anteriores (temporada);
 
+-- Contactos sueltos para campañas que no son abonados de ninguna temporada
+-- (lista «Otros»): por ejemplo, quien empezó el alta en Cluber sin llegar a
+-- pagar. Siguen la misma regla que los abonados: sólo reciben campañas si
+-- aceptaron comunicaciones, y una baja les llega igual.
+CREATE TABLE IF NOT EXISTS contactos (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
+  lista          TEXT    NOT NULL DEFAULT 'otros',
+  nombre         TEXT    NOT NULL DEFAULT '',
+  email          TEXT    NOT NULL,             -- en minúsculas
+  comunicaciones TEXT    NOT NULL DEFAULT 'No',-- Sí / No
+  origen         TEXT    NOT NULL DEFAULT '',  -- de dónde salió el contacto
+  creado         TEXT    NOT NULL              -- ISO UTC
+);
+
+CREATE UNIQUE INDEX IF NOT EXISTS contactos_lista_email ON contactos (lista, email);
+
 -- Campañas de correo del área privada. Un borrador se puede editar; al
 -- programarla o enviarla queda fijada. Los contadores se guardan al terminar
 -- el envío para que el historial no tenga que recalcularlos.

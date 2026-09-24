@@ -83,6 +83,7 @@ export const CAMPANAS_JS = String.raw`
     var t = infoCampanas.listas || {}, n = infoCampanas.nombresListas || {};
     $('c-actuales-txt').textContent = (n.actuales || 'Abonados') + ' (' + (t.actuales || 0) + ')';
     $('c-anteriores-txt').textContent = (n.anteriores || 'Abonados') + ' (' + (t.anteriores || 0) + ')';
+    $('c-otros-txt').textContent = (n.otros || 'Otros') + ' (' + (t.otros || 0) + ')';
     $('c-imagen-subir').disabled = !infoCampanas.imagenes || !editable();
     $('c-imagen-nota').textContent = infoCampanas.imagenes ? '' : 'Falta activar el almacén de imágenes (R2).';
     pintarTotal();
@@ -90,10 +91,16 @@ export const CAMPANAS_JS = String.raw`
 
   // Cuántas personas recibirían el correo con las listas marcadas, contando
   // una sola vez a quien esté en las dos.
+  var LISTAS_CAMPANA = ['actuales', 'anteriores', 'otros'];
+
+  function marcadas(){
+    return LISTAS_CAMPANA.filter(function(l){ return $('c-' + l).checked; });
+  }
+
   function totalMarcado(){
     var t = (infoCampanas && infoCampanas.listas) || {};
-    var a = $('c-actuales').checked, b = $('c-anteriores').checked;
-    return a && b ? (t.ambas || 0) : a ? (t.actuales || 0) : b ? (t.anteriores || 0) : 0;
+    var clave = marcadas().join('+');
+    return clave ? (t[clave] || 0) : 0;
   }
 
   function pintarTotal(){
@@ -111,7 +118,7 @@ export const CAMPANAS_JS = String.raw`
       id: null, estado: 'borrador',
       asunto: base ? base.asunto : '', texto: base ? base.texto : '', imagen: base ? base.imagen : '',
       boton_texto: base ? base.boton_texto : '', boton_url: base ? base.boton_url : '',
-      listas: base ? base.listas : '["actuales","anteriores"]'
+      listas: base ? base.listas : '["actuales","anteriores","otros"]'
     };
     llenarFormulario();
     mostrar('editor');
@@ -132,10 +139,9 @@ export const CAMPANAS_JS = String.raw`
     $('c-texto').value = c.texto || '';
     $('c-boton-texto').value = c.boton_texto || '';
     $('c-boton-url').value = c.boton_url || '';
-    $('c-actuales').checked = ls.indexOf('actuales') >= 0;
-    $('c-anteriores').checked = ls.indexOf('anteriores') >= 0;
+    LISTAS_CAMPANA.forEach(function(l){ $('c-' + l).checked = ls.indexOf(l) >= 0; });
     pintarImagen();
-    ['c-asunto','c-texto','c-boton-texto','c-boton-url','c-actuales','c-anteriores'].forEach(function(i){ $(i).disabled = !ed; });
+    ['c-asunto','c-texto','c-boton-texto','c-boton-url','c-actuales','c-anteriores','c-otros'].forEach(function(i){ $(i).disabled = !ed; });
     document.querySelectorAll('[data-formato-texto]').forEach(function(b){ b.disabled = !ed; });
 
     // Qué se puede hacer depende del estado.
@@ -163,9 +169,7 @@ export const CAMPANAS_JS = String.raw`
   }
 
   function leerFormulario(){
-    var ls = [];
-    if ($('c-actuales').checked) ls.push('actuales');
-    if ($('c-anteriores').checked) ls.push('anteriores');
+    var ls = marcadas();
     return {
       id: editando.id, asunto: $('c-asunto').value, texto: $('c-texto').value, imagen: editando.imagen || '',
       boton_texto: $('c-boton-texto').value, boton_url: $('c-boton-url').value, listas: ls
@@ -352,6 +356,6 @@ export const CAMPANAS_JS = String.raw`
   }
 
   ['c-asunto','c-texto','c-boton-texto','c-boton-url'].forEach(function(i){ $(i).addEventListener('input', previa); });
-  ['c-actuales','c-anteriores'].forEach(function(i){ $(i).addEventListener('change', pintarTotal); });
+  ['c-actuales','c-anteriores','c-otros'].forEach(function(i){ $(i).addEventListener('change', pintarTotal); });
   $('nueva-campana').addEventListener('click', function(){ nuevaCampana(); });
 `;

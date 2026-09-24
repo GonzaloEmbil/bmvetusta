@@ -501,6 +501,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
           <legend>Destinatarios</legend>
           <label class="check"><input type="checkbox" id="c-actuales"> <span id="c-actuales-txt">Abonados</span></label>
           <label class="check"><input type="checkbox" id="c-anteriores"> <span id="c-anteriores-txt">Abonados</span></label>
+          <label class="check"><input type="checkbox" id="c-otros"> <span id="c-otros-txt">Otros</span></label>
           <p class="total" id="c-total"></p>
         </fieldset>
         <div class="campo">
