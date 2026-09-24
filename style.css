@@ -1471,6 +1471,64 @@ body {
     50% { box-shadow: 0 0 0 8px rgba(229, 57, 53, 0); }
 }
 
+/* Acceso al área privada (admin.balonmanovetusta.com). En escritorio es un
+   botón sobre la franja amarilla del header; va fuera de .header-container
+   porque esa franja se mide desde el borde de la ventana, no desde el
+   contenedor centrado, y el header (sticky) le sirve de referencia. En
+   móvil desaparece y su sitio es una tarjeta más del menú. */
+.header-privada {
+    position: absolute;
+    top: 50%;
+    right: 32px;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: #000;
+    color: #FDED3A;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.header-privada:hover {
+    background: #1c1c1c;
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
+    transform: translateY(-50%) scale(1.04);
+}
+
+.header-privada:focus-visible {
+    outline: 2px solid #000;
+    outline-offset: 3px;
+}
+
+.header-privada svg {
+    flex: 0 0 auto;
+}
+
+/* La tarjeta del menú móvil no existe en el menú de escritorio. */
+.nav .nav-privada {
+    display: none;
+}
+
+/* Escritorio estrecho: el menú centrado llega casi a la franja amarilla y
+   el texto no cabe, así que queda sólo el candado (el aria-label lo nombra). */
+@media (min-width: 769px) and (max-width: 1099px) {
+    .header-privada {
+        right: 24px;
+        padding: 11px;
+    }
+
+    .header-privada span {
+        display: none;
+    }
+}
+
 /* Hamburger Menu */
 .hamburger {
     display: none;
@@ -1641,6 +1699,24 @@ body {
         width: 3px;
         border-radius: 0 3px 3px 0;
         background: #FDED3A;
+    }
+
+    /* Área privada: fuera del header, dentro del menú. Tarjeta con borde
+       amarillo y candado, para que se distinga de las secciones públicas. */
+    .header-privada {
+        display: none;
+    }
+
+    .nav > a.nav-privada {
+        display: flex;
+        gap: 12px;
+        background: transparent;
+        border: 1px solid rgba(253, 237, 58, 0.45);
+        color: #FDED3A;
+    }
+
+    .nav > a.nav-privada:active {
+        background: rgba(253, 237, 58, 0.08);
     }
 
     /* ── CLUB: tarjeta desplegable ── */
