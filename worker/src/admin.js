@@ -293,7 +293,12 @@ main{container-type:inline-size}
 .campo input:focus,.campo textarea:focus,.programar input:focus{outline:none;border-color:var(--t);box-shadow:0 0 0 3px rgba(20,22,26,.12)}
 .campo textarea{resize:vertical;min-height:220px;line-height:1.5}
 .campo input:disabled,.campo textarea:disabled{background:var(--bg2);color:var(--t2)}
-.check{display:flex;align-items:center;gap:8px;margin:4px 0;font-weight:600}
+.segmentos{display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;align-items:center}
+.segmentos label{font-weight:600}
+.segmentos select{width:100%;padding:9px 10px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;background:var(--bg)}
+.segmentos select:focus{outline:none;border-color:var(--t);box-shadow:0 0 0 3px rgba(20,22,26,.12)}
+.segmentos select:disabled{background:var(--bg2);color:var(--t2)}
+@container (max-width:520px){ .segmentos{grid-template-columns:minmax(0,1fr);gap:4px} .segmentos select{margin-bottom:8px} }
 .total{margin:6px 0 0;font-size:.85rem;color:var(--t2)}
 .herramientas{display:flex;gap:6px;margin-bottom:6px}
 .herramientas button{padding:5px 11px;font-size:.85rem}
@@ -499,9 +504,29 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <label class="campo"><span>Asunto</span><input type="text" id="c-asunto" maxlength="150"></label>
         <fieldset class="campo">
           <legend>Destinatarios</legend>
-          <label class="check"><input type="checkbox" id="c-actuales"> <span id="c-actuales-txt">Abonados</span></label>
-          <label class="check"><input type="checkbox" id="c-anteriores"> <span id="c-anteriores-txt">Abonados</span></label>
-          <label class="check"><input type="checkbox" id="c-otros"> <span id="c-otros-txt">Otros</span></label>
+          <!-- Un segmento por lista. Los nombres de las temporadas y el número
+               de personas de cada opción los pone el script. -->
+          <div class="segmentos">
+            <label for="c-seg-actuales">Abonados 2026/2027</label>
+            <select id="c-seg-actuales">
+              <option value="">No incluir</option>
+              <option value="actuales">Todos</option>
+              <option value="actuales_pagados">Pagados</option>
+              <option value="actuales_pendientes">Pendientes de pago</option>
+            </select>
+            <label for="c-seg-anteriores">Abonados 2025/2026</label>
+            <select id="c-seg-anteriores">
+              <option value="">No incluir</option>
+              <option value="anteriores">Todos</option>
+              <option value="anteriores_renovados">Han renovado</option>
+              <option value="anteriores_no_renovados">No han renovado</option>
+            </select>
+            <label for="c-seg-otros">Otros</label>
+            <select id="c-seg-otros">
+              <option value="">No incluir</option>
+              <option value="otros">Incluir</option>
+            </select>
+          </div>
           <p class="total" id="c-total"></p>
         </fieldset>
         <div class="campo">

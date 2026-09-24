@@ -13,6 +13,7 @@ import { ADMIN_HTML } from './admin.js';
 import { correoAlta } from './correo.js';
 import { accesoValido } from './acceso.js';
 import { TEMPORADA, TEMPORADA_ANTERIOR } from './temporadas.js';
+import { renovacion } from './renovacion.js';
 import { rutasCampanas, rutasPublicas, campanasProgramadas } from './campanas.js';
 
 const PRIVADO = 'admin.balonmanovetusta.com';
@@ -106,42 +107,6 @@ function igualSeguro(a, b) {
   let d = 0;
   for (let i = 0; i < A.length; i++) d |= A[i] ^ B[i];
   return d === 0;
-}
-
-// ── Renovaciones ───────────────────────────────────────────────────────────
-// Para saber si un socio de la temporada pasada ha renovado se busca entre las
-// altas de la actual: primero por DNI y, si no lo hay —Cluber no se lo pedía a
-// los familiares—, por nombre completo. El correo no sirve para esto: en un
-// abono familiar varias personas comparten el del titular, y el cruce daría
-// por renovada a la persona equivocada.
-const PARTICULAS = new Set(['de', 'del', 'la', 'las', 'los', 'y', 'e']);
-
-function palabras(nombre) {
-  return new Set(String(nombre || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/)
-    .filter((w) => w && !PARTICULAS.has(w)));
-}
-
-// Mismo nombre si uno contiene al otro entero y comparten al menos dos
-// palabras: «Mariam Mena» es «Mariam Mena Carballo», pero dos personas que
-// sólo coinciden en un «Fernández» no son la misma.
-function mismoNombre(a, b) {
-  const [menor, mayor] = a.size <= b.size ? [a, b] : [b, a];
-  if (menor.size < 2) return false;
-  for (const w of menor) if (!mayor.has(w)) return false;
-  return true;
-}
-
-/** Nº de abonado actual de quien era socio la temporada pasada, o null. */
-function renovacion(socio, actuales) {
-  const dni = String(socio.dni || '').toUpperCase();
-  if (dni) {
-    const porDni = actuales.find((a) => String(a.dni || '').toUpperCase() === dni);
-    if (porDni) return porDni.id;
-  }
-  const suyo = palabras(socio.nombre);
-  const porNombre = actuales.find((a) => mismoNombre(suyo, palabras(a.nombre)));
-  return porNombre ? porNombre.id : null;
 }
 
 /** Hash de la IP: permite contar intentos sin guardar la IP en claro. */

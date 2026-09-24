@@ -23,16 +23,24 @@
  */
 
 import { TEMPORADA, TEMPORADA_ANTERIOR } from './temporadas.js';
+import { renovacion } from './renovacion.js';
 
 // Dirección pública del Worker: la de la zona privada exige Access, así que
 // las imágenes y el enlace de baja tienen que colgar de esta.
 const PUBLICO = 'https://altas.balonmanovetusta.com';
 
+// Segmentos a los que se puede enviar una campaña. Se eligen de uno en uno por
+// grupo: todos los abonados de una temporada o sólo una parte de ellos.
 const LISTAS = {
   actuales: 'Abonados ' + TEMPORADA,
+  actuales_pagados: 'Abonados ' + TEMPORADA + ' · pagados',
+  actuales_pendientes: 'Abonados ' + TEMPORADA + ' · pendientes de pago',
   anteriores: 'Abonados ' + TEMPORADA_ANTERIOR,
+  anteriores_renovados: 'Abonados ' + TEMPORADA_ANTERIOR + ' · han renovado',
+  anteriores_no_renovados: 'Abonados ' + TEMPORADA_ANTERIOR + ' · no han renovado',
   otros: 'Otros',
 };
+const GRUPO = (l) => l.split('_')[0];
 
 // Resend acepta hasta 100 correos por llamada en su envío por lotes.
 const POR_LOTE = 100;
@@ -55,50 +63,83 @@ function esc(s) {
 // pesa más que un dato anterior a ella: en los abonados, un alta nueva
 // posterior a la baja vuelve a valer (es un consentimiento nuevo); en los
 // socios de Cluber, que son datos viejos, la baja gana siempre.
-const SQL_LISTAS = {
-  actuales: `SELECT email, nombre FROM abonados a
-              WHERE temporada = ? AND email <> '' AND comunicaciones = 'Sí'
-                AND NOT EXISTS (SELECT 1 FROM bajas b WHERE b.email = lower(a.email) AND b.fecha > a.creado)`,
-  anteriores: `SELECT email, nombre FROM socios_anteriores
-                WHERE temporada = ? AND email <> '' AND comunicaciones = 'Sí'
-                  AND lower(email) NOT IN (SELECT email FROM bajas)`,
-  // Contactos sueltos: como los de Cluber, una baja gana siempre.
-  otros: `SELECT email, nombre FROM contactos
-           WHERE lista = 'otros' AND email <> '' AND comunicaciones = 'Sí'
-             AND lower(email) NOT IN (SELECT email FROM bajas)`,
-};
-const TEMPORADA_DE = { actuales: TEMPORADA, anteriores: TEMPORADA_ANTERIOR };
+const SQL_ACTUALES = `SELECT email, nombre FROM abonados a
+                        WHERE temporada = ? AND email <> '' AND comunicaciones = 'Sí'
+                          AND NOT EXISTS (SELECT 1 FROM bajas b WHERE b.email = lower(a.email) AND b.fecha > a.creado)`;
+const SQL_ANTERIORES = `SELECT email, nombre, dni FROM socios_anteriores
+                         WHERE temporada = ? AND email <> '' AND comunicaciones = 'Sí'
+                           AND lower(email) NOT IN (SELECT email FROM bajas)`;
+// Contactos sueltos: como los de Cluber, una baja gana siempre.
+const SQL_OTROS = `SELECT email, nombre FROM contactos
+                    WHERE lista = 'otros' AND email <> '' AND comunicaciones = 'Sí'
+                      AND lower(email) NOT IN (SELECT email FROM bajas)`;
 
 const correoValido = (e) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 
-/** Personas de las listas pedidas, una por dirección aunque esté en varias. */
+async function filas(env, sql, ...params) {
+  const q = env.DB.prepare(sql);
+  const { results } = await (params.length ? q.bind(...params) : q).all();
+  return results || [];
+}
+
+/**
+ * Personas de un segmento con permiso para recibir campañas.
+ *  · Pagados / pendientes: el pago es del abono, y el correo sólo lo lleva el
+ *    titular, así que basta con mirar su fila.
+ *  · Han renovado / no han renovado: el mismo cruce que la tabla de 2025/2026
+ *    (DNI y, si no, nombre completo) contra las altas de esta temporada.
+ */
+async function personasDe(env, lista, actuales) {
+  let gente = [];
+  if (GRUPO(lista) === 'actuales') {
+    const pago = { actuales_pagados: ' AND pagado = 1', actuales_pendientes: ' AND pagado = 0' }[lista] || '';
+    gente = await filas(env, SQL_ACTUALES + pago, TEMPORADA);
+  } else if (GRUPO(lista) === 'anteriores') {
+    gente = await filas(env, SQL_ANTERIORES, TEMPORADA_ANTERIOR);
+    if (lista !== 'anteriores') {
+      const quiere = lista === 'anteriores_renovados';
+      gente = gente.filter((p) => !!renovacion(p, actuales) === quiere);
+    }
+  } else if (lista === 'otros') {
+    gente = await filas(env, SQL_OTROS);
+  }
+  return gente
+    .map((p) => ({ email: String(p.email).trim().toLowerCase(), nombre: p.nombre }))
+    .filter((p) => correoValido(p.email));
+}
+
+const altasActuales = (env) => filas(env, 'SELECT id, nombre, dni FROM abonados WHERE temporada = ?', TEMPORADA);
+
+/** Personas de los segmentos pedidos, una por dirección aunque esté en varios. */
 async function destinatarios(env, listas) {
+  const actuales = await altasActuales(env);
   const vistos = new Map();
   for (const l of listas) {
-    if (!SQL_LISTAS[l]) continue;
-    const consulta = env.DB.prepare(SQL_LISTAS[l]);
-    const { results } = await (TEMPORADA_DE[l] ? consulta.bind(TEMPORADA_DE[l]) : consulta).all();
-    for (const r of results || []) {
-      const email = String(r.email).trim().toLowerCase();
-      if (correoValido(email) && !vistos.has(email)) vistos.set(email, { email, nombre: r.nombre });
-    }
+    if (!LISTAS[l]) continue;
+    for (const p of await personasDe(env, l, actuales)) if (!vistos.has(p.email)) vistos.set(p.email, p);
   }
   return [...vistos.values()];
 }
 
 /**
- * Cuántas personas hay en cada combinación de listas, contando una vez a
- * quien esté en varias. La clave son los nombres unidos con «+», en el orden
- * de LISTAS: 'actuales', 'actuales+otros', 'actuales+anteriores+otros'…
+ * Quién hay en cada segmento, para que el editor cuente cuántas personas
+ * recibirán la campaña con cualquier combinación. No se mandan los correos:
+ * cada dirección distinta se cambia por un número, y el panel sólo necesita
+ * saber cuántos números distintos suman los segmentos elegidos.
  */
-async function tamanosListas(env) {
-  const nombres = Object.keys(LISTAS);
-  const combinaciones = [];
-  for (let m = 1; m < 1 << nombres.length; m++) {
-    combinaciones.push(nombres.filter((_, i) => m & (1 << i)));
+async function segmentos(env) {
+  const actuales = await altasActuales(env);
+  const indice = new Map();
+  const salida = {};
+  for (const l of Object.keys(LISTAS)) {
+    const ids = new Set();
+    for (const p of await personasDe(env, l, actuales)) {
+      if (!indice.has(p.email)) indice.set(p.email, indice.size);
+      ids.add(indice.get(p.email));
+    }
+    salida[l] = [...ids];
   }
-  const tamanos = await Promise.all(combinaciones.map((c) => destinatarios(env, c)));
-  return Object.fromEntries(combinaciones.map((c, i) => [c.join('+'), tamanos[i].length]));
+  return salida;
 }
 
 // ── Enlace de baja ─────────────────────────────────────────────────────────
@@ -348,7 +389,10 @@ function campos(d) {
     imagen: CLAVE_IMAGEN.test(String(d.imagen || '')) ? d.imagen : '',
     boton_texto: texto(d.boton_texto, 40),
     boton_url: texto(d.boton_url, 500),
-    listas: JSON.stringify((Array.isArray(d.listas) ? d.listas : []).filter((l) => LISTAS[l])),
+    // Un segmento por grupo: «todos» y «los que no han renovado» de la misma
+    // temporada a la vez no tienen sentido.
+    listas: JSON.stringify((Array.isArray(d.listas) ? d.listas : [])
+      .filter((l, i, arr) => LISTAS[l] && arr.findIndex((x) => GRUPO(x) === GRUPO(l)) === i)),
   };
   if (c.boton_url && !/^https?:\/\/\S+$/.test(c.boton_url)) c.boton_url = '';
   return c;
@@ -388,7 +432,7 @@ export async function rutasCampanas(request, env, url, correo) {
     return json({
       ok: true,
       campanas: results || [],
-      listas: await tamanosListas(env),
+      segmentos: await segmentos(env),
       nombresListas: LISTAS,
       imagenes: !!env.IMAGENES,
       listoParaEnviar: !!(env.RESEND_API_KEY && env.CLAVE_BAJAS && env.CAMPANAS_DE),

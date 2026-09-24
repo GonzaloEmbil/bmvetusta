@@ -78,12 +78,21 @@ export const CAMPANAS_JS = String.raw`
   }
 
   // ── Editor ────────────────────────────────────────────────────────────────
+  // Cada desplegable elige un segmento de su lista. Las opciones muestran
+  // cuántas personas con permiso hay en cada uno.
+  var GRUPOS_CAMPANA = ['actuales', 'anteriores', 'otros'];
+
   function pintarListas(){
     if (!infoCampanas) return;
-    var t = infoCampanas.listas || {}, n = infoCampanas.nombresListas || {};
-    $('c-actuales-txt').textContent = (n.actuales || 'Abonados') + ' (' + (t.actuales || 0) + ')';
-    $('c-anteriores-txt').textContent = (n.anteriores || 'Abonados') + ' (' + (t.anteriores || 0) + ')';
-    $('c-otros-txt').textContent = (n.otros || 'Otros') + ' (' + (t.otros || 0) + ')';
+    var s = infoCampanas.segmentos || {}, n = infoCampanas.nombresListas || {};
+    GRUPOS_CAMPANA.forEach(function(g){
+      var etiqueta = document.querySelector('label[for="c-seg-' + g + '"]');
+      if (n[g]) etiqueta.textContent = n[g];
+      [].forEach.call($('c-seg-' + g).options, function(o){
+        if (!o.dataset.texto) o.dataset.texto = o.textContent;
+        o.textContent = o.value ? o.dataset.texto + ' (' + (s[o.value] || []).length + ')' : o.dataset.texto;
+      });
+    });
     $('c-imagen-subir').disabled = !infoCampanas.imagenes || !editable();
     $('c-imagen-nota').textContent = infoCampanas.imagenes ? '' : 'Falta activar el almacén de imágenes (R2).';
     pintarTotal();
@@ -91,16 +100,18 @@ export const CAMPANAS_JS = String.raw`
 
   // Cuántas personas recibirían el correo con las listas marcadas, contando
   // una sola vez a quien esté en las dos.
-  var LISTAS_CAMPANA = ['actuales', 'anteriores', 'otros'];
-
   function marcadas(){
-    return LISTAS_CAMPANA.filter(function(l){ return $('c-' + l).checked; });
+    return GRUPOS_CAMPANA.map(function(g){ return $('c-seg-' + g).value; }).filter(Boolean);
   }
 
+  // Cuántas personas distintas suman los segmentos elegidos. El servidor
+  // manda cada segmento como una lista de números (uno por dirección), así
+  // que basta con contar los números distintos.
   function totalMarcado(){
-    var t = (infoCampanas && infoCampanas.listas) || {};
-    var clave = marcadas().join('+');
-    return clave ? (t[clave] || 0) : 0;
+    var s = (infoCampanas && infoCampanas.segmentos) || {};
+    var vistas = {};
+    marcadas().forEach(function(l){ (s[l] || []).forEach(function(i){ vistas[i] = true; }); });
+    return Object.keys(vistas).length;
   }
 
   function pintarTotal(){
@@ -108,7 +119,7 @@ export const CAMPANAS_JS = String.raw`
     $('c-total').textContent = n
       ? 'Se enviará a ' + n + (n === 1 ? ' persona' : ' personas') + ' que han aceptado recibir comunicaciones.' +
         (n > 100 ? ' Supera los 100 correos diarios del plan gratuito de Resend.' : '')
-      : 'Marca al menos una lista.';
+      : 'Elige a quién se envía.';
   }
 
   function editable(){ return !!editando && editando.estado === 'borrador'; }
@@ -139,9 +150,11 @@ export const CAMPANAS_JS = String.raw`
     $('c-texto').value = c.texto || '';
     $('c-boton-texto').value = c.boton_texto || '';
     $('c-boton-url').value = c.boton_url || '';
-    LISTAS_CAMPANA.forEach(function(l){ $('c-' + l).checked = ls.indexOf(l) >= 0; });
+    GRUPOS_CAMPANA.forEach(function(g){
+      $('c-seg-' + g).value = ls.filter(function(l){ return l.split('_')[0] === g; })[0] || '';
+    });
     pintarImagen();
-    ['c-asunto','c-texto','c-boton-texto','c-boton-url','c-actuales','c-anteriores','c-otros'].forEach(function(i){ $(i).disabled = !ed; });
+    ['c-asunto','c-texto','c-boton-texto','c-boton-url','c-seg-actuales','c-seg-anteriores','c-seg-otros'].forEach(function(i){ $(i).disabled = !ed; });
     document.querySelectorAll('[data-formato-texto]').forEach(function(b){ b.disabled = !ed; });
 
     // Qué se puede hacer depende del estado.
@@ -238,7 +251,7 @@ export const CAMPANAS_JS = String.raw`
 
   $('c-enviar').addEventListener('click', function(){
     var n = totalMarcado();
-    if (!n) { mensaje('Marca al menos una lista.', true); return; }
+    if (!n) { mensaje('Elige a quién se envía.', true); return; }
     if (!confirm('Se enviará a ' + n + (n === 1 ? ' persona' : ' personas') + '. ¿Enviar ahora?')) return;
     var b = this; ocupado(b, true); mensaje('Enviando…');
     guardar().then(function(id){ return post('/admin/campanas/enviar', { id: id }); }).then(function(j){
@@ -356,6 +369,6 @@ export const CAMPANAS_JS = String.raw`
   }
 
   ['c-asunto','c-texto','c-boton-texto','c-boton-url'].forEach(function(i){ $(i).addEventListener('input', previa); });
-  ['c-actuales','c-anteriores','c-otros'].forEach(function(i){ $(i).addEventListener('change', pintarTotal); });
+  GRUPOS_CAMPANA.forEach(function(g){ $('c-seg-' + g).addEventListener('change', pintarTotal); });
   $('nueva-campana').addEventListener('click', function(){ nuevaCampana(); });
 `;
