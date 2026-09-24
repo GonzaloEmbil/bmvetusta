@@ -2201,6 +2201,48 @@ body {
     color: #fff;
 }
 
+/* Bajo la tarjeta: quién puede usar el canal y el contacto alternativo. */
+.proteccion-lista-canal {
+    margin-top: 22px;
+}
+
+/* 112 y ANAR: el número grande a la izquierda y para qué sirve al lado. */
+.proteccion-externos {
+    display: grid;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.proteccion-apartado .proteccion-externos p {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin: 0;
+    padding: 14px 18px;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 10px;
+}
+
+.proteccion-externos a {
+    flex: 0 0 auto;
+    min-width: 128px;
+    color: #FDED3A;
+    font-size: 1.15rem;
+    font-weight: 800;
+    text-decoration: none;
+}
+
+.proteccion-externos a:hover {
+    text-decoration: underline;
+}
+
+.proteccion-externos span {
+    color: #ddd;
+    font-size: 0.95rem;
+    line-height: 1.55;
+}
+
 .proteccion-fases {
     list-style: none;
     margin: 20px 0 0;
@@ -2270,6 +2312,11 @@ body {
 
     .proteccion-fases li {
         padding: 16px 18px;
+    }
+
+    .proteccion-apartado .proteccion-externos p {
+        flex-direction: column;
+        gap: 4px;
     }
 }
 
