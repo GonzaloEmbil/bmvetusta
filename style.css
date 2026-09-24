@@ -4393,6 +4393,26 @@ body {
 
 
 
+/* Animación del carnet. Vertical (9:16): en móvil va debajo del cartel y
+   del mismo ancho; en escritorio la rejilla la sube encima del vídeo. El
+   fondo casi negro evita un recuadro claro mientras carga. */
+.abono-anim {
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
+    aspect-ratio: 9 / 16;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #0b0b0b;
+}
+
+.abono-anim video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 /* ── Escritorio: botón encima y fila vídeo | cartel a todo el ancho ── */
 @media (min-width: 769px) {
     .abono-section {
@@ -4452,8 +4472,8 @@ body {
         grid-template-columns:
             var(--col-video, calc(var(--H) * 0.8 * var(--k)))
             var(--col-poster, calc(var(--H) * 0.8));
-        /* Columna izquierda: botón, texto y vídeo. El cartel abarca las tres. */
-        grid-template-rows: auto auto 1fr;
+        /* Columna izquierda: botón, animación y vídeo. El cartel abarca las tres. */
+        grid-template-rows: auto auto auto;
         column-gap: 20px;
         justify-content: center;
         align-items: end;
@@ -4472,10 +4492,22 @@ body {
     }
 
     
-    .abono-section.has-video .abono-video {
+    /* El alto lo fija el script de la página; el ancho sale de la proporción. */
+    .abono-section.has-video .abono-anim {
         grid-column: 1;
         grid-row: 2;
-        width: 100%;
+        justify-self: center;
+        width: auto;
+        max-width: none;
+        height: var(--anim-h, 260px);
+        margin: 0 0 16px;
+    }
+
+    .abono-section.has-video .abono-video {
+        grid-column: 1;
+        grid-row: 3;
+        justify-self: center;
+        width: var(--video-w, 100%);
         height: auto;
         aspect-ratio: 16 / 9;
     }
@@ -4484,7 +4516,7 @@ body {
        cartel nunca se estira si la pila botón + texto + vídeo es más alta. */
     .abono-section.has-video .abono-poster {
         grid-column: 2;
-        grid-row: 1 / span 2;
+        grid-row: 1 / span 3;
         align-self: end;
         height: auto;
     }

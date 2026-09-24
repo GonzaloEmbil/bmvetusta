@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="../src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="../src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="../style.css?v=campana-15">
+    <link rel="stylesheet" href="../style.css?v=campana-16">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -91,6 +91,19 @@
                         </picture>
                     </a>
                 </figure>
+
+                <!-- Animación del carnet. Sin controles, en bucle y sin sonido:
+                     se ve como una imagen animada, no como un vídeo que haya
+                     que reproducir. No se descarga hasta que asoma en pantalla
+                     (data-src); mientras, y para quien tenga activado reducir
+                     movimiento, se ve el fotograma fijo del anverso. -->
+                <div class="abono-anim">
+                    <video muted loop playsinline preload="none"
+                           poster="../src/assets/animacioncarnet2627.jpg"
+                           data-src="../src/assets/animacioncarnet2627.mp4"
+                           disablepictureinpicture disableremoteplayback
+                           aria-label="Animación del carnet de abonado de la temporada 2026/2027"></video>
+                </div>
             </div>
 
         </section>
@@ -127,7 +140,7 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=campana-15"></script>
+    <script src="../script.js?v=campana-16"></script>
     <script>
     // Escritorio: vídeo y cartel deben caber en la primera pantalla. Se mide
     // cuánto alto queda bajo el botón y se pasa al CSS como --abono-avail-h;
@@ -159,7 +172,7 @@
             //   cartel (4:5) arranca a media altura del botón -> alto = G - medioBotón
             // De ahí salen los dos anchos, y el tope por ancho de página es
             //   16/9·(G − pila) + 0,8·(G − medioBotón) + hueco <= anchoDisponible
-            var stack = blockH('.abono-cta') + blockH('.abono-note');
+            var stack = blockH('.abono-cta');
             var btn = section.querySelector('.abono-btn');
             var half = btn ? btn.getBoundingClientRect().height / 2 : 28;
             var RV = 16 / 9, RP = 0.8;
@@ -172,10 +185,41 @@
             var posterW = (G - half) * RP;
             section.style.setProperty('--col-video', Math.round(videoW) + 'px');
             section.style.setProperty('--col-poster', Math.round(posterW) + 'px');
+
+            // El cartel no se mueve: la columna izquierda conserva su ancho, y el
+            // alto que queda bajo el botón se reparte entre la animación del
+            // carnet (arriba) y el vídeo (debajo), que por eso se encoge.
+            var HUECO = 16;
+            var espacio = G - stack - HUECO;
+            var animH = espacio * 0.55;
+            var videoH = espacio - animH;
+            section.style.setProperty('--anim-h', Math.round(animH) + 'px');
+            section.style.setProperty('--video-w', Math.round(Math.min(videoH * RV, videoW)) + 'px');
         }
         fit();
         window.addEventListener('load', fit);
         window.addEventListener('resize', fit);
+    })();
+
+    // La animación del carnet se comporta como una imagen animada: arranca
+    // sola, sin sonido y en bucle. Sólo se descarga cuando está a punto de
+    // verse, porque en móvil queda al final de la página y no tiene sentido
+    // gastar el megabyte de quien no llega hasta ahí.
+    (function () {
+        var v = document.querySelector('.abono-anim video');
+        if (!v) return;
+        // Quien ha pedido menos movimiento se queda con el fotograma fijo.
+        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        function arrancar() {
+            if (!v.src) v.src = v.dataset.src;
+            v.muted = true;                      // sin esto los navegadores no dejan arrancarlo solo
+            var p = v.play();
+            if (p && p.catch) p.catch(function () { /* ahorro de batería: se queda el fotograma */ });
+        }
+        if (!('IntersectionObserver' in window)) { arrancar(); return; }
+        new IntersectionObserver(function (entradas, obs) {
+            if (entradas[0].isIntersecting) { arrancar(); obs.disconnect(); }
+        }, { rootMargin: '300px 0px' }).observe(v);
     })();
     </script>
 </body>
