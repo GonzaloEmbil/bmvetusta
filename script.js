@@ -1151,3 +1151,35 @@ document.addEventListener('DOMContentLoaded', function() {
         setupScrollAnimations();
     }
 });
+
+// Animaciones que se comportan como una imagen animada (el carnet de abonado):
+// sin sonido, en bucle y sin controles. El archivo no se descarga hasta que
+// la animación está a punto de verse —en móvil suele quedar lejos, y en
+// escritorio la de la portada ni se muestra—, y se pausa al salir de pantalla
+// para no gastar batería. Quien pide menos movimiento ve el fotograma fijo.
+(function () {
+    var videos = document.querySelectorAll('video.anim-auto');
+    if (!videos.length) return;
+    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    function arrancar(v) {
+        if (!v.getAttribute('src')) v.src = v.dataset.src;
+        v.muted = true;                  // sin esto los navegadores no dejan arrancarlo solo
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { /* modo ahorro: se queda el fotograma */ });
+    }
+
+    if (!('IntersectionObserver' in window)) {
+        videos.forEach(arrancar);
+        return;
+    }
+    // Un vídeo oculto con display:none nunca cruza el viewport, así que la
+    // versión que no toca en cada tamaño de pantalla no llega a descargarse.
+    var obs = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) {
+            if (e.isIntersecting) arrancar(e.target);
+            else if (!e.target.paused) e.target.pause();
+        });
+    }, { rootMargin: '300px 0px' });
+    videos.forEach(function (v) { obs.observe(v); });
+})();

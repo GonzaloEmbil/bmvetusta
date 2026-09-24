@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="../src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="../src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="../style.css?v=campana-17">
+    <link rel="stylesheet" href="../style.css?v=campana-18">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -64,16 +64,15 @@
     <!-- Contenido principal vacío -->
     <main class="main-content">
         <section class="abono-section has-video">
-            <!-- Alta en Cluber: encima de todo, en móvil y en escritorio. -->
+            <!-- Alta online: encima de todo. En escritorio ancho queda sobre el
+                 vídeo, en la columna central. -->
             <div class="abono-cta">
                 <a class="abono-btn" href="./alta/">Hazte abonado</a>
             </div>
 
-            <!-- Vídeo + cartel. En escritorio van en la misma fila a todo el ancho
-                 ; en móvil, apilados.
-                 La clase "has-video" va en la SECCIÓN y es la que activa la
-                 maquetación en L: botón y vídeo en la columna izquierda, cartel
-                 a la derecha abarcando ambas filas. -->
+            <!-- Vídeo, cartel y animación del carnet. En móvil, apilados en ese
+                 orden. La clase "has-video" va en la SECCIÓN y activa en
+                 escritorio el tríptico: animación | botón + vídeo | cartel. -->
             <div class="abono-media">
                 <!-- Se sirve desde youtube-nocookie: no deja cookies de
                      seguimiento hasta que se le da al play. -->
@@ -98,7 +97,7 @@
                      (data-src); mientras, y para quien tenga activado reducir
                      movimiento, se ve el fotograma fijo del anverso. -->
                 <div class="abono-anim">
-                    <video muted loop playsinline preload="none"
+                    <video class="anim-auto" muted loop playsinline preload="none"
                            poster="../src/assets/animacioncarnet2627.jpg"
                            data-src="../src/assets/animacioncarnet2627.mp4"
                            disablepictureinpicture disableremoteplayback
@@ -140,86 +139,51 @@
         </div>
     </footer>
 
-    <script src="../script.js?v=campana-17"></script>
+    <script src="../script.js?v=campana-18"></script>
     <script>
-    // Escritorio: vídeo y cartel deben caber en la primera pantalla. Se mide
-    // cuánto alto queda bajo el botón y se pasa al CSS como --abono-avail-h;
-    // de ahí el CSS deriva el tamaño de la fila. Se recalcula al redimensionar.
+    // Escritorio ancho (>= 1200px): tríptico que cabe entero en la primera
+    // pantalla. Animación del carnet | botón + vídeo | cartel, los tres
+    // alineados arriba y abajo. P es ese alto común: la animación (9:16) y el
+    // cartel (4:5) lo ocupan entero y el vídeo (16:9), lo que queda bajo el
+    // botón. P sale del alto de la ventana, salvo que a ese alto no quepan los
+    // tres en el ancho:
+    //   9/16·P + 16/9·(P − botón) + 4/5·P + 2 huecos <= ancho disponible
+    // Se recalcula al redimensionar.
     (function () {
         var section = document.querySelector('.abono-section');
         if (!section) return;
+        var PROPS = ['--col-anim', '--col-video', '--col-poster'];
         function fit() {
-            if (window.innerWidth <= 768) { section.style.removeProperty('--abono-avail-h'); return; }
-            // Se mide desde el borde superior del CONTENIDO de la sección (bajo
-            // su padding), que es donde arranca el cartel en la maquetación en L.
+            if (window.innerWidth < 1200) {
+                PROPS.forEach(function (p) { section.style.removeProperty(p); });
+                return;
+            }
             var cs = getComputedStyle(section);
             var padTop = parseFloat(cs.paddingTop) || 0;
             var padX = (parseFloat(cs.paddingLeft) || 0) + (parseFloat(cs.paddingRight) || 0);
             var top = section.getBoundingClientRect().top + window.scrollY + padTop;
             var availH = window.innerHeight - top - 56;              // aire hasta el borde
             var availW = document.documentElement.clientWidth - padX;
-            var GAP = 20;
+            var GAP = parseFloat(cs.columnGap) || 20;
 
-            function blockH(sel) {
-                var el = section.querySelector(sel);
-                if (!el) return 0;
-                var s = getComputedStyle(el);
-                return el.getBoundingClientRect().height + (parseFloat(s.marginBottom) || 0);
-            }
+            var cta = section.querySelector('.abono-cta');
+            var boton = cta
+                ? cta.getBoundingClientRect().height + (parseFloat(getComputedStyle(cta).marginBottom) || 0)
+                : 76;
 
-            // Geometría: G es el alto total de la fila.
-            //   columna izquierda = botón + texto + vídeo  ->  vídeo = G - pila
-            //   cartel (4:5) arranca a media altura del botón -> alto = G - medioBotón
-            // De ahí salen los dos anchos, y el tope por ancho de página es
-            //   16/9·(G − pila) + 0,8·(G − medioBotón) + hueco <= anchoDisponible
-            var stack = blockH('.abono-cta');
-            var btn = section.querySelector('.abono-btn');
-            var half = btn ? btn.getBoundingClientRect().height / 2 : 28;
-            var RV = 16 / 9, RP = 0.8;
+            var RA = 9 / 16, RV = 16 / 9, RP = 4 / 5;
+            var porAncho = (availW - 2 * GAP + RV * boton) / (RA + RV + RP);
+            // En ventanas muy bajas se prefiere algo de scroll a un cartel
+            // ilegible (suelo de 420px), pero nunca desbordar en horizontal.
+            var P = Math.min(porAncho, Math.max(availH, 420));
 
-            var byWidth = (availW - GAP + RV * stack + RP * half) / (RV + RP);
-            var G = Math.min(availH, byWidth);
-            G = Math.max(G, stack + 120, half + 400);   // suelos: vídeo y cartel mínimos
-
-            var videoW = (G - stack) * RV;
-            var posterW = (G - half) * RP;
-            section.style.setProperty('--col-video', Math.round(videoW) + 'px');
-            section.style.setProperty('--col-poster', Math.round(posterW) + 'px');
-
-            // El cartel no se mueve: la columna izquierda conserva su ancho, y el
-            // alto que queda bajo el botón se reparte entre la animación del
-            // carnet (arriba) y el vídeo (debajo), que por eso se encoge.
-            var HUECO = 16;
-            var espacio = G - stack - HUECO;
-            var animH = espacio * 0.55;
-            var videoH = espacio - animH;
-            section.style.setProperty('--anim-h', Math.round(animH) + 'px');
-            section.style.setProperty('--video-w', Math.round(Math.min(videoH * RV, videoW)) + 'px');
+            section.style.setProperty('--col-anim', Math.round(P * RA) + 'px');
+            section.style.setProperty('--col-video', Math.floor((P - boton) * RV) + 'px');
+            section.style.setProperty('--col-poster', Math.round(P * RP) + 'px');
         }
         fit();
         window.addEventListener('load', fit);
         window.addEventListener('resize', fit);
-    })();
-
-    // La animación del carnet se comporta como una imagen animada: arranca
-    // sola, sin sonido y en bucle. Sólo se descarga cuando está a punto de
-    // verse, porque en móvil queda al final de la página y no tiene sentido
-    // gastar el megabyte de quien no llega hasta ahí.
-    (function () {
-        var v = document.querySelector('.abono-anim video');
-        if (!v) return;
-        // Quien ha pedido menos movimiento se queda con el fotograma fijo.
-        if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-        function arrancar() {
-            if (!v.src) v.src = v.dataset.src;
-            v.muted = true;                      // sin esto los navegadores no dejan arrancarlo solo
-            var p = v.play();
-            if (p && p.catch) p.catch(function () { /* ahorro de batería: se queda el fotograma */ });
-        }
-        if (!('IntersectionObserver' in window)) { arrancar(); return; }
-        new IntersectionObserver(function (entradas, obs) {
-            if (entradas[0].isIntersecting) { arrancar(); obs.disconnect(); }
-        }, { rootMargin: '300px 0px' }).observe(v);
     })();
     </script>
 </body>

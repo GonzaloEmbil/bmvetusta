@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-17">
+    <link rel="stylesheet" href="style.css?v=campana-18">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -1296,6 +1296,18 @@
             </picture>
         </a>
 
+        <!-- Animación del carnet de abonado, sólo en móvil y debajo del mapa.
+             Se ve como una imagen animada (sin sonido, en bucle, sin
+             controles) y no se descarga hasta que está a punto de verse; en
+             escritorio está oculta y no llega a descargarse. -->
+        <a href="./abonate/" class="home-anim-movil" aria-label="Hazte abonado de la temporada 2026/2027">
+            <video class="anim-auto" muted loop playsinline preload="none"
+                   poster="src/assets/animacioncarnet2627.jpg"
+                   data-src="src/assets/animacioncarnet2627.mp4"
+                   disablepictureinpicture disableremoteplayback
+                   aria-hidden="true"></video>
+        </a>
+
         <!-- Prensa Preview -->
         <section class="prensa-preview-section">
             <h2 class="prensa-preview-title">Prensa</h2>
@@ -1502,7 +1514,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-17"></script>
+    <script src="script.js?v=campana-18"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No
