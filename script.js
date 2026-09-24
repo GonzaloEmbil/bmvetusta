@@ -10,9 +10,9 @@ document.addEventListener('DOMContentLoaded', function() {
         if (pathParts.length >= 2 && pathParts[pathParts.length - 2] === 'noticias' && currentFolder !== 'noticias') {
             currentFolder = 'noticias';
         }
-        var clubPages = ['noticias', 'historia', 'organigrama', 'enprensa'];
+        var clubPages = ['noticias', 'historia', 'organigrama', 'enprensa', 'contacto'];
 
-        // Direct nav links (EQUIPOS, ABÓNATE, PATROCINADORES, CONTACTO)
+        // Direct nav links (EQUIPOS, CANTERA, ABÓNATE, PATROCINIOS)
         document.querySelectorAll('.nav > a').forEach(function(link) {
             var href = link.getAttribute('href');
             if (href) {
@@ -333,6 +333,11 @@ document.addEventListener('DOMContentLoaded', function() {
             label: 'Prensa',
             desc: 'Los medios hablan del Vetusta',
             icon: '<path d="M4 9.5v5h2.5L11 18V6L6.5 9.5H4Z"/><path d="M15 9.5a4 4 0 0 1 0 5"/><path d="M18 7a8 8 0 0 1 0 10"/>'
+        },
+        'contacto/': {
+            label: 'Contacto',
+            desc: 'Dónde estamos y cómo escribirnos',
+            icon: '<rect x="3.5" y="6" width="17" height="12" rx="2"/><path d="m4 7.5 8 5.5 8-5.5"/>'
         }
     };
 
