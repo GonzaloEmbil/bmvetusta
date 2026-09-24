@@ -438,7 +438,7 @@ export default {
       }
       const { results: anteriores } = await env.DB.prepare(
         `SELECT id, numero, nombre, dni, telefono, email, titular, cuota, alta, pago,
-                localidad, imagen, comunicaciones
+                localidad, imagen, comunicaciones, modalidad, importe, pagado, fecha_pago
            FROM socios_anteriores
           WHERE temporada = ?
           -- Por número de socio; los que Cluber dejó sin número, al final.

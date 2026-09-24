@@ -1,14 +1,26 @@
 #!/usr/bin/env python3
 """
-Convierte la exportación de socios de Cluber (members.xlsx) en el SQL que
-carga la tabla socios_anteriores de D1.
+Convierte las exportaciones de Cluber en el SQL que carga la tabla
+socios_anteriores de D1: la de socios (members.xlsx) y, opcionalmente, la de
+cargos, que dice quién pagó, cuánto y qué cuota.
 
-El script no contiene datos: los lee del Excel y escribe el SQL en un archivo
-que debe quedar FUERA del repositorio, porque lleva nombres, DNI y teléfonos.
+El script no contiene datos: los lee de los Excel y escribe el SQL en un
+archivo que debe quedar FUERA del repositorio, porque lleva nombres, DNI y
+teléfonos.
 
-    python3 worker/scripts/importar-cluber.py ~/Downloads/members.xlsx 2025/2026 /tmp/socios.sql
+    python3 worker/scripts/importar-cluber.py ~/Downloads/members.xlsx 2025/2026 /tmp/socios.sql ~/Downloads/cargos.xlsx
     npx wrangler d1 execute bmvetusta-abonados --remote --file /tmp/socios.sql
     rm /tmp/socios.sql
+
+Cómo se usan los cargos:
+  · Sólo cuentan las cuotas de socio pagadas dentro de la temporada (de
+    julio a junio). Las de fuera son de otra temporada.
+  · Cada cargo se asigna al socio por el nombre de quien paga. Si paga el
+    titular de un abono familiar o de matrimonio, cuenta como pagado para
+    todas las personas de ese abono; el importe va sólo en el titular, como
+    en las altas propias.
+  · Quien pagó pero no aparece en la exportación de socios (Cluber no la da
+    completa) se añade con los datos del cargo.
 
 Se puede repetir cuantas veces haga falta: antes de insertar borra lo que
 hubiera de esa temporada, así que cargar una exportación más completa
@@ -101,6 +113,68 @@ def cuota(fila):
     return c.capitalize() + (f' · {precio:g} €' if precio else '')
 
 
+PARTICULAS = {'de', 'del', 'la', 'las', 'los', 'y', 'e'}
+
+
+def palabras(nombre):
+    return {w for w in clave_nombre(nombre).split() if w not in PARTICULAS}
+
+
+def mismo_nombre(a, b):
+    """Uno contiene al otro entero y comparten al menos dos palabras: la misma
+    regla que usa el Worker para ver quién ha renovado."""
+    menor, mayor = sorted((palabras(a), palabras(b)), key=len)
+    return len(menor) >= 2 and menor <= mayor
+
+
+def modalidad(texto):
+    t = clave_nombre(texto)
+    for clave, nombre in (('familiar', 'Familiar'), ('matrimonio', 'Matrimonio'),
+                          ('sub 18', 'Sub 18'), ('sub18', 'Sub 18'), ('adulto', 'Adulto')):
+        if clave in t:
+            return nombre
+    return ''
+
+
+def rango(temporada):
+    """'2025/2026' → del 1 de julio de 2025 al 30 de junio de 2026."""
+    a, b = temporada.split('/')
+    return f'{a}-07-01', f'{b}-06-30'
+
+
+def aplicar_cargos(socios, ruta, temporada):
+    ini, fin = rango(temporada)
+    cargos = [c for c in leer_xlsx(ruta)
+              if c.get('Tipo de cargo', '').strip() == 'Cuota de socio'
+              and c.get('Estado', '').strip() == 'Pagado'
+              and ini <= c.get('Fecha', '')[:10] <= fin]
+    añadidos = []
+    for c in cargos:
+        pagador = ' '.join(c.get('Pagador', '').split())
+        datos = {
+            'pagado': 1,
+            'modalidad': modalidad(c.get('Descripción', '')),
+            'fecha_pago': c.get('Fecha', '')[:10],
+            'pago': 'Tarjeta' if c.get('Método de pago', '').strip() == 'TPV' else c.get('Método de pago', '').strip(),
+        }
+        importe = int(round(float(c.get('Importe') or 0)))
+        socio = (next((s for s in socios if not s['titular'] and mismo_nombre(s['nombre'], pagador)), None)
+                 or next((s for s in socios if mismo_nombre(s['nombre'], pagador)), None))
+        if not socio:
+            socio = {'temporada': temporada, 'numero': None, 'nombre': pagador, 'dni': '', 'telefono': '',
+                     'email': '', 'titular': '', 'cuota': '', 'alta': datos['fecha_pago'], 'pago': '',
+                     'localidad': '', 'imagen': '', 'comunicaciones': '',
+                     'modalidad': '', 'importe': 0, 'pagado': 0, 'fecha_pago': ''}
+            socios.append(socio)
+            añadidos.append(pagador)
+        socio.update(datos, importe=importe)
+        # Las demás personas de su abono quedan pagadas con él, sin importe.
+        for s in socios:
+            if s is not socio and s['titular'] and clave_nombre(s['titular']) == clave_nombre(socio['nombre']):
+                s.update(datos, importe=0)
+    return len(cargos), añadidos
+
+
 def sql(v):
     if v is None:
         return 'NULL'
@@ -110,9 +184,9 @@ def sql(v):
 
 
 def main():
-    if len(sys.argv) != 4:
-        sys.exit('Uso: importar-cluber.py members.xlsx 2025/2026 salida.sql')
-    ruta, temporada, salida = sys.argv[1:]
+    if len(sys.argv) not in (4, 5):
+        sys.exit('Uso: importar-cluber.py members.xlsx 2025/2026 salida.sql [cargos.xlsx]')
+    ruta, temporada, salida = sys.argv[1:4]
     filas = leer_xlsx(ruta)
 
     titulares = {clave_nombre(f'{f["Nombre"]} {f["Apellidos"]}')
@@ -143,7 +217,15 @@ def main():
             'localidad': f.get('Ciudad', '').strip(),
             'imagen': si_no(columna(f, 'Derechos de im')),
             'comunicaciones': si_no(columna(f, 'Comunicaciones del club')),
+            # Sin cargos, lo único que se sabe es la cuota que Cluber anota
+            # a veces en la ficha; el pago lo confirman los cargos.
+            'modalidad': modalidad(f.get('Cuota', '')),
+            'importe': int(round(float(f.get('Precio total') or 0))) if not titular else 0,
+            'pagado': 0,
+            'fecha_pago': '',
         })
+
+    cargos, añadidos = (aplicar_cargos(socios, sys.argv[4], temporada) if len(sys.argv) == 5 else (0, []))
 
     campos = list(socios[0].keys()) if socios else []
     with open(salida, 'w', encoding='utf-8') as out:
@@ -155,6 +237,13 @@ def main():
     print(f'{len(socios)} socios de {temporada} escritos en {salida}')
     for d in descartes:
         print('  descartada:', d)
+    if len(sys.argv) == 5:
+        print(f'{cargos} cuotas pagadas en la temporada; {sum(s["pagado"] for s in socios)} socios quedan como pagados')
+        for a in añadidos:
+            print('  añadido desde los cargos (no estaba en la exportación de socios):', a)
+        for s in socios:
+            if not s['pagado'] and not s['titular']:
+                print('  sin cargo pagado:', s['nombre'], f'(nº {s["numero"]})' if s['numero'] else '(sin nº)')
 
 
 if __name__ == '__main__':

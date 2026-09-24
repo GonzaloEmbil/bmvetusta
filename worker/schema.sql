@@ -59,8 +59,16 @@ CREATE TABLE IF NOT EXISTS socios_anteriores (
   pago           TEXT    NOT NULL DEFAULT '',
   localidad      TEXT    NOT NULL DEFAULT '',
   imagen         TEXT    NOT NULL DEFAULT '',
-  comunicaciones TEXT    NOT NULL DEFAULT ''
+  comunicaciones TEXT    NOT NULL DEFAULT '',
+  -- Del informe de cargos de Cluber: qué cuota pagó, cuánto y cuándo.
+  modalidad      TEXT    NOT NULL DEFAULT '',  -- Adulto | Matrimonio | Familiar | Sub 18
+  importe        INTEGER NOT NULL DEFAULT 0,   -- en euros, sólo en el titular
+  pagado         INTEGER NOT NULL DEFAULT 0,
+  fecha_pago     TEXT    NOT NULL DEFAULT ''   -- AAAA-MM-DD
 );
+-- En una base ya creada, esas cuatro columnas se añadieron con
+--   ALTER TABLE socios_anteriores ADD COLUMN modalidad TEXT NOT NULL DEFAULT '';
+--   (y lo mismo con importe, pagado y fecha_pago)
 
 CREATE INDEX IF NOT EXISTS socios_anteriores_temporada ON socios_anteriores (temporada);
 

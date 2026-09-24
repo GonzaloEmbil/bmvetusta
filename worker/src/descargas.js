@@ -22,18 +22,21 @@ export const DESCARGAS_JS = String.raw`
         filas: listaAnterior(), total: anteriores.length,
         cols: [
           { t: 'Nº socio', num: true, v: function(s){ return s.numero || ''; } },
-          { t: '¿Ha renovado?', v: function(s){ return s.renovado ? 'Sí (nº ' + s.renovado + ')' : 'No'; } },
+          { t: 'Pagado', v: function(s){ return s.pagado ? 'Sí' : 'No'; } },
           { t: 'Nombre', v: function(s){ return s.nombre; } },
           { t: 'Vínculo', v: function(s){ return s.titular ? 'En el abono de ' + s.titular : 'Titular'; } },
           { t: 'Alta', v: function(s){ return s.alta ? fechaSuelta(s.alta) : ''; } },
-          { t: 'Cuota', v: function(s){ return s.cuota; } },
+          { t: 'Modalidad', v: function(s){ return s.modalidad; } },
           { t: 'Pago', v: function(s){ return s.pago; } },
+          { t: 'Importe (€)', num: true, v: function(s){ return s.importe || ''; } },
           { t: 'DNI/NIE', v: function(s){ return s.dni; } },
+          { t: 'Nacimiento', v: function(){ return ''; } },
           { t: 'Móvil', v: function(s){ return s.telefono; } },
           { t: 'Correo', v: function(s){ return s.email; } },
           { t: 'Localidad', v: function(s){ return s.localidad; } },
           { t: 'Imagen', v: function(s){ return s.imagen; } },
-          { t: 'Comunic.', v: function(s){ return s.comunicaciones; } }
+          { t: 'Comunic.', v: function(s){ return s.comunicaciones; } },
+          { t: 'Tutor/a legal', v: function(){ return ''; } }
         ]
       };
     }

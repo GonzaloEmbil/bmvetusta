@@ -276,7 +276,6 @@ main{container-type:inline-size}
 .segmento button+button{border-left:1.5px solid var(--l2)}
 .segmento button.on{background:var(--t);color:#fff}
 .kpis.cuatro{max-width:820px}
-tbody tr.renovado{background:#f2fbf5}
 .lateral .grupo+.grupo{margin-top:18px}
 /* Campañas */
 .barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
@@ -434,8 +433,33 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
        columna que importa es si han renovado este año. -->
   <section id="vista-anterior" aria-label="Abonados 2025/2026" hidden>
     <div class="resumen">
-      <div class="kpis cuatro" id="kpis-anterior"></div>
-      <div class="fila-mods" style="margin-top:16px">
+      <div class="arboles">
+        <div class="arbol dos">
+          <div class="kpi raiz"><b id="raiz-abonados-ant">0</b><span>Abonados</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i></div>
+          <div class="mods" id="tipos-ant"></div>
+        </div>
+        <div class="arbol">
+          <div class="kpi raiz"><b id="raiz-compras-ant">0</b><span>Compras</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i><i></i><i></i></div>
+          <div class="mods" id="mods-ant"></div>
+        </div>
+        <div class="arbol dos">
+          <div class="kpi raiz"><b id="raiz-ingresos-ant">0</b><span>Ingresos</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i></div>
+          <div class="mods" id="ingresos-ant"></div>
+        </div>
+        <div class="arbol dos">
+          <div class="kpi raiz sin-cifra"><span>ARPU</span></div>
+          <div class="tronco"></div>
+          <div class="ramas"><i></i><i></i></div>
+          <div class="mods" id="arpus-ant"></div>
+        </div>
+      </div>
+      <div class="fila-mods">
         <div class="segmento" role="group" aria-label="Filtrar por renovación">
           <button data-filtro="todos" class="on">Todos</button><button data-filtro="si">Han renovado</button><button data-filtro="no">No han renovado</button>
         </div>
@@ -446,8 +470,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     </div>
     <div class="tabla-wrap"><table>
       <thead><tr>
-        <th title="Número de socio que tenía en Cluber">Nº socio</th><th>¿Ha renovado?</th><th>Nombre</th><th>Vínculo</th><th>Alta</th>
-        <th>Cuota</th><th>Pago</th><th>DNI/NIE</th><th>Móvil</th><th>Correo</th><th>Localidad</th><th>Imagen</th><th>Comunic.</th>
+        <th title="Número de socio que tenía en Cluber">Nº socio</th><th>Pagado</th><th>Nombre</th><th>Vínculo</th><th>Alta</th>
+        <th>Modalidad</th><th>Pago</th><th>Importe</th><th>DNI/NIE</th><th>Nacimiento</th>
+        <th>Móvil</th><th>Correo</th><th>Localidad</th><th>Imagen</th><th>Comunic.</th><th>Tutor/a legal</th>
       </tr></thead>
       <tbody id="cuerpo-anterior"></tbody>
     </table></div>
@@ -652,14 +677,10 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   // Socios de 2025/26. El servidor ya trae resuelto si han renovado: el nº
   // de abonado que tienen este año, o null.
   function pintarAnteriores(){
-    var total = anteriores.length;
-    var renovados = anteriores.filter(function(s){ return s.renovado; }).length;
-    document.getElementById('kpis-anterior').innerHTML =
-      kpi(total, 'Socios 2025/26') +
-      kpi(renovados, 'Han renovado') +
-      kpi(total - renovados, 'No han renovado') +
-      kpi(total ? dec(renovados * 100 / total) + ' %' : '—', 'Renovación');
-
+    // Mismos indicadores y columnas que 2026/27. El verde marca a quien pagó
+    // (lo dice el informe de cargos de Cluber). Nacimiento y tutor no los
+    // guardaba Cluber: salen vacíos.
+    pintarResumen('-ant', anteriores, function(s){ return !s.titular; });
     var lista = listaAnterior();
 
     document.getElementById('cuerpo-anterior').innerHTML = lista.map(function(s){
@@ -668,26 +689,26 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         ? '<span class="chip aso" title="En el abono de '+esc(s.titular)+'">Asociado</span>'+
           '<span class="vinc-tactil">En el abono de '+esc(s.titular)+'</span>'
         : '<span class="chip tit">Titular</span>';
-      var renovo = s.renovado
-        ? '<span class="chip si">Sí · nº '+esc(s.renovado)+'</span>'
-        : '<span class="chip no">No</span>';
-      return '<tr class="'+(s.renovado?'renovado ':'')+(asociado?'asoc':'')+'">'+
+      return '<tr class="'+(s.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
         '<td class="num" data-k="Nº socio">'+(s.numero ? esc(s.numero) : '<span class="vacio">—</span>')+'</td>'+
-        '<td data-k="¿Ha renovado?">'+renovo+'</td>'+
+        '<td data-k="Pagado"><span class="chip '+(s.pagado?'si':'no')+'"'+(s.fecha_pago ? ' title="Pagado el '+fechaSuelta(s.fecha_pago)+'"' : '')+'>'+(s.pagado?'Sí':'No')+'</span></td>'+
         '<td class="nom" data-k="Nombre">'+esc(s.nombre)+'</td>'+
         '<td data-k="Vínculo">'+vinculo+'</td>'+
         '<td data-k="Alta">'+(s.alta ? fechaSuelta(s.alta) : '<span class="vacio">—</span>')+'</td>'+
-        '<td data-k="Cuota">'+dato(s.cuota)+'</td>'+
+        '<td data-k="Modalidad">'+dato(s.modalidad)+'</td>'+
         '<td data-k="Pago">'+dato(s.pago)+'</td>'+
+        '<td data-k="Importe">'+(s.importe ? esc(s.importe)+' €' : '<span class="vacio">—</span>')+'</td>'+
         '<td data-k="DNI/NIE">'+dato(s.dni)+'</td>'+
+        '<td data-k="Nacimiento"><span class="vacio">—</span></td>'+
         '<td data-k="Móvil">'+dato(s.telefono)+'</td>'+
         '<td data-k="Correo">'+dato(s.email)+'</td>'+
         '<td data-k="Localidad">'+dato(s.localidad)+'</td>'+
-        '<td data-k="Imagen">'+esc(s.imagen)+'</td>'+
-        '<td data-k="Comunic.">'+esc(s.comunicaciones)+'</td>'+
+        '<td data-k="Imagen">'+dato(s.imagen)+'</td>'+
+        '<td data-k="Comunic.">'+dato(s.comunicaciones)+'</td>'+
+        '<td class="detalle" data-k="Tutor/a legal"><span class="vacio">—</span></td>'+
         '</tr>';
-    }).join('') || '<tr><td colspan="13" style="padding:22px;color:#7b828b">'+
-      (total ? 'Nadie coincide con la búsqueda.' : 'No hay socios de la temporada pasada.')+'</td></tr>';
+    }).join('') || '<tr><td colspan="16" style="padding:22px;color:#7b828b">'+
+      (anteriores.length ? 'Nadie coincide con la búsqueda.' : 'No hay socios de la temporada pasada.')+'</td></tr>';
 
     encajarTabla();
   }
@@ -739,16 +760,16 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     });
   }
 
-  function pintar(){
-    var lista = listaActual();
-
-    // Socios y abonos no son lo mismo: un abono Familiar son cuatro socios.
-    // El dinero se cuenta sobre los titulares, que es donde está la cuota.
-    // Personas frente a compras: un abono Familiar es UNA compra y CUATRO
-    // abonados. El dinero se cuenta sólo en los titulares, que son quienes
-    // llevan el importe; si se sumaran todas las filas saldría multiplicado.
-    var abonados = datos.length;
-    var titulares = datos.filter(function(a){return !a.titular_id;});
+  // Los cuatro árboles de indicadores. Sirve para las dos temporadas: sufijo
+  // elige los elementos ('' para 2026/27, '-ant' para 2025/26) y esTitular
+  // dice quién lleva la cuota en cada una.
+  //
+  // Personas frente a compras: un abono Familiar es UNA compra y CUATRO
+  // abonados. El dinero se cuenta sólo en los titulares, que son quienes
+  // llevan el importe; si se sumaran todas las filas saldría multiplicado.
+  function pintarResumen(sufijo, filas, esTitular){
+    var abonados = filas.length;
+    var titulares = filas.filter(esTitular);
     var euros = titulares.reduce(function(s,a){return s+(a.importe||0);},0);
     var cobrado = titulares.filter(function(a){return a.pagado;})
       .reduce(function(s,a){return s+(a.importe||0);},0);
@@ -759,31 +780,35 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     // Los dos ARPU no cuelgan de ningún árbol: son cocientes entre las cifras
     // de dos de ellos, así que van aparte, al final de la fila.
     var arpuCompra = titulares.length ? euros / titulares.length : 0;
-    document.getElementById('arpus').innerHTML =
+    document.getElementById('arpus'+sufijo).innerHTML =
       tarjeta(eur(arpu), 'Por abonado') + tarjeta(eur(arpuCompra), 'Por compra');
 
     // La modalidad es del abono, no de la persona: un Familiar es UNA venta.
     // Se listan las cuatro siempre, aunque estén a cero, para que se vea el
     // reparto de un vistazo y no sólo lo que se ha vendido.
-    document.getElementById('mods').innerHTML = MODALIDADES.map(function(m){
+    document.getElementById('mods'+sufijo).innerHTML = MODALIDADES.map(function(m){
       return tarjeta(titulares.filter(function(a){return a.modalidad === m;}).length, m);
     }).join('');
 
     // Aquí se cuentan personas, no ventas: cuántas compraron el abono y
     // cuántas van incluidas en el de otra persona. Los titulares coinciden
     // con las compras, porque cada compra tiene exactamente un titular.
-    document.getElementById('tipos').innerHTML =
+    document.getElementById('tipos'+sufijo).innerHTML =
       tarjeta(titulares.length, 'Titular') +
       tarjeta(abonados - titulares.length, 'Asociado');
 
-    document.getElementById('ingresos').innerHTML =
+    document.getElementById('ingresos'+sufijo).innerHTML =
       tarjeta(cobrado + ' €', 'Cobrado') +
       tarjeta(porCobrar + ' €', 'Por cobrar');
 
-    document.getElementById('raiz-compras').textContent = titulares.length;
-    document.getElementById('raiz-abonados').textContent = abonados;
-    document.getElementById('raiz-ingresos').textContent = euros + ' €';
+    document.getElementById('raiz-compras'+sufijo).textContent = titulares.length;
+    document.getElementById('raiz-abonados'+sufijo).textContent = abonados;
+    document.getElementById('raiz-ingresos'+sufijo).textContent = euros + ' €';
+  }
 
+  function pintar(){
+    var lista = listaActual();
+    pintarResumen('', datos, function(a){ return !a.titular_id; });
     document.getElementById('cuerpo').innerHTML = lista.map(function(a){
       var tu = a.tutor ? esc(a.tutor.nombre)+'<br>'+esc(a.tutor.dni)+'<br>'+esc(a.tutor.telefono) : '<span class="vacio">—</span>';
       var asociado = !!a.titular_id;
