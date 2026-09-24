@@ -100,7 +100,11 @@ main{padding:22px}
 /* Los cortes van a mano y no con auto-fit: seis y cuatro tarjetas se reparten
    bien en 2, 3 y 6 columnas, mientras que dejando decidir al navegador se
    quedaba una suelta al final de la fila. */
-@media (min-width:620px){
+/* Los cortes miden el ancho de <main>, no el de la ventana: con la barra
+   lateral el contenido es 220px más estrecho que la pantalla, y con media
+   queries los árboles se apretarían justo en el tramo en que no caben. Los
+   umbrales son los de antes menos el relleno de main (22px por lado). */
+@container (min-width:576px){
   .arboles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
@@ -116,14 +120,14 @@ main{padding:22px}
    modalidad mete cuatro tarjetas donde los demás meten dos, y por debajo de
    este ancho sus rótulos empiezan a partirse en varias líneas. Antes que eso,
    mejor dos y dos, que da tarjetas holgadas. */
-@media (min-width:1650px){
+@container (min-width:1606px){
   .arboles{grid-template-columns:repeat(4,minmax(0,1fr))}
   /* Ese árbol lleva el rótulo un punto más pequeño: es lo justo para que
      «MATRIMONIO» entre en una línea en la mitad de ancho. */
   .arbol:not(.dos) .mod{padding-left:8px;padding-right:8px}
   .arbol:not(.dos) .mod span{font-size:.6rem;letter-spacing:.1px}
 }
-@media (max-width:619px){
+@container (max-width:575px){
   .tronco,.ramas{display:none}
   .raiz{text-align:left}
 }
@@ -238,12 +242,21 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   .vinc-tactil{display:block;font-size:.82rem;color:var(--t2);padding-top:4px}
 }
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
-/* Pestañas de temporada. Van pegadas bajo la cabecera, con el subrayado de
-   la activa sobre la misma línea que la separa del contenido. */
-.tabs{display:flex;gap:4px;padding:0 22px;border-bottom:1px solid var(--l)}
-.tabs button{border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:12px 14px;margin-bottom:-1px;color:var(--t3);font-weight:700}
-.tabs button:hover{background:none;color:var(--t)}
-.tabs button[aria-selected="true"]{color:var(--t);border-bottom-color:var(--t)}
+/* Barra lateral: una entrada por sección del área privada (de momento sólo
+   Abonados) y, colgando de cada una, sus subpestañas. El menú se queda fijo
+   al bajar por la tabla, que es larga. */
+.cuerpo{display:flex;align-items:stretch;min-height:calc(100vh - 77px)}
+.lateral{flex:0 0 220px;background:var(--bg2);border-right:1px solid var(--l);padding:18px 12px}
+.lateral nav{position:sticky;top:18px}
+.lateral .seccion{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:9px 12px;border-radius:9px;font-weight:800;color:var(--t);text-align:left}
+.lateral .seccion:hover{background:#eceef2}
+.lateral .seccion svg{flex:0 0 auto}
+.lateral .subs{display:flex;flex-direction:column;gap:2px;margin:4px 0 0 21px;padding-left:12px;border-left:1px solid var(--l2)}
+.lateral .sub{border:0;background:none;text-align:left;padding:7px 12px;border-radius:8px;color:var(--t2);font-weight:600}
+.lateral .sub:hover{background:#eceef2;color:var(--t)}
+.lateral .sub[aria-current="page"]{background:var(--t);color:#fff}
+main{flex:1 1 auto;min-width:0;container-type:inline-size}
+.vista-titulo{margin:0 0 18px;font-size:1.3rem;letter-spacing:-.3px}
 /* Filtro de renovación: tres opciones excluyentes en una sola pieza. */
 .segmento{display:inline-flex;border:1.5px solid var(--l2);border-radius:9px;overflow:hidden}
 .segmento button{border:0;border-radius:0;padding:8px 13px;font-size:.85rem}
@@ -263,10 +276,19 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 .formatos button:hover{border-color:var(--t);background:var(--bg2)}
 #descarga .cancelar{width:100%;border:0;background:none;color:var(--t3)}
 #descarga .cancelar:hover{color:var(--t)}
-@media (min-width:620px){ .kpis.cuatro{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@container (min-width:576px){ .kpis.cuatro{grid-template-columns:repeat(4,minmax(0,1fr))} }
 @media (max-width: 768px){
-  .tabs{padding:0 16px}
-  .tabs button{flex:1 1 0;padding:12px 6px;font-size:.88rem}
+  /* En el móvil la barra pasa arriba: la sección como rótulo y sus
+     subpestañas en una fila, a partes iguales. */
+  .cuerpo{flex-direction:column;min-height:0}
+  .lateral{flex:none;border-right:0;border-bottom:1px solid var(--l);padding:12px 16px}
+  .lateral nav{position:static}
+  .lateral .seccion{padding:0 0 10px;font-size:.92rem}
+  .lateral .seccion:hover{background:none}
+  .lateral .subs{flex-direction:row;gap:8px;margin:0;padding:0;border:0}
+  .lateral .sub{flex:1 1 0;text-align:center;border:1.5px solid var(--l2);padding:8px 6px}
+  .lateral .sub[aria-current="page"]{border-color:var(--t)}
+  .vista-titulo{font-size:1.1rem;margin-bottom:14px}
   .segmento{width:100%}
   .segmento button{flex:1 1 0;padding:9px 4px;font-size:.8rem}
 }
@@ -284,19 +306,29 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 <div id="panel" hidden>
   <header>
     <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="44" height="44">
-    <h1>Abonados</h1>
+    <h1>Área privada</h1>
     <span class="sp"></span>
     <span class="quien" id="quien" hidden></span>
     <button id="recargar">Recargar</button>
     <button id="descargar">Descargar</button>
     <button id="salir">Salir</button>
   </header>
-  <nav class="tabs" role="tablist" aria-label="Temporada">
-    <button role="tab" id="tab-actual" data-vista="actual" aria-controls="vista-actual" aria-selected="true">Temporada 2026/27</button>
-    <button role="tab" id="tab-anterior" data-vista="anterior" aria-controls="vista-anterior" aria-selected="false">Temporada 2025/26</button>
-  </nav>
+  <div class="cuerpo">
+  <aside class="lateral">
+    <nav aria-label="Secciones">
+      <button class="seccion" data-ir="actual">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Abonados
+      </button>
+      <div class="subs">
+        <button class="sub" id="tab-actual" data-vista="actual" aria-controls="vista-actual" aria-current="page">2026/2027</button>
+        <button class="sub" id="tab-anterior" data-vista="anterior" aria-controls="vista-anterior">2025/2026</button>
+      </div>
+    </nav>
+  </aside>
   <main>
-  <section id="vista-actual" role="tabpanel" aria-labelledby="tab-actual">
+  <section id="vista-actual" aria-labelledby="titulo-actual">
+    <h2 class="vista-titulo" id="titulo-actual">Abonados 2026/2027</h2>
     <div class="resumen">
       <div class="arboles">
         <div class="arbol dos">
@@ -342,7 +374,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   </section>
   <!-- Socios de la temporada pasada, importados de Cluber. Sólo lectura: la
        columna que importa es si han renovado este año. -->
-  <section id="vista-anterior" role="tabpanel" aria-labelledby="tab-anterior" hidden>
+  <section id="vista-anterior" aria-labelledby="titulo-anterior" hidden>
+    <h2 class="vista-titulo" id="titulo-anterior">Abonados 2025/2026</h2>
     <div class="resumen">
       <div class="kpis cuatro" id="kpis-anterior"></div>
       <div class="fila-mods" style="margin-top:16px">
@@ -364,6 +397,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     <p class="msg" id="anterior-msg"></p>
   </section>
   </main>
+  </div>
 </div>
 
 <!-- Elección de formato. El contenido va en un div interior para que un clic
@@ -523,12 +557,13 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     encajarTabla();
   }
 
-  // Pestañas. La activa se apunta en la dirección (#2025-26) para que al
-  // recargar la página se vuelva a la misma.
+  // Subpestañas de la barra lateral. La activa se apunta en la dirección
+  // (#2025-26) para que al recargar la página se vuelva a la misma.
   function mostrar(vista){
     ['actual','anterior'].forEach(function(v){
       document.getElementById('vista-'+v).hidden = v !== vista;
-      document.getElementById('tab-'+v).setAttribute('aria-selected', v === vista ? 'true' : 'false');
+      var b = document.getElementById('tab-'+v);
+      if (v === vista) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
     try { history.replaceState(null, '', vista === 'anterior' ? '#2025-26' : location.pathname + location.search); } catch(e){}
     encajarTabla();
@@ -735,8 +770,12 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   document.getElementById('recargar').addEventListener('click', cargar);
   document.getElementById('buscar').addEventListener('input', pintar);
   document.getElementById('buscar-anterior').addEventListener('input', pintarAnteriores);
-  document.querySelectorAll('.tabs [data-vista]').forEach(function(b){
+  document.querySelectorAll('.lateral [data-vista]').forEach(function(b){
     b.addEventListener('click', function(){ mostrar(b.dataset.vista); });
+  });
+  // La sección lleva a su primera subpestaña, la temporada en curso.
+  document.querySelectorAll('.lateral [data-ir]').forEach(function(b){
+    b.addEventListener('click', function(){ mostrar(b.dataset.ir); });
   });
   document.querySelectorAll('.segmento [data-filtro]').forEach(function(b){
     b.addEventListener('click', function(){
