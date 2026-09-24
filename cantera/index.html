@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="../src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="../src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="../style.css?v=campana-21">
+    <link rel="stylesheet" href="../style.css?v=campana-22">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
@@ -178,48 +178,84 @@
     </footer>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="../script.js?v=campana-21"></script>
+    <script src="../script.js?v=campana-22"></script>
     <script>
-        // Mapa de escuelas del BM Vetusta
+        // Mapa de escuelas del BM Vetusta.
+        // Fondo: el mapa callejero de Esri, en tonos beis con relieve, que es
+        // el estilo que usa el club en sus carteles. Cada colegio lleva su
+        // nombre siempre a la vista, en una etiqueta colocada a un lado u otro
+        // del punto para que no se pisen entre sí; el horario sale al pulsar.
         (function() {
-            var map = L.map('cantera-map', { scrollWheelZoom: false });
+            // Zoom en cuartos: con saltos enteros, el encuadre que abarca los
+            // nueve colegios se quedaba un nivel más lejos de lo necesario.
+            var map = L.map('cantera-map', { scrollWheelZoom: false, zoomSnap: 0.25, zoomDelta: 0.5 });
 
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-                maxZoom: 18
+            L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}', {
+                attribution: 'Mapa &copy; <a href="https://www.esri.com/" target="_blank" rel="noopener">Esri</a> &mdash; Esri, HERE, Garmin, USGS, OpenStreetMap',
+                maxZoom: 19
             }).addTo(map);
 
             var markerIcon = L.divIcon({
                 className: 'cantera-map-marker',
-                html: '<div style="background:#e91e63;width:24px;height:24px;border-radius:50%;border:4px solid #fff;box-shadow:0 3px 10px rgba(0,0,0,0.6);"></div>',
-                iconSize: [24, 24],
-                iconAnchor: [12, 12],
-                popupAnchor: [0, -14]
+                html: '<span></span>',
+                iconSize: [22, 22],
+                iconAnchor: [11, 11],
+                popupAnchor: [0, -13]
             });
 
+            // lado: hacia dónde va la etiqueta respecto al punto.
             var schools = [
-                { name: 'C.P. Germán Fernández Ramos', schedule: 'Martes y Jueves, 16:00 - 17:00<br><strong>CDT (Viernes):</strong> 17:00 - 18:00<br><em>CDT abierto a todos los colegios</em>', lat: 43.3728687, lng: -5.8402921 },
-                { name: 'Colegio Amor de Dios', schedule: 'Lunes y Miércoles, 17:00 - 18:00', lat: 43.3707553, lng: -5.8457390 },
-                { name: 'C.E.I.P Ventanielles', schedule: 'Martes, Jueves y Viernes, 16:00 - 17:00', lat: 43.3697274, lng: -5.8242886 },
-                { name: 'C.P. Veneranda Manzano', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3528263, lng: -5.8457374 },
-                { name: 'C.P. La Gesta', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3572660, lng: -5.8548935 },
-                { name: 'C.E.I.P Juan Rodríguez Muñiz', schedule: 'Miércoles y Viernes, 16:00 - 17:00', lat: 43.3657465, lng: -5.8882583 },
-                { name: 'C.E.I.P. Carmen Ruiz Tilve', schedule: 'Lunes y Miércoles, 16:30 - 17:30', lat: 43.3803315, lng: -5.8153694 },
-                { name: 'C.E.I.P Villafría', schedule: 'Lunes y Miércoles, 16:00 - 17:00', lat: 43.3568555, lng: -5.8340997 },
-                { name: 'C.P. La Fresneda', schedule: 'Miércoles y Jueves, 17:00 - 18:00', lat: 43.4115842, lng: -5.7919704 }
+                { name: 'C.P. Germán Fernández Ramos', lado: 'arriba', schedule: 'Martes y Jueves, 16:00 - 17:00<br><strong>CDT (Viernes):</strong> 17:00 - 18:00<br><em>CDT abierto a todos los colegios</em>', lat: 43.3728687, lng: -5.8402921 },
+                { name: 'Colegio Amor de Dios', lado: 'izquierda', schedule: 'Lunes y Miércoles, 17:00 - 18:00', lat: 43.3707553, lng: -5.8457390 },
+                { name: 'C.E.I.P. Ventanielles', lado: 'derecha', schedule: 'Martes, Jueves y Viernes, 16:00 - 17:00', lat: 43.3697274, lng: -5.8242886 },
+                { name: 'C.P. Veneranda Manzano', lado: 'izquierda', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3528263, lng: -5.8457374 },
+                { name: 'C.P. La Gesta', lado: 'izquierda', schedule: 'Martes y Jueves, 16:30 - 17:30', lat: 43.3572660, lng: -5.8548935 },
+                { name: 'C.E.I.P. Juan Rodríguez Muñiz', lado: 'derecha', schedule: 'Miércoles y Viernes, 16:00 - 17:00', lat: 43.3657465, lng: -5.8882583 },
+                { name: 'C.E.I.P. Carmen Ruiz Tilve', lado: 'derecha', schedule: 'Lunes y Miércoles, 16:30 - 17:30', lat: 43.3803315, lng: -5.8153694 },
+                { name: 'C.E.I.P. Villafría', lado: 'derecha', schedule: 'Lunes y Miércoles, 16:00 - 17:00', lat: 43.3568555, lng: -5.8340997 },
+                { name: 'C.P. La Fresneda (Siero)', lado: 'izquierda', schedule: 'Miércoles y Jueves, 17:00 - 18:00', lat: 43.4115842, lng: -5.7919704 }
             ];
+
+            // «arriba» es una etiqueta a la derecha pero subida, como la de
+            // Germán Fernández Ramos en el cartel: así no choca con la de
+            // Amor de Dios, que queda justo al lado.
+            var LADOS = {
+                derecha:   { direction: 'right', offset: [14, 0] },
+                izquierda: { direction: 'left',  offset: [-14, 0] },
+                arriba:    { direction: 'right', offset: [8, -24] }
+            };
 
             var bounds = [];
             schools.forEach(function(school) {
                 var latlng = [school.lat, school.lng];
+                var lado = LADOS[school.lado];
                 bounds.push(latlng);
-                L.marker(latlng, { icon: markerIcon })
+                L.marker(latlng, { icon: markerIcon, title: school.name })
                     .addTo(map)
-                    .bindPopup('<strong>' + school.name + '</strong><br>' + school.schedule);
+                    .bindPopup('<strong>' + school.name + '</strong><br>' + school.schedule)
+                    .bindTooltip(school.name, {
+                        permanent: true,
+                        direction: lado.direction,
+                        offset: lado.offset,
+                        className: 'cantera-etiqueta'
+                    });
             });
 
-            // Fit map to show all markers with some padding
-            map.fitBounds(bounds, { padding: [30, 30], maxZoom: 14 });
+            // Encuadre con margen de sobra a los lados: las etiquetas salen
+            // del punto hacia fuera y, con poco margen, las de los extremos se
+            // cortarían contra el borde del mapa.
+            map.fitBounds(bounds, { paddingTopLeft: [40, 30], paddingBottomRight: [40, 30], maxZoom: 14 });
+
+            // Por debajo de este zoom los colegios del centro quedan tan juntos
+            // que sus etiquetas se montan unas sobre otras (pasa en el móvil,
+            // donde el mapa es estrecho). Ahí se ocultan y cada colegio se
+            // identifica al tocar su punto; al acercar el mapa, vuelven.
+            var ZOOM_ETIQUETAS = 12.75;
+            function etiquetas() {
+                map.getContainer().classList.toggle('sin-etiquetas', map.getZoom() < ZOOM_ETIQUETAS);
+            }
+            map.on('zoomend', etiquetas);
+            etiquetas();
         })();
     </script>
 </body>

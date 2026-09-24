@@ -4510,7 +4510,9 @@ body {
 
 #cantera-map {
     width: 100%;
-    height: 450px;
+    /* Alto suficiente para que los nueve colegios quepan con el zoom de
+       barrio, que es el que deja leer sus etiquetas sin que se pisen. */
+    height: 560px;
     border-radius: 12px;
     margin-bottom: 50px;
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -4518,9 +4520,53 @@ body {
     position: relative;
 }
 
+/* Punto de cada colegio: amarillo del club con borde oscuro, como en el
+   cartel de escuelas. */
+.cantera-map-marker span {
+    display: block;
+    width: 22px;
+    height: 22px;
+    box-sizing: border-box;
+    border-radius: 50%;
+    background: #FDED3A;
+    border: 3px solid #14161a;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+
+/* Nombre del colegio, siempre visible: recuadro blanco con borde oscuro y
+   sin la flecha que Leaflet pone por defecto a sus etiquetas. */
+.leaflet-tooltip.cantera-etiqueta {
+    background: #fff;
+    color: #14161a;
+    border: 2px solid #14161a;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
+    padding: 3px 9px;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+.leaflet-tooltip.cantera-etiqueta::before {
+    display: none;
+}
+
+#cantera-map.sin-etiquetas .cantera-etiqueta {
+    display: none;
+}
+
 @media (max-width: 600px) {
     #cantera-map {
-        height: 350px;
+        height: 380px;
+    }
+
+    .leaflet-tooltip.cantera-etiqueta {
+        font-size: 10px;
+        padding: 2px 5px;
+        border-width: 1.5px;
+        border-radius: 4px;
     }
 }
 
