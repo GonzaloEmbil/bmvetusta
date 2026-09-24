@@ -796,15 +796,33 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // La temporada que sale por defecto se decide sola: la actual en
+        // cuanto tiene al menos un resultado, y la anterior mientras tanto.
+        // Así en pretemporada no se enseña una clasificación a ceros, y el día
+        // del primer partido se cambia sin que nadie tenga que acordarse de
+        // tocar el HTML — que es justo lo que pasó en septiembre de 2026.
+        function seasonBefore(code) {
+            var a = parseInt(code.slice(0, 2), 10) - 1;
+            var b = parseInt(code.slice(2), 10) - 1;
+            return (a < 10 ? '0' : '') + a + (b < 10 ? '0' : '') + b;
+        }
+
         var seasonSelect = document.getElementById('season-select');
         if (seasonSelect) {
             seasonSelect.addEventListener('change', function() {
                 loadSeason(seasonSelect.value);
             });
-            loadSeason(seasonSelect.value || CURRENT_SEASON);
-        } else {
-            loadSeason(CURRENT_SEASON);
         }
+
+        fetch('./data/' + CURRENT_SEASON + '/resultados.json?v=' + Date.now())
+            .then(function(r) { return r.ok ? r.json() : []; })
+            .then(function(res) {
+                var started = Array.isArray(res) && res.length > 0;
+                var code = started ? CURRENT_SEASON : seasonBefore(CURRENT_SEASON);
+                if (seasonSelect) seasonSelect.value = code;
+                loadSeason(code);
+            })
+            .catch(function() { loadSeason(CURRENT_SEASON); });
     })();
 
     // News Carousel (Homepage)
