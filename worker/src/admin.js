@@ -419,6 +419,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         </div>
       </div>
       <div class="fila-mods">
+        <div class="segmento" role="group" aria-label="Filtrar por pago">
+          <button data-filtro-pago="todos" class="on">Todos</button><button data-filtro-pago="si">Han pagado</button><button data-filtro-pago="no">No han pagado</button>
+        </div>
         <div class="filtros">
           <input type="search" id="buscar" placeholder="Buscar por nombre, DNI, correo…">
         </div>
@@ -605,6 +608,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   var datos = [];
   var anteriores = [];
   var filtroAnterior = 'todos';
+  var filtroPago = 'todos';
 
   // Los rellena el servidor al servir la página. Tras Access la identidad ya
   // está resuelta, así que no hay pantalla de clave ni sesión que guardar.
@@ -769,6 +773,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   function listaActual(){
     var q = document.getElementById('buscar').value.toLowerCase().trim();
     return datos.filter(function(a){
+      if (filtroPago === 'si' && !a.pagado) return false;
+      if (filtroPago === 'no' && a.pagado) return false;
       if (!q) return true;
       return [a.nombre,a.dni,a.email,a.telefono,a.localidad,a.modalidad,a.titular_nombre,String(a.id)]
         .join(' ').toLowerCase().indexOf(q) >= 0;
@@ -994,6 +1000,17 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         x.classList.toggle('on', x === b);
       });
       pintarAnteriores();
+    });
+  });
+  // Filtro de pago de 2026/27. Va con su propio atributo para que sus botones
+  // y los de renovación de 2025/26 no se marquen unos a otros.
+  document.querySelectorAll('.segmento [data-filtro-pago]').forEach(function(b){
+    b.addEventListener('click', function(){
+      filtroPago = b.dataset.filtroPago;
+      document.querySelectorAll('.segmento [data-filtro-pago]').forEach(function(x){
+        x.classList.toggle('on', x === b);
+      });
+      pintar();
     });
   });
   document.getElementById('salir').addEventListener('click', function(){
