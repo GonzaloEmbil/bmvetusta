@@ -36,6 +36,7 @@ header h1{font-size:1.25rem;margin:0;font-weight:800;letter-spacing:-.3px}
 /* Quién está dentro. Sólo aparece tras Access, que es cuando se sabe. */
 .quien{font-size:.8rem;color:var(--t3);white-space:nowrap}
 header .sp{flex:1}
+#recargar{min-width:132px}
 button{font:inherit;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
 button:hover{background:var(--bg2)}
 button.pri{background:var(--t);color:#fff;border-color:var(--t)}
@@ -184,6 +185,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   header .sp{flex-basis:100%;height:0}
   .quien{flex-basis:100%;order:1}
   header button{flex:1 1 0;padding:9px 8px;font-size:.82rem;white-space:nowrap}
+  #recargar{min-width:0}
 
   .filtros{margin-left:0;width:100%}
   .filtros input{width:100%;min-width:0}
@@ -276,10 +278,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 #descarga .caja{padding:24px}
 #descarga h2{margin:0 0 4px;font-size:1.15rem}
 .descarga-que{margin:0 0 18px;color:var(--t3);font-size:.88rem}
-.formatos{display:grid;gap:10px;margin-bottom:12px}
-.formatos button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:13px 16px;border-radius:12px}
-.formatos button b{font-size:1rem}
-.formatos button span{font-size:.8rem;font-weight:500;color:var(--t3)}
+.formatos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-bottom:12px}
+.formatos button{padding:14px 8px;border-radius:12px;font-size:1rem;font-weight:700}
 .formatos button:hover{border-color:var(--t);background:var(--bg2)}
 #descarga .cancelar{width:100%;border:0;background:none;color:var(--t3)}
 #descarga .cancelar:hover{color:var(--t)}
@@ -417,9 +417,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     <h2 id="descarga-titulo">Descargar listado</h2>
     <p class="descarga-que" id="descarga-que"></p>
     <div class="formatos">
-      <button data-formato="csv"><b>CSV</b><span>Texto separado por punto y coma. Se abre con cualquier programa.</span></button>
-      <button data-formato="excel"><b>Excel</b><span>Hoja de cálculo (.xlsx) con la cabecera fija y filtros.</span></button>
-      <button data-formato="pdf"><b>PDF</b><span>Para imprimir o enviar. Hoja A4 apaisada.</span></button>
+      <button data-formato="csv">CSV</button>
+      <button data-formato="excel">Excel</button>
+      <button data-formato="pdf">PDF</button>
     </div>
     <button class="cancelar" id="descarga-cancelar">Cancelar</button>
   </div>
@@ -503,25 +503,29 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     cargar();
   }
 
+  // Pide las dos temporadas y devuelve si ambas han llegado bien, para que
+  // el botón Recargar pueda decirlo.
   function cargar(){
     var m = document.getElementById('panel-msg');
     m.className='msg'; m.textContent='Cargando…';
-    api('/admin/datos').then(function(r){ return r.json(); }).then(function(j){
+    var actual = api('/admin/datos').then(function(r){ return r.json(); }).then(function(j){
       datos = j.abonados || [];
       m.textContent = '';
       pintar();
-    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; });
-    cargarAnteriores();
+      return true;
+    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; return false; });
+    return Promise.all([actual, cargarAnteriores()]).then(function(r){ return r[0] && r[1]; });
   }
 
   function cargarAnteriores(){
     var m = document.getElementById('anterior-msg');
     m.className='msg'; m.textContent='Cargando…';
-    api('/admin/anteriores').then(function(r){ return r.json(); }).then(function(j){
+    return api('/admin/anteriores').then(function(r){ return r.json(); }).then(function(j){
       anteriores = j.socios || [];
       m.textContent = '';
       pintarAnteriores();
-    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los socios de la temporada pasada.'; });
+      return true;
+    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los socios de la temporada pasada.'; return false; });
   }
 
   // Socios de 2025/26. El servidor ya trae resuelto si han renovado: el nº
@@ -779,7 +783,16 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     temporizador = setTimeout(encajarTabla, 120);
   });
 
-  document.getElementById('recargar').addEventListener('click', cargar);
+  // Recargar vuelve a pedir los datos al servidor. Si nada ha cambiado, la
+  // pantalla queda igual, así que el propio botón dice que lo ha hecho.
+  document.getElementById('recargar').addEventListener('click', function(){
+    var b = this;
+    b.disabled = true; b.textContent = 'Recargando…';
+    cargar().then(function(ok){
+      b.textContent = ok ? 'Actualizado ✓' : 'Error ✕';
+      setTimeout(function(){ b.textContent = 'Recargar'; b.disabled = false; }, ok ? 1500 : 2500);
+    });
+  });
   document.getElementById('buscar').addEventListener('input', pintar);
   document.getElementById('buscar-anterior').addEventListener('input', pintarAnteriores);
   document.querySelectorAll('.lateral [data-vista]').forEach(function(b){
