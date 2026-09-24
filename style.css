@@ -1440,6 +1440,28 @@ body {
     fill: #FDED3A;
 }
 
+/* Enlaces de texto del pie, bajo las redes. */
+.footer-links {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 24px;
+    margin-top: 22px;
+}
+
+.footer-links a {
+    color: #bdbdbd;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #FDED3A;
+    text-decoration: underline;
+}
+
 /* Header Streaming Button */
 
 
@@ -2027,6 +2049,233 @@ body {
     .contacto-mapa iframe {
         height: 330px;
     }
+}
+
+/* ====================================
+   PROTECCIÓN AL MENOR
+   ==================================== */
+
+/* Un documento para leer de principio a fin: columna estrecha, texto
+   cómodo y el canal de alerta destacado, que es lo que se viene a buscar. */
+.proteccion {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 50px 20px 70px;
+    color: #fff;
+}
+
+.proteccion-title {
+    color: #FDED3A;
+    font-size: 1.9rem;
+    font-weight: bold;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-bottom: 15px;
+}
+
+.proteccion-title::after {
+    content: '';
+    display: block;
+    width: 100px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #FDED3A, transparent);
+    margin: 10px auto 40px;
+}
+
+.proteccion-cabecera {
+    text-align: center;
+    margin-bottom: 44px;
+}
+
+.proteccion-doc {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 8px;
+}
+
+.proteccion-para {
+    color: #bdbdbd;
+    font-size: 0.95rem;
+    font-style: italic;
+    margin: 0;
+}
+
+.proteccion-apartado {
+    margin-bottom: 40px;
+}
+
+.proteccion-apartado h2 {
+    color: #FDED3A;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin: 0 0 14px;
+}
+
+.proteccion-apartado p,
+.proteccion-lista li {
+    color: #ddd;
+    font-size: 1rem;
+    line-height: 1.75;
+}
+
+.proteccion-apartado p {
+    margin: 0 0 14px;
+}
+
+.proteccion-tarjeta {
+    margin-top: 18px;
+    padding: 24px 26px;
+    border: 2px solid rgba(253, 237, 58, 0.35);
+    border-radius: 14px;
+    background: rgba(253, 237, 58, 0.06);
+    box-shadow: 0 0 20px rgba(253, 237, 58, 0.1);
+}
+
+.proteccion-tarjeta .proteccion-cargo {
+    color: #FDED3A;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin: 0 0 4px;
+}
+
+.proteccion-tarjeta .proteccion-nombre {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 800;
+    line-height: 1.3;
+    margin: 0 0 18px;
+}
+
+.proteccion-datos {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px 24px;
+}
+
+.proteccion-datos li {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.proteccion-datos span {
+    color: #9a9a9a;
+    font-size: 0.8rem;
+}
+
+.proteccion-datos a {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-decoration: none;
+    word-break: break-word;
+}
+
+.proteccion-datos a:hover {
+    color: #FDED3A;
+}
+
+.proteccion-lista {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.proteccion-lista li {
+    margin-bottom: 12px;
+}
+
+.proteccion-lista li::marker {
+    color: #FDED3A;
+}
+
+.proteccion-lista strong {
+    color: #fff;
+}
+
+.proteccion-fases {
+    list-style: none;
+    margin: 20px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 14px;
+}
+
+.proteccion-fases li {
+    background: #111;
+    border: 1px solid #222;
+    border-left: 3px solid #FDED3A;
+    border-radius: 10px;
+    padding: 18px 22px;
+}
+
+.proteccion-fases h3 {
+    color: #fff;
+    font-size: 1.05rem;
+    line-height: 1.35;
+    margin: 0 0 8px;
+}
+
+.proteccion-fases h3 span {
+    display: block;
+    color: #FDED3A;
+    font-size: 0.75rem;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+}
+
+.proteccion-fases p {
+    margin: 0;
+}
+
+.proteccion-firma {
+    color: #9a9a9a;
+    font-size: 0.9rem;
+    text-align: right;
+    margin: 40px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid #222;
+}
+
+@media (max-width: 768px) {
+    .proteccion {
+        padding: 36px 16px 50px;
+    }
+
+    .proteccion-title {
+        font-size: 1.35rem;
+        letter-spacing: 2px;
+    }
+
+    .proteccion-doc {
+        font-size: 1.1rem;
+    }
+
+    .proteccion-tarjeta {
+        padding: 20px;
+    }
+
+    .proteccion-datos {
+        grid-template-columns: 1fr;
+    }
+
+    .proteccion-fases li {
+        padding: 16px 18px;
+    }
+}
+
+/* Acceso desde Contacto: debajo del correo. */
+.contacto-proteccion {
+    margin-top: 30px;
 }
 
 /* ====================================
@@ -4246,6 +4495,8 @@ body {
 .cantera-contact {
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 14px;
     margin-top: 20px;
 }
 
