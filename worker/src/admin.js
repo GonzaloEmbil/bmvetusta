@@ -17,6 +17,7 @@
 const ESCUDO = 'data:image/png;base64,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';
 
 import { DESCARGAS_JS } from './descargas.js';
+import { CAMPANAS_JS } from './campanas-panel.js';
 
 export const ADMIN_HTML = `<!DOCTYPE html>
 <html lang="es">
@@ -27,6 +28,9 @@ export const ADMIN_HTML = `<!DOCTYPE html>
 <title>Abonados · Balonmano Vetusta</title>
 <style>
 *,*::before,*::after{box-sizing:border-box}
+/* hidden tiene que ocultar siempre, aunque la regla del elemento le dé otro
+   display (la caja de programar es flex y, sin esto, salía abierta). */
+[hidden]{display:none!important}
 :root{--t:#14161a;--t2:#4a5058;--t3:#7b828b;--l:#e2e5ea;--l2:#cbd1d9;--bg:#fff;--bg2:#f6f7f9;--ok:#17803d;--err:#c0392b}
 body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 /* Alto fijo de 77px: el mismo que el bloque del escudo en la barra lateral,
@@ -273,6 +277,37 @@ main{container-type:inline-size}
 .segmento button.on{background:var(--t);color:#fff}
 .kpis.cuatro{max-width:820px}
 tbody tr.renovado{background:#f2fbf5}
+.lateral .grupo+.grupo{margin-top:18px}
+/* Campañas */
+.barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
+.fila-campana{cursor:pointer}
+.fila-campana:hover td{background:var(--bg2)}
+.chip.prog{background:#fff8d6;border-color:#eadb85;color:#6b5a00}
+.chip.borr{background:var(--bg2);color:var(--t2)}
+.editor{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:26px;align-items:start}
+.editor-previa{position:sticky;top:18px;background:var(--bg2);border:1px solid var(--l);border-radius:12px;padding:14px}
+.previa-asunto{margin:0 0 10px;font-weight:700;font-size:.92rem}
+.previa{border-radius:10px;overflow:hidden}
+.campo{display:block;margin:0 0 18px;border:0;padding:0;min-width:0}
+.campo>span,.campo legend{display:block;font-size:.72rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--t3);margin-bottom:6px;padding:0}
+.campo input[type=text],.campo textarea,.programar input{width:100%;padding:10px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;background:var(--bg)}
+.campo input:focus,.campo textarea:focus,.programar input:focus{outline:none;border-color:var(--t);box-shadow:0 0 0 3px rgba(20,22,26,.12)}
+.campo textarea{resize:vertical;min-height:220px;line-height:1.5}
+.campo input:disabled,.campo textarea:disabled{background:var(--bg2);color:var(--t2)}
+.check{display:flex;align-items:center;gap:8px;margin:4px 0;font-weight:600}
+.total{margin:6px 0 0;font-size:.85rem;color:var(--t2)}
+.herramientas{display:flex;gap:6px;margin-bottom:6px}
+.herramientas button{padding:5px 11px;font-size:.85rem}
+.fila2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.6fr);gap:8px}
+.acciones{display:flex;flex-wrap:wrap;gap:8px}
+.programar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:12px}
+.programar input{width:auto}
+.nota{font-size:.8rem;color:var(--t3)}
+.aviso{background:#fff8d6;border:1px solid #eadb85;border-radius:10px;padding:10px 14px;font-size:.9rem;margin:0 0 18px}
+.imagen-caja{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.imagen-caja img{height:56px;border-radius:8px;border:1px solid var(--l)}
+/* Formulario y vista previa, uno al lado del otro sólo si caben los dos. */
+@container (max-width:900px){ .editor{grid-template-columns:minmax(0,1fr)} .editor-previa{position:static} }
 dialog#descarga{border:0;border-radius:16px;padding:0;width:min(92vw,420px);color:var(--t);box-shadow:0 24px 64px rgba(0,0,0,.28)}
 dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 #descarga .caja{padding:24px}
@@ -318,6 +353,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <span>Área privada</span>
     </div>
     <nav aria-label="Secciones">
+      <div class="grupo">
       <button class="seccion" data-ir="actual">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
         Abonados
@@ -325,6 +361,18 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <div class="subs">
         <button class="sub" id="tab-actual" data-vista="actual" aria-controls="vista-actual" aria-current="page">2026/2027</button>
         <button class="sub" id="tab-anterior" data-vista="anterior" aria-controls="vista-anterior">2025/2026</button>
+      </div>
+      </div>
+      <!-- Sólo tras Access: las campañas no existen en el panel antiguo. -->
+      <div class="grupo" id="sec-campanas">
+      <button class="seccion" data-ir="campanas">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 11 18-5v12L3 13v-2z"/><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"/></svg>
+        Campañas
+      </button>
+      <div class="subs">
+        <button class="sub" id="tab-editor" data-vista="editor" aria-controls="vista-editor">Nueva campaña</button>
+        <button class="sub" id="tab-campanas" data-vista="campanas" aria-controls="vista-campanas">Historial</button>
+      </div>
       </div>
     </nav>
   </aside>
@@ -404,6 +452,78 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <tbody id="cuerpo-anterior"></tbody>
     </table></div>
     <p class="msg" id="anterior-msg"></p>
+  </section>
+
+  <section id="vista-campanas" aria-label="Campañas" hidden>
+    <div class="barra-campanas">
+      <button class="pri" id="nueva-campana">Nueva campaña</button>
+    </div>
+    <div class="tabla-wrap"><table>
+      <thead><tr>
+        <th>Fecha</th><th>Asunto</th><th>Destinatarios</th><th>Estado</th><th>Enviados</th><th>Fallidos</th><th>Bajas</th>
+      </tr></thead>
+      <tbody id="cuerpo-campanas"></tbody>
+    </table></div>
+    <p class="msg" id="campanas-msg"></p>
+  </section>
+
+  <section id="vista-editor" aria-label="Campaña" hidden>
+    <div class="editor">
+      <div class="editor-form">
+        <p class="aviso" id="editor-aviso" hidden></p>
+        <label class="campo"><span>Asunto</span><input type="text" id="c-asunto" maxlength="150"></label>
+        <fieldset class="campo">
+          <legend>Destinatarios</legend>
+          <label class="check"><input type="checkbox" id="c-actuales"> <span id="c-actuales-txt">Abonados</span></label>
+          <label class="check"><input type="checkbox" id="c-anteriores"> <span id="c-anteriores-txt">Socios</span></label>
+          <p class="total" id="c-total"></p>
+        </fieldset>
+        <div class="campo">
+          <span>Imagen</span>
+          <div class="imagen-caja">
+            <img id="c-imagen-min" alt="" hidden>
+            <button type="button" id="c-imagen-subir">Subir imagen</button>
+            <button type="button" id="c-imagen-quitar" hidden>Quitar</button>
+            <input type="file" id="c-imagen-archivo" accept="image/png,image/jpeg,image/webp,image/gif" hidden>
+            <span class="nota" id="c-imagen-nota"></span>
+          </div>
+        </div>
+        <div class="campo">
+          <span>Texto</span>
+          <div class="herramientas">
+            <button type="button" data-formato-texto="negrita" title="Negrita"><b>B</b></button>
+            <button type="button" data-formato-texto="enlace">Enlace</button>
+          </div>
+          <textarea id="c-texto" rows="12"></textarea>
+        </div>
+        <div class="campo">
+          <span>Botón (opcional)</span>
+          <div class="fila2">
+            <input type="text" id="c-boton-texto" maxlength="40" placeholder="Texto del botón">
+            <input type="text" id="c-boton-url" placeholder="https://…">
+          </div>
+        </div>
+        <div class="acciones">
+          <button type="button" id="c-guardar">Guardar borrador</button>
+          <button type="button" id="c-prueba">Enviarme una prueba</button>
+          <button type="button" id="c-programar">Programar…</button>
+          <button type="button" class="pri" id="c-enviar">Enviar ahora</button>
+          <button type="button" id="c-cancelar" hidden>Cancelar programación</button>
+          <button type="button" id="c-duplicar" hidden>Duplicar</button>
+          <button type="button" id="c-borrar" hidden>Borrar</button>
+        </div>
+        <div class="programar" id="c-programar-caja" hidden>
+          <input type="datetime-local" id="c-cuando">
+          <button type="button" class="pri" id="c-programar-ok">Programar</button>
+          <span class="nota">Sale en los 5 minutos siguientes a la hora elegida.</span>
+        </div>
+        <p class="msg" id="editor-msg"></p>
+      </div>
+      <div class="editor-previa">
+        <p class="previa-asunto" id="c-previa-asunto"></p>
+        <div class="previa" id="c-previa"></div>
+      </div>
+    </div>
   </section>
   </main>
   </div>
@@ -514,7 +634,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       pintar();
       return true;
     }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; return false; });
-    return Promise.all([actual, cargarAnteriores()]).then(function(r){ return r[0] && r[1]; });
+    return Promise.all([actual, cargarAnteriores(), POR_ACCESS ? cargarCampanas() : true])
+      .then(function(r){ return r.every(Boolean); });
   }
 
   function cargarAnteriores(){
@@ -573,15 +694,26 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 
   // Subpestañas de la barra lateral. La activa se apunta en la dirección
   // (#2025-26) para que al recargar la página se vuelva a la misma.
+  var VISTAS = {
+    actual:   { tab: 'tab-actual',   titulo: 'Abonados 2026/2027', hash: '' },
+    anterior: { tab: 'tab-anterior', titulo: 'Abonados 2025/2026', hash: '#2025-26' },
+    campanas: { tab: 'tab-campanas', titulo: 'Campañas',           hash: '#campanas' },
+    editor:   { tab: 'tab-editor',   titulo: 'Nueva campaña',      hash: '#nueva' }
+  };
+
   function mostrar(vista){
-    ['actual','anterior'].forEach(function(v){
+    // Una campaña ya guardada se abre desde el historial: se marca esa
+    // subpestaña, no la de «Nueva campaña».
+    var existente = vista === 'editor' && typeof editando !== 'undefined' && editando && editando.id;
+    Object.keys(VISTAS).forEach(function(v){
       document.getElementById('vista-'+v).hidden = v !== vista;
-      var b = document.getElementById('tab-'+v);
-      if (v === vista) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+      document.getElementById(VISTAS[v].tab).removeAttribute('aria-current');
     });
-    document.getElementById('titulo').textContent =
-      vista === 'anterior' ? 'Abonados 2025/2026' : 'Abonados 2026/2027';
-    try { history.replaceState(null, '', vista === 'anterior' ? '#2025-26' : location.pathname + location.search); } catch(e){}
+    document.getElementById(existente ? 'tab-campanas' : VISTAS[vista].tab).setAttribute('aria-current', 'page');
+    document.getElementById('titulo').textContent = existente ? 'Campaña' : VISTAS[vista].titulo;
+    // Descargar es de los listados de abonados.
+    document.getElementById('descargar').hidden = vista === 'campanas' || vista === 'editor';
+    try { history.replaceState(null, '', existente ? '#campanas' : (VISTAS[vista].hash || location.pathname + location.search)); } catch(e){}
     encajarTabla();
   }
 
@@ -796,7 +928,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   document.getElementById('buscar').addEventListener('input', pintar);
   document.getElementById('buscar-anterior').addEventListener('input', pintarAnteriores);
   document.querySelectorAll('.lateral [data-vista]').forEach(function(b){
-    b.addEventListener('click', function(){ mostrar(b.dataset.vista); });
+    b.addEventListener('click', function(){
+      if (b.dataset.vista === 'editor') nuevaCampana(); else mostrar(b.dataset.vista);
+    });
   });
   // La sección lleva a su primera subpestaña, la temporada en curso.
   document.querySelectorAll('.lateral [data-ir]').forEach(function(b){
@@ -818,7 +952,11 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   });
 
 ${DESCARGAS_JS}
+${CAMPANAS_JS}
+  if (!POR_ACCESS) document.getElementById('sec-campanas').hidden = true;
   if (location.hash === '#2025-26') mostrar('anterior');
+  else if (POR_ACCESS && location.hash === '#campanas') mostrar('campanas');
+  else if (POR_ACCESS && location.hash === '#nueva') nuevaCampana();
 
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');

@@ -64,6 +64,48 @@ CREATE TABLE IF NOT EXISTS socios_anteriores (
 
 CREATE INDEX IF NOT EXISTS socios_anteriores_temporada ON socios_anteriores (temporada);
 
+-- Campañas de correo del área privada. Un borrador se puede editar; al
+-- programarla o enviarla queda fijada. Los contadores se guardan al terminar
+-- el envío para que el historial no tenga que recalcularlos.
+CREATE TABLE IF NOT EXISTS campanas (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
+  creada         TEXT    NOT NULL,             -- ISO 8601 UTC
+  autor          TEXT    NOT NULL DEFAULT '',  -- correo de quien la creó (Access)
+  asunto         TEXT    NOT NULL DEFAULT '',
+  texto          TEXT    NOT NULL DEFAULT '',  -- con **negrita** y [enlaces](https://…)
+  imagen         TEXT    NOT NULL DEFAULT '',  -- clave de la imagen en R2
+  boton_texto    TEXT    NOT NULL DEFAULT '',
+  boton_url      TEXT    NOT NULL DEFAULT '',
+  listas         TEXT    NOT NULL DEFAULT '[]',-- JSON: ["actuales","anteriores"]
+  estado         TEXT    NOT NULL DEFAULT 'borrador', -- borrador | programada | enviando | enviada | error
+  programada     TEXT,                         -- ISO UTC, si está programada
+  enviada        TEXT,                         -- ISO UTC, al terminar el envío
+  destinatarios  INTEGER NOT NULL DEFAULT 0,
+  enviados       INTEGER NOT NULL DEFAULT 0,
+  fallidos       INTEGER NOT NULL DEFAULT 0,
+  error          TEXT
+);
+
+-- Un registro por persona y campaña: a quién salió y si Resend lo aceptó.
+CREATE TABLE IF NOT EXISTS campana_envios (
+  campana_id  INTEGER NOT NULL,
+  email       TEXT    NOT NULL,
+  estado      TEXT    NOT NULL,                -- enviado | fallido
+  resend_id   TEXT,
+  PRIMARY KEY (campana_id, email)
+);
+
+-- Bajas pedidas desde el enlace de los correos. Además de apagar la casilla
+-- de comunicaciones, se guardan aquí: así una reimportación de Cluber con
+-- datos viejos no puede volver a dar de alta a quien pidió la baja.
+CREATE TABLE IF NOT EXISTS bajas (
+  email       TEXT    NOT NULL,                -- en minúsculas
+  fecha       TEXT    NOT NULL,                -- ISO UTC
+  campana_id  INTEGER
+);
+
+CREATE INDEX IF NOT EXISTS bajas_email ON bajas (email);
+
 -- Control de abuso. Se guarda un HASH de la IP, no la IP: sirve para contar
 -- intentos sin conservar un dato personal identificable, y las filas se
 -- borran solas al cabo de una hora.

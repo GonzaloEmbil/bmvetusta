@@ -12,13 +12,12 @@
 import { ADMIN_HTML } from './admin.js';
 import { correoAlta } from './correo.js';
 import { accesoValido } from './acceso.js';
+import { TEMPORADA, TEMPORADA_ANTERIOR } from './temporadas.js';
+import { rutasCampanas, rutasPublicas, campanasProgramadas } from './campanas.js';
 
 const PRIVADO = 'admin.balonmanovetusta.com';
 
 const PRECIOS = { 'Sub 18': 20, 'Adulto': 40, 'Matrimonio': 70, 'Familiar': 90 };
-const TEMPORADA = '2026/2027';
-// La de los socios que venían de Cluber, con los que se mide la renovación.
-const TEMPORADA_ANTERIOR = '2025/2026';
 
 // ── Validación (repetida aquí a propósito: el cliente se puede saltar) ──────
 
@@ -238,13 +237,15 @@ const CAB_ADMIN = {
 
 /**
  * Sin recursos externos: si alguien lograse inyectar algo, no podría cargar ni
- * enviar nada a otro origen. El escudo es una data: URI incrustada en el HTML,
- * así que img-src no abre la puerta a ningún servidor.
+ * enviar nada a otro origen. Las imágenes sólo pueden venir del propio club:
+ * el escudo va incrustado, y la vista previa de las campañas muestra las
+ * imágenes subidas (altas.) y el escudo que llevan los correos (la web).
  */
 const CSP_PANEL = {
   'Content-Security-Policy':
     "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
-    "img-src data:; connect-src 'self'; form-action 'none'; base-uri 'none'; " +
+    "img-src data: https://altas.balonmanovetusta.com https://balonmanovetusta.com; " +
+    "connect-src 'self'; form-action 'none'; base-uri 'none'; " +
     "frame-ancestors 'none'",
 };
 
@@ -341,6 +342,13 @@ export default {
     // esto falla cerrado en vez de dejar el panel abierto.
     const porAccess = url.hostname === PRIVADO ? await accesoValido(request, env) : null;
 
+    // Imágenes de las campañas y enlace de baja: públicos, porque los abre
+    // quien recibe el correo. Sólo en la puerta pública.
+    if (url.hostname !== PRIVADO) {
+      const publica = await rutasPublicas(request, env, url);
+      if (publica) return publica;
+    }
+
     if (url.hostname === PRIVADO) {
       if (!porAccess) {
         return new Response(PORTADA_PRIVADA, {
@@ -348,6 +356,15 @@ export default {
           headers: { 'Content-Type': 'text/html; charset=utf-8', ...CAB_ADMIN },
         });
       }
+      // Access autentica con una cookie, y el navegador la manda aunque la
+      // petición la lance otra web. Para que una página ajena no pueda
+      // enviar una campaña o marcar pagos en nombre de quien tiene la sesión
+      // abierta, toda escritura tiene que venir del propio panel.
+      if (request.method === 'POST' && request.headers.get('Origin') !== `https://${PRIVADO}`) {
+        return json({ ok: false, error: 'origen' }, 403, CAB_ADMIN);
+      }
+      const campanas = await rutasCampanas(request, env, url, porAccess);
+      if (campanas) return campanas;
       // Dentro sólo vive, por ahora, el panel de abonados. Cuando haya más
       // secciones, la raíz pasará a ser un índice y cada una tendrá su ruta.
       if (url.pathname === '/' || url.pathname === '/abonados') {
@@ -650,5 +667,11 @@ export default {
     } catch { /* sin efecto sobre el alta */ }
 
     return json({ ok: true, numero, socios }, 200, cabeceras);
+  },
+
+  // Cada cinco minutos (ver [triggers] en wrangler.toml): envía las campañas
+  // cuya hora programada ya ha llegado.
+  async scheduled(event, env, ctx) {
+    ctx.waitUntil(campanasProgramadas(env));
   },
 };
