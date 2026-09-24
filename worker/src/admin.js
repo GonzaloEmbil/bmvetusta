@@ -29,9 +29,10 @@ export const ADMIN_HTML = `<!DOCTYPE html>
 *,*::before,*::after{box-sizing:border-box}
 :root{--t:#14161a;--t2:#4a5058;--t3:#7b828b;--l:#e2e5ea;--l2:#cbd1d9;--bg:#fff;--bg2:#f6f7f9;--ok:#17803d;--err:#c0392b}
 body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-header{border-bottom:1px solid var(--l);padding:16px 22px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-header h1{font-size:1.05rem;margin:0;font-weight:800;letter-spacing:-.2px}
-header .escudo{width:44px;height:44px;display:block;flex:0 0 auto}
+/* Alto fijo de 77px: el mismo que el bloque del escudo en la barra lateral,
+   para que la línea inferior de los dos quede a la misma altura. */
+header{border-bottom:1px solid var(--l);padding:16px 22px;min-height:77px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+header h1{font-size:1.25rem;margin:0;font-weight:800;letter-spacing:-.3px}
 /* Quién está dentro. Sólo aparece tras Access, que es cuando se sabe. */
 .quien{font-size:.8rem;color:var(--t3);white-space:nowrap}
 header .sp{flex:1}
@@ -81,7 +82,7 @@ main{padding:22px}
 /* La raíz se centra sobre el grupo para que el tronco caiga por su eje. El
    alto mínimo iguala las cuatro: la del ARPU no lleva cifra, y sin él quedaría
    más baja y desalinearía su árbol respecto a los demás. */
-.raiz{width:min(100%,186px);margin:0 auto;min-height:69px;display:flex;flex-direction:column;justify-content:center}
+.raiz{width:min(100%,186px);margin:0 auto;min-height:77px;display:flex;flex-direction:column;justify-content:center}
 .raiz.sin-cifra span{font-size:.95rem;letter-spacing:.6px;color:var(--t)}
 .tronco{width:0;height:11px;margin:0 auto;border-left:1px solid var(--l2)}
 .ramas{display:grid;gap:10px;height:9px}
@@ -105,7 +106,6 @@ main{padding:22px}
    queries los árboles se apretarían justo en el tramo en que no caben. Los
    umbrales son los de antes menos el relleno de main (22px por lado). */
 @container (min-width:576px){
-  .arboles{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
      dejaría de caer sobre el centro de cada una. */
@@ -120,12 +120,17 @@ main{padding:22px}
    modalidad mete cuatro tarjetas donde los demás meten dos, y por debajo de
    este ancho sus rótulos empiezan a partirse en varias líneas. Antes que eso,
    mejor dos y dos, que da tarjetas holgadas. */
-@container (min-width:1606px){
-  .arboles{grid-template-columns:repeat(4,minmax(0,1fr))}
-  /* Ese árbol lleva el rótulo un punto más pequeño: es lo justo para que
-     «MATRIMONIO» entre en una línea en la mitad de ancho. */
-  .arbol:not(.dos) .mod{padding-left:8px;padding-right:8px}
-  .arbol:not(.dos) .mod span{font-size:.6rem;letter-spacing:.1px}
+/* Los cuatro árboles, en una sola fila en cualquier pantalla de ordenador.
+   Cada columna es proporcional a las tarjetas que cuelgan de ella (2, 4, 2
+   y 2): así todas miden lo mismo y el árbol de modalidad no se aprieta, que
+   es lo que pasaba con cuatro columnas iguales. El rótulo de las tarjetas
+   crece y mengua con el ancho (cqi) para que «MATRIMONIO» o «POR ABONADO»
+   quepan siempre en una línea. Por debajo de este ancho (tablet), un árbol
+   debajo de otro. */
+@container (min-width:880px){
+  .arboles{grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(14px,2cqi,26px)}
+  .mod{padding-left:clamp(6px,.7cqi,11px);padding-right:clamp(6px,.7cqi,11px)}
+  .mod span{font-size:clamp(.5rem,.88cqi,.7rem);letter-spacing:.2px;white-space:nowrap}
 }
 @container (max-width:575px){
   .tronco,.ramas{display:none}
@@ -173,12 +178,12 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 @media (max-width: 768px){
   main{padding:14px}
   header{padding:14px 16px;gap:10px}
-  header h1{font-size:1rem}
+  header{min-height:0}
+  header h1{font-size:1.1rem}
   /* El separador deja de empujar: los botones bajan a su propia línea. */
   header .sp{flex-basis:100%;height:0}
   .quien{flex-basis:100%;order:1}
   header button{flex:1 1 0;padding:9px 8px;font-size:.82rem;white-space:nowrap}
-  header .escudo{width:34px;height:34px}
 
   .filtros{margin-left:0;width:100%}
   .filtros input{width:100%;min-width:0}
@@ -245,9 +250,12 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 /* Barra lateral: una entrada por sección del área privada (de momento sólo
    Abonados) y, colgando de cada una, sus subpestañas. El menú se queda fijo
    al bajar por la tabla, que es larga. */
-.cuerpo{display:flex;align-items:stretch;min-height:calc(100vh - 77px)}
-.lateral{flex:0 0 220px;background:var(--bg2);border-right:1px solid var(--l);padding:18px 12px}
-.lateral nav{position:sticky;top:18px}
+.cuerpo{display:flex;align-items:flex-start;min-height:100vh}
+/* Ocupa todo el alto y se queda quieta al bajar por la tabla. */
+.lateral{flex:0 0 200px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--l);padding:0 12px 18px}
+.marca{display:flex;align-items:center;gap:10px;height:77px;margin:0 -12px 16px;padding:0 20px;border-bottom:1px solid var(--l);font-weight:800;font-size:1.05rem;letter-spacing:-.2px}
+.marca .escudo{width:40px;height:40px;display:block;flex:0 0 auto}
+.columna{flex:1 1 auto;min-width:0}
 .lateral .seccion{display:flex;align-items:center;gap:10px;width:100%;border:0;background:none;padding:9px 12px;border-radius:9px;font-weight:800;color:var(--t);text-align:left}
 .lateral .seccion:hover{background:#eceef2}
 .lateral .seccion svg{flex:0 0 auto}
@@ -255,14 +263,13 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 .lateral .sub{border:0;background:none;text-align:left;padding:7px 12px;border-radius:8px;color:var(--t2);font-weight:600}
 .lateral .sub:hover{background:#eceef2;color:var(--t)}
 .lateral .sub[aria-current="page"]{background:var(--t);color:#fff}
-main{flex:1 1 auto;min-width:0;container-type:inline-size}
-.vista-titulo{margin:0 0 18px;font-size:1.3rem;letter-spacing:-.3px}
+main{container-type:inline-size}
 /* Filtro de renovación: tres opciones excluyentes en una sola pieza. */
 .segmento{display:inline-flex;border:1.5px solid var(--l2);border-radius:9px;overflow:hidden}
 .segmento button{border:0;border-radius:0;padding:8px 13px;font-size:.85rem}
 .segmento button+button{border-left:1.5px solid var(--l2)}
 .segmento button.on{background:var(--t);color:#fff}
-.kpis.cuatro{max-width:700px}
+.kpis.cuatro{max-width:820px}
 tbody tr.renovado{background:#f2fbf5}
 dialog#descarga{border:0;border-radius:16px;padding:0;width:min(92vw,420px);color:var(--t);box-shadow:0 24px 64px rgba(0,0,0,.28)}
 dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
@@ -280,15 +287,15 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 @media (max-width: 768px){
   /* En el móvil la barra pasa arriba: la sección como rótulo y sus
      subpestañas en una fila, a partes iguales. */
-  .cuerpo{flex-direction:column;min-height:0}
-  .lateral{flex:none;border-right:0;border-bottom:1px solid var(--l);padding:12px 16px}
-  .lateral nav{position:static}
+  .cuerpo{flex-direction:column;align-items:stretch;min-height:0}
+  .lateral{position:static;height:auto;flex:none;border-right:0;border-bottom:1px solid var(--l);padding:0 16px 12px}
+  .marca{height:auto;margin:0 -16px 12px;padding:12px 16px}
+  .marca .escudo{width:32px;height:32px}
   .lateral .seccion{padding:0 0 10px;font-size:.92rem}
   .lateral .seccion:hover{background:none}
   .lateral .subs{flex-direction:row;gap:8px;margin:0;padding:0;border:0}
   .lateral .sub{flex:1 1 0;text-align:center;border:1.5px solid var(--l2);padding:8px 6px}
   .lateral .sub[aria-current="page"]{border-color:var(--t)}
-  .vista-titulo{font-size:1.1rem;margin-bottom:14px}
   .segmento{width:100%}
   .segmento button{flex:1 1 0;padding:9px 4px;font-size:.8rem}
 }
@@ -304,17 +311,12 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 </div>
 
 <div id="panel" hidden>
-  <header>
-    <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="44" height="44">
-    <h1>Área privada</h1>
-    <span class="sp"></span>
-    <span class="quien" id="quien" hidden></span>
-    <button id="recargar">Recargar</button>
-    <button id="descargar">Descargar</button>
-    <button id="salir">Salir</button>
-  </header>
   <div class="cuerpo">
   <aside class="lateral">
+    <div class="marca">
+      <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="40" height="40">
+      <span>Área privada</span>
+    </div>
     <nav aria-label="Secciones">
       <button class="seccion" data-ir="actual">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
@@ -326,9 +328,17 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       </div>
     </nav>
   </aside>
+  <div class="columna">
+  <header>
+    <h1 id="titulo">Abonados 2026/2027</h1>
+    <span class="sp"></span>
+    <span class="quien" id="quien" hidden></span>
+    <button id="recargar">Recargar</button>
+    <button id="descargar">Descargar</button>
+    <button id="salir">Salir</button>
+  </header>
   <main>
-  <section id="vista-actual" aria-labelledby="titulo-actual">
-    <h2 class="vista-titulo" id="titulo-actual">Abonados 2026/2027</h2>
+  <section id="vista-actual" aria-label="Abonados 2026/2027">
     <div class="resumen">
       <div class="arboles">
         <div class="arbol dos">
@@ -374,8 +384,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   </section>
   <!-- Socios de la temporada pasada, importados de Cluber. Sólo lectura: la
        columna que importa es si han renovado este año. -->
-  <section id="vista-anterior" aria-labelledby="titulo-anterior" hidden>
-    <h2 class="vista-titulo" id="titulo-anterior">Abonados 2025/2026</h2>
+  <section id="vista-anterior" aria-label="Abonados 2025/2026" hidden>
     <div class="resumen">
       <div class="kpis cuatro" id="kpis-anterior"></div>
       <div class="fila-mods" style="margin-top:16px">
@@ -397,6 +406,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     <p class="msg" id="anterior-msg"></p>
   </section>
   </main>
+  </div>
   </div>
 </div>
 
@@ -565,6 +575,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       var b = document.getElementById('tab-'+v);
       if (v === vista) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
     });
+    document.getElementById('titulo').textContent =
+      vista === 'anterior' ? 'Abonados 2025/2026' : 'Abonados 2026/2027';
     try { history.replaceState(null, '', vista === 'anterior' ? '#2025-26' : location.pathname + location.search); } catch(e){}
     encajarTabla();
   }
