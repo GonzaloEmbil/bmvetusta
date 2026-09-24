@@ -30,7 +30,7 @@ const PUBLICO = 'https://altas.balonmanovetusta.com';
 
 const LISTAS = {
   actuales: 'Abonados ' + TEMPORADA,
-  anteriores: 'Socios ' + TEMPORADA_ANTERIOR,
+  anteriores: 'Abonados ' + TEMPORADA_ANTERIOR,
 };
 
 // Resend acepta hasta 100 correos por llamada en su envío por lotes.

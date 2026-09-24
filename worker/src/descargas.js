@@ -18,7 +18,7 @@ export const DESCARGAS_JS = String.raw`
   function tablaDescarga(){
     if (vistaActiva() === 'anterior') {
       return {
-        titulo: 'Socios 2025/26', hoja: 'Socios 2025-26', archivo: 'socios-2025-2026',
+        titulo: 'Abonados 2025/26', hoja: 'Abonados 2025-26', archivo: 'abonados-2025-2026',
         filas: listaAnterior(), total: anteriores.length,
         cols: [
           { t: 'Nº socio', num: true, v: function(s){ return s.numero || ''; } },

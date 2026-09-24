@@ -429,7 +429,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     </table></div>
     <p class="msg" id="panel-msg"></p>
   </section>
-  <!-- Socios de la temporada pasada, importados de Cluber. Sólo lectura: la
+  <!-- Abonados de la temporada pasada, importados de Cluber. Sólo lectura: la
        columna que importa es si han renovado este año. -->
   <section id="vista-anterior" aria-label="Abonados 2025/2026" hidden>
     <div class="resumen">
@@ -500,7 +500,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <fieldset class="campo">
           <legend>Destinatarios</legend>
           <label class="check"><input type="checkbox" id="c-actuales"> <span id="c-actuales-txt">Abonados</span></label>
-          <label class="check"><input type="checkbox" id="c-anteriores"> <span id="c-anteriores-txt">Socios</span></label>
+          <label class="check"><input type="checkbox" id="c-anteriores"> <span id="c-anteriores-txt">Abonados</span></label>
           <p class="total" id="c-total"></p>
         </fieldset>
         <div class="campo">
@@ -671,10 +671,10 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       m.textContent = '';
       pintarAnteriores();
       return true;
-    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los socios de la temporada pasada.'; return false; });
+    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los abonados de la temporada 2025/2026.'; return false; });
   }
 
-  // Socios de 2025/26. El servidor ya trae resuelto si han renovado: el nº
+  // Abonados de 2025/26. El servidor ya trae resuelto si han renovado: el nº
   // de abonado que tienen este año, o null.
   function pintarAnteriores(){
     // Mismos indicadores y columnas que 2026/27. El verde marca a quien pagó
@@ -708,7 +708,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         '<td class="detalle" data-k="Tutor/a legal"><span class="vacio">—</span></td>'+
         '</tr>';
     }).join('') || '<tr><td colspan="16" style="padding:22px;color:#7b828b">'+
-      (anteriores.length ? 'Nadie coincide con la búsqueda.' : 'No hay socios de la temporada pasada.')+'</td></tr>';
+      (anteriores.length ? 'Nadie coincide con la búsqueda.' : 'No hay abonados de la temporada 2025/2026.')+'</td></tr>';
 
     encajarTabla();
   }

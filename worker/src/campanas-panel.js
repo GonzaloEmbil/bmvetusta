@@ -82,7 +82,7 @@ export const CAMPANAS_JS = String.raw`
     if (!infoCampanas) return;
     var t = infoCampanas.listas || {}, n = infoCampanas.nombresListas || {};
     $('c-actuales-txt').textContent = (n.actuales || 'Abonados') + ' (' + (t.actuales || 0) + ')';
-    $('c-anteriores-txt').textContent = (n.anteriores || 'Socios') + ' (' + (t.anteriores || 0) + ')';
+    $('c-anteriores-txt').textContent = (n.anteriores || 'Abonados') + ' (' + (t.anteriores || 0) + ')';
     $('c-imagen-subir').disabled = !infoCampanas.imagenes || !editable();
     $('c-imagen-nota').textContent = infoCampanas.imagenes ? '' : 'Falta activar el almacén de imágenes (R2).';
     pintarTotal();
