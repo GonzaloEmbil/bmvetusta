@@ -16,6 +16,8 @@
 // Content-Security-Policy a otro origen por una imagen.
 const ESCUDO = 'data:image/png;base64,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';
 
+import { DESCARGAS_JS } from './descargas.js';
+
 export const ADMIN_HTML = `<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -236,6 +238,38 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   .vinc-tactil{display:block;font-size:.82rem;color:var(--t2);padding-top:4px}
 }
 .filtros input{padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;min-width:220px}
+/* Pestañas de temporada. Van pegadas bajo la cabecera, con el subrayado de
+   la activa sobre la misma línea que la separa del contenido. */
+.tabs{display:flex;gap:4px;padding:0 22px;border-bottom:1px solid var(--l)}
+.tabs button{border:0;border-bottom:2px solid transparent;border-radius:0;background:none;padding:12px 14px;margin-bottom:-1px;color:var(--t3);font-weight:700}
+.tabs button:hover{background:none;color:var(--t)}
+.tabs button[aria-selected="true"]{color:var(--t);border-bottom-color:var(--t)}
+/* Filtro de renovación: tres opciones excluyentes en una sola pieza. */
+.segmento{display:inline-flex;border:1.5px solid var(--l2);border-radius:9px;overflow:hidden}
+.segmento button{border:0;border-radius:0;padding:8px 13px;font-size:.85rem}
+.segmento button+button{border-left:1.5px solid var(--l2)}
+.segmento button.on{background:var(--t);color:#fff}
+.kpis.cuatro{max-width:700px}
+tbody tr.renovado{background:#f2fbf5}
+dialog#descarga{border:0;border-radius:16px;padding:0;width:min(92vw,420px);color:var(--t);box-shadow:0 24px 64px rgba(0,0,0,.28)}
+dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
+#descarga .caja{padding:24px}
+#descarga h2{margin:0 0 4px;font-size:1.15rem}
+.descarga-que{margin:0 0 18px;color:var(--t3);font-size:.88rem}
+.formatos{display:grid;gap:10px;margin-bottom:12px}
+.formatos button{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;padding:13px 16px;border-radius:12px}
+.formatos button b{font-size:1rem}
+.formatos button span{font-size:.8rem;font-weight:500;color:var(--t3)}
+.formatos button:hover{border-color:var(--t);background:var(--bg2)}
+#descarga .cancelar{width:100%;border:0;background:none;color:var(--t3)}
+#descarga .cancelar:hover{color:var(--t)}
+@media (min-width:620px){ .kpis.cuatro{grid-template-columns:repeat(4,minmax(0,1fr))} }
+@media (max-width: 768px){
+  .tabs{padding:0 16px}
+  .tabs button{flex:1 1 0;padding:12px 6px;font-size:.88rem}
+  .segmento{width:100%}
+  .segmento button{flex:1 1 0;padding:9px 4px;font-size:.8rem}
+}
 </style>
 </head>
 <body>
@@ -250,14 +284,19 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 <div id="panel" hidden>
   <header>
     <img class="escudo" src="${ESCUDO}" alt="Balonmano Vetusta" width="44" height="44">
-    <h1>Abonados 2026/2027</h1>
+    <h1>Abonados</h1>
     <span class="sp"></span>
     <span class="quien" id="quien" hidden></span>
     <button id="recargar">Recargar</button>
-    <button id="csv">Descargar CSV</button>
+    <button id="descargar">Descargar</button>
     <button id="salir">Salir</button>
   </header>
+  <nav class="tabs" role="tablist" aria-label="Temporada">
+    <button role="tab" id="tab-actual" data-vista="actual" aria-controls="vista-actual" aria-selected="true">Temporada 2026/27</button>
+    <button role="tab" id="tab-anterior" data-vista="anterior" aria-controls="vista-anterior" aria-selected="false">Temporada 2025/26</button>
+  </nav>
   <main>
+  <section id="vista-actual" role="tabpanel" aria-labelledby="tab-actual">
     <div class="resumen">
       <div class="arboles">
         <div class="arbol dos">
@@ -300,8 +339,47 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       <tbody id="cuerpo"></tbody>
     </table></div>
     <p class="msg" id="panel-msg"></p>
+  </section>
+  <!-- Socios de la temporada pasada, importados de Cluber. Sólo lectura: la
+       columna que importa es si han renovado este año. -->
+  <section id="vista-anterior" role="tabpanel" aria-labelledby="tab-anterior" hidden>
+    <div class="resumen">
+      <div class="kpis cuatro" id="kpis-anterior"></div>
+      <div class="fila-mods" style="margin-top:16px">
+        <div class="segmento" role="group" aria-label="Filtrar por renovación">
+          <button data-filtro="todos" class="on">Todos</button><button data-filtro="si">Han renovado</button><button data-filtro="no">No han renovado</button>
+        </div>
+        <div class="filtros">
+          <input type="search" id="buscar-anterior" placeholder="Buscar por nombre, DNI, correo…">
+        </div>
+      </div>
+    </div>
+    <div class="tabla-wrap"><table>
+      <thead><tr>
+        <th title="Número de socio que tenía en Cluber">Nº socio</th><th>¿Ha renovado?</th><th>Nombre</th><th>Vínculo</th><th>Alta</th>
+        <th>Cuota</th><th>Pago</th><th>DNI/NIE</th><th>Móvil</th><th>Correo</th><th>Localidad</th><th>Imagen</th><th>Comunic.</th>
+      </tr></thead>
+      <tbody id="cuerpo-anterior"></tbody>
+    </table></div>
+    <p class="msg" id="anterior-msg"></p>
+  </section>
   </main>
 </div>
+
+<!-- Elección de formato. El contenido va en un div interior para que un clic
+     en el fondo oscuro (fuera de la caja) se distinga de uno dentro. -->
+<dialog id="descarga" aria-labelledby="descarga-titulo">
+  <div class="caja">
+    <h2 id="descarga-titulo">Descargar listado</h2>
+    <p class="descarga-que" id="descarga-que"></p>
+    <div class="formatos">
+      <button data-formato="csv"><b>CSV</b><span>Texto separado por punto y coma. Se abre con cualquier programa.</span></button>
+      <button data-formato="excel"><b>Excel</b><span>Hoja de cálculo (.xlsx) con la cabecera fija y filtros.</span></button>
+      <button data-formato="pdf"><b>PDF</b><span>Para imprimir o enviar. Hoja A4 apaisada.</span></button>
+    </div>
+    <button class="cancelar" id="descarga-cancelar">Cancelar</button>
+  </div>
+</dialog>
 
 <script>
 (function(){
@@ -310,6 +388,8 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   // envía sola en peticiones de otros sitios, al contrario que una cookie.
   var SES = 'bmv_admin_ses';
   var datos = [];
+  var anteriores = [];
+  var filtroAnterior = 'todos';
 
   // Los rellena el servidor al servir la página. Tras Access la identidad ya
   // está resuelta, así que no hay pantalla de clave ni sesión que guardar.
@@ -387,15 +467,97 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
       m.textContent = '';
       pintar();
     }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; });
+    cargarAnteriores();
   }
 
-  function pintar(){
+  function cargarAnteriores(){
+    var m = document.getElementById('anterior-msg');
+    m.className='msg'; m.textContent='Cargando…';
+    api('/admin/anteriores').then(function(r){ return r.json(); }).then(function(j){
+      anteriores = j.socios || [];
+      m.textContent = '';
+      pintarAnteriores();
+    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los socios de la temporada pasada.'; });
+  }
+
+  // Socios de 2025/26. El servidor ya trae resuelto si han renovado: el nº
+  // de abonado que tienen este año, o null.
+  function pintarAnteriores(){
+    var total = anteriores.length;
+    var renovados = anteriores.filter(function(s){ return s.renovado; }).length;
+    document.getElementById('kpis-anterior').innerHTML =
+      kpi(total, 'Socios 2025/26') +
+      kpi(renovados, 'Han renovado') +
+      kpi(total - renovados, 'No han renovado') +
+      kpi(total ? dec(renovados * 100 / total) + ' %' : '—', 'Renovación');
+
+    var lista = listaAnterior();
+
+    document.getElementById('cuerpo-anterior').innerHTML = lista.map(function(s){
+      var asociado = !!s.titular;
+      var vinculo = asociado
+        ? '<span class="chip aso" title="En el abono de '+esc(s.titular)+'">Asociado</span>'+
+          '<span class="vinc-tactil">En el abono de '+esc(s.titular)+'</span>'
+        : '<span class="chip tit">Titular</span>';
+      var renovo = s.renovado
+        ? '<span class="chip si">Sí · nº '+esc(s.renovado)+'</span>'
+        : '<span class="chip no">No</span>';
+      return '<tr class="'+(s.renovado?'renovado ':'')+(asociado?'asoc':'')+'">'+
+        '<td class="num" data-k="Nº socio">'+(s.numero ? esc(s.numero) : '<span class="vacio">—</span>')+'</td>'+
+        '<td data-k="¿Ha renovado?">'+renovo+'</td>'+
+        '<td class="nom" data-k="Nombre">'+esc(s.nombre)+'</td>'+
+        '<td data-k="Vínculo">'+vinculo+'</td>'+
+        '<td data-k="Alta">'+(s.alta ? fechaSuelta(s.alta) : '<span class="vacio">—</span>')+'</td>'+
+        '<td data-k="Cuota">'+dato(s.cuota)+'</td>'+
+        '<td data-k="Pago">'+dato(s.pago)+'</td>'+
+        '<td data-k="DNI/NIE">'+dato(s.dni)+'</td>'+
+        '<td data-k="Móvil">'+dato(s.telefono)+'</td>'+
+        '<td data-k="Correo">'+dato(s.email)+'</td>'+
+        '<td data-k="Localidad">'+dato(s.localidad)+'</td>'+
+        '<td data-k="Imagen">'+esc(s.imagen)+'</td>'+
+        '<td data-k="Comunic.">'+esc(s.comunicaciones)+'</td>'+
+        '</tr>';
+    }).join('') || '<tr><td colspan="13" style="padding:22px;color:#7b828b">'+
+      (total ? 'Nadie coincide con la búsqueda.' : 'No hay socios de la temporada pasada.')+'</td></tr>';
+
+    encajarTabla();
+  }
+
+  // Pestañas. La activa se apunta en la dirección (#2025-26) para que al
+  // recargar la página se vuelva a la misma.
+  function mostrar(vista){
+    ['actual','anterior'].forEach(function(v){
+      document.getElementById('vista-'+v).hidden = v !== vista;
+      document.getElementById('tab-'+v).setAttribute('aria-selected', v === vista ? 'true' : 'false');
+    });
+    try { history.replaceState(null, '', vista === 'anterior' ? '#2025-26' : location.pathname + location.search); } catch(e){}
+    encajarTabla();
+  }
+
+  // Lo que se ve en cada pestaña con su búsqueda y su filtro. Lo usan la
+  // tabla y las descargas, que así bajan exactamente lo que hay en pantalla.
+  function listaActual(){
     var q = document.getElementById('buscar').value.toLowerCase().trim();
-    var lista = datos.filter(function(a){
+    return datos.filter(function(a){
       if (!q) return true;
       return [a.nombre,a.dni,a.email,a.telefono,a.localidad,a.modalidad,a.titular_nombre,String(a.id)]
         .join(' ').toLowerCase().indexOf(q) >= 0;
     });
+  }
+
+  function listaAnterior(){
+    var q = document.getElementById('buscar-anterior').value.toLowerCase().trim();
+    return anteriores.filter(function(s){
+      if (filtroAnterior === 'si' && !s.renovado) return false;
+      if (filtroAnterior === 'no' && s.renovado) return false;
+      if (!q) return true;
+      return [s.nombre,s.dni,s.email,s.telefono,s.localidad,s.titular,String(s.numero||'')]
+        .join(' ').toLowerCase().indexOf(q) >= 0;
+    });
+  }
+
+  function pintar(){
+    var lista = listaActual();
 
     // Socios y abonos no son lo mismo: un abono Familiar son cuatro socios.
     // El dinero se cuenta sobre los titulares, que es donde está la cuota.
@@ -517,17 +679,20 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   // debajo y habría que compensarlo a mano.
   var MINIMO = 0.62;   // por debajo de esto ya no se lee: mejor arrastrarla
 
+  // Hay una tabla por pestaña; la oculta mide cero y se deja como está, y se
+  // encaja al mostrarla.
   function encajarTabla(){
-    var env = document.querySelector('.tabla-wrap');
-    var tabla = env && env.querySelector('table');
-    if (!tabla) return;
-    tabla.style.zoom = '';
-    // En móvil la tabla se deshace en fichas: no hay nada que encoger.
-    if (window.innerWidth <= 768) return;
-    var natural = env.scrollWidth, hueco = env.clientWidth;
-    if (!natural || !hueco) return;
-    var k = hueco / natural;
-    tabla.style.zoom = k >= 1 ? '' : Math.max(k, MINIMO);
+    document.querySelectorAll('.tabla-wrap').forEach(function(env){
+      var tabla = env.querySelector('table');
+      if (!tabla || !env.offsetParent) return;
+      tabla.style.zoom = '';
+      // En móvil la tabla se deshace en fichas: no hay nada que encoger.
+      if (window.innerWidth <= 768) return;
+      var natural = env.scrollWidth, hueco = env.clientWidth;
+      if (!natural || !hueco) return;
+      var k = hueco / natural;
+      tabla.style.zoom = k >= 1 ? '' : Math.max(k, MINIMO);
+    });
   }
 
   function tarjeta(n,t){ return '<div class="mod"><b>'+esc(n)+'</b><span>'+esc(t)+'</span></div>'; }
@@ -569,24 +734,27 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 
   document.getElementById('recargar').addEventListener('click', cargar);
   document.getElementById('buscar').addEventListener('input', pintar);
+  document.getElementById('buscar-anterior').addEventListener('input', pintarAnteriores);
+  document.querySelectorAll('.tabs [data-vista]').forEach(function(b){
+    b.addEventListener('click', function(){ mostrar(b.dataset.vista); });
+  });
+  document.querySelectorAll('.segmento [data-filtro]').forEach(function(b){
+    b.addEventListener('click', function(){
+      filtroAnterior = b.dataset.filtro;
+      document.querySelectorAll('.segmento [data-filtro]').forEach(function(x){
+        x.classList.toggle('on', x === b);
+      });
+      pintarAnteriores();
+    });
+  });
   document.getElementById('salir').addEventListener('click', function(){
     if (POR_ACCESS) { location.href = '/cdn-cgi/access/logout'; return; }
     guardar(''); pintarAcceso('');
     document.getElementById('login').hidden = false;
   });
 
-  // La descarga necesita la cabecera, así que se pide por fetch y se guarda
-  // el blob: un <a href> no puede llevar Authorization.
-  document.getElementById('csv').addEventListener('click', function(){
-    var btn = this; btn.disabled = true;
-    api('/export.csv').then(function(r){ return r.blob(); }).then(function(b){
-      var u = URL.createObjectURL(b);
-      var a = document.createElement('a');
-      a.href = u; a.download = 'abonados-2026-2027.csv';
-      document.body.appendChild(a); a.click(); a.remove();
-      URL.revokeObjectURL(u); btn.disabled = false;
-    }).catch(function(){ btn.disabled = false; });
-  });
+${DESCARGAS_JS}
+  if (location.hash === '#2025-26') mostrar('anterior');
 
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');

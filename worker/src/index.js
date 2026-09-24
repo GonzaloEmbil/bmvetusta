@@ -17,6 +17,8 @@ const PRIVADO = 'admin.balonmanovetusta.com';
 
 const PRECIOS = { 'Sub 18': 20, 'Adulto': 40, 'Matrimonio': 70, 'Familiar': 90 };
 const TEMPORADA = '2026/2027';
+// La de los socios que venían de Cluber, con los que se mide la renovación.
+const TEMPORADA_ANTERIOR = '2025/2026';
 
 // ── Validación (repetida aquí a propósito: el cliente se puede saltar) ──────
 
@@ -105,6 +107,42 @@ function igualSeguro(a, b) {
   let d = 0;
   for (let i = 0; i < A.length; i++) d |= A[i] ^ B[i];
   return d === 0;
+}
+
+// ── Renovaciones ───────────────────────────────────────────────────────────
+// Para saber si un socio de la temporada pasada ha renovado se busca entre las
+// altas de la actual: primero por DNI y, si no lo hay —Cluber no se lo pedía a
+// los familiares—, por nombre completo. El correo no sirve para esto: en un
+// abono familiar varias personas comparten el del titular, y el cruce daría
+// por renovada a la persona equivocada.
+const PARTICULAS = new Set(['de', 'del', 'la', 'las', 'los', 'y', 'e']);
+
+function palabras(nombre) {
+  return new Set(String(nombre || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/)
+    .filter((w) => w && !PARTICULAS.has(w)));
+}
+
+// Mismo nombre si uno contiene al otro entero y comparten al menos dos
+// palabras: «Mariam Mena» es «Mariam Mena Carballo», pero dos personas que
+// sólo coinciden en un «Fernández» no son la misma.
+function mismoNombre(a, b) {
+  const [menor, mayor] = a.size <= b.size ? [a, b] : [b, a];
+  if (menor.size < 2) return false;
+  for (const w of menor) if (!mayor.has(w)) return false;
+  return true;
+}
+
+/** Nº de abonado actual de quien era socio la temporada pasada, o null. */
+function renovacion(socio, actuales) {
+  const dni = String(socio.dni || '').toUpperCase();
+  if (dni) {
+    const porDni = actuales.find((a) => String(a.dni || '').toUpperCase() === dni);
+    if (porDni) return porDni.id;
+  }
+  const suyo = palabras(socio.nombre);
+  const porNombre = actuales.find((a) => mismoNombre(suyo, palabras(a.nombre)));
+  return porNombre ? porNombre.id : null;
 }
 
 /** Hash de la IP: permite contar intentos sin guardar la IP en claro. */
@@ -375,6 +413,27 @@ export default {
         tutor: r.tutor ? JSON.parse(r.tutor) : null,
       }));
       return json({ ok: true, abonados }, 200, CAB_ADMIN);
+    }
+
+    if (url.pathname === '/admin/anteriores' && request.method === 'GET') {
+      if (!porAccess && !(await sesionValida(env, testigoDe(request)))) {
+        return json({ ok: false }, 401, CAB_ADMIN);
+      }
+      const { results: anteriores } = await env.DB.prepare(
+        `SELECT id, numero, nombre, dni, telefono, email, titular, cuota, alta, pago,
+                localidad, imagen, comunicaciones
+           FROM socios_anteriores
+          WHERE temporada = ?
+          -- Por número de socio; los que Cluber dejó sin número, al final.
+          ORDER BY numero IS NULL, numero, id`
+      ).bind(TEMPORADA_ANTERIOR).all();
+      const { results: actuales } = await env.DB.prepare(
+        'SELECT id, nombre, dni FROM abonados WHERE temporada = ?'
+      ).bind(TEMPORADA).all();
+      const socios = (anteriores || []).map((s) => ({
+        ...s, renovado: renovacion(s, actuales || []),
+      }));
+      return json({ ok: true, temporada: TEMPORADA_ANTERIOR, socios }, 200, CAB_ADMIN);
     }
 
     if (url.pathname === '/admin/pagado' && request.method === 'POST') {

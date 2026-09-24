@@ -40,6 +40,30 @@ CREATE INDEX IF NOT EXISTS abonados_titular ON abonados (titular_id);
 -- La numeración de socios arranca en el 101: el primer alta será el 101.
 INSERT OR IGNORE INTO sqlite_sequence (name, seq) VALUES ('abonados', 100);
 
+-- Socios de temporadas anteriores, importados de Cluber, el sistema que se
+-- usaba antes del formulario propio. Es un histórico de sólo lectura: el panel
+-- lo muestra en su propia pestaña y lo cruza con las altas de la temporada en
+-- curso para ver quién ha renovado. Se carga con scripts/importar-cluber.py,
+-- que lee la exportación de Cluber; los datos nunca pasan por el repositorio.
+CREATE TABLE IF NOT EXISTS socios_anteriores (
+  id             INTEGER PRIMARY KEY AUTOINCREMENT,
+  temporada      TEXT    NOT NULL,             -- '2025/2026'
+  numero         INTEGER,                      -- nº de socio en Cluber (a veces falta)
+  nombre         TEXT    NOT NULL,             -- nombre y apellidos
+  dni            TEXT    NOT NULL DEFAULT '',  -- Cluber no lo pedía a los familiares
+  telefono       TEXT    NOT NULL DEFAULT '',
+  email          TEXT    NOT NULL DEFAULT '',
+  titular        TEXT    NOT NULL DEFAULT '',  -- si iba en el abono de otra persona, su nombre
+  cuota          TEXT    NOT NULL DEFAULT '',
+  alta           TEXT    NOT NULL DEFAULT '',  -- fecha de alta o renovación, AAAA-MM-DD
+  pago           TEXT    NOT NULL DEFAULT '',
+  localidad      TEXT    NOT NULL DEFAULT '',
+  imagen         TEXT    NOT NULL DEFAULT '',
+  comunicaciones TEXT    NOT NULL DEFAULT ''
+);
+
+CREATE INDEX IF NOT EXISTS socios_anteriores_temporada ON socios_anteriores (temporada);
+
 -- Control de abuso. Se guarda un HASH de la IP, no la IP: sirve para contar
 -- intentos sin conservar un dato personal identificable, y las filas se
 -- borran solas al cabo de una hora.
