@@ -270,13 +270,55 @@ export function correoCampana({ asunto, texto: cuerpo, imagenUrl, botonTexto, bo
 
 const imagenUrlDe = (clave) => (clave ? `${PUBLICO}/img/${clave}` : '');
 
+// ── Personalización ───────────────────────────────────────────────────────
+// {nombre} en el asunto o el texto se cambia por el nombre de pila de quien
+// recibe el correo. El formulario y Cluber guardan nombre y apellidos juntos,
+// así que se quitan del final los dos apellidos, cada uno con sus partículas
+// («de la Parte»), y queda el nombre entero aunque sea compuesto: «Francisco
+// Javier Muñiz Areces» → «Francisco Javier»; con un solo apellido, «Mariam
+// Mena» → «Mariam». Los contactos sin nombre reciben «Familia Vetusta», que
+// también suena bien tras un «Hola».
+const SIN_NOMBRE = 'Familia Vetusta';
+const PARTICULAS_APELLIDO = new Set(['de', 'del', 'la', 'las', 'los', 'y', 'e', 'da', 'do', 'dos', 'das', 'van', 'von']);
+
+function nombreDePila(nombre) {
+  const p = String(nombre || '').trim().split(/\s+/).filter(Boolean);
+  if (!p.length) return SIN_NOMBRE;
+  const quitarApellido = () => {
+    if (p.length <= 1) return;
+    p.pop();
+    while (p.length > 1 && PARTICULAS_APELLIDO.has(p[p.length - 1].toLowerCase())) p.pop();
+  };
+  quitarApellido();
+  if (p.length >= 2) quitarApellido();
+  // Una inicial suelta al final («Jesús M.») queda rara en un saludo: fuera.
+  // Los nombres compuestos escritos enteros se quedan como están.
+  while (p.length > 1 && /^\p{L}\.?$/u.test(p[p.length - 1])) p.pop();
+  // Mayúscula inicial en cada palabra, salvo en las partículas de dentro
+  // («María de los Ángeles»), y el resto en minúsculas («MARTIN» → «Martin»).
+  return p.map((w, i) => (i && PARTICULAS_APELLIDO.has(w.toLowerCase())
+    ? w.toLowerCase()
+    : w.charAt(0).toLocaleUpperCase('es') + w.slice(1).toLocaleLowerCase('es'))).join(' ');
+}
+
+const personalizar = (t, nombre) => String(t || '').replace(/\{nombre\}/gi, nombre);
+
+/** Para la vista previa y la prueba: el nombre del primer destinatario. */
+async function nombreDeEjemplo(env, listas) {
+  const gente = await destinatarios(env, listas);
+  return nombreDePila(gente[0] && gente[0].nombre);
+}
+
 /**
  * Envía una campaña. Con `soloA`, es una prueba: un único correo a esa
  * dirección, con [PRUEBA] en el asunto y sin registrar nada.
  */
 async function enviar(env, c, soloA) {
   const listas = JSON.parse(c.listas || '[]');
-  const gente = soloA ? [{ email: soloA, nombre: '' }] : await destinatarios(env, listas);
+  // La prueba lleva el nombre del primer destinatario, para ver cómo queda.
+  const gente = soloA
+    ? [{ email: soloA, nombre: (await destinatarios(env, listas))[0]?.nombre || '' }]
+    : await destinatarios(env, listas);
   const resultado = { total: gente.length, enviados: 0, fallidos: 0, error: '' };
   if (!gente.length) return resultado;
 
@@ -284,14 +326,16 @@ async function enviar(env, c, soloA) {
     const lote = gente.slice(i * POR_LOTE, (i + 1) * POR_LOTE);
     const correos = await Promise.all(lote.map(async (p) => {
       const bajaUrl = await enlaceBaja(env, p.email, c.id || 0);
+      const nombre = nombreDePila(p.nombre);
+      const asunto = personalizar(c.asunto, nombre);
       const correo = correoCampana({
-        asunto: c.asunto, texto: c.texto, imagenUrl: imagenUrlDe(c.imagen),
+        asunto, texto: personalizar(c.texto, nombre), imagenUrl: imagenUrlDe(c.imagen),
         botonTexto: c.boton_texto, botonUrl: c.boton_url, bajaUrl, prueba: !!soloA,
       });
       return {
         from: env.CAMPANAS_DE,
         to: [p.email],
-        subject: (soloA ? '[PRUEBA] ' : '') + c.asunto,
+        subject: (soloA ? '[PRUEBA] ' : '') + asunto,
         html: correo.html,
         text: correo.texto,
         reply_to: env.AVISO_A,
@@ -447,11 +491,12 @@ export async function rutasCampanas(request, env, url, correo) {
 
   if (p === '/admin/campanas/previa' && request.method === 'POST') {
     const c = campos(await leer(request));
+    const nombre = await nombreDeEjemplo(env, JSON.parse(c.listas));
     const { html } = correoCampana({
-      asunto: c.asunto, texto: c.texto, imagenUrl: imagenUrlDe(c.imagen),
+      asunto: personalizar(c.asunto, nombre), texto: personalizar(c.texto, nombre), imagenUrl: imagenUrlDe(c.imagen),
       botonTexto: c.boton_texto, botonUrl: c.boton_url, bajaUrl: '#', prueba: false,
     });
-    return json({ ok: true, html });
+    return json({ ok: true, html, asunto: personalizar(c.asunto, nombre) });
   }
 
   if (request.method !== 'POST') return null;

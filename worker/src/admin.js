@@ -547,6 +547,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
           <div class="herramientas">
             <button type="button" data-formato-texto="negrita" title="Negrita"><b>B</b></button>
             <button type="button" data-formato-texto="enlace">Enlace</button>
+            <button type="button" data-formato-texto="nombre" title="Se cambia por el nombre de cada destinatario">Nombre</button>
           </div>
           <textarea id="c-texto" rows="12"></textarea>
         </div>

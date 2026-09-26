@@ -336,9 +336,19 @@ export const CAMPANAS_JS = String.raw`
     previa();
   }
 
+  // {nombre}: el servidor lo cambia por el nombre de cada destinatario.
+  function insertar(texto){
+    var t = $('c-texto'), a = t.selectionStart, b = t.selectionEnd;
+    t.value = t.value.slice(0, a) + texto + t.value.slice(b);
+    t.focus();
+    t.setSelectionRange(a + texto.length, a + texto.length);
+    previa();
+  }
+
   document.querySelectorAll('[data-formato-texto]').forEach(function(b){
     b.addEventListener('click', function(){
       if (b.dataset.formatoTexto === 'negrita') { envolver('**', '**', 'texto en negrita'); return; }
+      if (b.dataset.formatoTexto === 'nombre') { insertar('{nombre}'); return; }
       var url = prompt('Dirección del enlace', 'https://');
       if (!url || !/^(https?:\/\/|mailto:)\S+$/.test(url)) return;
       envolver('[', '](' + url + ')', 'texto del enlace');
@@ -362,6 +372,7 @@ export const CAMPANAS_JS = String.raw`
       $('c-previa-asunto').textContent = datos.asunto || '(sin asunto)';
       post('/admin/campanas/previa', datos).then(function(j){
         if (!j.ok) return;
+        if (j.asunto) $('c-previa-asunto').textContent = j.asunto;
         var doc = new DOMParser().parseFromString(j.html, 'text/html');
         raizPrevia.innerHTML = doc.body.innerHTML;
       });
