@@ -39,6 +39,7 @@ Qué se descarta a propósito:
 """
 import re
 import sys
+from collections import Counter
 import unicodedata
 import xml.etree.ElementTree as ET
 import zipfile
@@ -120,14 +121,15 @@ PARTICULAS = {'de', 'del', 'la', 'las', 'los', 'y', 'e'}
 
 
 def palabras(nombre):
-    return {w for w in clave_nombre(nombre).split() if w not in PARTICULAS}
+    return [w for w in clave_nombre(nombre).split() if w not in PARTICULAS]
 
 
 def mismo_nombre(a, b):
     """Uno contiene al otro entero y comparten al menos dos palabras: la misma
-    regla que usa el Worker para ver quién ha renovado."""
+    regla que usa el Worker para ver quién ha renovado. Las repetidas cuentan
+    cada vez: «Daniel Fernández Fernández» no está en «Daniel Fernández Conde»."""
     menor, mayor = sorted((palabras(a), palabras(b)), key=len)
-    return len(menor) >= 2 and menor <= mayor
+    return len(menor) >= 2 and not (Counter(menor) - Counter(mayor))
 
 
 def modalidad(texto):

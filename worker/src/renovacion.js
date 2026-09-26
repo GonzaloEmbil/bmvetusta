@@ -10,18 +10,25 @@
 const PARTICULAS = new Set(['de', 'del', 'la', 'las', 'los', 'y', 'e']);
 
 export function palabras(nombre) {
-  return new Set(String(nombre || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  return String(nombre || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/)
-    .filter((w) => w && !PARTICULAS.has(w)));
+    .filter((w) => w && !PARTICULAS.has(w));
 }
 
-// Mismo nombre si uno contiene al otro entero y comparten al menos dos
-// palabras: «Mariam Mena» es «Mariam Mena Carballo», pero dos personas que
-// sólo coinciden en un «Fernández» no son la misma.
+// Mismo nombre si todas las palabras de uno están en el otro y el más corto
+// tiene al menos dos: «Mariam Mena» es «Mariam Mena Carballo», pero dos
+// personas que sólo coinciden en un «Fernández» no son la misma. Las palabras
+// repetidas cuentan cada vez: «Daniel Fernández Fernández» NO está dentro de
+// «Daniel Fernández Conde», aunque las dos palabras distintas sí lo estén.
 export function mismoNombre(a, b) {
-  const [menor, mayor] = a.size <= b.size ? [a, b] : [b, a];
-  if (menor.size < 2) return false;
-  for (const w of menor) if (!mayor.has(w)) return false;
+  const [menor, mayor] = a.length <= b.length ? [a, b] : [b, a];
+  if (menor.length < 2) return false;
+  const quedan = new Map();
+  for (const w of mayor) quedan.set(w, (quedan.get(w) || 0) + 1);
+  for (const w of menor) {
+    if (!quedan.get(w)) return false;
+    quedan.set(w, quedan.get(w) - 1);
+  }
   return true;
 }
 
