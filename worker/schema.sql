@@ -30,9 +30,12 @@ CREATE TABLE IF NOT EXISTS abonados (
   parentesco    TEXT    NOT NULL DEFAULT ''
 );
 
--- Un DNI no puede darse de alta dos veces en la misma temporada.
+-- Un DNI no puede darse de alta dos veces en la misma temporada. Sólo cuenta
+-- cuando hay DNI: el formulario lo exige siempre, pero las altas que el club
+-- registra a mano (pagos en el pabellón) a veces llegan sin él, y el DNI
+-- vacío no puede contar como un DNI repetido.
 CREATE UNIQUE INDEX IF NOT EXISTS abonados_dni_temporada
-  ON abonados (dni, temporada);
+  ON abonados (dni, temporada) WHERE dni <> '';
 
 -- Para agrupar en el panel cada abono con las personas que incluye.
 CREATE INDEX IF NOT EXISTS abonados_titular ON abonados (titular_id);
