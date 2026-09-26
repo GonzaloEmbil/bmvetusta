@@ -1,21 +1,21 @@
 {
-  "fecha": "2026-09-26 18:00:00",
-  "fecha_display": "Sáb 26 Sep · 18:00h",
+  "fecha": "2026-10-03 17:00:00",
+  "fecha_display": "Sáb 3 Oct · 17:00h",
   "fecha_por_definir": false,
-  "jornada": "2",
-  "es_local": true,
+  "jornada": "3",
+  "es_local": false,
   "local": {
+    "nombre": "Royal Premium Gijon",
+    "nombre_corto": "Premium Gijon",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+    "es_vetusta": false
+  },
+  "visitante": {
     "nombre": "Balonmano Vetusta",
     "nombre_corto": "BM Vetusta",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
     "es_vetusta": true
   },
-  "visitante": {
-    "nombre": "Insparya Bm Sanse",
-    "nombre_corto": "BM Sanse",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
-    "es_vetusta": false
-  },
-  "sede": "De Vallobin · Oviedo",
+  "sede": "Palacio Deportes Gijon · Gijón",
   "url_streaming": null
 }

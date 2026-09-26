@@ -4,14 +4,14 @@
     "nombre": "INSPARYA BM SANSE",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
     "es_vetusta": false,
-    "PJ": 1,
-    "PG": 1,
+    "PJ": 2,
+    "PG": 2,
     "PE": 0,
     "PP": 0,
-    "GF": 37,
-    "GC": 13,
-    "DIF": 24,
-    "puntos": 2
+    "GF": 68,
+    "GC": 40,
+    "DIF": 28,
+    "puntos": 4
   },
   {
     "posicion": 2,
@@ -99,6 +99,20 @@
   },
   {
     "posicion": 8,
+    "nombre": "GRUPO EGIDO BM PINTO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "es_vetusta": false,
+    "PJ": 2,
+    "PG": 1,
+    "PE": 0,
+    "PP": 1,
+    "GF": 59,
+    "GC": 59,
+    "DIF": 0,
+    "puntos": 2
+  },
+  {
+    "posicion": 9,
     "nombre": "ROYAL PREMIUM GIJON",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "es_vetusta": false,
@@ -112,7 +126,7 @@
     "puntos": 1
   },
   {
-    "posicion": 9,
+    "posicion": 10,
     "nombre": "URBANA BM SORIA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
     "es_vetusta": false,
@@ -126,7 +140,7 @@
     "puntos": 1
   },
   {
-    "posicion": 10,
+    "posicion": 11,
     "nombre": "LAFUENTE PEREDA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
@@ -140,7 +154,7 @@
     "puntos": 0
   },
   {
-    "posicion": 11,
+    "posicion": 12,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
@@ -154,49 +168,21 @@
     "puntos": 0
   },
   {
-    "posicion": 12,
-    "nombre": "GRUPO EGIDO BM PINTO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
-    "es_vetusta": false,
-    "PJ": 1,
-    "PG": 0,
-    "PE": 0,
-    "PP": 1,
-    "GF": 30,
-    "GC": 36,
-    "DIF": -6,
-    "puntos": 0
-  },
-  {
     "posicion": 13,
     "nombre": "CAJA VIVA -  BALONMANO CAMARGO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 0,
     "PE": 0,
-    "PP": 1,
-    "GF": 28,
-    "GC": 34,
-    "DIF": -6,
-    "puntos": 0
-  },
-  {
-    "posicion": 14,
-    "nombre": "AUTO-CENTER PRINCIPADO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
-    "es_vetusta": true,
-    "PJ": 1,
-    "PG": 0,
-    "PE": 0,
-    "PP": 1,
-    "GF": 18,
-    "GC": 30,
+    "PP": 2,
+    "GF": 51,
+    "GC": 63,
     "DIF": -12,
     "puntos": 0
   },
   {
-    "posicion": 15,
+    "posicion": 14,
     "nombre": "CLINISORD LA SALLE MARAVILLAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
     "es_vetusta": false,
@@ -207,6 +193,20 @@
     "GF": 22,
     "GC": 37,
     "DIF": -15,
+    "puntos": 0
+  },
+  {
+    "posicion": 15,
+    "nombre": "AUTO-CENTER PRINCIPADO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+    "es_vetusta": true,
+    "PJ": 2,
+    "PG": 0,
+    "PE": 0,
+    "PP": 2,
+    "GF": 45,
+    "GC": 61,
+    "DIF": -16,
     "puntos": 0
   },
   {

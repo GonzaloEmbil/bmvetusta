@@ -1,5 +1,15 @@
 [
   {
+    "fecha": "2026-09-26 18:00:00",
+    "jornada": "2",
+    "es_local": true,
+    "rival": "INSPARYA BM SANSE",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
+    "goles_vetusta": 27,
+    "goles_rival": 31,
+    "resultado": "D"
+  },
+  {
     "fecha": "2026-09-19 20:00:00",
     "jornada": "1",
     "es_local": false,
