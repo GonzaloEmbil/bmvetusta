@@ -115,7 +115,7 @@ main{padding:22px}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
      dejaría de caer sobre el centro de cada una. */
   .arbol:not(.dos) .mods,
-  .arbol:not(.dos) .ramas{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .arbol:not(.dos) .ramas{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 
 /* En estrecho las cuatro modalidades bajan a dos filas, y un árbol de una sola
@@ -126,16 +126,16 @@ main{padding:22px}
    este ancho sus rótulos empiezan a partirse en varias líneas. Antes que eso,
    mejor dos y dos, que da tarjetas holgadas. */
 /* Los cuatro árboles, en una sola fila en cualquier pantalla de ordenador.
-   Cada columna es proporcional a las tarjetas que cuelgan de ella (2, 4, 2
+   Cada columna es proporcional a las tarjetas que cuelgan de ella (2, 5, 2
    y 2): así todas miden lo mismo y el árbol de modalidad no se aprieta, que
    es lo que pasaba con cuatro columnas iguales. El rótulo de las tarjetas
    crece y mengua con el ancho (cqi) para que «MATRIMONIO» o «POR ABONADO»
    quepan siempre en una línea. Por debajo de este ancho (tablet), un árbol
    debajo de otro. */
 @container (min-width:880px){
-  .arboles{grid-template-columns:minmax(0,1fr) minmax(0,2fr) minmax(0,1fr) minmax(0,1fr);column-gap:clamp(14px,2cqi,26px)}
-  .mod{padding-left:clamp(6px,.7cqi,11px);padding-right:clamp(6px,.7cqi,11px)}
-  .mod span{font-size:clamp(.5rem,.88cqi,.7rem);letter-spacing:.2px;white-space:nowrap}
+  .arboles{grid-template-columns:minmax(0,2fr) minmax(0,5fr) minmax(0,2fr) minmax(0,2fr);column-gap:clamp(10px,2cqi,26px)}
+  .mod{padding-left:clamp(4px,.55cqi,11px);padding-right:clamp(4px,.55cqi,11px)}
+  .mod span{font-size:clamp(.42rem,.75cqi,.7rem);letter-spacing:0;white-space:nowrap}
 }
 @container (max-width:575px){
   .tronco,.ramas{display:none}
@@ -151,9 +151,13 @@ th,td{padding:10px 12px;text-align:left;border-bottom:1px solid var(--l);white-s
 th{background:var(--bg2);font-size:.7rem;letter-spacing:1px;text-transform:uppercase;color:var(--t3);position:sticky;top:0}
 tbody tr:last-child td{border-bottom:none}
 tbody tr.pagado{background:#f2fbf5}
+/* Abonos sin cargo («Compromisos»): en azul, para no confundirlos con los
+   pagados. */
+tbody tr.gratis{background:#eef4ff}
 td.num{font-weight:800}
 .chip{display:inline-block;padding:3px 9px;border-radius:999px;font-size:.72rem;font-weight:700;border:1px solid var(--l2)}
 .chip.si{background:#e7f7ec;border-color:#a9dcb8;color:var(--ok)}
+.chip.gratis{background:#e3edff;border-color:#a9c4f5;color:#1f58c7}
 .chip.no{background:#fdf3f2;border-color:#e8b4ae;color:var(--err)}
 .chip.tit{background:#eef1f6;color:var(--t2)}
 tbody tr.asoc td.nom{padding-left:26px;position:relative}
@@ -402,7 +406,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <div class="arbol">
           <div class="kpi raiz"><b id="raiz-compras">0</b><span>Compras</span></div>
           <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i><i></i><i></i></div>
+          <div class="ramas"><i></i><i></i><i></i><i></i><i></i></div>
           <div class="mods" id="mods"></div>
         </div>
         <div class="arbol dos">
@@ -451,7 +455,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <div class="arbol">
           <div class="kpi raiz"><b id="raiz-compras-ant">0</b><span>Compras</span></div>
           <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i><i></i><i></i></div>
+          <div class="ramas"><i></i><i></i><i></i><i></i><i></i></div>
           <div class="mods" id="mods-ant"></div>
         </div>
         <div class="arbol dos">
@@ -852,14 +856,20 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       // data-k lleva el nombre de la columna. En pantalla ancha no se usa; en
       // móvil, donde la tabla se deshace en fichas y la cabecera desaparece,
       // es lo que pone la etiqueta delante de cada dato.
-      return '<tr class="'+(a.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
+      // Los «Compromisos» no pagan: «Gratis» en azul y sin botón, porque no
+      // hay pago que marcar.
+      var gratis = a.modalidad === 'Compromisos';
+      var celdaPago = gratis
+        ? '<span class="chip gratis">Gratis</span>'
+        : '<button data-pagar="'+a.id+'" class="chip '+(a.pagado?'si':'no')+'">'+(a.pagado?'Sí':'No')+'</button>';
+      return '<tr class="'+(gratis?'gratis ':a.pagado?'pagado ':'')+(asociado?'asoc':'')+'">'+
         '<td class="num" data-k="Nº socio">'+a.id+'</td>'+
-        '<td data-k="Pagado"><button data-pagar="'+a.id+'" class="chip '+(a.pagado?'si':'no')+'">'+(a.pagado?'Sí':'No')+'</button></td>'+
+        '<td data-k="Pagado">'+celdaPago+'</td>'+
         '<td class="nom" data-k="Nombre">'+esc(a.nombre)+'</td>'+
         '<td data-k="Vínculo">'+vinculo+'</td>'+
         '<td data-k="Alta">'+fecha(a.creado)+'</td>'+
         '<td data-k="Modalidad">'+esc(a.modalidad)+'</td>'+
-        '<td data-k="Pago">'+esc(a.pago)+'</td>'+
+        '<td data-k="Pago">'+dato(a.pago)+'</td>'+
         '<td data-k="Importe">'+(a.importe ? esc(a.importe)+' €' : '<span class="vacio">—</span>')+'</td>'+
         '<td data-k="DNI/NIE">'+esc(a.dni)+'</td>'+
         '<td data-k="Nacimiento">'+fechaSuelta(a.nacimiento)+'</td>'+
@@ -883,7 +893,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   // incluidas en su abono los tienen vacíos a propósito.
   function dato(v){ return v ? esc(v) : '<span class="vacio">—</span>'; }
 
-  var MODALIDADES = ['Sub 18', 'Adulto', 'Matrimonio', 'Familiar'];
+  // «Compromisos»: abonos sin cargo (0 €) que el club registra a mano.
+  var MODALIDADES = ['Sub 18', 'Adulto', 'Matrimonio', 'Familiar', 'Compromisos'];
 
   // La fecha se guarda en UTC. Se pasa por Date para mostrarla en la hora de
   // quien mira el panel: si no, un alta hecha a las 00:30 en España aparecería
