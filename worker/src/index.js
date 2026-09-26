@@ -397,6 +397,16 @@ export default {
       return json({ ok: true, abonados }, 200, CAB_ADMIN);
     }
 
+    if (url.pathname === '/admin/patrocinadores' && request.method === 'GET') {
+      if (!porAccess && !(await sesionValida(env, testigoDe(request)))) {
+        return json({ ok: false }, 401, CAB_ADMIN);
+      }
+      const { results } = await env.DB.prepare(
+        'SELECT id, temporada, nombre, categoria, web, logo FROM patrocinadores ORDER BY temporada, orden, id'
+      ).all();
+      return json({ ok: true, patrocinadores: results || [] }, 200, CAB_ADMIN);
+    }
+
     if (url.pathname === '/admin/anteriores' && request.method === 'GET') {
       if (!porAccess && !(await sesionValida(env, testigoDe(request)))) {
         return json({ ok: false }, 401, CAB_ADMIN);

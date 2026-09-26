@@ -75,6 +75,20 @@ CREATE TABLE IF NOT EXISTS socios_anteriores (
 
 CREATE INDEX IF NOT EXISTS socios_anteriores_temporada ON socios_anteriores (temporada);
 
+-- Patrocinadores e instituciones de cada temporada, para el área privada.
+-- La 2025/2026 se cargó con los de la página pública de patrocinadores.
+CREATE TABLE IF NOT EXISTS patrocinadores (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  temporada  TEXT    NOT NULL,                 -- '2025/2026'
+  nombre     TEXT    NOT NULL,
+  categoria  TEXT    NOT NULL DEFAULT '',      -- Principal | Colaborador | Institución
+  web        TEXT    NOT NULL DEFAULT '',
+  logo       TEXT    NOT NULL DEFAULT '',      -- ruta en la web: src/assets/…
+  orden      INTEGER NOT NULL DEFAULT 0        -- el de la página pública
+);
+
+CREATE INDEX IF NOT EXISTS patrocinadores_temporada ON patrocinadores (temporada, orden);
+
 -- Contactos sueltos para campañas que no son abonados de ninguna temporada
 -- (lista «Otros»): por ejemplo, quien empezó el alta en Cluber sin llegar a
 -- pagar. Siguen la misma regla que los abonados: sólo reciben campañas si

@@ -243,6 +243,8 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   tbody td.nom{order:1}
   tbody td.num,
   tbody td.nom{display:block;text-align:left;padding:0}
+  tbody td.logo{order:0;display:block;padding:0 0 8px;width:auto}
+  tbody td.logo::before{content:none}
   tbody td.num::before,
   tbody td.nom::before{content:none}
   tbody td.num{font-size:1.35rem;line-height:1.1}
@@ -281,6 +283,11 @@ main{container-type:inline-size}
 .segmento button.on{background:var(--t);color:#fff}
 .kpis.cuatro{max-width:820px}
 .lateral .grupo+.grupo{margin-top:18px}
+/* Patrocinadores: el logo en una cajita blanca, como en la web. */
+.logo-patro{display:block;width:96px;height:48px;object-fit:contain;background:#fff;border:1px solid var(--l);border-radius:8px;padding:4px}
+td.logo{width:1%}
+#vista-patro2526 td,#vista-patro2627 td{vertical-align:middle}
+td.web a{color:var(--t2)}
 /* Campañas */
 .barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
 .fila-campana{cursor:pointer}
@@ -380,6 +387,16 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <div class="subs">
         <button class="sub" id="tab-editor" data-vista="editor" aria-controls="vista-editor">Nueva campaña</button>
         <button class="sub" id="tab-campanas" data-vista="campanas" aria-controls="vista-campanas">Historial</button>
+      </div>
+      </div>
+      <div class="grupo">
+      <button class="seccion" data-ir="patro2627">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/></svg>
+        Patrocinadores
+      </button>
+      <div class="subs">
+        <button class="sub" id="tab-patro2627" data-vista="patro2627" aria-controls="vista-patro2627">2026/2027</button>
+        <button class="sub" id="tab-patro2526" data-vista="patro2526" aria-controls="vista-patro2526">2025/2026</button>
       </div>
       </div>
     </nav>
@@ -489,6 +506,23 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <tbody id="cuerpo-anterior"></tbody>
     </table></div>
     <p class="msg" id="anterior-msg"></p>
+  </section>
+
+  <!-- Patrocinadores e instituciones de cada temporada. -->
+  <section id="vista-patro2627" aria-label="Patrocinadores 2026/2027" hidden>
+    <div class="resumen"><div class="kpis cuatro" id="kpis-patro2627"></div></div>
+    <div class="tabla-wrap"><table>
+      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Web</th></tr></thead>
+      <tbody id="cuerpo-patro2627"></tbody>
+    </table></div>
+  </section>
+  <section id="vista-patro2526" aria-label="Patrocinadores 2025/2026" hidden>
+    <div class="resumen"><div class="kpis cuatro" id="kpis-patro2526"></div></div>
+    <div class="tabla-wrap"><table>
+      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Web</th></tr></thead>
+      <tbody id="cuerpo-patro2526"></tbody>
+    </table></div>
+    <p class="msg" id="patro-msg"></p>
   </section>
 
   <section id="vista-campanas" aria-label="Campañas" hidden>
@@ -694,7 +728,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       pintar();
       return true;
     }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; return false; });
-    return Promise.all([actual, cargarAnteriores(), POR_ACCESS ? cargarCampanas() : true])
+    return Promise.all([actual, cargarAnteriores(), cargarPatrocinadores(), POR_ACCESS ? cargarCampanas() : true])
       .then(function(r){ return r.every(Boolean); });
   }
 
@@ -707,6 +741,47 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       pintarAnteriores();
       return true;
     }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los abonados de la temporada 2025/2026.'; return false; });
+  }
+
+  // ── Patrocinadores ──
+  var patrocinadores = [];
+  var TEMPORADA_PATRO = { patro2627: '2026/2027', patro2526: '2025/2026' };
+
+  function cargarPatrocinadores(){
+    var m = document.getElementById('patro-msg');
+    return api('/admin/patrocinadores').then(function(r){ return r.json(); }).then(function(j){
+      patrocinadores = j.patrocinadores || [];
+      m.textContent = '';
+      Object.keys(TEMPORADA_PATRO).forEach(pintarPatrocinadores);
+      return true;
+    }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los patrocinadores.'; return false; });
+  }
+
+  function pintarPatrocinadores(vista){
+    var temporada = TEMPORADA_PATRO[vista];
+    var lista = patrocinadores.filter(function(p){ return p.temporada === temporada; });
+    var cuenta = function(c){ return lista.filter(function(p){ return p.categoria === c; }).length; };
+    document.getElementById('kpis-'+vista).innerHTML =
+      kpi(lista.length, 'Total') + kpi(cuenta('Principal'), 'Principal') +
+      kpi(cuenta('Colaborador'), 'Colaboradores') + kpi(cuenta('Institución'), 'Instituciones');
+    document.getElementById('cuerpo-'+vista).innerHTML = lista.map(function(p){
+      // Los logos están en la web del club (la CSP del panel sólo deja
+      // cargar imágenes de allí).
+      var logo = p.logo
+        ? '<img class="logo-patro" src="https://balonmanovetusta.com/'+esc(encodeURI(p.logo))+'" alt="" loading="lazy">'
+        : '<span class="vacio">—</span>';
+      var enlace = String(p.web || '');
+      var web = enlace.indexOf('http://') === 0 || enlace.indexOf('https://') === 0
+        ? '<a href="'+esc(enlace)+'" target="_blank" rel="noopener noreferrer">'+esc(enlace.split('//')[1].replace('www.', '').split('/')[0])+'</a>'
+        : '<span class="vacio">—</span>';
+      return '<tr>'+
+        '<td class="logo" data-k="Logo">'+logo+'</td>'+
+        '<td class="nom" data-k="Nombre">'+esc(p.nombre)+'</td>'+
+        '<td data-k="Categoría">'+dato(p.categoria)+'</td>'+
+        '<td class="web" data-k="Web">'+web+'</td>'+
+        '</tr>';
+    }).join('') || '<tr><td colspan="4" style="padding:22px;color:#7b828b">Todavía no hay patrocinadores de la temporada '+temporada+'.</td></tr>';
+    encajarTabla();
   }
 
   // Abonados de 2025/26. El servidor ya trae resuelto si han renovado: el nº
@@ -754,7 +829,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     actual:   { tab: 'tab-actual',   titulo: 'Abonados 2026/2027', hash: '' },
     anterior: { tab: 'tab-anterior', titulo: 'Abonados 2025/2026', hash: '#2025-26' },
     campanas: { tab: 'tab-campanas', titulo: 'Campañas',           hash: '#campanas' },
-    editor:   { tab: 'tab-editor',   titulo: 'Nueva campaña',      hash: '#nueva' }
+    editor:   { tab: 'tab-editor',   titulo: 'Nueva campaña',      hash: '#nueva' },
+    patro2627: { tab: 'tab-patro2627', titulo: 'Patrocinadores 2026/2027', hash: '#patrocinadores-2026-27' },
+    patro2526: { tab: 'tab-patro2526', titulo: 'Patrocinadores 2025/2026', hash: '#patrocinadores-2025-26' }
   };
 
   function mostrar(vista){
@@ -768,7 +845,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     document.getElementById(existente ? 'tab-campanas' : VISTAS[vista].tab).setAttribute('aria-current', 'page');
     document.getElementById('titulo').textContent = existente ? 'Campaña' : VISTAS[vista].titulo;
     // Descargar es de los listados de abonados.
-    document.getElementById('descargar').hidden = vista === 'campanas' || vista === 'editor';
+    document.getElementById('descargar').hidden = vista !== 'actual' && vista !== 'anterior';
     try { history.replaceState(null, '', existente ? '#campanas' : (VISTAS[vista].hash || location.pathname + location.search)); } catch(e){}
     encajarTabla();
   }
@@ -1037,6 +1114,8 @@ ${CAMPANAS_JS}
   if (location.hash === '#2025-26') mostrar('anterior');
   else if (POR_ACCESS && location.hash === '#campanas') mostrar('campanas');
   else if (POR_ACCESS && location.hash === '#nueva') nuevaCampana();
+  else if (location.hash === '#patrocinadores-2026-27') mostrar('patro2627');
+  else if (location.hash === '#patrocinadores-2025-26') mostrar('patro2526');
 
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');
