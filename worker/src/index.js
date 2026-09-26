@@ -402,7 +402,7 @@ export default {
         return json({ ok: false }, 401, CAB_ADMIN);
       }
       const { results } = await env.DB.prepare(
-        'SELECT id, temporada, nombre, categoria, web, logo FROM patrocinadores ORDER BY temporada, orden, id'
+        'SELECT id, temporada, nombre, categoria, email, telefono, web, logo FROM patrocinadores ORDER BY temporada, orden, id'
       ).all();
       return json({ ok: true, patrocinadores: results || [] }, 200, CAB_ADMIN);
     }

@@ -76,12 +76,15 @@ CREATE TABLE IF NOT EXISTS socios_anteriores (
 CREATE INDEX IF NOT EXISTS socios_anteriores_temporada ON socios_anteriores (temporada);
 
 -- Patrocinadores e instituciones de cada temporada, para el área privada.
--- La 2025/2026 se cargó con los de la página pública de patrocinadores.
+-- La 2025/2026 se cargó con los de la página pública de patrocinadores (sin
+-- las instituciones) y los contactos públicos de cada empresa.
 CREATE TABLE IF NOT EXISTS patrocinadores (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   temporada  TEXT    NOT NULL,                 -- '2025/2026'
   nombre     TEXT    NOT NULL,
-  categoria  TEXT    NOT NULL DEFAULT '',      -- Principal | Colaborador | Institución
+  categoria  TEXT    NOT NULL DEFAULT '',      -- Principal | Colaborador
+  email      TEXT    NOT NULL DEFAULT '',      -- contacto público de la empresa
+  telefono   TEXT    NOT NULL DEFAULT '',      -- texto libre: puede llevar varios
   web        TEXT    NOT NULL DEFAULT '',
   logo       TEXT    NOT NULL DEFAULT '',      -- ruta en la web: src/assets/…
   orden      INTEGER NOT NULL DEFAULT 0        -- el de la página pública

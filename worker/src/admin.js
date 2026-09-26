@@ -288,6 +288,7 @@ main{container-type:inline-size}
 td.logo{width:1%}
 #vista-patro2526 td,#vista-patro2627 td{vertical-align:middle}
 td.web a{color:var(--t2)}
+td.tel{white-space:normal;min-width:150px}
 /* Campañas */
 .barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
 .fila-campana{cursor:pointer}
@@ -510,16 +511,14 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 
   <!-- Patrocinadores e instituciones de cada temporada. -->
   <section id="vista-patro2627" aria-label="Patrocinadores 2026/2027" hidden>
-    <div class="resumen"><div class="kpis cuatro" id="kpis-patro2627"></div></div>
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Web</th></tr></thead>
+      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Correo</th><th>Teléfono</th><th>Web</th></tr></thead>
       <tbody id="cuerpo-patro2627"></tbody>
     </table></div>
   </section>
   <section id="vista-patro2526" aria-label="Patrocinadores 2025/2026" hidden>
-    <div class="resumen"><div class="kpis cuatro" id="kpis-patro2526"></div></div>
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Web</th></tr></thead>
+      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Correo</th><th>Teléfono</th><th>Web</th></tr></thead>
       <tbody id="cuerpo-patro2526"></tbody>
     </table></div>
     <p class="msg" id="patro-msg"></p>
@@ -760,10 +759,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   function pintarPatrocinadores(vista){
     var temporada = TEMPORADA_PATRO[vista];
     var lista = patrocinadores.filter(function(p){ return p.temporada === temporada; });
-    var cuenta = function(c){ return lista.filter(function(p){ return p.categoria === c; }).length; };
-    document.getElementById('kpis-'+vista).innerHTML =
-      kpi(lista.length, 'Total') + kpi(cuenta('Principal'), 'Principal') +
-      kpi(cuenta('Colaborador'), 'Colaboradores') + kpi(cuenta('Institución'), 'Instituciones');
     document.getElementById('cuerpo-'+vista).innerHTML = lista.map(function(p){
       // Los logos están en la web del club (la CSP del panel sólo deja
       // cargar imágenes de allí).
@@ -774,13 +769,26 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       var web = enlace.indexOf('http://') === 0 || enlace.indexOf('https://') === 0
         ? '<a href="'+esc(enlace)+'" target="_blank" rel="noopener noreferrer">'+esc(enlace.split('//')[1].replace('www.', '').split('/')[0])+'</a>'
         : '<span class="vacio">—</span>';
+      var correo = p.email
+        ? '<a href="mailto:'+esc(p.email)+'">'+esc(p.email)+'</a>'
+        : '<span class="vacio">—</span>';
+      // Puede haber varios teléfonos separados por «·»; cada uno lleva su
+      // enlace para llamar desde el móvil, con sólo las cifras.
+      var telefono = p.telefono
+        ? String(p.telefono).split(' · ').map(function(parte){
+            var cifras = parte.replace(/[^0-9]/g, '').slice(0, 9);
+            return cifras.length === 9 ? '<a href="tel:+34'+cifras+'">'+esc(parte)+'</a>' : esc(parte);
+          }).join('<br>')
+        : '<span class="vacio">—</span>';
       return '<tr>'+
         '<td class="logo" data-k="Logo">'+logo+'</td>'+
         '<td class="nom" data-k="Nombre">'+esc(p.nombre)+'</td>'+
         '<td data-k="Categoría">'+dato(p.categoria)+'</td>'+
+        '<td class="web" data-k="Correo">'+correo+'</td>'+
+        '<td class="web tel" data-k="Teléfono">'+telefono+'</td>'+
         '<td class="web" data-k="Web">'+web+'</td>'+
         '</tr>';
-    }).join('') || '<tr><td colspan="4" style="padding:22px;color:#7b828b">Todavía no hay patrocinadores de la temporada '+temporada+'.</td></tr>';
+    }).join('') || '<tr><td colspan="6" style="padding:22px;color:#7b828b">Todavía no hay patrocinadores de la temporada '+temporada+'.</td></tr>';
     encajarTabla();
   }
 
