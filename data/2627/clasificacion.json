@@ -15,34 +15,62 @@
   },
   {
     "posicion": 2,
-    "nombre": "CLUB BALONMANO ALCOBENDAS",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
+    "nombre": "FISIOPAT BM. SARIEGOS",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
-    "PJ": 1,
-    "PG": 1,
+    "PJ": 2,
+    "PG": 2,
     "PE": 0,
     "PP": 0,
-    "GF": 37,
-    "GC": 22,
-    "DIF": 15,
-    "puntos": 2
+    "GF": 67,
+    "GC": 55,
+    "DIF": 12,
+    "puntos": 4
   },
   {
     "posicion": 3,
-    "nombre": "REAL GRUPO DE CULTURA COVADONGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+    "nombre": "ROYAL PREMIUM GIJON",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 1,
-    "PE": 0,
+    "PE": 1,
     "PP": 0,
-    "GF": 30,
-    "GC": 18,
-    "DIF": 12,
-    "puntos": 2
+    "GF": 66,
+    "GC": 49,
+    "DIF": 17,
+    "puntos": 3
   },
   {
     "posicion": 4,
+    "nombre": "CLUB BALONMANO ALCOBENDAS",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
+    "es_vetusta": false,
+    "PJ": 2,
+    "PG": 1,
+    "PE": 1,
+    "PP": 0,
+    "GF": 60,
+    "GC": 45,
+    "DIF": 15,
+    "puntos": 3
+  },
+  {
+    "posicion": 5,
+    "nombre": "REAL GRUPO DE CULTURA COVADONGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+    "es_vetusta": false,
+    "PJ": 2,
+    "PG": 1,
+    "PE": 0,
+    "PP": 1,
+    "GF": 57,
+    "GC": 51,
+    "DIF": 6,
+    "puntos": 2
+  },
+  {
+    "posicion": 6,
     "nombre": "SDC ASTANDER ASTILLERO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "es_vetusta": false,
@@ -56,21 +84,7 @@
     "puntos": 2
   },
   {
-    "posicion": 5,
-    "nombre": "FISIOPAT BM. SARIEGOS",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
-    "es_vetusta": false,
-    "PJ": 1,
-    "PG": 1,
-    "PE": 0,
-    "PP": 0,
-    "GF": 34,
-    "GC": 28,
-    "DIF": 6,
-    "puntos": 2
-  },
-  {
-    "posicion": 6,
+    "posicion": 7,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
@@ -84,7 +98,7 @@
     "puntos": 2
   },
   {
-    "posicion": 7,
+    "posicion": 8,
     "nombre": "BATHCO BM. TORRELAVEGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
     "es_vetusta": false,
@@ -98,7 +112,7 @@
     "puntos": 2
   },
   {
-    "posicion": 8,
+    "posicion": 9,
     "nombre": "GRUPO EGIDO BM PINTO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
     "es_vetusta": false,
@@ -112,32 +126,18 @@
     "puntos": 2
   },
   {
-    "posicion": 9,
-    "nombre": "ROYAL PREMIUM GIJON",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-    "es_vetusta": false,
-    "PJ": 1,
-    "PG": 0,
-    "PE": 1,
-    "PP": 0,
-    "GF": 29,
-    "GC": 29,
-    "DIF": 0,
-    "puntos": 1
-  },
-  {
     "posicion": 10,
     "nombre": "URBANA BM SORIA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 0,
-    "PE": 1,
+    "PE": 2,
     "PP": 0,
-    "GF": 29,
-    "GC": 29,
+    "GF": 52,
+    "GC": 52,
     "DIF": 0,
-    "puntos": 1
+    "puntos": 2
   },
   {
     "posicion": 11,
@@ -214,13 +214,13 @@
     "nombre": "CONGESA XXI SALAMANCA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 0,
     "PE": 0,
-    "PP": 1,
-    "GF": 13,
-    "GC": 37,
-    "DIF": -24,
+    "PP": 2,
+    "GF": 33,
+    "GC": 74,
+    "DIF": -41,
     "puntos": 0
   }
 ]
