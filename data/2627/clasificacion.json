@@ -113,6 +113,20 @@
   },
   {
     "posicion": 9,
+    "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
+    "es_vetusta": false,
+    "PJ": 2,
+    "PG": 1,
+    "PE": 0,
+    "PP": 1,
+    "GF": 65,
+    "GC": 65,
+    "DIF": 0,
+    "puntos": 2
+  },
+  {
+    "posicion": 10,
     "nombre": "GRUPO EGIDO BM PINTO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
     "es_vetusta": false,
@@ -126,7 +140,7 @@
     "puntos": 2
   },
   {
-    "posicion": 10,
+    "posicion": 11,
     "nombre": "URBANA BM SORIA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
     "es_vetusta": false,
@@ -140,7 +154,7 @@
     "puntos": 2
   },
   {
-    "posicion": 11,
+    "posicion": 12,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
@@ -152,20 +166,6 @@
     "GC": 61,
     "DIF": -2,
     "puntos": 2
-  },
-  {
-    "posicion": 12,
-    "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
-    "es_vetusta": false,
-    "PJ": 1,
-    "PG": 0,
-    "PE": 0,
-    "PP": 1,
-    "GF": 29,
-    "GC": 30,
-    "DIF": -1,
-    "puntos": 0
   },
   {
     "posicion": 13,
@@ -186,13 +186,13 @@
     "nombre": "CLINISORD LA SALLE MARAVILLAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 0,
     "PE": 0,
-    "PP": 1,
-    "GF": 22,
-    "GC": 37,
-    "DIF": -15,
+    "PP": 2,
+    "GF": 57,
+    "GC": 73,
+    "DIF": -16,
     "puntos": 0
   },
   {
