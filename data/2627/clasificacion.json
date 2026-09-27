@@ -29,6 +29,20 @@
   },
   {
     "posicion": 3,
+    "nombre": "BATHCO BM. TORRELAVEGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "es_vetusta": false,
+    "PJ": 2,
+    "PG": 2,
+    "PE": 0,
+    "PP": 0,
+    "GF": 61,
+    "GC": 57,
+    "DIF": 4,
+    "puntos": 4
+  },
+  {
+    "posicion": 4,
     "nombre": "ROYAL PREMIUM GIJON",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "es_vetusta": false,
@@ -42,7 +56,7 @@
     "puntos": 3
   },
   {
-    "posicion": 4,
+    "posicion": 5,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -56,7 +70,7 @@
     "puntos": 3
   },
   {
-    "posicion": 5,
+    "posicion": 6,
     "nombre": "REAL GRUPO DE CULTURA COVADONGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
@@ -70,45 +84,31 @@
     "puntos": 2
   },
   {
-    "posicion": 6,
+    "posicion": 7,
     "nombre": "SDC ASTANDER ASTILLERO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 1,
     "PE": 0,
-    "PP": 0,
-    "GF": 36,
-    "GC": 30,
-    "DIF": 6,
-    "puntos": 2
-  },
-  {
-    "posicion": 7,
-    "nombre": "HORIZONTE ATLETICA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-    "es_vetusta": false,
-    "PJ": 1,
-    "PG": 1,
-    "PE": 0,
-    "PP": 0,
-    "GF": 31,
-    "GC": 30,
-    "DIF": 1,
+    "PP": 1,
+    "GF": 65,
+    "GC": 62,
+    "DIF": 3,
     "puntos": 2
   },
   {
     "posicion": 8,
-    "nombre": "BATHCO BM. TORRELAVEGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "nombre": "LAFUENTE PEREDA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
-    "PJ": 1,
+    "PJ": 2,
     "PG": 1,
     "PE": 0,
-    "PP": 0,
-    "GF": 30,
-    "GC": 29,
-    "DIF": 1,
+    "PP": 1,
+    "GF": 62,
+    "GC": 60,
+    "DIF": 2,
     "puntos": 2
   },
   {
@@ -141,17 +141,17 @@
   },
   {
     "posicion": 11,
-    "nombre": "LAFUENTE PEREDA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "nombre": "HORIZONTE ATLETICA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
-    "PJ": 1,
-    "PG": 0,
+    "PJ": 2,
+    "PG": 1,
     "PE": 0,
     "PP": 1,
-    "GF": 30,
-    "GC": 31,
-    "DIF": -1,
-    "puntos": 0
+    "GF": 59,
+    "GC": 61,
+    "DIF": -2,
+    "puntos": 2
   },
   {
     "posicion": 12,
