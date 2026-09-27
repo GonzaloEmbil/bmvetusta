@@ -92,6 +92,33 @@ CREATE TABLE IF NOT EXISTS patrocinadores (
 
 CREATE INDEX IF NOT EXISTS patrocinadores_temporada ON patrocinadores (temporada, orden);
 
+-- Posibles patrocinadores y su seguimiento (pestaña «Posibles»). Sólo datos
+-- de empresa publicados por ella misma y de dónde salió cada una. Nunca se
+-- usan en Campañas: el contacto es uno a uno.
+CREATE TABLE IF NOT EXISTS prospectos (
+  id              INTEGER PRIMARY KEY AUTOINCREMENT,
+  lote            TEXT NOT NULL DEFAULT '',    -- de qué búsqueda sale: Otros clubes, Negocios afines…
+  empresa         TEXT NOT NULL,
+  sector          TEXT NOT NULL DEFAULT '',
+  zona            TEXT NOT NULL DEFAULT '',
+  web             TEXT NOT NULL DEFAULT '',
+  telefono        TEXT NOT NULL DEFAULT '',
+  email           TEXT NOT NULL DEFAULT '',    -- correo genérico que publica la empresa
+  contacto        TEXT NOT NULL DEFAULT '',    -- departamento al que dirigirse
+  fuente          TEXT NOT NULL DEFAULT '',    -- dónde se encontró
+  fuente_url      TEXT NOT NULL DEFAULT '',
+  motivo          TEXT NOT NULL DEFAULT '',    -- por qué encaja con el club
+  prioridad       TEXT NOT NULL DEFAULT 'B',   -- A | B | C
+  estado          TEXT NOT NULL DEFAULT 'Por revisar',
+  proximo_paso    TEXT NOT NULL DEFAULT '',
+  fecha_proximo   TEXT NOT NULL DEFAULT '',    -- AAAA-MM-DD
+  responsable     TEXT NOT NULL DEFAULT '',
+  notas           TEXT NOT NULL DEFAULT '',
+  creado          TEXT NOT NULL,               -- ISO UTC
+  actualizado     TEXT NOT NULL DEFAULT '',    -- ISO UTC; sirve para no pisar ediciones simultáneas
+  actualizado_por TEXT NOT NULL DEFAULT ''
+);
+
 -- Contactos sueltos para campañas que no son abonados de ninguna temporada
 -- (lista «Otros»): por ejemplo, quien empezó el alta en Cluber sin llegar a
 -- pagar. Siguen la misma regla que los abonados: sólo reciben campañas si

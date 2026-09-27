@@ -18,6 +18,7 @@ const ESCUDO = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimH
 
 import { DESCARGAS_JS } from './descargas.js';
 import { CAMPANAS_JS } from './campanas-panel.js';
+import { PROSPECTOS_JS } from './prospectos-panel.js';
 
 export const ADMIN_HTML = `<!DOCTYPE html>
 <html lang="es">
@@ -289,6 +290,43 @@ td.logo{width:1%}
 #vista-patro2526 td,#vista-patro2627 td{vertical-align:middle}
 td.web a{color:var(--t2)}
 td.tel{white-space:normal;min-width:150px}
+/* Posibles patrocinadores */
+.fila-posible{cursor:pointer}
+.fila-posible:hover td{background:var(--bg2)}
+#vista-posibles td{vertical-align:top;white-space:normal}
+@media (min-width:769px){
+  #vista-posibles td.zona{min-width:120px;max-width:170px}
+  #vista-posibles td.motivo{min-width:200px;max-width:300px}
+  #vista-posibles td.contacto{white-space:nowrap}
+}
+.lineas{display:block}
+td .sector{display:block;font-size:.8rem;font-weight:400;color:var(--t3);white-space:normal}
+.chip.prio-A{background:#e7f7ec;border-color:#a9dcb8;color:var(--ok)}
+.chip.prio-B{background:#fff8d6;border-color:#eadb85;color:#6b5a00}
+.chip.prio-C{background:var(--bg2);color:var(--t2)}
+.barra-posibles{display:flex;align-items:center;gap:12px;margin-top:10px}
+.barra-posibles .nota{flex:1 1 auto;margin:0}
+.barra-posibles #posibles-cuenta{flex:0 0 auto}
+dialog#posible{border:0;border-radius:16px;padding:0;width:min(94vw,760px);max-height:92vh;color:var(--t);box-shadow:0 24px 64px rgba(0,0,0,.28)}
+dialog#posible::backdrop{background:rgba(20,22,26,.45)}
+#posible .caja{padding:24px}
+#posible h2{margin:0 0 18px;font-size:1.15rem}
+.rejilla{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:0 16px}
+.rejilla .ancho{grid-column:1/-1}
+.rejilla .campo{margin-bottom:14px}
+.rejilla select{width:100%;padding:10px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;background:var(--bg)}
+.rejilla input[type=date]{width:100%;padding:9px 12px;border:1.5px solid var(--l2);border-radius:9px;font:inherit;background:var(--bg)}
+#posible .rejilla textarea{min-height:90px}
+#posible .acciones{justify-content:flex-end;align-items:center}
+#posible .acciones .izq{margin-right:auto}
+@media (max-width:640px){ .rejilla{grid-template-columns:minmax(0,1fr)} }
+/* Cinco filtros no caben en una fila del móvil: tres arriba y dos abajo. */
+@media (max-width:768px){
+  .segmento.cinco{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
+  .segmento.cinco button{grid-column:span 2}
+  .segmento.cinco button:nth-child(n+4){grid-column:span 3;border-top:1.5px solid var(--l2)}
+  .segmento.cinco button:nth-child(4){border-left:0}
+}
 /* Campañas */
 .barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
 .fila-campana{cursor:pointer}
@@ -398,6 +436,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <div class="subs">
         <button class="sub" id="tab-patro2627" data-vista="patro2627" aria-controls="vista-patro2627">2026/2027</button>
         <button class="sub" id="tab-patro2526" data-vista="patro2526" aria-controls="vista-patro2526">2025/2026</button>
+        <button class="sub" id="tab-posibles" data-vista="posibles" aria-controls="vista-posibles">Posibles</button>
       </div>
       </div>
     </nav>
@@ -523,6 +562,29 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     </table></div>
     <p class="msg" id="patro-msg"></p>
   </section>
+  <!-- Empresas a las que dirigirse y su seguimiento. Sólo tras Access. -->
+  <section id="vista-posibles" aria-label="Posibles patrocinadores" hidden>
+    <div class="resumen">
+      <div class="fila-mods">
+        <div class="segmento cinco" role="group" aria-label="Filtrar por estado">
+          <button data-filtro-posibles="abiertos" class="on">Abiertos</button><button data-filtro-posibles="revisar">Por revisar</button><button data-filtro-posibles="curso">En curso</button><button data-filtro-posibles="cerrados">Cerrados</button><button data-filtro-posibles="descartados">Descartados</button>
+        </div>
+        <div class="filtros">
+          <input type="search" id="buscar-posibles" placeholder="Buscar empresa, sector…">
+        </div>
+        <button class="pri" id="nuevo-posible">Añadir</button>
+      </div>
+      <div class="barra-posibles">
+        <p class="nota">Contacto uno a uno desde el correo del club. Esta lista no se usa en Campañas.</p>
+        <span class="nota" id="posibles-cuenta"></span>
+      </div>
+    </div>
+    <div class="tabla-wrap"><table>
+      <thead><tr><th>Prio.</th><th>Empresa</th><th>Zona</th><th>Estado</th><th>Contacto</th><th>Fuente</th><th>Por qué encaja</th><th>Próximo paso</th><th>Responsable</th></tr></thead>
+      <tbody id="cuerpo-posibles"></tbody>
+    </table></div>
+    <p class="msg" id="posibles-msg"></p>
+  </section>
 
   <section id="vista-campanas" aria-label="Campañas" hidden>
     <div class="barra-campanas">
@@ -637,6 +699,38 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   </div>
 </dialog>
 
+<dialog id="posible" aria-labelledby="posible-titulo">
+  <div class="caja">
+    <h2 id="posible-titulo">Posible patrocinador</h2>
+    <div class="rejilla">
+      <label class="campo"><span>Estado</span><select id="pp-estado"></select></label>
+      <label class="campo"><span>Prioridad</span><select id="pp-prioridad"><option>A</option><option>B</option><option>C</option></select></label>
+      <label class="campo"><span>Próximo paso</span><input type="text" id="pp-proximo_paso" maxlength="300"></label>
+      <label class="campo"><span>Fecha</span><input type="date" id="pp-fecha_proximo"></label>
+      <label class="campo"><span>Responsable</span><input type="text" id="pp-responsable" maxlength="80"></label>
+      <label class="campo"><span>Departamento de contacto</span><input type="text" id="pp-contacto" maxlength="200"></label>
+      <label class="campo ancho"><span>Notas</span><textarea id="pp-notas" maxlength="4000"></textarea></label>
+      <label class="campo"><span>Empresa</span><input type="text" id="pp-empresa" maxlength="160"></label>
+      <label class="campo"><span>Sector</span><input type="text" id="pp-sector" maxlength="120"></label>
+      <label class="campo"><span>Zona</span><input type="text" id="pp-zona" maxlength="120"></label>
+      <label class="campo"><span>Lote</span><input type="text" id="pp-lote" maxlength="60"></label>
+      <label class="campo"><span>Correo</span><input type="text" id="pp-email" maxlength="200"></label>
+      <label class="campo"><span>Teléfono</span><input type="text" id="pp-telefono" maxlength="120"></label>
+      <label class="campo ancho"><span>Web</span><input type="text" id="pp-web" maxlength="500" placeholder="https://"></label>
+      <label class="campo"><span>Fuente</span><input type="text" id="pp-fuente" maxlength="300"></label>
+      <label class="campo"><span>Enlace de la fuente</span><input type="text" id="pp-fuente_url" maxlength="500" placeholder="https://"></label>
+      <label class="campo ancho"><span>Por qué encaja</span><textarea id="pp-motivo" maxlength="1000"></textarea></label>
+    </div>
+    <p class="nota" id="posible-quien"></p>
+    <p class="msg" id="posible-msg"></p>
+    <div class="acciones">
+      <button class="izq" id="posible-descartar">Descartar</button>
+      <button id="posible-cancelar">Cancelar</button>
+      <button class="pri" id="posible-guardar">Guardar</button>
+    </div>
+  </div>
+</dialog>
+
 <script>
 (function(){
   'use strict';
@@ -727,7 +821,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       pintar();
       return true;
     }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; return false; });
-    return Promise.all([actual, cargarAnteriores(), cargarPatrocinadores(), POR_ACCESS ? cargarCampanas() : true])
+    return Promise.all([actual, cargarAnteriores(), cargarPatrocinadores(),
+      POR_ACCESS ? cargarCampanas() : true, POR_ACCESS ? cargarProspectos() : true])
       .then(function(r){ return r.every(Boolean); });
   }
 
@@ -839,7 +934,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     campanas: { tab: 'tab-campanas', titulo: 'Campañas',           hash: '#campanas' },
     editor:   { tab: 'tab-editor',   titulo: 'Nueva campaña',      hash: '#nueva' },
     patro2627: { tab: 'tab-patro2627', titulo: 'Patrocinadores 2026/2027', hash: '#patrocinadores-2026-27' },
-    patro2526: { tab: 'tab-patro2526', titulo: 'Patrocinadores 2025/2026', hash: '#patrocinadores-2025-26' }
+    patro2526: { tab: 'tab-patro2526', titulo: 'Patrocinadores 2025/2026', hash: '#patrocinadores-2025-26' },
+    posibles:  { tab: 'tab-posibles',  titulo: 'Posibles patrocinadores',  hash: '#patrocinadores-posibles' }
   };
 
   function mostrar(vista){
@@ -1118,12 +1214,17 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 
 ${DESCARGAS_JS}
 ${CAMPANAS_JS}
-  if (!POR_ACCESS) document.getElementById('sec-campanas').hidden = true;
+${PROSPECTOS_JS}
+  if (!POR_ACCESS) {
+    document.getElementById('sec-campanas').hidden = true;
+    document.getElementById('tab-posibles').hidden = true;
+  }
   if (location.hash === '#2025-26') mostrar('anterior');
   else if (POR_ACCESS && location.hash === '#campanas') mostrar('campanas');
   else if (POR_ACCESS && location.hash === '#nueva') nuevaCampana();
   else if (location.hash === '#patrocinadores-2026-27') mostrar('patro2627');
   else if (location.hash === '#patrocinadores-2025-26') mostrar('patro2526');
+  else if (POR_ACCESS && location.hash === '#patrocinadores-posibles') mostrar('posibles');
 
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');

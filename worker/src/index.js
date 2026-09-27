@@ -15,6 +15,7 @@ import { accesoValido } from './acceso.js';
 import { TEMPORADA, TEMPORADA_ANTERIOR } from './temporadas.js';
 import { renovacion } from './renovacion.js';
 import { rutasCampanas, rutasPublicas, campanasProgramadas } from './campanas.js';
+import { rutasProspectos } from './prospectos.js';
 
 const PRIVADO = 'admin.balonmanovetusta.com';
 
@@ -330,6 +331,8 @@ export default {
       }
       const campanas = await rutasCampanas(request, env, url, porAccess);
       if (campanas) return campanas;
+      const prospectos = await rutasProspectos(request, env, url, porAccess);
+      if (prospectos) return prospectos;
       // Dentro sólo vive, por ahora, el panel de abonados. Cuando haya más
       // secciones, la raíz pasará a ser un índice y cada una tendrá su ruta.
       if (url.pathname === '/' || url.pathname === '/abonados') {
