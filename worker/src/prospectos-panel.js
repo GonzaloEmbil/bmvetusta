@@ -1,10 +1,10 @@
 /**
  * Pestaña «Posibles» de Patrocinadores: la lista de empresas a las que
- * dirigirse, con sus datos de contacto y unas notas de seguimiento.
+ * dirigirse, con sus datos de contacto y unas notas.
  *
  * Como CAMPANAS_JS, va en String.raw (las barras invertidas llegan tal cual)
  * y no puede llevar comillas invertidas ni «${». Comparte el ámbito del script
- * del panel: usa api(), esc(), dato(), fecha(), fechaSuelta() y encajarTabla().
+ * del panel: usa api(), esc(), dato(), fecha() y encajarTabla().
  */
 export const PROSPECTOS_JS = String.raw`
   // ── Posibles patrocinadores ───────────────────────────────────────────────
@@ -39,7 +39,7 @@ export const PROSPECTOS_JS = String.raw`
     var q = document.getElementById('buscar-posibles').value.toLowerCase().trim();
     return prospectos.filter(function(p){
       if (!q) return true;
-      return [p.empresa, p.sector, p.zona, p.lote, p.fuente, p.motivo, p.responsable, p.notas, p.email]
+      return [p.empresa, p.sector, p.zona, p.lote, p.fuente, p.motivo, p.notas, p.email]
         .join(' ').toLowerCase().indexOf(q) >= 0;
     }).sort(function(a, b){
       return a.empresa.localeCompare(b.empresa, 'es');
@@ -54,9 +54,6 @@ export const PROSPECTOS_JS = String.raw`
         telefonos(p.telefono),
         enlaceWeb(p.web)
       ].filter(Boolean).join('<br>');
-      var paso = p.proximo_paso
-        ? esc(p.proximo_paso) + (p.fecha_proximo ? '<br><span class="nota">'+fechaSuelta(p.fecha_proximo)+'</span>' : '')
-        : '<span class="vacio">—</span>';
       return '<tr class="fila-posible" data-id="'+p.id+'" tabindex="0">'+
         '<td class="nom" data-k="Empresa">'+esc(p.empresa)+(p.sector ? '<span class="sector">'+esc(p.sector)+'</span>' : '')+'</td>'+
         '<td class="zona" data-k="Zona">'+dato(p.zona)+'</td>'+
@@ -65,10 +62,8 @@ export const PROSPECTOS_JS = String.raw`
         '<td class="web contacto" data-k="Contacto">'+(contacto ? '<span class="lineas">'+contacto+'</span>' : '<span class="vacio">—</span>')+'</td>'+
         '<td class="web motivo" data-k="Fuente">'+(enlaceWeb(p.fuente_url, p.fuente) || dato(p.fuente))+'</td>'+
         '<td class="motivo" data-k="Por qué encaja">'+dato(p.motivo)+'</td>'+
-        '<td class="motivo" data-k="Próximo paso">'+(p.proximo_paso ? '<span class="lineas">'+paso+'</span>' : paso)+'</td>'+
-        '<td data-k="Responsable">'+dato(p.responsable)+'</td>'+
         '</tr>';
-    }).join('') || '<tr><td colspan="7" style="padding:22px;color:#7b828b">'+
+    }).join('') || '<tr><td colspan="5" style="padding:22px;color:#7b828b">'+
       (prospectos.length ? 'Ninguna coincide con la búsqueda.' : 'Todavía no hay posibles patrocinadores.')+'</td></tr>';
     var n = document.getElementById('posibles-cuenta');
     n.textContent = lista.length + (lista.length === 1 ? ' empresa' : ' empresas');
@@ -77,7 +72,7 @@ export const PROSPECTOS_JS = String.raw`
 
   // ── Editor ────────────────────────────────────────────────────────────────
   var CAMPOS_POSIBLE = ['empresa', 'sector', 'zona', 'lote', 'web', 'telefono', 'email', 'contacto',
-    'fuente', 'fuente_url', 'motivo', 'proximo_paso', 'fecha_proximo', 'responsable', 'notas'];
+    'fuente', 'fuente_url', 'motivo', 'notas'];
 
   function abrirPosible(p){
     abierto = p || null;
@@ -92,7 +87,7 @@ export const PROSPECTOS_JS = String.raw`
       : '';
     var m = document.getElementById('posible-msg'); m.className = 'msg'; m.textContent = '';
     d.showModal();
-    document.getElementById('pp-' + (p ? 'proximo_paso' : 'empresa')).focus();
+    document.getElementById('pp-' + (p ? 'notas' : 'empresa')).focus();
   }
 
   function guardarPosible(){

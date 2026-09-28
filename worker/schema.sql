@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS patrocinadores (
 
 CREATE INDEX IF NOT EXISTS patrocinadores_temporada ON patrocinadores (temporada, orden);
 
--- Posibles patrocinadores y su seguimiento (pestaña «Posibles»). Sólo datos
+-- Posibles patrocinadores (pestaña «Posibles»). Sólo datos
 -- de empresa publicados por ella misma y de dónde salió cada una. Nunca se
 -- usan en Campañas: el contacto es uno a uno.
 CREATE TABLE IF NOT EXISTS prospectos (
@@ -108,9 +108,6 @@ CREATE TABLE IF NOT EXISTS prospectos (
   fuente          TEXT NOT NULL DEFAULT '',    -- dónde se encontró
   fuente_url      TEXT NOT NULL DEFAULT '',
   motivo          TEXT NOT NULL DEFAULT '',    -- por qué encaja con el club
-  proximo_paso    TEXT NOT NULL DEFAULT '',
-  fecha_proximo   TEXT NOT NULL DEFAULT '',    -- AAAA-MM-DD
-  responsable     TEXT NOT NULL DEFAULT '',
   notas           TEXT NOT NULL DEFAULT '',
   creado          TEXT NOT NULL,               -- ISO UTC
   actualizado     TEXT NOT NULL DEFAULT '',    -- ISO UTC; sirve para no pisar ediciones simultáneas

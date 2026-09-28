@@ -1,6 +1,6 @@
 /**
  * Posibles patrocinadores: la lista de empresas a las que el club piensa
- * dirigirse, con el seguimiento de cada una.
+ * dirigirse, con sus datos de contacto y unas notas.
  *
  * Sólo existe tras Cloudflare Access (el panel antiguo con clave no la ve) y
  * sólo guarda datos de empresa publicados por ellas mismas: web, teléfono y
@@ -23,8 +23,6 @@ const enlace = (v) => {
   return /^https?:\/\/[^\s"<>]+$/i.test(s) ? s : '';
 };
 
-const fechaDia = (v) => (/^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) ? String(v) : '');
-
 // Lo que se puede escribir desde el panel. Lo demás (id, creado, quién lo
 // tocó por última vez) lo pone el servidor.
 function campos(b) {
@@ -40,9 +38,6 @@ function campos(b) {
     fuente: texto(b.fuente, 300),
     fuente_url: enlace(b.fuente_url),
     motivo: texto(b.motivo, 1000),
-    proximo_paso: texto(b.proximo_paso, 300),
-    fecha_proximo: fechaDia(b.fecha_proximo),
-    responsable: texto(b.responsable, 80),
     notas: texto(b.notas, 4000),
   };
 }

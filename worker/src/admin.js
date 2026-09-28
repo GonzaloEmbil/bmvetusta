@@ -569,7 +569,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       </div>
     </div>
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Empresa</th><th>Zona</th><th>Contacto</th><th>Fuente</th><th>Por qué encaja</th><th>Próximo paso</th><th>Responsable</th></tr></thead>
+      <thead><tr><th>Empresa</th><th>Zona</th><th>Contacto</th><th>Fuente</th><th>Por qué encaja</th></tr></thead>
       <tbody id="cuerpo-posibles"></tbody>
     </table></div>
     <p class="msg" id="posibles-msg"></p>
@@ -692,21 +692,18 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   <div class="caja">
     <h2 id="posible-titulo">Posible patrocinador</h2>
     <div class="rejilla">
-      <label class="campo"><span>Próximo paso</span><input type="text" id="pp-proximo_paso" maxlength="300"></label>
-      <label class="campo"><span>Fecha</span><input type="date" id="pp-fecha_proximo"></label>
-      <label class="campo"><span>Responsable</span><input type="text" id="pp-responsable" maxlength="80"></label>
-      <label class="campo"><span>Departamento de contacto</span><input type="text" id="pp-contacto" maxlength="200"></label>
-      <label class="campo ancho"><span>Notas</span><textarea id="pp-notas" maxlength="4000"></textarea></label>
       <label class="campo"><span>Empresa</span><input type="text" id="pp-empresa" maxlength="160"></label>
       <label class="campo"><span>Sector</span><input type="text" id="pp-sector" maxlength="120"></label>
       <label class="campo"><span>Zona</span><input type="text" id="pp-zona" maxlength="120"></label>
       <label class="campo"><span>Lote</span><input type="text" id="pp-lote" maxlength="60"></label>
       <label class="campo"><span>Correo</span><input type="text" id="pp-email" maxlength="200"></label>
       <label class="campo"><span>Teléfono</span><input type="text" id="pp-telefono" maxlength="120"></label>
-      <label class="campo ancho"><span>Web</span><input type="text" id="pp-web" maxlength="500" placeholder="https://"></label>
+      <label class="campo"><span>Web</span><input type="text" id="pp-web" maxlength="500" placeholder="https://"></label>
+      <label class="campo"><span>Departamento de contacto</span><input type="text" id="pp-contacto" maxlength="200"></label>
       <label class="campo"><span>Fuente</span><input type="text" id="pp-fuente" maxlength="300"></label>
       <label class="campo"><span>Enlace de la fuente</span><input type="text" id="pp-fuente_url" maxlength="500" placeholder="https://"></label>
       <label class="campo ancho"><span>Por qué encaja</span><textarea id="pp-motivo" maxlength="1000"></textarea></label>
+      <label class="campo ancho"><span>Notas</span><textarea id="pp-notas" maxlength="4000"></textarea></label>
     </div>
     <p class="nota" id="posible-quien"></p>
     <p class="msg" id="posible-msg"></p>
