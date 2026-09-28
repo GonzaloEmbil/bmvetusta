@@ -290,7 +290,7 @@ td.logo{width:1%}
 #vista-patro2526 td,#vista-patro2627 td{vertical-align:middle}
 td.web a{color:var(--t2)}
 td.tel{white-space:normal;min-width:150px}
-/* Posibles patrocinadores */
+/* Candidatos a patrocinador */
 .fila-posible{cursor:pointer}
 .fila-posible:hover td{background:var(--bg2)}
 #vista-posibles td{vertical-align:top;white-space:normal}
@@ -428,7 +428,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <div class="subs">
         <button class="sub" id="tab-patro2627" data-vista="patro2627" aria-controls="vista-patro2627">2026/2027</button>
         <button class="sub" id="tab-patro2526" data-vista="patro2526" aria-controls="vista-patro2526">2025/2026</button>
-        <button class="sub" id="tab-posibles" data-vista="posibles" aria-controls="vista-posibles">Posibles</button>
+        <button class="sub" id="tab-posibles" data-vista="posibles" aria-controls="vista-posibles">Candidatos</button>
       </div>
       </div>
     </nav>
@@ -555,7 +555,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     <p class="msg" id="patro-msg"></p>
   </section>
   <!-- Empresas a las que dirigirse. Sólo tras Access. -->
-  <section id="vista-posibles" aria-label="Posibles patrocinadores" hidden>
+  <section id="vista-posibles" aria-label="Candidatos" hidden>
     <div class="resumen">
       <div class="fila-mods">
         <div class="filtros">
@@ -690,7 +690,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 
 <dialog id="posible" aria-labelledby="posible-titulo">
   <div class="caja">
-    <h2 id="posible-titulo">Posible patrocinador</h2>
+    <h2 id="posible-titulo">Candidato</h2>
     <div class="rejilla">
       <label class="campo"><span>Empresa</span><input type="text" id="pp-empresa" maxlength="160"></label>
       <label class="campo"><span>Sector</span><input type="text" id="pp-sector" maxlength="120"></label>
@@ -918,7 +918,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     editor:   { tab: 'tab-editor',   titulo: 'Nueva campaña',      hash: '#nueva' },
     patro2627: { tab: 'tab-patro2627', titulo: 'Patrocinadores 2026/2027', hash: '#patrocinadores-2026-27' },
     patro2526: { tab: 'tab-patro2526', titulo: 'Patrocinadores 2025/2026', hash: '#patrocinadores-2025-26' },
-    posibles:  { tab: 'tab-posibles',  titulo: 'Posibles patrocinadores',  hash: '#patrocinadores-posibles' }
+    posibles:  { tab: 'tab-posibles',  titulo: 'Candidatos',  hash: '#patrocinadores-candidatos' }
   };
 
   function mostrar(vista){
@@ -1207,7 +1207,7 @@ ${PROSPECTOS_JS}
   else if (POR_ACCESS && location.hash === '#nueva') nuevaCampana();
   else if (location.hash === '#patrocinadores-2026-27') mostrar('patro2627');
   else if (location.hash === '#patrocinadores-2025-26') mostrar('patro2526');
-  else if (POR_ACCESS && location.hash === '#patrocinadores-posibles') mostrar('posibles');
+  else if (POR_ACCESS && (location.hash === '#patrocinadores-candidatos' || location.hash === '#patrocinadores-posibles')) mostrar('posibles');
 
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');

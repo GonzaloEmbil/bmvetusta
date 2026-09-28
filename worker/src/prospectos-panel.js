@@ -1,5 +1,5 @@
 /**
- * Pestaña «Posibles» de Patrocinadores: la lista de empresas a las que
+ * Pestaña «Candidatos» de Patrocinadores: la lista de empresas a las que
  * dirigirse, con sus datos de contacto y unas notas.
  *
  * Como CAMPANAS_JS, va en String.raw (las barras invertidas llegan tal cual)
@@ -7,7 +7,7 @@
  * del panel: usa api(), esc(), dato(), fecha() y encajarTabla().
  */
 export const PROSPECTOS_JS = String.raw`
-  // ── Posibles patrocinadores ───────────────────────────────────────────────
+  // ── Candidatos a patrocinador ─────────────────────────────────────────────
   var prospectos = [];
   var abierto = null;   // el posible que está en el editor (null si es nuevo)
 
@@ -32,7 +32,7 @@ export const PROSPECTOS_JS = String.raw`
       m.className = 'msg'; m.textContent = '';
       pintarProspectos();
       return true;
-    }).catch(function(){ m.className = 'msg bad'; m.textContent = 'No se han podido cargar los posibles patrocinadores.'; return false; });
+    }).catch(function(){ m.className = 'msg bad'; m.textContent = 'No se han podido cargar los candidatos.'; return false; });
   }
 
   function listaPosibles(){
@@ -64,7 +64,7 @@ export const PROSPECTOS_JS = String.raw`
         '<td class="motivo" data-k="Por qué encaja">'+dato(p.motivo)+'</td>'+
         '</tr>';
     }).join('') || '<tr><td colspan="5" style="padding:22px;color:#7b828b">'+
-      (prospectos.length ? 'Ninguna coincide con la búsqueda.' : 'Todavía no hay posibles patrocinadores.')+'</td></tr>';
+      (prospectos.length ? 'Ninguna coincide con la búsqueda.' : 'Todavía no hay candidatos.')+'</td></tr>';
     var n = document.getElementById('posibles-cuenta');
     n.textContent = lista.length + (lista.length === 1 ? ' empresa' : ' empresas');
     encajarTabla();
@@ -81,7 +81,7 @@ export const PROSPECTOS_JS = String.raw`
       var el = document.getElementById('pp-'+k);
       el.value = p ? (p[k] || '') : '';
     });
-    document.getElementById('posible-titulo').textContent = p ? p.empresa : 'Añadir posible patrocinador';
+    document.getElementById('posible-titulo').textContent = p ? p.empresa : 'Añadir candidato';
     document.getElementById('posible-quien').textContent = p && p.actualizado
       ? 'Última modificación: ' + fecha(p.actualizado) + (p.actualizado_por ? ' · ' + p.actualizado_por : '')
       : '';

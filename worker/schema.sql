@@ -92,7 +92,7 @@ CREATE TABLE IF NOT EXISTS patrocinadores (
 
 CREATE INDEX IF NOT EXISTS patrocinadores_temporada ON patrocinadores (temporada, orden);
 
--- Posibles patrocinadores (pestaña «Posibles»). Sólo datos
+-- Candidatos a patrocinador (pestaña «Candidatos»). Sólo datos
 -- de empresa publicados por ella misma y de dónde salió cada una. Nunca se
 -- usan en Campañas: el contacto es uno a uno.
 CREATE TABLE IF NOT EXISTS prospectos (

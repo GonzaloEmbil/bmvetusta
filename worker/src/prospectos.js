@@ -1,5 +1,5 @@
 /**
- * Posibles patrocinadores: la lista de empresas a las que el club piensa
+ * Candidatos a patrocinador: la lista de empresas a las que el club piensa
  * dirigirse, con sus datos de contacto y unas notas.
  *
  * Sólo existe tras Cloudflare Access (el panel antiguo con clave no la ve) y
