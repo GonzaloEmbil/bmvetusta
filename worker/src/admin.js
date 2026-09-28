@@ -39,7 +39,6 @@ body{margin:0;background:var(--bg);color:var(--t);font:15px/1.5 -apple-system,Bl
 header{border-bottom:1px solid var(--l);padding:16px 22px;min-height:77px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 header h1{font-size:1.25rem;margin:0;font-weight:800;letter-spacing:-.3px}
 /* Quién está dentro. Sólo aparece tras Access, que es cuando se sabe. */
-.quien{font-size:.8rem;color:var(--t3);white-space:nowrap}
 header .sp{flex:1}
 #recargar{min-width:132px}
 button{font:inherit;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
@@ -192,7 +191,6 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
   header h1{font-size:1.1rem}
   /* El separador deja de empujar: los botones bajan a su propia línea. */
   header .sp{flex-basis:100%;height:0}
-  .quien{flex-basis:100%;order:1}
   header button{flex:1 1 0;padding:9px 8px;font-size:.82rem;white-space:nowrap}
   #recargar{min-width:0}
 
@@ -265,7 +263,10 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
    al bajar por la tabla, que es larga. */
 .cuerpo{display:flex;align-items:flex-start;min-height:100vh}
 /* Ocupa todo el alto y se queda quieta al bajar por la tabla. */
-.lateral{flex:0 0 200px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--l);padding:0 12px 18px}
+.lateral{flex:0 0 200px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--l);padding:0 12px 18px;display:flex;flex-direction:column}
+/* Quién ha entrado, al pie de la barra. Un correo largo baja de línea en vez
+   de cortarse. */
+.quien{margin:auto -12px 0;padding:14px 16px 0;border-top:1px solid var(--l);font-size:.8rem;color:var(--t3);overflow-wrap:anywhere}
 .marca{display:flex;align-items:center;gap:10px;height:77px;margin:0 -12px 16px;padding:0 20px;border-bottom:1px solid var(--l);font-weight:800;font-size:1.05rem;letter-spacing:-.2px}
 .marca .escudo{width:40px;height:40px;display:block;flex:0 0 auto}
 .columna{flex:1 1 auto;min-width:0}
@@ -303,9 +304,7 @@ td.tel{white-space:normal;min-width:150px}
 /* Un correo largo no tiene por dónde partirse y ensancharía la ficha en el móvil. */
 #vista-posibles .lineas a{overflow-wrap:anywhere}
 td .sector{display:block;font-size:.8rem;font-weight:400;color:var(--t3);white-space:normal}
-.barra-posibles{display:flex;align-items:center;gap:12px;margin-top:10px}
-.barra-posibles .nota{flex:1 1 auto;margin:0}
-.barra-posibles #posibles-cuenta{flex:0 0 auto}
+.barra-posibles{display:flex;justify-content:flex-end;margin-top:10px}
 dialog#posible{border:0;border-radius:16px;padding:0;width:min(94vw,760px);max-height:92vh;color:var(--t);box-shadow:0 24px 64px rgba(0,0,0,.28)}
 dialog#posible::backdrop{background:rgba(20,22,26,.45)}
 #posible .caja{padding:24px}
@@ -377,6 +376,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   .lateral .subs{flex-direction:row;gap:8px;margin:0;padding:0;border:0}
   .lateral .sub{flex:1 1 0;text-align:center;border:1.5px solid var(--l2);padding:8px 6px}
   .lateral .sub[aria-current="page"]{border-color:var(--t)}
+  .quien{margin:12px -16px 0;padding:10px 16px 0}
   .segmento{width:100%}
   .segmento button{flex:1 1 0;padding:9px 4px;font-size:.8rem}
 }
@@ -432,12 +432,12 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       </div>
       </div>
     </nav>
+    <div class="quien" id="quien" hidden></div>
   </aside>
   <div class="columna">
   <header>
     <h1 id="titulo">Abonados 2026/2027</h1>
     <span class="sp"></span>
-    <span class="quien" id="quien" hidden></span>
     <button id="recargar">Recargar</button>
     <button id="descargar">Descargar</button>
     <button id="salir">Salir</button>
@@ -564,7 +564,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <button class="pri" id="nuevo-posible">Añadir</button>
       </div>
       <div class="barra-posibles">
-        <p class="nota">Contacto uno a uno desde el correo del club. Esta lista no se usa en Campañas.</p>
         <span class="nota" id="posibles-cuenta"></span>
       </div>
     </div>
@@ -1212,6 +1211,7 @@ ${PROSPECTOS_JS}
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');
     q.textContent = CORREO;
+    q.title = CORREO;
     q.hidden = false;
   }
 
