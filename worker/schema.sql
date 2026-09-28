@@ -108,8 +108,6 @@ CREATE TABLE IF NOT EXISTS prospectos (
   fuente          TEXT NOT NULL DEFAULT '',    -- dónde se encontró
   fuente_url      TEXT NOT NULL DEFAULT '',
   motivo          TEXT NOT NULL DEFAULT '',    -- por qué encaja con el club
-  prioridad       TEXT NOT NULL DEFAULT 'B',   -- A | B | C
-  estado          TEXT NOT NULL DEFAULT 'Por revisar',
   proximo_paso    TEXT NOT NULL DEFAULT '',
   fecha_proximo   TEXT NOT NULL DEFAULT '',    -- AAAA-MM-DD
   responsable     TEXT NOT NULL DEFAULT '',

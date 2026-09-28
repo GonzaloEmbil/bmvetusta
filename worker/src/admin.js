@@ -300,10 +300,9 @@ td.tel{white-space:normal;min-width:150px}
   #vista-posibles td.contacto{white-space:nowrap}
 }
 .lineas{display:block}
+/* Un correo largo no tiene por dónde partirse y ensancharía la ficha en el móvil. */
+#vista-posibles .lineas a{overflow-wrap:anywhere}
 td .sector{display:block;font-size:.8rem;font-weight:400;color:var(--t3);white-space:normal}
-.chip.prio-A{background:#e7f7ec;border-color:#a9dcb8;color:var(--ok)}
-.chip.prio-B{background:#fff8d6;border-color:#eadb85;color:#6b5a00}
-.chip.prio-C{background:var(--bg2);color:var(--t2)}
 .barra-posibles{display:flex;align-items:center;gap:12px;margin-top:10px}
 .barra-posibles .nota{flex:1 1 auto;margin:0}
 .barra-posibles #posibles-cuenta{flex:0 0 auto}
@@ -320,13 +319,6 @@ dialog#posible::backdrop{background:rgba(20,22,26,.45)}
 #posible .acciones{justify-content:flex-end;align-items:center}
 #posible .acciones .izq{margin-right:auto}
 @media (max-width:640px){ .rejilla{grid-template-columns:minmax(0,1fr)} }
-/* Cinco filtros no caben en una fila del móvil: tres arriba y dos abajo. */
-@media (max-width:768px){
-  .segmento.cinco{display:grid;grid-template-columns:repeat(6,minmax(0,1fr))}
-  .segmento.cinco button{grid-column:span 2}
-  .segmento.cinco button:nth-child(n+4){grid-column:span 3;border-top:1.5px solid var(--l2)}
-  .segmento.cinco button:nth-child(4){border-left:0}
-}
 /* Campañas */
 .barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
 .fila-campana{cursor:pointer}
@@ -562,13 +554,10 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     </table></div>
     <p class="msg" id="patro-msg"></p>
   </section>
-  <!-- Empresas a las que dirigirse y su seguimiento. Sólo tras Access. -->
+  <!-- Empresas a las que dirigirse. Sólo tras Access. -->
   <section id="vista-posibles" aria-label="Posibles patrocinadores" hidden>
     <div class="resumen">
       <div class="fila-mods">
-        <div class="segmento cinco" role="group" aria-label="Filtrar por estado">
-          <button data-filtro-posibles="abiertos" class="on">Abiertos</button><button data-filtro-posibles="revisar">Por revisar</button><button data-filtro-posibles="curso">En curso</button><button data-filtro-posibles="cerrados">Cerrados</button><button data-filtro-posibles="descartados">Descartados</button>
-        </div>
         <div class="filtros">
           <input type="search" id="buscar-posibles" placeholder="Buscar empresa, sector…">
         </div>
@@ -580,7 +569,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       </div>
     </div>
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Prio.</th><th>Empresa</th><th>Zona</th><th>Estado</th><th>Contacto</th><th>Fuente</th><th>Por qué encaja</th><th>Próximo paso</th><th>Responsable</th></tr></thead>
+      <thead><tr><th>Empresa</th><th>Zona</th><th>Contacto</th><th>Fuente</th><th>Por qué encaja</th><th>Próximo paso</th><th>Responsable</th></tr></thead>
       <tbody id="cuerpo-posibles"></tbody>
     </table></div>
     <p class="msg" id="posibles-msg"></p>
@@ -703,8 +692,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   <div class="caja">
     <h2 id="posible-titulo">Posible patrocinador</h2>
     <div class="rejilla">
-      <label class="campo"><span>Estado</span><select id="pp-estado"></select></label>
-      <label class="campo"><span>Prioridad</span><select id="pp-prioridad"><option>A</option><option>B</option><option>C</option></select></label>
       <label class="campo"><span>Próximo paso</span><input type="text" id="pp-proximo_paso" maxlength="300"></label>
       <label class="campo"><span>Fecha</span><input type="date" id="pp-fecha_proximo"></label>
       <label class="campo"><span>Responsable</span><input type="text" id="pp-responsable" maxlength="80"></label>
@@ -724,7 +711,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     <p class="nota" id="posible-quien"></p>
     <p class="msg" id="posible-msg"></p>
     <div class="acciones">
-      <button class="izq" id="posible-descartar">Descartar</button>
       <button id="posible-cancelar">Cancelar</button>
       <button class="pri" id="posible-guardar">Guardar</button>
     </div>

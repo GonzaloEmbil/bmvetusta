@@ -8,12 +8,6 @@
  * campañas: el contacto es uno a uno, desde el correo del club.
  */
 
-export const ESTADOS_PROSPECTO = [
-  'Por revisar', 'Pendiente', 'Contactado', 'Reunión', 'Propuesta enviada',
-  'Cerrado sí', 'Cerrado no', 'Descartado',
-];
-const PRIORIDADES = ['A', 'B', 'C'];
-
 const CAB = {
   'Content-Type': 'application/json; charset=utf-8',
   'Cache-Control': 'no-store',
@@ -46,8 +40,6 @@ function campos(b) {
     fuente: texto(b.fuente, 300),
     fuente_url: enlace(b.fuente_url),
     motivo: texto(b.motivo, 1000),
-    prioridad: PRIORIDADES.includes(b.prioridad) ? b.prioridad : 'B',
-    estado: ESTADOS_PROSPECTO.includes(b.estado) ? b.estado : 'Por revisar',
     proximo_paso: texto(b.proximo_paso, 300),
     fecha_proximo: fechaDia(b.fecha_proximo),
     responsable: texto(b.responsable, 80),
@@ -64,7 +56,7 @@ export async function rutasProspectos(request, env, url, correo) {
 
   if (p === '/admin/prospectos' && request.method === 'GET') {
     const { results } = await env.DB.prepare('SELECT * FROM prospectos ORDER BY id').all();
-    return json({ ok: true, prospectos: results || [], estados: ESTADOS_PROSPECTO });
+    return json({ ok: true, prospectos: results || [] });
   }
 
   if (p === '/admin/prospectos' && request.method === 'POST') {
