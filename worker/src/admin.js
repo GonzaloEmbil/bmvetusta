@@ -266,7 +266,7 @@ th[title]{cursor:help;text-decoration:underline dotted 1px;text-underline-offset
 .lateral{flex:0 0 200px;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--bg2);border-right:1px solid var(--l);padding:0 12px 18px;display:flex;flex-direction:column}
 /* Quién ha entrado, al pie de la barra. Un correo largo baja de línea en vez
    de cortarse. */
-.quien{margin:auto -12px 0;padding:14px 16px 0;border-top:1px solid var(--l);font-size:.8rem;color:var(--t3);overflow-wrap:anywhere}
+.quien{margin:auto -12px 0;padding:14px 16px 0;border-top:1px solid var(--l);font-size:.7rem;color:var(--t3);overflow-wrap:anywhere}
 .marca{display:flex;align-items:center;gap:10px;height:77px;margin:0 -12px 16px;padding:0 20px;border-bottom:1px solid var(--l);font-weight:800;font-size:1.05rem;letter-spacing:-.2px}
 .marca .escudo{width:40px;height:40px;display:block;flex:0 0 auto}
 .columna{flex:1 1 auto;min-width:0}
@@ -543,13 +543,13 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   <!-- Patrocinadores e instituciones de cada temporada. -->
   <section id="vista-patro2627" aria-label="Patrocinadores 2026/2027" hidden>
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Correo</th><th>Teléfono</th><th>Web</th></tr></thead>
+      <thead><tr><th>Logo</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Web</th></tr></thead>
       <tbody id="cuerpo-patro2627"></tbody>
     </table></div>
   </section>
   <section id="vista-patro2526" aria-label="Patrocinadores 2025/2026" hidden>
     <div class="tabla-wrap"><table>
-      <thead><tr><th>Logo</th><th>Nombre</th><th>Categoría</th><th>Correo</th><th>Teléfono</th><th>Web</th></tr></thead>
+      <thead><tr><th>Logo</th><th>Nombre</th><th>Correo</th><th>Teléfono</th><th>Web</th></tr></thead>
       <tbody id="cuerpo-patro2526"></tbody>
     </table></div>
     <p class="msg" id="patro-msg"></p>
@@ -860,12 +860,11 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       return '<tr>'+
         '<td class="logo" data-k="Logo">'+logo+'</td>'+
         '<td class="nom" data-k="Nombre">'+esc(p.nombre)+'</td>'+
-        '<td data-k="Categoría">'+dato(p.categoria)+'</td>'+
         '<td class="web" data-k="Correo">'+correo+'</td>'+
         '<td class="web tel" data-k="Teléfono">'+telefono+'</td>'+
         '<td class="web" data-k="Web">'+web+'</td>'+
         '</tr>';
-    }).join('') || '<tr><td colspan="6" style="padding:22px;color:#7b828b">Todavía no hay patrocinadores de la temporada '+temporada+'.</td></tr>';
+    }).join('') || '<tr><td colspan="5" style="padding:22px;color:#7b828b">Todavía no hay patrocinadores de la temporada '+temporada+'.</td></tr>';
     encajarTabla();
   }
 
