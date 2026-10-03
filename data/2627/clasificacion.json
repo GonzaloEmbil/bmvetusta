@@ -1,6 +1,20 @@
 [
   {
     "posicion": 1,
+    "nombre": "ROYAL PREMIUM GIJON",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+    "es_vetusta": false,
+    "PJ": 3,
+    "PG": 2,
+    "PE": 1,
+    "PP": 0,
+    "GF": 99,
+    "GC": 76,
+    "DIF": 23,
+    "puntos": 5
+  },
+  {
+    "posicion": 2,
     "nombre": "INSPARYA BM SANSE",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
     "es_vetusta": false,
@@ -14,7 +28,7 @@
     "puntos": 4
   },
   {
-    "posicion": 2,
+    "posicion": 3,
     "nombre": "FISIOPAT BM. SARIEGOS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
@@ -28,7 +42,35 @@
     "puntos": 4
   },
   {
-    "posicion": 3,
+    "posicion": 4,
+    "nombre": "GRUPO EGIDO BM PINTO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "es_vetusta": false,
+    "PJ": 3,
+    "PG": 2,
+    "PE": 0,
+    "PP": 1,
+    "GF": 91,
+    "GC": 82,
+    "DIF": 9,
+    "puntos": 4
+  },
+  {
+    "posicion": 5,
+    "nombre": "HORIZONTE ATLETICA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+    "es_vetusta": false,
+    "PJ": 3,
+    "PG": 2,
+    "PE": 0,
+    "PP": 1,
+    "GF": 93,
+    "GC": 85,
+    "DIF": 8,
+    "puntos": 4
+  },
+  {
+    "posicion": 6,
     "nombre": "BATHCO BM. TORRELAVEGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
     "es_vetusta": false,
@@ -42,21 +84,7 @@
     "puntos": 4
   },
   {
-    "posicion": 4,
-    "nombre": "ROYAL PREMIUM GIJON",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-    "es_vetusta": false,
-    "PJ": 2,
-    "PG": 1,
-    "PE": 1,
-    "PP": 0,
-    "GF": 66,
-    "GC": 49,
-    "DIF": 17,
-    "puntos": 3
-  },
-  {
-    "posicion": 5,
+    "posicion": 7,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -70,7 +98,7 @@
     "puntos": 3
   },
   {
-    "posicion": 6,
+    "posicion": 8,
     "nombre": "REAL GRUPO DE CULTURA COVADONGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
@@ -84,7 +112,7 @@
     "puntos": 2
   },
   {
-    "posicion": 7,
+    "posicion": 9,
     "nombre": "SDC ASTANDER ASTILLERO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "es_vetusta": false,
@@ -98,21 +126,7 @@
     "puntos": 2
   },
   {
-    "posicion": 8,
-    "nombre": "LAFUENTE PEREDA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
-    "es_vetusta": false,
-    "PJ": 2,
-    "PG": 1,
-    "PE": 0,
-    "PP": 1,
-    "GF": 62,
-    "GC": 60,
-    "DIF": 2,
-    "puntos": 2
-  },
-  {
-    "posicion": 9,
+    "posicion": 10,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
@@ -122,20 +136,6 @@
     "PP": 1,
     "GF": 65,
     "GC": 65,
-    "DIF": 0,
-    "puntos": 2
-  },
-  {
-    "posicion": 10,
-    "nombre": "GRUPO EGIDO BM PINTO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
-    "es_vetusta": false,
-    "PJ": 2,
-    "PG": 1,
-    "PE": 0,
-    "PP": 1,
-    "GF": 59,
-    "GC": 59,
     "DIF": 0,
     "puntos": 2
   },
@@ -155,16 +155,16 @@
   },
   {
     "posicion": 12,
-    "nombre": "HORIZONTE ATLETICA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+    "nombre": "LAFUENTE PEREDA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
-    "PJ": 2,
+    "PJ": 3,
     "PG": 1,
     "PE": 0,
-    "PP": 1,
-    "GF": 59,
-    "GC": 61,
-    "DIF": -2,
+    "PP": 2,
+    "GF": 85,
+    "GC": 92,
+    "DIF": -7,
     "puntos": 2
   },
   {
@@ -183,30 +183,30 @@
   },
   {
     "posicion": 14,
-    "nombre": "CLINISORD LA SALLE MARAVILLAS",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
-    "es_vetusta": false,
-    "PJ": 2,
+    "nombre": "AUTO-CENTER PRINCIPADO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+    "es_vetusta": true,
+    "PJ": 3,
     "PG": 0,
     "PE": 0,
-    "PP": 2,
-    "GF": 57,
-    "GC": 73,
-    "DIF": -16,
+    "PP": 3,
+    "GF": 72,
+    "GC": 94,
+    "DIF": -22,
     "puntos": 0
   },
   {
     "posicion": 15,
-    "nombre": "AUTO-CENTER PRINCIPADO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
-    "es_vetusta": true,
-    "PJ": 2,
+    "nombre": "CLINISORD LA SALLE MARAVILLAS",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
+    "es_vetusta": false,
+    "PJ": 3,
     "PG": 0,
     "PE": 0,
-    "PP": 2,
-    "GF": 45,
-    "GC": 61,
-    "DIF": -16,
+    "PP": 3,
+    "GF": 81,
+    "GC": 107,
+    "DIF": -26,
     "puntos": 0
   },
   {

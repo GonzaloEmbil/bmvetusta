@@ -1,5 +1,15 @@
 [
   {
+    "fecha": "2026-10-03 17:00:00",
+    "jornada": "3",
+    "es_local": false,
+    "rival": "ROYAL PREMIUM GIJON",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+    "goles_vetusta": 27,
+    "goles_rival": 33,
+    "resultado": "D"
+  },
+  {
     "fecha": "2026-09-26 18:00:00",
     "jornada": "2",
     "es_local": true,
