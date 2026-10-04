@@ -15,6 +15,20 @@
   },
   {
     "posicion": 2,
+    "nombre": "BATHCO BM. TORRELAVEGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "es_vetusta": false,
+    "PJ": 3,
+    "PG": 3,
+    "PE": 0,
+    "PP": 0,
+    "GF": 96,
+    "GC": 84,
+    "DIF": 12,
+    "puntos": 6
+  },
+  {
+    "posicion": 3,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -28,7 +42,7 @@
     "puntos": 5
   },
   {
-    "posicion": 3,
+    "posicion": 4,
     "nombre": "ROYAL PREMIUM GIJON",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "es_vetusta": false,
@@ -42,7 +56,7 @@
     "puntos": 5
   },
   {
-    "posicion": 4,
+    "posicion": 5,
     "nombre": "FISIOPAT BM. SARIEGOS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
@@ -56,7 +70,7 @@
     "puntos": 4
   },
   {
-    "posicion": 5,
+    "posicion": 6,
     "nombre": "GRUPO EGIDO BM PINTO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
     "es_vetusta": false,
@@ -70,7 +84,7 @@
     "puntos": 4
   },
   {
-    "posicion": 6,
+    "posicion": 7,
     "nombre": "REAL GRUPO DE CULTURA COVADONGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
@@ -84,7 +98,7 @@
     "puntos": 4
   },
   {
-    "posicion": 7,
+    "posicion": 8,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
@@ -98,59 +112,45 @@
     "puntos": 4
   },
   {
-    "posicion": 8,
-    "nombre": "BATHCO BM. TORRELAVEGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "es_vetusta": false,
-    "PJ": 2,
-    "PG": 2,
-    "PE": 0,
-    "PP": 0,
-    "GF": 61,
-    "GC": 57,
-    "DIF": 4,
-    "puntos": 4
-  },
-  {
     "posicion": 9,
-    "nombre": "SDC ASTANDER ASTILLERO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
+    "nombre": "URBANA BM SORIA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
     "es_vetusta": false,
-    "PJ": 2,
+    "PJ": 3,
     "PG": 1,
-    "PE": 0,
-    "PP": 1,
-    "GF": 65,
-    "GC": 62,
+    "PE": 2,
+    "PP": 0,
+    "GF": 81,
+    "GC": 78,
     "DIF": 3,
-    "puntos": 2
+    "puntos": 4
   },
   {
     "posicion": 10,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
-    "PJ": 2,
+    "PJ": 3,
     "PG": 1,
     "PE": 0,
-    "PP": 1,
-    "GF": 65,
-    "GC": 65,
-    "DIF": 0,
+    "PP": 2,
+    "GF": 91,
+    "GC": 94,
+    "DIF": -3,
     "puntos": 2
   },
   {
     "posicion": 11,
-    "nombre": "URBANA BM SORIA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
+    "nombre": "SDC ASTANDER ASTILLERO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "es_vetusta": false,
-    "PJ": 2,
-    "PG": 0,
-    "PE": 2,
-    "PP": 0,
-    "GF": 52,
-    "GC": 52,
-    "DIF": 0,
+    "PJ": 3,
+    "PG": 1,
+    "PE": 0,
+    "PP": 2,
+    "GF": 92,
+    "GC": 97,
+    "DIF": -5,
     "puntos": 2
   },
   {
