@@ -85,10 +85,8 @@ main{padding:22px}
    donde los demás meten dos, así que las suyas salen más estrechas. */
 .arboles{display:grid;grid-template-columns:minmax(0,1fr);gap:26px;margin-bottom:20px}
 /* La raíz se centra sobre el grupo para que el tronco caiga por su eje. El
-   alto mínimo iguala las cuatro: la del ARPU no lleva cifra, y sin él quedaría
-   más baja y desalinearía su árbol respecto a los demás. */
+   alto mínimo las iguala aunque una cifra ocupe más que otra. */
 .raiz{width:min(100%,186px);margin:0 auto;min-height:77px;display:flex;flex-direction:column;justify-content:center}
-.raiz.sin-cifra span{font-size:.95rem;letter-spacing:.6px;color:var(--t)}
 .tronco{width:0;height:11px;margin:0 auto;border-left:1px solid var(--l2)}
 .ramas{display:grid;gap:10px;height:9px}
 .ramas i{position:relative}
@@ -97,6 +95,7 @@ main{padding:22px}
 .ramas i:last-child::after{content:none}
 .mods{display:grid;gap:10px}
 .mods,.ramas{grid-template-columns:repeat(2,minmax(0,1fr))}
+.arbol.tres .mods,.arbol.tres .ramas{grid-template-columns:repeat(3,minmax(0,1fr))}
 .mod{border:1px solid var(--l);border-radius:9px;padding:8px 11px;min-width:0}
 .mod b{display:block;font-size:1.1rem;line-height:1.2}
 /* Con cuatro columnas iguales, las tarjetas del árbol de modalidad son la
@@ -114,8 +113,8 @@ main{padding:22px}
   .kpis{grid-template-columns:repeat(3,minmax(0,1fr))}
   /* Las ramas tienen que partir la fila igual que las tarjetas, o el raíl
      dejaría de caer sobre el centro de cada una. */
-  .arbol:not(.dos) .mods,
-  .arbol:not(.dos) .ramas{grid-template-columns:repeat(5,minmax(0,1fr))}
+  .arbol:not(.dos):not(.tres) .mods,
+  .arbol:not(.dos):not(.tres) .ramas{grid-template-columns:repeat(5,minmax(0,1fr))}
 }
 
 /* En estrecho las cuatro modalidades bajan a dos filas, y un árbol de una sola
@@ -125,21 +124,25 @@ main{padding:22px}
    modalidad mete cuatro tarjetas donde los demás meten dos, y por debajo de
    este ancho sus rótulos empiezan a partirse en varias líneas. Antes que eso,
    mejor dos y dos, que da tarjetas holgadas. */
-/* Los cuatro árboles, en una sola fila en cualquier pantalla de ordenador.
-   Cada columna es proporcional a las tarjetas que cuelgan de ella (2, 5, 2
-   y 2): así todas miden lo mismo y el árbol de modalidad no se aprieta, que
-   es lo que pasaba con cuatro columnas iguales. El rótulo de las tarjetas
+/* Los tres árboles, en una sola fila en cualquier pantalla de ordenador.
+   Cada columna es proporcional a las tarjetas que cuelgan de ella (3, 5 y
+   2): así todas miden lo mismo y el árbol de modalidad no se aprieta, que
+   es lo que pasaba con columnas iguales. El rótulo de las tarjetas
    crece y mengua con el ancho (cqi) para que «MATRIMONIO» o «POR ABONADO»
    quepan siempre en una línea. Por debajo de este ancho (tablet), un árbol
    debajo de otro. */
 @container (min-width:880px){
-  .arboles{grid-template-columns:minmax(0,2fr) minmax(0,5fr) minmax(0,2fr) minmax(0,2fr);column-gap:clamp(10px,2cqi,26px)}
+  .arboles{grid-template-columns:minmax(0,3fr) minmax(0,5fr) minmax(0,2fr);column-gap:clamp(10px,2cqi,26px)}
   .mod{padding-left:clamp(4px,.55cqi,11px);padding-right:clamp(4px,.55cqi,11px)}
   .mod span{font-size:clamp(.42rem,.75cqi,.7rem);letter-spacing:0;white-space:nowrap}
 }
 @container (max-width:575px){
   .tronco,.ramas{display:none}
   .raiz{text-align:left}
+  /* Tres tarjetas por fila: el rótulo se ajusta para que «COMPROMISOS» quepa
+     en una línea sin partirse. */
+  .arbol.tres .mod{padding-left:8px;padding-right:8px}
+  .arbol.tres .mod span{font-size:.62rem;letter-spacing:0;hyphens:none}
 }
 /* Tabla */
 /* El scroll lateral se queda sólo como red de seguridad: lo normal es que la
@@ -446,10 +449,10 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   <section id="vista-actual" aria-label="Abonados 2026/2027">
     <div class="resumen">
       <div class="arboles">
-        <div class="arbol dos">
+        <div class="arbol tres">
           <div class="kpi raiz"><b id="raiz-abonados">0</b><span>Abonados</span></div>
           <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i></div>
+          <div class="ramas"><i></i><i></i><i></i></div>
           <div class="mods" id="tipos"></div>
         </div>
         <div class="arbol">
@@ -463,12 +466,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
           <div class="tronco"></div>
           <div class="ramas"><i></i><i></i></div>
           <div class="mods" id="ingresos"></div>
-        </div>
-        <div class="arbol dos">
-          <div class="kpi raiz sin-cifra"><span>ARPU</span></div>
-          <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i></div>
-          <div class="mods" id="arpus"></div>
         </div>
       </div>
       <div class="fila-mods">
@@ -495,10 +492,10 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
   <section id="vista-anterior" aria-label="Abonados 2025/2026" hidden>
     <div class="resumen">
       <div class="arboles">
-        <div class="arbol dos">
+        <div class="arbol tres">
           <div class="kpi raiz"><b id="raiz-abonados-ant">0</b><span>Abonados</span></div>
           <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i></div>
+          <div class="ramas"><i></i><i></i><i></i></div>
           <div class="mods" id="tipos-ant"></div>
         </div>
         <div class="arbol">
@@ -512,12 +509,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
           <div class="tronco"></div>
           <div class="ramas"><i></i><i></i></div>
           <div class="mods" id="ingresos-ant"></div>
-        </div>
-        <div class="arbol dos">
-          <div class="kpi raiz sin-cifra"><span>ARPU</span></div>
-          <div class="tronco"></div>
-          <div class="ramas"><i></i><i></i></div>
-          <div class="mods" id="arpus-ant"></div>
         </div>
       </div>
       <div class="fila-mods">
@@ -975,12 +966,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     // Cobrado y Por cobrar no se solapan: son las dos mitades del total, así
     // que sumarlos da el dinero de la campaña sin contar nada dos veces.
     var porCobrar = euros - cobrado;
-    var arpu = abonados ? (cobrado + porCobrar) / abonados : 0;
-    // Los dos ARPU no cuelgan de ningún árbol: son cocientes entre las cifras
-    // de dos de ellos, así que van aparte, al final de la fila.
-    var arpuCompra = titulares.length ? euros / titulares.length : 0;
-    document.getElementById('arpus'+sufijo).innerHTML =
-      tarjeta(eur(arpu), 'Por abonado') + tarjeta(eur(arpuCompra), 'Por compra');
 
     // La modalidad es del abono, no de la persona: un Familiar es UNA venta.
     // Se listan las cuatro siempre, aunque estén a cero, para que se vea el
@@ -989,12 +974,16 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       return tarjeta(titulares.filter(function(a){return a.modalidad === m;}).length, m);
     }).join('');
 
-    // Aquí se cuentan personas, no ventas: cuántas compraron el abono y
-    // cuántas van incluidas en el de otra persona. Los titulares coinciden
-    // con las compras, porque cada compra tiene exactamente un titular.
+    // Aquí se cuentan personas, no ventas: cuántas compraron el abono, cuántas
+    // van incluidas en el de otra persona y cuántas tienen un abono de
+    // Compromisos (patrocinadores), que van aparte sean titulares o no. Las
+    // tres cifras suman el total de abonados.
+    var compromisos = filas.filter(function(a){ return a.modalidad === 'Compromisos'; }).length;
+    var titularesPago = titulares.filter(function(a){ return a.modalidad !== 'Compromisos'; }).length;
     document.getElementById('tipos'+sufijo).innerHTML =
-      tarjeta(titulares.length, 'Titular') +
-      tarjeta(abonados - titulares.length, 'Asociado');
+      tarjeta(titularesPago, 'Titular') +
+      tarjeta(abonados - titularesPago - compromisos, 'Asociado') +
+      tarjeta(compromisos, 'Compromisos');
 
     document.getElementById('ingresos'+sufijo).innerHTML =
       tarjeta(cobrado + ' €', 'Cobrado') +
@@ -1085,9 +1074,6 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     return dd + '/' + mm + '/' + d.getFullYear();
   }
 
-  // Un decimal y coma, como se escriben los números en español.
-  function dec(n){ return n.toFixed(1).replace('.', ','); }
-  function eur(n){ return dec(n) + ' €'; }
 
   // La tabla tiene dieciséis columnas y rara vez cabe. En vez de dejar que se
   // arrastre de lado —que obliga a perder de vista el nombre para ver el
