@@ -1015,6 +1015,12 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         ? '<span class="chip aso" title="'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'">Asociado</span>'+
           '<span class="vinc-tactil">'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'</span>'
         : '<span class="chip tit">Titular</span>';
+      // Los «Compromisos» (abonos de patrocinadores) se ven como tales también
+      // aquí; el asociado sigue indicando, al pasar el ratón, de quién cuelga.
+      if (a.modalidad === 'Compromisos') {
+        vinculo = '<span class="chip gratis"'+(asociado ? ' title="'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'"' : '')+'>Compromisos</span>'+
+          (asociado ? '<span class="vinc-tactil">'+esc(a.parentesco)+' del abonado nº '+a.titular_id+'</span>' : '');
+      }
       // data-k lleva el nombre de la columna. En pantalla ancha no se usa; en
       // móvil, donde la tabla se deshace en fichas y la cabecera desaparece,
       // es lo que pone la etiqueta delante de cada dato.

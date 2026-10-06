@@ -47,7 +47,7 @@ export const DESCARGAS_JS = String.raw`
         { t: 'Nº socio', num: true, v: function(a){ return a.id; } },
         { t: 'Pagado', v: function(a){ return a.modalidad === 'Compromisos' ? 'Gratis' : (a.pagado ? 'Sí' : 'No'); } },
         { t: 'Nombre', v: function(a){ return a.nombre; } },
-        { t: 'Vínculo', v: function(a){ return a.titular_id ? (a.parentesco || 'Asociado') + ' del nº ' + a.titular_id : 'Titular'; } },
+        { t: 'Vínculo', v: function(a){ return a.modalidad === 'Compromisos' ? 'Compromisos' : a.titular_id ? (a.parentesco || 'Asociado') + ' del nº ' + a.titular_id : 'Titular'; } },
         { t: 'Alta', v: function(a){ return fecha(a.creado); } },
         { t: 'Modalidad', v: function(a){ return a.modalidad; } },
         { t: 'Pago', v: function(a){ return a.pago; } },
