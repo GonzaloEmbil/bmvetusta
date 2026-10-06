@@ -33,10 +33,10 @@ export const DESCARGAS_JS = String.raw`
           { t: 'Nacimiento', v: function(){ return ''; } },
           { t: 'Móvil', v: function(s){ return s.telefono; } },
           { t: 'Correo', v: function(s){ return s.email; } },
-          { t: 'Localidad', v: function(s){ return s.localidad; } },
-          { t: 'Imagen', v: function(s){ return s.imagen; } },
-          { t: 'Comunic.', v: function(s){ return s.comunicaciones; } },
-          { t: 'Tutor/a legal', v: function(){ return ''; } }
+          { t: 'Localidad', soloHoja: true, v: function(s){ return s.localidad; } },
+          { t: 'Imagen', soloHoja: true, v: function(s){ return s.imagen; } },
+          { t: 'Comunic.', soloHoja: true, v: function(s){ return s.comunicaciones; } },
+          { t: 'Tutor/a legal', soloHoja: true, v: function(){ return ''; } }
         ]
       };
     }
@@ -57,10 +57,10 @@ export const DESCARGAS_JS = String.raw`
         { t: 'Nacimiento', v: function(a){ return fechaSuelta(a.nacimiento); } },
         { t: 'Móvil', v: function(a){ return a.telefono; } },
         { t: 'Correo', v: function(a){ return a.email; } },
-        { t: 'Localidad', v: function(a){ return a.localidad; } },
-        { t: 'Imagen', v: function(a){ return a.imagen; } },
-        { t: 'Comunic.', v: function(a){ return a.comunicaciones; } },
-        { t: 'Tutor/a legal', v: function(a){
+        { t: 'Localidad', soloHoja: true, v: function(a){ return a.localidad; } },
+        { t: 'Imagen', soloHoja: true, v: function(a){ return a.imagen; } },
+        { t: 'Comunic.', soloHoja: true, v: function(a){ return a.comunicaciones; } },
+        { t: 'Tutor/a legal', soloHoja: true, v: function(a){
           return a.tutor ? [a.tutor.nombre, a.tutor.dni, a.tutor.telefono].filter(Boolean).join(' · ') : '';
         } }
       ]
@@ -289,6 +289,9 @@ export const DESCARGAS_JS = String.raw`
   }
 
   function descargarPDF(d){
+    // El PDF es para imprimir y no lleva las columnas marcadas soloHoja
+    // (localidad, consentimientos y tutor): siguen en el CSV y el Excel.
+    d = Object.assign({}, d, { cols: d.cols.filter(function(c){ return !c.soloHoja; }) });
     var m = matriz(d).map(function(f){ return f.map(String); });
     var W = 842, H = 595, MARGEN = 28, PAD = 4, util = W - 2 * MARGEN;
     function naturales(tam){
