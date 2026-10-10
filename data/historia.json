@@ -264,16 +264,16 @@
     "temporada": "2026/2027",
     "division": "1ª Nacional",
     "fase": "Liga Regular",
-    "pos": 14,
+    "pos": 15,
     "equipos": 16,
-    "PJ": 3,
+    "PJ": 4,
     "PG": 0,
     "PE": 0,
-    "PP": 3,
+    "PP": 4,
     "puntos": 0,
-    "GF": 72,
-    "GC": 94,
-    "DIF": -22,
+    "GF": 95,
+    "GC": 124,
+    "DIF": -29,
     "en_curso": true
   }
 ]

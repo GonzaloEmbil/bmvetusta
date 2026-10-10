@@ -1,21 +1,21 @@
 {
-  "fecha": "2026-10-10 17:30:00",
-  "fecha_display": "Sáb 10 Oct · 17:30h",
+  "fecha": "2026-10-17 18:00:00",
+  "fecha_display": "Sáb 17 Oct · 18:00h",
   "fecha_por_definir": false,
-  "jornada": "4",
-  "es_local": true,
+  "jornada": "5",
+  "es_local": false,
   "local": {
+    "nombre": "Recoletas Salud Arroyo Cabero Edificaciones",
+    "nombre_corto": "Cabero Edificaciones",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
+    "es_vetusta": false
+  },
+  "visitante": {
     "nombre": "Balonmano Vetusta",
     "nombre_corto": "BM Vetusta",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
     "es_vetusta": true
   },
-  "visitante": {
-    "nombre": "Club Balonmano Alcobendas",
-    "nombre_corto": "BM Alcobendas",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
-    "es_vetusta": false
-  },
-  "sede": "De Vallobin · Oviedo",
-  "url_streaming": "https://www.youtube.com/watch?v=Zy2T0bwYRYM"
+  "sede": "Antonio Garnacho · Arroyo de la Encomienda",
+  "url_streaming": "https://www.youtube.com/live/UNb8mQWQf_8"
 }
