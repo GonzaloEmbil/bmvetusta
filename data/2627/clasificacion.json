@@ -1,6 +1,20 @@
 [
   {
     "posicion": 1,
+    "nombre": "INSPARYA BM SANSE",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
+    "es_vetusta": false,
+    "PJ": 4,
+    "PG": 4,
+    "PE": 0,
+    "PP": 0,
+    "GF": 142,
+    "GC": 110,
+    "DIF": 32,
+    "puntos": 8
+  },
+  {
+    "posicion": 2,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -14,21 +28,21 @@
     "puntos": 7
   },
   {
-    "posicion": 2,
-    "nombre": "INSPARYA BM SANSE",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
+    "posicion": 3,
+    "nombre": "FISIOPAT BM. SARIEGOS",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
-    "PJ": 3,
+    "PJ": 4,
     "PG": 3,
     "PE": 0,
-    "PP": 0,
-    "GF": 105,
-    "GC": 74,
-    "DIF": 31,
+    "PP": 1,
+    "GF": 137,
+    "GC": 122,
+    "DIF": 15,
     "puntos": 6
   },
   {
-    "posicion": 3,
+    "posicion": 4,
     "nombre": "BATHCO BM. TORRELAVEGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
     "es_vetusta": false,
@@ -42,7 +56,7 @@
     "puntos": 6
   },
   {
-    "posicion": 4,
+    "posicion": 5,
     "nombre": "URBANA BM SORIA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
     "es_vetusta": false,
@@ -56,32 +70,18 @@
     "puntos": 6
   },
   {
-    "posicion": 5,
+    "posicion": 6,
     "nombre": "ROYAL PREMIUM GIJON",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "es_vetusta": false,
-    "PJ": 3,
+    "PJ": 4,
     "PG": 2,
     "PE": 1,
-    "PP": 0,
-    "GF": 99,
-    "GC": 76,
-    "DIF": 23,
-    "puntos": 5
-  },
-  {
-    "posicion": 6,
-    "nombre": "FISIOPAT BM. SARIEGOS",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
-    "es_vetusta": false,
-    "PJ": 3,
-    "PG": 2,
-    "PE": 0,
     "PP": 1,
-    "GF": 101,
-    "GC": 92,
-    "DIF": 9,
-    "puntos": 4
+    "GF": 129,
+    "GC": 112,
+    "DIF": 17,
+    "puntos": 5
   },
   {
     "posicion": 7,
@@ -102,13 +102,13 @@
     "nombre": "REAL GRUPO DE CULTURA COVADONGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
-    "PJ": 3,
+    "PJ": 4,
     "PG": 2,
     "PE": 0,
-    "PP": 1,
-    "GF": 94,
-    "GC": 86,
-    "DIF": 8,
+    "PP": 2,
+    "GF": 130,
+    "GC": 123,
+    "DIF": 7,
     "puntos": 4
   },
   {
@@ -130,14 +130,14 @@
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
-    "PJ": 3,
-    "PG": 1,
+    "PJ": 4,
+    "PG": 2,
     "PE": 0,
     "PP": 2,
-    "GF": 91,
-    "GC": 94,
-    "DIF": -3,
-    "puntos": 2
+    "GF": 128,
+    "GC": 123,
+    "DIF": 5,
+    "puntos": 4
   },
   {
     "posicion": 11,
@@ -214,13 +214,13 @@
     "nombre": "CONGESA XXI SALAMANCA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
     "es_vetusta": false,
-    "PJ": 3,
+    "PJ": 4,
     "PG": 0,
     "PE": 0,
-    "PP": 3,
-    "GF": 47,
-    "GC": 111,
-    "DIF": -64,
+    "PP": 4,
+    "GF": 76,
+    "GC": 148,
+    "DIF": -72,
     "puntos": 0
   }
 ]
