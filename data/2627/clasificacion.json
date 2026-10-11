@@ -15,6 +15,20 @@
   },
   {
     "posicion": 2,
+    "nombre": "BATHCO BM. TORRELAVEGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "es_vetusta": false,
+    "PJ": 4,
+    "PG": 4,
+    "PE": 0,
+    "PP": 0,
+    "GF": 131,
+    "GC": 100,
+    "DIF": 31,
+    "puntos": 8
+  },
+  {
+    "posicion": 3,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -28,7 +42,7 @@
     "puntos": 7
   },
   {
-    "posicion": 3,
+    "posicion": 4,
     "nombre": "FISIOPAT BM. SARIEGOS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
@@ -39,20 +53,6 @@
     "GF": 137,
     "GC": 122,
     "DIF": 15,
-    "puntos": 6
-  },
-  {
-    "posicion": 4,
-    "nombre": "BATHCO BM. TORRELAVEGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "es_vetusta": false,
-    "PJ": 3,
-    "PG": 3,
-    "PE": 0,
-    "PP": 0,
-    "GF": 96,
-    "GC": 84,
-    "DIF": 12,
     "puntos": 6
   },
   {
@@ -85,20 +85,6 @@
   },
   {
     "posicion": 7,
-    "nombre": "GRUPO EGIDO BM PINTO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
-    "es_vetusta": false,
-    "PJ": 3,
-    "PG": 2,
-    "PE": 0,
-    "PP": 1,
-    "GF": 91,
-    "GC": 82,
-    "DIF": 9,
-    "puntos": 4
-  },
-  {
-    "posicion": 8,
     "nombre": "REAL GRUPO DE CULTURA COVADONGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
@@ -112,7 +98,7 @@
     "puntos": 4
   },
   {
-    "posicion": 9,
+    "posicion": 8,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
@@ -126,7 +112,7 @@
     "puntos": 4
   },
   {
-    "posicion": 10,
+    "posicion": 9,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
@@ -140,35 +126,35 @@
     "puntos": 4
   },
   {
-    "posicion": 11,
+    "posicion": 10,
     "nombre": "LAFUENTE PEREDA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
-    "PJ": 3,
-    "PG": 1,
+    "PJ": 4,
+    "PG": 2,
     "PE": 0,
     "PP": 2,
-    "GF": 85,
-    "GC": 92,
-    "DIF": -7,
-    "puntos": 2
+    "GF": 121,
+    "GC": 119,
+    "DIF": 2,
+    "puntos": 4
+  },
+  {
+    "posicion": 11,
+    "nombre": "GRUPO EGIDO BM PINTO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "es_vetusta": false,
+    "PJ": 4,
+    "PG": 2,
+    "PE": 0,
+    "PP": 2,
+    "GF": 107,
+    "GC": 117,
+    "DIF": -10,
+    "puntos": 4
   },
   {
     "posicion": 12,
-    "nombre": "SDC ASTANDER ASTILLERO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
-    "es_vetusta": false,
-    "PJ": 4,
-    "PG": 1,
-    "PE": 0,
-    "PP": 3,
-    "GF": 118,
-    "GC": 127,
-    "DIF": -9,
-    "puntos": 2
-  },
-  {
-    "posicion": 13,
     "nombre": "CLINISORD LA SALLE MARAVILLAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
     "es_vetusta": false,
@@ -182,17 +168,31 @@
     "puntos": 2
   },
   {
+    "posicion": 13,
+    "nombre": "SDC ASTANDER ASTILLERO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
+    "es_vetusta": false,
+    "PJ": 4,
+    "PG": 1,
+    "PE": 0,
+    "PP": 3,
+    "GF": 118,
+    "GC": 127,
+    "DIF": -9,
+    "puntos": 2
+  },
+  {
     "posicion": 14,
     "nombre": "CAJA VIVA -  BALONMANO CAMARGO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
     "es_vetusta": false,
-    "PJ": 3,
+    "PJ": 4,
     "PG": 0,
     "PE": 0,
-    "PP": 3,
-    "GF": 86,
-    "GC": 100,
-    "DIF": -14,
+    "PP": 4,
+    "GF": 113,
+    "GC": 136,
+    "DIF": -23,
     "puntos": 0
   },
   {
