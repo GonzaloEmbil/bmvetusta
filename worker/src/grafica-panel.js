@@ -396,9 +396,8 @@ export const GRAFICA_JS = String.raw`
     var MARGEN = 54;   // del borde de arriba a la cabecera y del pie al borde de abajo
     dibujarFondo(ctx, W, H);
 
-    // Cabecera: escudo, título y fechas en una franja. El escudo mide lo
-    // mismo que las mayúsculas del título, así que los tres empiezan y acaban
-    // a la misma altura. Con muchos partidos en formato post se encoge.
+    // Cabecera: escudo y, centrados a su altura, el título y las fechas en la
+    // misma línea. Con muchos partidos en formato post se encoge.
     var n = lista.length;
     var c = graf.formato === 'post' && n > 4 ? 0.8 : 1;
     var escudo = graf.escudoClubBlanco, aspecto = escudo ? escudo.width / escudo.height : 0;
@@ -408,15 +407,17 @@ export const GRAFICA_JS = String.raw`
     var anchoF = ctx.measureText(fechas).width / 100;
     var tamT = 150 * c, tamF = 92 * c, sepE = 26 * c, sepF = 28 * c;
     // Si no cabe a lo ancho (fechas largas), se reduce todo a la vez.
-    var cabe = Math.min(1, (W - 2 * M) / (tamT * (capT * aspecto + anchoT) + tamF * anchoF + sepE + sepF));
+    var ESCUDO = 1.5;   // alto del escudo respecto a las mayúsculas del título
+    var cabe = Math.min(1, (W - 2 * M) / (tamT * (capT * ESCUDO * aspecto + anchoT) + tamF * anchoF + sepE + sepF));
     tamT *= cabe; tamF *= cabe; sepE *= cabe; sepF *= cabe;
-    var altoCab = tamT * capT, base = MARGEN + altoCab;
-    if (escudo) ctx.drawImage(escudo, M, MARGEN, altoCab * aspecto, altoCab);
-    var tx = M + (escudo ? altoCab * aspecto + sepE : 0);
+    var cap = tamT * capT, altoEsc = escudo ? cap * ESCUDO : cap;
+    var base = MARGEN + altoEsc / 2 + cap / 2, abajoCab = MARGEN + altoEsc;
+    if (escudo) ctx.drawImage(escudo, M, MARGEN, altoEsc * aspecto, altoEsc);
+    var tx = M + (escudo ? altoEsc * aspecto + sepE : 0);
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    ctx.fillStyle = AMARILLO; ctx.font = tamT + 'px "Bebas Neue"';
+    ctx.fillStyle = '#ffffff'; ctx.font = tamT + 'px "Bebas Neue"';
     ctx.fillText(titulo, tx, base);
-    ctx.fillStyle = '#ffffff'; ctx.font = tamF + 'px "Bebas Neue"';
+    ctx.fillStyle = AMARILLO; ctx.font = tamF + 'px "Bebas Neue"';
     ctx.fillText(fechas, tx + tamT * anchoT + sepF, base);
 
     // Pie.
@@ -426,7 +427,7 @@ export const GRAFICA_JS = String.raw`
     ctx.fillText('#FamiliaVetusta', W - M, H - MARGEN);
 
     // Tarjetas.
-    var arriba = base + 30 * c, abajo = H - MARGEN - 56, hueco = 12;
+    var arriba = abajoCab + 24 * c, abajo = H - MARGEN - 56, hueco = 12;
     if (!n) {
       ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff'; ctx.font = '600 34px Inter';
       ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
