@@ -11,6 +11,7 @@ export const RESULTADOS_JS = String.raw`
   // ── Resultados ────────────────────────────────────────────────────────────
   var semana = null;          // lunes (AAAA-MM-DD) de la semana que se ve
   var resultadosCargados = false;
+  var ultimaSemana = null;   // la última respuesta, que usa también la imagen para redes
   var DIAS_SEMANA = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
   var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
@@ -66,6 +67,8 @@ export const RESULTADOS_JS = String.raw`
   }
 
   function pintarResultados(j){
+    ultimaSemana = j;
+    pintarGrafica();
     var cuenta = { V: 0, E: 0, D: 0, pend: 0 };
     document.getElementById('cuerpo-resultados').innerHTML = j.partidos.map(function(p){
       var fecha = deIso(p.fecha.slice(0, 10)), hora = p.fecha.slice(11, 16);
@@ -94,7 +97,8 @@ export const RESULTADOS_JS = String.raw`
           equipoHtml(p.local, p.escudo_local, p.nuestro_local)+
           equipoHtml(p.visitante, p.escudo_visitante, p.nuestro_visitante)+'</span></td>'+
         '<td data-k="Resultado">'+celda+'</td>'+
-        '<td class="comp-res" data-k="Competición">'+esc(p.competicion)+'</td>'+
+        '<td class="comp-res" data-k="Competición"><span class="lineas">'+esc(p.competicion)+
+          (p.pabellon ? '<span class="lugar-res">'+esc(p.pabellon)+(p.localidad ? ' · '+esc(p.localidad) : '')+'</span>' : '')+'</span></td>'+
         '</tr>';
     }).join('') || '<tr><td colspan="5" style="padding:22px;color:#7b828b">Ningún equipo del club juega esta semana.</td></tr>';
 
@@ -111,6 +115,7 @@ export const RESULTADOS_JS = String.raw`
     semana = masDias(semana || lunesPorDefecto(), 7 * n);
     document.getElementById('res-resumen').textContent = '';
     document.getElementById('cuerpo-resultados').innerHTML = '';
+    ultimaSemana = null;
     cargarResultados();
   }
 

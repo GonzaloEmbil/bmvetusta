@@ -212,7 +212,7 @@ const CSP_PANEL = {
   'Content-Security-Policy':
     "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
     "img-src data: https://altas.balonmanovetusta.com https://balonmanovetusta.com https://balonmano.isquad.es; " +
-    "connect-src 'self'; form-action 'none'; base-uri 'none'; " +
+    "font-src https://balonmanovetusta.com; connect-src 'self'; form-action 'none'; base-uri 'none'; " +
     "frame-ancestors 'none'",
 };
 
