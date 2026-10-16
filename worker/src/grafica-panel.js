@@ -19,7 +19,6 @@ export const GRAFICA_JS = String.raw`
   var FORMATOS = { post: [1080, 1350], historia: [1080, 1920] };
   var AMARILLO = '#ffe500';
   var WEB = 'https://balonmanovetusta.com/src/assets/';
-  var DIAS_LARGOS = ['DOMINGO', 'LUNES', 'MARTES', 'MIÉRCOLES', 'JUEVES', 'VIERNES', 'SÁBADO'];
   var DIAS_CORTOS = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
   var MESES_MAY = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 
@@ -50,8 +49,97 @@ export const GRAFICA_JS = String.raw`
   // el lienzo quedaría «contaminado» y no se podría descargar.
   function escudoDe(url){
     if (!/^https:\/\/balonmano\.isquad\.es\//.test(url || '')) return Promise.resolve(null);
-    if (!graf.escudos[url]) graf.escudos[url] = imagen('/admin/escudo?u=' + encodeURIComponent(url));
+    if (!graf.escudos[url]) graf.escudos[url] = imagen('/admin/escudo?u=' + encodeURIComponent(url)).then(sinFondo);
     return graf.escudos[url];
+  }
+
+  // Los escudos de la federación son JPG con el fondo blanco o negro. Se le
+  // quita el fondo (lo que, entrando desde los bordes, es de ese color, así
+  // que el blanco de dentro del escudo se queda) y se recorta el margen
+  // sobrante. Si el fondo no es liso (una foto, un degradado), se deja como
+  // viene. Una imagen que ya trae transparencia sólo se recorta. Algunos
+  // llevan un marco negro de un píxel: por eso el relleno empieza a dos
+  // píxeles del borde y lo de fuera se quita siempre.
+  function sinFondo(img){
+    if (!img) return null;
+    var r = Math.min(1, 240 / Math.max(img.width, img.height));
+    var w = Math.max(1, Math.round(img.width * r)), h = Math.max(1, Math.round(img.height * r));
+    var c = document.createElement('canvas'); c.width = w; c.height = h;
+    var cx = c.getContext('2d');
+    cx.drawImage(img, 0, 0, w, h);
+    var datos;
+    try { datos = cx.getImageData(0, 0, w, h); } catch (e) { return img; }
+    var px = datos.data, n = w * h;
+    var DURO = 38, SUAVE = 140;
+    // Distancia de un píxel al blanco (1) o al negro (2).
+    function dist(i, ref){
+      var a = px[i * 4], b = px[i * 4 + 1], d = px[i * 4 + 2];
+      return ref === 1 ? 255 - Math.min(a, b, d) : Math.max(a, b, d);
+    }
+    function anillo(t){
+      var a = [];
+      for (var x = t; x < w - t; x++) { a.push(t * w + x, (h - 1 - t) * w + x); }
+      for (var y = t + 1; y < h - 1 - t; y++) { a.push(y * w + t, y * w + w - 1 - t); }
+      return a;
+    }
+    var transparente = anillo(0).some(function(i){ return px[i * 4 + 3] < 250; });
+    if (!transparente && w > 8 && h > 8) {
+      var fondo = new Uint8Array(n), cola = [], lisos = 0;
+      // 3 = marco: se quita, pero no tiñe el filo.
+      anillo(0).concat(anillo(1)).forEach(function(i){ fondo[i] = 3; });
+      var borde = anillo(2);
+      borde.forEach(function(i){
+        if (fondo[i]) return;
+        var ref = dist(i, 1) < DURO ? 1 : dist(i, 2) < DURO ? 2 : 0;
+        if (ref) { fondo[i] = ref; cola.push(i); lisos++; }
+      });
+      if (lisos < borde.length * 0.6) return img;
+      // Relleno desde los bordes: cada píxel hereda el color de fondo del que viene.
+      for (var q = 0; q < cola.length; q++) {
+        var i = cola[q], ref = fondo[i], cx0 = i % w;
+        var vecinos = [cx0 > 0 ? i - 1 : -1, cx0 < w - 1 ? i + 1 : -1, i - w, i + w];
+        for (var v = 0; v < 4; v++) {
+          var j = vecinos[v];
+          if (j < 0 || j >= n || fondo[j] || dist(j, ref) >= DURO) continue;
+          fondo[j] = ref; cola.push(j);
+        }
+      }
+      if (cola.length > n * 0.9) return img;
+      // El filo entre el escudo y el fondo se funde: transparencia parcial y
+      // se le quita el tinte del fondo, para que no quede un halo.
+      for (var k = 0; k < n; k++) {
+        if (fondo[k]) { px[k * 4 + 3] = 0; continue; }
+        var kx = k % w, junto = 0;
+        if (kx > 0 && fondo[k - 1]) junto = fondo[k - 1];
+        else if (kx < w - 1 && fondo[k + 1]) junto = fondo[k + 1];
+        else if (k >= w && fondo[k - w]) junto = fondo[k - w];
+        else if (k + w < n && fondo[k + w]) junto = fondo[k + w];
+        if (!junto || junto === 3) continue;
+        var d = dist(k, junto);
+        if (d >= SUAVE) continue;
+        var alfa = Math.max(0.05, (d - DURO) / (SUAVE - DURO));
+        for (var ch = 0; ch < 3; ch++) {
+          var val = px[k * 4 + ch];
+          val = junto === 1 ? 255 - (255 - val) / alfa : val / alfa;
+          px[k * 4 + ch] = Math.max(0, Math.min(255, Math.round(val)));
+        }
+        px[k * 4 + 3] = Math.round(255 * alfa);
+      }
+      cx.putImageData(datos, 0, 0);
+    }
+    // Recorte a lo que se ve.
+    var x0 = w, y0 = h, x1 = -1, y1 = -1;
+    for (var p = 0; p < n; p++) {
+      if (px[p * 4 + 3] < 24) continue;
+      var pxx = p % w, pyy = (p - pxx) / w;
+      if (pxx < x0) x0 = pxx; if (pxx > x1) x1 = pxx;
+      if (pyy < y0) y0 = pyy; if (pyy > y1) y1 = pyy;
+    }
+    if (x1 < 0) return img;
+    var recorte = document.createElement('canvas');
+    recorte.width = x1 - x0 + 1; recorte.height = y1 - y0 + 1;
+    recorte.getContext('2d').drawImage(c, x0, y0, recorte.width, recorte.height, 0, 0, recorte.width, recorte.height);
+    return recorte;
   }
 
   // «POLID. MANUEL NOVO» → «Polid. Manuel Novo»; las siglas con punto se quedan.
@@ -82,14 +170,14 @@ export const GRAFICA_JS = String.raw`
 
   function fechaDe(p){ var d = p.fecha.slice(0, 10).split('-'); return new Date(+d[0], +d[1] - 1, +d[2]); }
 
-  // «SÁBADO 17 DE OCTUBRE», «17 Y 18 DE OCTUBRE» o «DEL 13 AL 18 DE OCTUBRE».
+  // «17 DE OCTUBRE», «17 Y 18 DE OCTUBRE» o «DEL 13 AL 18 DE OCTUBRE».
   function textoFechas(lista){
     var dias = [];
     lista.forEach(function(p){ var k = p.fecha.slice(0, 10); if (dias.indexOf(k) < 0) dias.push(k); });
     dias.sort();
     if (!dias.length) return '';
     var a = fechaDe({ fecha: dias[0] }), b = fechaDe({ fecha: dias[dias.length - 1] });
-    if (dias.length === 1) return DIAS_LARGOS[a.getDay()] + ' ' + a.getDate() + ' DE ' + MESES_MAY[a.getMonth()];
+    if (dias.length === 1) return a.getDate() + ' DE ' + MESES_MAY[a.getMonth()];
     var mes = a.getMonth() === b.getMonth() ? '' : ' DE ' + MESES_MAY[a.getMonth()];
     var une = dias.length === 2 && (b - a) === 86400000 ? a.getDate() + mes + ' Y ' : 'DEL ' + a.getDate() + mes + ' AL ';
     return une + b.getDate() + ' DE ' + MESES_MAY[b.getMonth()];
@@ -155,17 +243,24 @@ export const GRAFICA_JS = String.raw`
     }
   }
 
+  // Los equipos del club llevan el escudo de la web (sin fondo) en vez del JPG
+  // de la federación.
+  function escudoTarjeta(p, lado, esc2){
+    var nuestro = lado === 'local' ? p.nuestro_local : p.nuestro_visitante;
+    if (nuestro && graf.escudoClubRecortado) return graf.escudoClubRecortado;
+    return esc2[lado === 'local' ? p.escudo_local : p.escudo_visitante];
+  }
+
   function dibujarTarjeta(ctx, p, x, y, w, h, esc2){
     // La tarjeta se diseña a 165 px de alto y se escala con k. Va apretada a
     // propósito: con siete u ocho partidos la letra sigue leyéndose en el móvil.
     var k = Math.max(0.62, Math.min(1.3, h / 165));
     var pad = 18 * k;
     ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
-    // Un filo amarillo a la izquierda, recortado por las esquinas de la tarjeta.
-    ctx.save(); rectRedondo(ctx, x, y, w, h, 20 * k); ctx.clip();
-    ctx.fillStyle = AMARILLO; ctx.fillRect(x, y, 5, h);
-    ctx.restore();
-    var ix = x + pad + 6, dx = x + w - pad;
+    // Un filo amarillo fino alrededor de la tarjeta.
+    ctx.strokeStyle = AMARILLO; ctx.lineWidth = 2;
+    rectRedondo(ctx, x + 1, y + 1, w - 2, h - 2, 20 * k - 1); ctx.stroke();
+    var ix = x + pad + 4, dx = x + w - pad - 4;
 
     // Fila 1: categoría y día (y hora en la de partidos).
     var y1 = y + pad + 27 * k;
@@ -185,7 +280,7 @@ export const GRAFICA_JS = String.raw`
     var hueco = 46 * k;
     [['local', ix, 1], ['visitante', dx, -1]].forEach(function(l){
       var lado = l[0], borde = l[1], dir = l[2];
-      var img = esc2[lado === 'local' ? p.escudo_local : p.escudo_visitante];
+      var img = escudoTarjeta(p, lado, esc2);
       var xcr = dir === 1 ? borde : borde - cr;
       if (img) {
         var r = Math.min(cr / img.width, cr / img.height);
@@ -217,7 +312,7 @@ export const GRAFICA_JS = String.raw`
     filas.forEach(function(f, n){
       var lado = f[0], goles = f[1];
       var yc = y1 + 33 * k + n * 54 * k;
-      var img = esc2[lado === 'local' ? p.escudo_local : p.escudo_visitante];
+      var img = escudoTarjeta(p, lado, esc2);
       if (img) {
         var r = Math.min(cr / img.width, cr / img.height);
         ctx.drawImage(img, ix + (cr - img.width * r) / 2, yc - cr / 2 + (cr - img.height * r) / 2, img.width * r, img.height * r);
@@ -238,21 +333,29 @@ export const GRAFICA_JS = String.raw`
     var M = 60;
     dibujarFondo(ctx, W, H);
 
-    // Cabecera: escudo, título y fechas. Con muchos partidos en formato post
-    // se encoge, para dejar el sitio a las tarjetas.
+    // Cabecera: escudo y, en la misma fila, el título y las fechas. Con muchos
+    // partidos en formato post se encoge, para dejar el sitio a las tarjetas.
     var n = lista.length;
-    var c = graf.formato === 'post' && n > 4 ? 0.74 : 1;
-    var tamEscudo = 168 * c;
-    if (graf.escudoClub) ctx.drawImage(graf.escudoClub, M - 8, M - 10, tamEscudo, tamEscudo);
-    var tx = M + tamEscudo + 18;
+    var c = graf.formato === 'post' && n > 4 ? 0.8 : 1;
+    var tamEscudo = 150 * c, escudo = graf.escudoClubRecortado, anchoEscudo = 0;
+    if (escudo) {
+      anchoEscudo = tamEscudo * escudo.width / escudo.height;
+      ctx.drawImage(escudo, M, M - 6, anchoEscudo, tamEscudo);
+    }
+    var tx = M + anchoEscudo + 30 * c;
+    var titulo = graf.tipo === 'partidos' ? 'PARTIDOS' : 'RESULTADOS', fechas = textoFechas(lista);
+    var tamT = 124 * c, tamF = 64 * c, sep = 26 * c;
+    ctx.font = tamT + 'px "Bebas Neue"'; var anchoT = ctx.measureText(titulo).width;
+    ctx.font = tamF + 'px "Bebas Neue"'; var anchoF = ctx.measureText(fechas).width;
+    // Si no cabe en la fila (fechas largas), se reduce todo a la vez.
+    var cabe = Math.min(1, (W - M - tx) / (anchoT + sep + anchoF));
+    tamT *= cabe; tamF *= cabe; sep *= cabe;
+    var base = M - 6 + tamEscudo / 2 + tamT * 0.35;
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    ctx.fillStyle = '#ffffff'; ctx.font = '800 ' + Math.round(26 * c) + 'px Inter';
-    ctx.fillText('BALONMANO VETUSTA', tx + 4, M + 30 * c);
-    ctx.fillStyle = AMARILLO; ctx.font = Math.round(132 * c) + 'px "Bebas Neue"';
-    ctx.fillText(graf.tipo === 'partidos' ? 'PARTIDOS' : 'RESULTADOS', tx, M + 140 * c);
-    ctx.fillStyle = '#ffffff';
-    var fechas = textoFechas(lista);
-    ctx.fillText(ajustar(ctx, fechas, '{t}px "Bebas Neue"', Math.round(46 * c), W - tx - M), tx + 2, M + 186 * c);
+    ctx.fillStyle = AMARILLO; ctx.font = tamT + 'px "Bebas Neue"';
+    ctx.fillText(titulo, tx, base);
+    ctx.fillStyle = '#ffffff'; ctx.font = tamF + 'px "Bebas Neue"';
+    ctx.fillText(fechas, tx + anchoT * cabe + sep, base);
 
     // Pie.
     ctx.font = '600 26px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.textAlign = 'left';
@@ -261,7 +364,7 @@ export const GRAFICA_JS = String.raw`
     ctx.fillText('#FamiliaVetusta', W - M, H - M + 6);
 
     // Tarjetas.
-    var arriba = M + 236 * c, abajo = H - M - 50, hueco = 12;
+    var arriba = M + tamEscudo + 14, abajo = H - M - 50, hueco = 12;
     if (!n) {
       ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff'; ctx.font = '600 34px Inter';
       ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
@@ -286,7 +389,7 @@ export const GRAFICA_JS = String.raw`
       ? (total - lista.length) + (total - lista.length === 1 ? ' partido aún sin resultado no sale en la imagen.' : ' partidos aún sin resultado no salen en la imagen.')
       : '';
     if (lista.length > 9) nota.textContent = 'Hay ' + lista.length + ' partidos: las tarjetas salen más pequeñas. En formato historia caben mejor.';
-    var esperas = [cargarFuentes(), graf.escudoClub ? null : imagen(WEB + 'escudo.png').then(function(i){ graf.escudoClub = i; })];
+    var esperas = [cargarFuentes(), graf.escudoClub ? null : imagen(WEB + 'escudo.png').then(function(i){ graf.escudoClub = i; graf.escudoClubRecortado = sinFondo(i); })];
     var urls = [];
     lista.forEach(function(p){ [p.escudo_local, p.escudo_visitante].forEach(function(u){ if (u && urls.indexOf(u) < 0) urls.push(u); }); });
     var escudos = {};
