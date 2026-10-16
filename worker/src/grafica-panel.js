@@ -85,26 +85,71 @@ export const GRAFICA_JS = String.raw`
     var transparente = anillo(0).some(function(i){ return px[i * 4 + 3] < 250; });
     if (!transparente && w > 8 && h > 8) {
       var fondo = new Uint8Array(n), cola = [], lisos = 0;
+      // Qué fondo podría ser cada píxel: 1 blanco, 2 negro, 0 ninguno.
+      var tipo = new Uint8Array(n);
+      for (var t = 0; t < n; t++) tipo[t] = dist(t, 1) < DURO ? 1 : dist(t, 2) < DURO ? 2 : 0;
       // 3 = marco: se quita, pero no tiñe el filo.
       anillo(0).concat(anillo(1)).forEach(function(i){ fondo[i] = 3; });
+      // Distancia de cada píxel de fondo al escudo, en píxeles. El relleno sólo
+      // avanza por donde hay más de HOLGURA, para no colarse por una rendija
+      // del contorno y vaciar el escudo por dentro (el blanco interior del de
+      // Atlético Valladolid, por ejemplo); luego crece HOLGURA píxeles para
+      // llegar hasta el borde del escudo.
+      var HOLGURA = 3, lejos = new Uint16Array(n), i, m, xx, yy;
+      for (i = 0; i < n; i++) lejos[i] = tipo[i] || fondo[i] ? 9999 : 0;
+      for (yy = 0; yy < h; yy++) for (xx = 0; xx < w; xx++) {
+        i = yy * w + xx; if (!lejos[i]) continue; m = lejos[i];
+        if (xx > 0) m = Math.min(m, lejos[i - 1] + 1);
+        if (yy > 0) {
+          m = Math.min(m, lejos[i - w] + 1);
+          if (xx > 0) m = Math.min(m, lejos[i - w - 1] + 1);
+          if (xx < w - 1) m = Math.min(m, lejos[i - w + 1] + 1);
+        }
+        lejos[i] = m;
+      }
+      for (yy = h - 1; yy >= 0; yy--) for (xx = w - 1; xx >= 0; xx--) {
+        i = yy * w + xx; if (!lejos[i]) continue; m = lejos[i];
+        if (xx < w - 1) m = Math.min(m, lejos[i + 1] + 1);
+        if (yy < h - 1) {
+          m = Math.min(m, lejos[i + w] + 1);
+          if (xx < w - 1) m = Math.min(m, lejos[i + w + 1] + 1);
+          if (xx > 0) m = Math.min(m, lejos[i + w - 1] + 1);
+        }
+        lejos[i] = m;
+      }
       var borde = anillo(2);
       borde.forEach(function(i){
-        if (fondo[i]) return;
-        var ref = dist(i, 1) < DURO ? 1 : dist(i, 2) < DURO ? 2 : 0;
-        if (ref) { fondo[i] = ref; cola.push(i); lisos++; }
+        if (fondo[i] || !tipo[i]) return;
+        lisos++;
+        if (lejos[i] > HOLGURA) { fondo[i] = tipo[i]; cola.push(i); }
       });
       if (lisos < borde.length * 0.6) return img;
+      function vecinos(i){
+        var x = i % w, v = [];
+        for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+          if ((dx || dy) && x + dx >= 0 && x + dx < w && i + dy * w >= 0 && i + dy * w < n) v.push(i + dy * w + dx);
+        }
+        return v;
+      }
       // Relleno desde los bordes: cada píxel hereda el color de fondo del que viene.
       for (var q = 0; q < cola.length; q++) {
-        var i = cola[q], ref = fondo[i], cx0 = i % w;
-        var vecinos = [cx0 > 0 ? i - 1 : -1, cx0 < w - 1 ? i + 1 : -1, i - w, i + w];
-        for (var v = 0; v < 4; v++) {
-          var j = vecinos[v];
-          if (j < 0 || j >= n || fondo[j] || dist(j, ref) >= DURO) continue;
-          fondo[j] = ref; cola.push(j);
-        }
+        vecinos(cola[q]).forEach(function(j){
+          if (fondo[j] || tipo[j] !== fondo[cola[q]] || lejos[j] <= HOLGURA) return;
+          fondo[j] = tipo[j]; cola.push(j);
+        });
       }
-      if (cola.length > n * 0.9) return img;
+      var frente = cola.slice(), quitados = cola.length;
+      for (var vuelta = 0; vuelta < HOLGURA; vuelta++) {
+        var nuevo = [];
+        frente.forEach(function(p){
+          vecinos(p).forEach(function(j){
+            if (fondo[j] || tipo[j] !== fondo[p]) return;
+            fondo[j] = tipo[j]; nuevo.push(j);
+          });
+        });
+        quitados += nuevo.length; frente = nuevo;
+      }
+      if (quitados > n * 0.9) return img;
       // El filo entre el escudo y el fondo se funde: transparencia parcial y
       // se le quita el tinte del fondo, para que no quede un halo.
       for (var k = 0; k < n; k++) {
@@ -258,8 +303,8 @@ export const GRAFICA_JS = String.raw`
     var pad = 18 * k;
     ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     // Un filo amarillo fino alrededor de la tarjeta.
-    ctx.strokeStyle = AMARILLO; ctx.lineWidth = 2;
-    rectRedondo(ctx, x + 1, y + 1, w - 2, h - 2, 20 * k - 1); ctx.stroke();
+    ctx.strokeStyle = AMARILLO; ctx.lineWidth = 1;
+    rectRedondo(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 20 * k - 0.5); ctx.stroke();
     var ix = x + pad + 4, dx = x + w - pad - 4;
 
     // Fila 1: categoría y día (y hora en la de partidos).
