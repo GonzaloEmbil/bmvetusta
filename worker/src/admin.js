@@ -335,21 +335,24 @@ td.partido-res{white-space:normal}
 .eq-res.nuestro{font-weight:700}
 .escudo-res{width:20px;height:20px;object-fit:contain;flex:0 0 auto}
 td.lugar-res{white-space:normal;font-size:.82rem;color:var(--t2);min-width:160px}
-/* Tabla e imagen para redes, una al lado de la otra si caben. */
-.resultados-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
+/* La imagen para redes va debajo de la tabla: la vista previa a la
+   izquierda y los controles a su lado. */
+.resultados-grid{display:block}
 .resultados-tabla{min-width:0}
-.grafica{position:sticky;top:18px;background:var(--bg2);border:1px solid var(--l);border-radius:14px;padding:16px}
+.grafica{margin-top:24px;background:var(--bg2);border:1px solid var(--l);border-radius:14px;padding:18px}
+.grafica-cuerpo{display:grid;grid-template-columns:minmax(0,380px) minmax(0,340px);gap:24px;align-items:start}
+.grafica-controles{min-width:0}
 .grafica h3{margin:0 0 12px;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
 .grafica .grafica-op{display:flex;width:100%;margin-bottom:8px}
 .grafica .grafica-op button{flex:1 1 0}
-#graf-lienzo{display:block;width:100%;height:auto;margin:6px 0 12px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);background:#111}
+#graf-lienzo{display:block;width:100%;height:auto;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);background:#111}
 .grafica-acciones{display:flex;flex-wrap:wrap;gap:8px}
 .grafica-acciones .pri{flex:1 1 100%}
 .boton-archivo{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
 .boton-archivo:hover{background:#eceef2}
 .boton-archivo input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
 #graf-quitar{flex:1 1 0}
-@container (max-width:1000px){ .resultados-grid{grid-template-columns:minmax(0,1fr)} .grafica{position:static;max-width:420px} }
+@container (max-width:760px){ .grafica-cuerpo{grid-template-columns:minmax(0,1fr)} #graf-lienzo{max-width:420px} }
 @media (max-width:768px){
   .eq-res{justify-content:flex-end}
   .barra-resultados #res-resumen{margin-left:0;width:100%}
@@ -628,19 +631,23 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <!-- Imagen para redes: se dibuja en el navegador y se descarga en JPG. -->
       <aside class="grafica" aria-label="Imagen para redes sociales">
         <h3>Imagen para redes</h3>
-        <div class="segmento grafica-op" role="group" aria-label="Qué mostrar">
-          <button data-tipo-graf="partidos" class="on">Partidos</button><button data-tipo-graf="resultados">Resultados</button>
+        <div class="grafica-cuerpo">
+          <canvas id="graf-lienzo" width="1080" height="1350"></canvas>
+          <div class="grafica-controles">
+            <div class="segmento grafica-op" role="group" aria-label="Qué mostrar">
+              <button data-tipo-graf="partidos" class="on">Partidos</button><button data-tipo-graf="resultados">Resultados</button>
+            </div>
+            <div class="segmento grafica-op" role="group" aria-label="Formato">
+              <button data-formato-graf="post" class="on">Post 4:5</button><button data-formato-graf="historia">Historia 9:16</button>
+            </div>
+            <div class="grafica-acciones">
+              <label class="boton-archivo">Elegir fondo<input type="file" id="graf-fondo" accept="image/*"></label>
+              <button id="graf-quitar" hidden>Quitar fondo</button>
+              <button class="pri" id="graf-descargar">Descargar JPG</button>
+            </div>
+            <p class="nota" id="graf-nota"></p>
+          </div>
         </div>
-        <div class="segmento grafica-op" role="group" aria-label="Formato">
-          <button data-formato-graf="post" class="on">Post 4:5</button><button data-formato-graf="historia">Historia 9:16</button>
-        </div>
-        <canvas id="graf-lienzo" width="1080" height="1350"></canvas>
-        <div class="grafica-acciones">
-          <label class="boton-archivo">Elegir fondo<input type="file" id="graf-fondo" accept="image/*"></label>
-          <button id="graf-quitar" hidden>Quitar fondo</button>
-          <button class="pri" id="graf-descargar">Descargar JPG</button>
-        </div>
-        <p class="nota" id="graf-nota"></p>
       </aside>
     </div>
   </section>
