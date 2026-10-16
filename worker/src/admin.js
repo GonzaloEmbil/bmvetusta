@@ -19,6 +19,7 @@ const ESCUDO = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimH
 import { DESCARGAS_JS } from './descargas.js';
 import { CAMPANAS_JS } from './campanas-panel.js';
 import { PROSPECTOS_JS } from './prospectos-panel.js';
+import { RESULTADOS_JS } from './resultados-panel.js';
 
 export const ADMIN_HTML = `<!DOCTYPE html>
 <html lang="es">
@@ -321,6 +322,22 @@ dialog#posible::backdrop{background:rgba(20,22,26,.45)}
 #posible .acciones{justify-content:flex-end;align-items:center}
 #posible .acciones .izq{margin-right:auto}
 @media (max-width:640px){ .rejilla{grid-template-columns:minmax(0,1fr)} }
+/* Resultados */
+.barra-resultados{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:16px}
+.barra-resultados h2{margin:0;font-size:1.05rem;min-width:0}
+.barra-resultados .flecha{padding:6px 13px;font-size:1.05rem;line-height:1}
+.barra-resultados #res-resumen{margin-left:auto}
+#vista-resultados td{vertical-align:middle}
+td.partido-res{white-space:normal}
+.eq-res{display:flex;align-items:center;gap:7px;line-height:1.5}
+.eq-res+.eq-res{margin-top:3px}
+.eq-res.nuestro{font-weight:700}
+.escudo-res{width:20px;height:20px;object-fit:contain;flex:0 0 auto}
+td.comp-res{white-space:normal;font-size:.8rem;color:var(--t2);min-width:160px}
+@media (max-width:768px){
+  .eq-res{justify-content:flex-end}
+  .barra-resultados #res-resumen{margin-left:0;width:100%}
+}
 /* Campañas */
 .barra-campanas{display:flex;justify-content:flex-end;margin-bottom:16px}
 .fila-campana{cursor:pointer}
@@ -432,6 +449,16 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <button class="sub" id="tab-patro2627" data-vista="patro2627" aria-controls="vista-patro2627">2026/2027</button>
         <button class="sub" id="tab-patro2526" data-vista="patro2526" aria-controls="vista-patro2526">2025/2026</button>
         <button class="sub" id="tab-posibles" data-vista="posibles" aria-controls="vista-posibles">Candidatos</button>
+      </div>
+      </div>
+      <!-- Sólo tras Access, como Campañas. -->
+      <div class="grupo" id="sec-resultados">
+      <button class="seccion" data-ir="resultados">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+        Resultados
+      </button>
+      <div class="subs">
+        <button class="sub" id="tab-resultados" data-vista="resultados" aria-controls="vista-resultados">Semana</button>
       </div>
       </div>
     </nav>
@@ -563,6 +590,22 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       <tbody id="cuerpo-posibles"></tbody>
     </table></div>
     <p class="msg" id="posibles-msg"></p>
+  </section>
+
+  <!-- Partidos de todos los equipos del club en una semana. Sólo tras Access. -->
+  <section id="vista-resultados" aria-label="Resultados" hidden>
+    <div class="barra-resultados">
+      <button class="flecha" id="res-ant" aria-label="Semana anterior">‹</button>
+      <h2 id="res-titulo"></h2>
+      <button class="flecha" id="res-sig" aria-label="Semana siguiente">›</button>
+      <button id="res-hoy">Esta semana</button>
+      <span class="nota" id="res-resumen"></span>
+    </div>
+    <div class="tabla-wrap"><table>
+      <thead><tr><th>Día</th><th>Equipo</th><th>Partido</th><th>Resultado</th><th>Competición</th></tr></thead>
+      <tbody id="cuerpo-resultados"></tbody>
+    </table></div>
+    <p class="msg" id="resultados-msg"></p>
   </section>
 
   <section id="vista-campanas" aria-label="Campañas" hidden>
@@ -795,7 +838,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
       return true;
     }).catch(function(){ m.className='msg bad'; m.textContent='No se han podido cargar los datos.'; return false; });
     return Promise.all([actual, cargarAnteriores(), cargarPatrocinadores(),
-      POR_ACCESS ? cargarCampanas() : true, POR_ACCESS ? cargarProspectos() : true])
+      POR_ACCESS ? cargarCampanas() : true, POR_ACCESS ? cargarProspectos() : true,
+      POR_ACCESS && resultadosCargados && !document.getElementById('vista-resultados').hidden ? cargarResultados() : true])
       .then(function(r){ return r.every(Boolean); });
   }
 
@@ -907,7 +951,8 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     editor:   { tab: 'tab-editor',   titulo: 'Nueva campaña',      hash: '#nueva' },
     patro2627: { tab: 'tab-patro2627', titulo: 'Patrocinadores 2026/2027', hash: '#patrocinadores-2026-27' },
     patro2526: { tab: 'tab-patro2526', titulo: 'Patrocinadores 2025/2026', hash: '#patrocinadores-2025-26' },
-    posibles:  { tab: 'tab-posibles',  titulo: 'Candidatos',  hash: '#patrocinadores-candidatos' }
+    posibles:  { tab: 'tab-posibles',  titulo: 'Candidatos',  hash: '#patrocinadores-candidatos' },
+    resultados: { tab: 'tab-resultados', titulo: 'Resultados', hash: '#resultados' }
   };
 
   function mostrar(vista){
@@ -923,6 +968,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     // Descargar es de los listados de abonados.
     document.getElementById('descargar').hidden = vista !== 'actual' && vista !== 'anterior';
     try { history.replaceState(null, '', existente ? '#campanas' : (VISTAS[vista].hash || location.pathname + location.search)); } catch(e){}
+    // Los resultados se piden a la federación al abrir la sección, no al
+    // entrar en el panel: son nueve consultas que casi nunca hacen falta.
+    if (vista === 'resultados' && !resultadosCargados) cargarResultados();
     encajarTabla();
   }
 
@@ -1188,9 +1236,11 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
 ${DESCARGAS_JS}
 ${CAMPANAS_JS}
 ${PROSPECTOS_JS}
+${RESULTADOS_JS}
   if (!POR_ACCESS) {
     document.getElementById('sec-campanas').hidden = true;
     document.getElementById('tab-posibles').hidden = true;
+    document.getElementById('sec-resultados').hidden = true;
   }
   if (location.hash === '#2025-26') mostrar('anterior');
   else if (POR_ACCESS && location.hash === '#campanas') mostrar('campanas');
@@ -1198,6 +1248,7 @@ ${PROSPECTOS_JS}
   else if (location.hash === '#patrocinadores-2026-27') mostrar('patro2627');
   else if (location.hash === '#patrocinadores-2025-26') mostrar('patro2526');
   else if (POR_ACCESS && (location.hash === '#patrocinadores-candidatos' || location.hash === '#patrocinadores-posibles')) mostrar('posibles');
+  else if (POR_ACCESS && location.hash === '#resultados') mostrar('resultados');
 
   if (POR_ACCESS && CORREO) {
     var q = document.getElementById('quien');

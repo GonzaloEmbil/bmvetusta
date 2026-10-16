@@ -16,6 +16,7 @@ import { TEMPORADA, TEMPORADA_ANTERIOR } from './temporadas.js';
 import { renovacion } from './renovacion.js';
 import { rutasCampanas, rutasPublicas, campanasProgramadas } from './campanas.js';
 import { rutasProspectos } from './prospectos.js';
+import { rutasResultados } from './resultados.js';
 
 const PRIVADO = 'admin.balonmanovetusta.com';
 
@@ -210,7 +211,7 @@ const CAB_ADMIN = {
 const CSP_PANEL = {
   'Content-Security-Policy':
     "default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; " +
-    "img-src data: https://altas.balonmanovetusta.com https://balonmanovetusta.com; " +
+    "img-src data: https://altas.balonmanovetusta.com https://balonmanovetusta.com https://balonmano.isquad.es; " +
     "connect-src 'self'; form-action 'none'; base-uri 'none'; " +
     "frame-ancestors 'none'",
 };
@@ -333,6 +334,8 @@ export default {
       if (campanas) return campanas;
       const prospectos = await rutasProspectos(request, env, url, porAccess);
       if (prospectos) return prospectos;
+      const resultados = await rutasResultados(request, env, url);
+      if (resultados) return resultados;
       // Dentro sólo vive, por ahora, el panel de abonados. Cuando haya más
       // secciones, la raíz pasará a ser un índice y cada una tendrá su ruta.
       if (url.pathname === '/' || url.pathname === '/abonados') {
