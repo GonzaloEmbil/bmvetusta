@@ -199,13 +199,14 @@ export const GRAFICA_JS = String.raw`
     }).join('');
   }
 
-  // Los equipos del club salen como «BM VETUSTA» (con su letra si la tienen).
+  // Los equipos del club salen con el nombre de su categoría («CADETE
+  // FEMENINO»). En un partido entre dos equipos del club, p.equipo trae las
+  // dos categorías, la del local primero.
   function nombreEquipo(p, lado){
-    var bruto = String(lado === 'local' ? p.local : p.visitante).replace(/\s+/g, ' ').trim();
     var nuestro = lado === 'local' ? p.nuestro_local : p.nuestro_visitante;
-    if (!nuestro) return bruto;
-    var letra = (bruto.match(/\s([A-C])$/) || [])[1];
-    return 'BM VETUSTA' + (letra ? ' ' + letra : '');
+    if (!nuestro) return String(lado === 'local' ? p.local : p.visitante).replace(/\s+/g, ' ').trim();
+    var cats = String(p.equipo).split(' · ');
+    return (lado === 'visitante' && cats.length > 1 ? cats[1] : cats[0]).toUpperCase();
   }
 
   function partidosGrafica(){
@@ -404,8 +405,11 @@ export const GRAFICA_JS = String.raw`
     var titulo = graf.tipo === 'partidos' ? 'PARTIDOS' : 'RESULTADOS', fechas = textoFechas(lista);
     ctx.font = '100px "Bebas Neue"';
     var mT = ctx.measureText(titulo), anchoT = mT.width / 100, capT = mT.actualBoundingBoxAscent / 100;
-    var anchoF = ctx.measureText(fechas).width / 100;
-    var tamT = 150 * c, tamF = 92 * c, sepE = 26 * c, sepF = 28 * c;
+    var mF = ctx.measureText(fechas), anchoF = mF.width / 100;
+    // Bordes reales de la tinta (las letras traen algo de margen a los lados),
+    // para que los dos huecos, escudo–título y título–fechas, sean iguales.
+    var izqT = mT.actualBoundingBoxLeft / 100, derT = mT.actualBoundingBoxRight / 100, izqF = mF.actualBoundingBoxLeft / 100;
+    var tamT = 150 * c, tamF = 92 * c, sepE = 28 * c, sepF = 28 * c;
     // Si no cabe a lo ancho (fechas largas), se reduce todo a la vez.
     var ESCUDO = 1.5;   // alto del escudo respecto a las mayúsculas del título
     var cabe = Math.min(1, (W - 2 * M) / (tamT * (capT * ESCUDO * aspecto + anchoT) + tamF * anchoF + sepE + sepF));
@@ -413,12 +417,12 @@ export const GRAFICA_JS = String.raw`
     var cap = tamT * capT, altoEsc = escudo ? cap * ESCUDO : cap;
     var base = MARGEN + altoEsc / 2 + cap / 2, abajoCab = MARGEN + altoEsc;
     if (escudo) ctx.drawImage(escudo, M, MARGEN, altoEsc * aspecto, altoEsc);
-    var tx = M + (escudo ? altoEsc * aspecto + sepE : 0);
+    var tx = M + (escudo ? altoEsc * aspecto + sepE : 0) + izqT * tamT;
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = '#ffffff'; ctx.font = tamT + 'px "Bebas Neue"';
     ctx.fillText(titulo, tx, base);
     ctx.fillStyle = AMARILLO; ctx.font = tamF + 'px "Bebas Neue"';
-    ctx.fillText(fechas, tx + tamT * anchoT + sepF, base);
+    ctx.fillText(fechas, tx + derT * tamT + sepF + izqF * tamF, base);
 
     // Pie.
     ctx.font = '600 26px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.textAlign = 'left';
