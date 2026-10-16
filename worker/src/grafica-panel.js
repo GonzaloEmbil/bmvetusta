@@ -406,7 +406,7 @@ export const GRAFICA_JS = String.raw`
     ctx.font = '100px "Bebas Neue"';
     var mT = ctx.measureText(titulo), anchoT = mT.width / 100, capT = mT.actualBoundingBoxAscent / 100;
     var anchoF = ctx.measureText(fechas).width / 100;
-    var tamT = 150 * c, tamF = 70 * c, sepE = 26 * c, sepF = 28 * c;
+    var tamT = 150 * c, tamF = 92 * c, sepE = 26 * c, sepF = 28 * c;
     // Si no cabe a lo ancho (fechas largas), se reduce todo a la vez.
     var cabe = Math.min(1, (W - 2 * M) / (tamT * (capT * aspecto + anchoT) + tamF * anchoF + sepE + sepF));
     tamT *= cabe; tamF *= cabe; sepE *= cabe; sepF *= cabe;
