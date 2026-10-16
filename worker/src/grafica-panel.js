@@ -19,7 +19,6 @@ export const GRAFICA_JS = String.raw`
   var FORMATOS = { post: [1080, 1350], historia: [1080, 1920] };
   var AMARILLO = '#ffe500';
   var WEB = 'https://balonmanovetusta.com/src/assets/';
-  var DIAS_CORTOS = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
   var DIAS_NOMBRE = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   var MESES_MAY = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 
@@ -310,11 +309,12 @@ export const GRAFICA_JS = String.raw`
   }
 
   function dibujarTarjeta(ctx, p, x, y, w, h, esc2){
-    // La tarjeta se diseña a 180 px de alto (165 la de resultados) y se escala
+    // La tarjeta se diseña a 155 px de alto (142 la de resultados) y se escala
     // con k. Va apretada a propósito: con siete u ocho partidos la letra sigue
-    // leyéndose en el móvil.
+    // leyéndose en el móvil. La categoría no va aparte: es el nombre con el
+    // que sale el equipo del club.
     var partidos = graf.tipo === 'partidos';
-    var k = Math.max(0.62, Math.min(1.3, h / (partidos ? 180 : 165)));
+    var k = Math.max(0.62, Math.min(1.3, h / (partidos ? 155 : 142)));
     var pad = (partidos ? 16 : 18) * k;
     ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     // Un filo amarillo fino alrededor de la tarjeta.
@@ -322,23 +322,11 @@ export const GRAFICA_JS = String.raw`
     rectRedondo(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 20 * k - 0.5); ctx.stroke();
     var ix = x + pad + 4, dx = x + w - pad - 4;
 
-    // Fila 1: categoría (y el día, en la de resultados).
-    var y1 = y + pad + (partidos ? 26 : 27) * k;
-    var d = fechaDe(p), hora = p.fecha.slice(11, 16), anchoCuando = 0;
-    ctx.textBaseline = 'alphabetic';
-    if (!partidos) {
-      var cuando = DIAS_CORTOS[d.getDay()] + ' ' + d.getDate();
-      ctx.textAlign = 'right'; ctx.fillStyle = '#ffffff'; ctx.font = (36 * k) + 'px "Bebas Neue"';
-      ctx.fillText(cuando, dx, y1);
-      anchoCuando = ctx.measureText(cuando).width + 40;
-    }
-    ctx.textAlign = 'left'; ctx.fillStyle = AMARILLO;
-    ctx.fillText(ajustar(ctx, p.equipo.toUpperCase(), '{t}px "Bebas Neue"', (partidos ? 34 : 36) * k, w - 2 * pad - anchoCuando), ix, y1);
+    var d = fechaDe(p), hora = p.fecha.slice(11, 16);
+    if (!partidos) return marcador(ctx, p, ix, dx, y + pad, k, esc2);
 
-    if (!partidos) return marcador(ctx, p, ix, dx, y1, k, esc2);
-
-    // Fila 2: local, «VS», visitante.
-    var yc = y1 + 38 * k, cr = 62 * k, centro = x + w / 2;
+    // Fila 1: local, «VS», visitante.
+    var yc = y + pad + 34 * k, cr = 66 * k, centro = x + w / 2;
     var hueco = 46 * k;
     [['local', ix, 1], ['visitante', dx, -1]].forEach(function(l){
       var lado = l[0], borde = l[1], dir = l[2];
@@ -358,7 +346,7 @@ export const GRAFICA_JS = String.raw`
     ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font = (40 * k) + 'px "Bebas Neue"';
     ctx.fillText('VS', centro, yc + 3 * k);
 
-    // Filas 3 y 4: día y hora y, debajo, pabellón y localidad, con la misma letra.
+    // Filas 2 y 3: día y hora y, debajo, pabellón y localidad, con la misma letra.
     var lineas = [DIAS_NOMBRE[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '')];
     if (p.pabellon || p.localidad) lineas.push([bonito(p.pabellon), bonito(p.localidad)].filter(Boolean).join(' · '));
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
@@ -369,12 +357,12 @@ export const GRAFICA_JS = String.raw`
 
   // Resultados, como un marcador: cada equipo en su línea con sus goles a la
   // derecha. Así caben los nombres largos y el resultado se lee de un vistazo.
-  function marcador(ctx, p, ix, dx, y1, k, esc2){
+  function marcador(ctx, p, ix, dx, arriba, k, esc2){
     var cr = 52 * k, filas = [['local', p.goles_local], ['visitante', p.goles_visitante]];
     var otro = { local: p.goles_visitante, visitante: p.goles_local };
     filas.forEach(function(f, n){
       var lado = f[0], goles = f[1];
-      var yc = y1 + 33 * k + n * 54 * k;
+      var yc = arriba + 26 * k + n * 54 * k;
       var img = escudoTarjeta(p, lado, esc2);
       if (img) {
         var r = Math.min(cr / img.width, cr / img.height);
