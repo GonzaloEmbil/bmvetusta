@@ -156,28 +156,30 @@ export const GRAFICA_JS = String.raw`
   }
 
   function dibujarTarjeta(ctx, p, x, y, w, h, esc2){
-    var k = Math.max(0.62, Math.min(1.12, h / 196));
-    var pad = 26 * k;
+    // La tarjeta se diseña a 165 px de alto y se escala con k. Va apretada a
+    // propósito: con siete u ocho partidos la letra sigue leyéndose en el móvil.
+    var k = Math.max(0.62, Math.min(1.3, h / 165));
+    var pad = 18 * k;
     ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     ctx.fillStyle = AMARILLO; rectRedondo(ctx, x, y, 12, h, 6); ctx.fill();
-    var ix = x + pad + 10, dx = x + w - pad;
+    var ix = x + pad + 14, dx = x + w - pad;
 
     // Fila 1: categoría y día (y hora en la de partidos).
-    var y1 = y + pad + 26 * k;
+    var y1 = y + pad + 27 * k;
     var d = fechaDe(p), hora = p.fecha.slice(11, 16);
     var cuando = DIAS_CORTOS[d.getDay()] + ' ' + d.getDate() + (graf.tipo === 'partidos' && hora && hora !== '00:00' ? '  ·  ' + hora : '');
     ctx.textBaseline = 'alphabetic';
-    ctx.textAlign = 'right'; ctx.fillStyle = '#ffffff'; ctx.font = (34 * k) + 'px "Bebas Neue"';
+    ctx.textAlign = 'right'; ctx.fillStyle = '#ffffff'; ctx.font = (36 * k) + 'px "Bebas Neue"';
     ctx.fillText(cuando, dx, y1);
     var anchoCuando = ctx.measureText(cuando).width;
     ctx.textAlign = 'left'; ctx.fillStyle = AMARILLO;
-    ctx.fillText(ajustar(ctx, p.equipo.toUpperCase(), '{t}px "Bebas Neue"', 34 * k, w - 2 * pad - anchoCuando - 40), ix, y1);
+    ctx.fillText(ajustar(ctx, p.equipo.toUpperCase(), '{t}px "Bebas Neue"', 36 * k, w - 2 * pad - anchoCuando - 40), ix, y1);
 
     if (graf.tipo === 'resultados') return marcador(ctx, p, ix, dx, y1, k, esc2);
 
     // Fila 2: local, «VS», visitante.
-    var yc = y1 + 22 * k + 34 * k, cr = 58 * k, centro = x + w / 2;
-    var hueco = 52 * k;
+    var yc = y1 + 40 * k, cr = 52 * k, centro = x + w / 2;
+    var hueco = 46 * k;
     [['local', ix, 1], ['visitante', dx, -1]].forEach(function(l){
       var lado = l[0], borde = l[1], dir = l[2];
       var img = esc2[lado === 'local' ? p.escudo_local : p.escudo_visitante];
@@ -190,7 +192,7 @@ export const GRAFICA_JS = String.raw`
       var xt = dir === 1 ? borde + cr + 14 * k : borde - cr - 14 * k;
       var ancho = Math.abs(centro - xt) - hueco;
       ctx.fillStyle = nuestro ? AMARILLO : '#ffffff';
-      nombreEnLineas(ctx, nombreEquipo(p, lado), xt, yc, ancho, 29 * k, dir === 1 ? 'left' : 'right');
+      nombreEnLineas(ctx, nombreEquipo(p, lado), xt, yc, ancho, 30 * k, dir === 1 ? 'left' : 'right');
     });
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font = (40 * k) + 'px "Bebas Neue"';
@@ -200,18 +202,18 @@ export const GRAFICA_JS = String.raw`
     if (p.pabellon || p.localidad) {
       var lugar = [bonito(p.pabellon), bonito(p.localidad)].filter(Boolean).join(' · ');
       ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
-      ctx.fillText(ajustar(ctx, lugar, '500 {t}px Inter', 23 * k, w - 2 * pad), centro, y + h - pad + 2 * k);
+      ctx.fillText(ajustar(ctx, lugar, '500 {t}px Inter', 22 * k, w - 2 * pad), centro, y + h - pad);
     }
   }
 
   // Resultados, como un marcador: cada equipo en su línea con sus goles a la
   // derecha. Así caben los nombres largos y el resultado se lee de un vistazo.
   function marcador(ctx, p, ix, dx, y1, k, esc2){
-    var cr = 48 * k, filas = [['local', p.goles_local], ['visitante', p.goles_visitante]];
+    var cr = 44 * k, filas = [['local', p.goles_local], ['visitante', p.goles_visitante]];
     var otro = { local: p.goles_visitante, visitante: p.goles_local };
     filas.forEach(function(f, n){
       var lado = f[0], goles = f[1];
-      var yc = y1 + 40 * k + n * 58 * k;
+      var yc = y1 + 36 * k + n * 50 * k;
       var img = esc2[lado === 'local' ? p.escudo_local : p.escudo_visitante];
       if (img) {
         var r = Math.min(cr / img.width, cr / img.height);
@@ -220,7 +222,7 @@ export const GRAFICA_JS = String.raw`
       var nuestro = lado === 'local' ? p.nuestro_local : p.nuestro_visitante;
       var gana = goles > otro[lado];
       ctx.textBaseline = 'middle';
-      ctx.textAlign = 'right'; ctx.font = (62 * k) + 'px "Bebas Neue"';
+      ctx.textAlign = 'right'; ctx.font = (56 * k) + 'px "Bebas Neue"';
       ctx.fillStyle = nuestro ? AMARILLO : gana ? '#ffffff' : 'rgba(255,255,255,0.62)';
       ctx.fillText(String(goles), dx, yc + 4 * k);
       var anchoGoles = ctx.measureText('00').width;
@@ -233,19 +235,21 @@ export const GRAFICA_JS = String.raw`
     var M = 60;
     dibujarFondo(ctx, W, H);
 
-    // Cabecera: escudo, título y fechas.
-    var tamEscudo = 168;
+    // Cabecera: escudo, título y fechas. Con muchos partidos en formato post
+    // se encoge, para dejar el sitio a las tarjetas.
+    var n = lista.length;
+    var c = graf.formato === 'post' && n > 4 ? 0.74 : 1;
+    var tamEscudo = 168 * c;
     if (graf.escudoClub) ctx.drawImage(graf.escudoClub, M - 8, M - 10, tamEscudo, tamEscudo);
     var tx = M + tamEscudo + 18;
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-    ctx.fillStyle = '#ffffff'; ctx.font = '800 26px Inter';
-    ctx.fillText('BALONMANO VETUSTA', tx + 4, M + 30);
-    ctx.fillStyle = AMARILLO; ctx.font = '132px "Bebas Neue"';
-    ctx.fillText(graf.tipo === 'partidos' ? 'PARTIDOS' : 'RESULTADOS', tx, M + 140);
+    ctx.fillStyle = '#ffffff'; ctx.font = '800 ' + Math.round(26 * c) + 'px Inter';
+    ctx.fillText('BALONMANO VETUSTA', tx + 4, M + 30 * c);
+    ctx.fillStyle = AMARILLO; ctx.font = Math.round(132 * c) + 'px "Bebas Neue"';
+    ctx.fillText(graf.tipo === 'partidos' ? 'PARTIDOS' : 'RESULTADOS', tx, M + 140 * c);
     ctx.fillStyle = '#ffffff';
     var fechas = textoFechas(lista);
-    ctx.font = '46px "Bebas Neue"';
-    ctx.fillText(ajustar(ctx, fechas, '{t}px "Bebas Neue"', 46, W - tx - M), tx + 2, M + 186);
+    ctx.fillText(ajustar(ctx, fechas, '{t}px "Bebas Neue"', Math.round(46 * c), W - tx - M), tx + 2, M + 186 * c);
 
     // Pie.
     ctx.font = '600 26px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.textAlign = 'left';
@@ -254,13 +258,13 @@ export const GRAFICA_JS = String.raw`
     ctx.fillText('#FamiliaVetusta', W - M, H - M + 6);
 
     // Tarjetas.
-    var arriba = M + 236, abajo = H - M - 52, hueco = 14, n = lista.length;
+    var arriba = M + 236 * c, abajo = H - M - 50, hueco = 12;
     if (!n) {
       ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff'; ctx.font = '600 34px Inter';
       ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
       return;
     }
-    var alto = Math.min(214, (abajo - arriba - hueco * (n - 1)) / n);
+    var alto = Math.min(215, (abajo - arriba - hueco * (n - 1)) / n);
     // Las tarjetas van pegadas al título; si sobra sitio, se ve la foto debajo.
     var y = arriba;
     lista.forEach(function(p){ dibujarTarjeta(ctx, p, M, y, W - 2 * M, alto, esc2); y += alto + hueco; });

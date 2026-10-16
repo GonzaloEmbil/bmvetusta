@@ -343,7 +343,7 @@ td.lugar-res{white-space:normal;font-size:.82rem;color:var(--t2);min-width:160px
 .grafica-cabecera{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .grafica-cabecera h3{margin:0 auto 0 0;font-size:1.05rem}
 .grafica-escenario{display:flex;justify-content:center;align-items:center;background:#1b1d22;border-radius:14px;padding:30px}
-#graf-lienzo{display:block;height:min(600px,72vh);width:auto;max-width:100%;border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.5);background:#111}
+#graf-lienzo{display:block;height:min(1000px,86vh);width:auto;max-width:100%;border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.5);background:#111}
 .boton-archivo{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
 .boton-archivo:hover{background:#eceef2}
 .boton-archivo input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
