@@ -5,9 +5,9 @@
  *
  * Todo se dibuja en un <canvas> en el navegador: la foto no sale del equipo
  * de quien la elige. Las tipografías (Bebas Neue e Inter, las de la web) y el
- * escudo se cargan de balonmanovetusta.com, y los escudos de los rivales de la
- * federación; las tres fuentes envían cabeceras CORS, así que el lienzo no
- * queda «contaminado» y se puede exportar.
+ * escudo se cargan de balonmanovetusta.com (que envía cabeceras CORS) y los
+ * escudos de la federación, a través del propio panel; así el lienzo no queda
+ * «contaminado» y se puede exportar.
  *
  * Como el resto de módulos del panel, va en String.raw: sin comillas
  * invertidas ni «${». Usa ultimaSemana (resultados-panel.js) y
@@ -46,10 +46,11 @@ export const GRAFICA_JS = String.raw`
     });
   }
 
-  // El parámetro evita reutilizar la copia que la tabla cargó sin CORS.
+  // Los escudos de la federación pasan por el panel (/admin/escudo): sin eso
+  // el lienzo quedaría «contaminado» y no se podría descargar.
   function escudoDe(url){
     if (!/^https:\/\/balonmano\.isquad\.es\//.test(url || '')) return Promise.resolve(null);
-    if (!graf.escudos[url]) graf.escudos[url] = imagen(url + (url.indexOf('?') < 0 ? '?' : '&') + 'lienzo=1');
+    if (!graf.escudos[url]) graf.escudos[url] = imagen('/admin/escudo?u=' + encodeURIComponent(url));
     return graf.escudos[url];
   }
 

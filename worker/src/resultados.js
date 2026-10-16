@@ -20,7 +20,8 @@ const UA = '6&"7*/5*&,?"->(1483>%1*!("%* 0\'\'>8.38-"?",("2#,!$(1>:64?"?,#?*=\'"
 
 export const TEMPORADA_ISQUAD = '2627';
 
-// id de equipo en la federación → cómo se llama en el panel.
+// id de equipo en la federación → cómo se llama en el panel. El orden importa:
+// de mayor a menor categoría, que es como salen en la tabla y en la imagen.
 export const EQUIPOS = [
   { id: '209500', nombre: 'Primera Nacional' },
   { id: '210109', nombre: 'Segunda Nacional' },
@@ -57,39 +58,30 @@ async function isquad(ruta, datos) {
   return d;
 }
 
-// Guarda en la caché del Worker lo que devuelve «obtener» durante «segundos».
-async function cacheado(clave, segundos, obtener) {
-  const peticion = new Request(`https://admin.balonmanovetusta.com/__cache/isquad/${clave}`);
-  const cache = caches.default;
-  const guardada = await cache.match(peticion);
-  if (guardada) return guardada.json();
-  const valor = await obtener();
-  await cache.put(peticion, new Response(JSON.stringify(valor), {
-    headers: { 'Content-Type': 'application/json', 'Cache-Control': `max-age=${segundos}` },
-  }));
-  return valor;
-}
+// Un Worker gratuito puede hacer 50 consultas externas por petición, y cada
+// consulta a la caché cuenta. Por eso se guarda la semana entera de una vez
+// (dos accesos a la caché) en vez de cada consulta a la federación por
+// separado: así una semana normal se queda en unas 25.
+const CACHE_SEMANA = (desde) => new Request(`https://admin.balonmanovetusta.com/__cache/isquad/semana2/${TEMPORADA_ISQUAD}/${desde}`);
 
-// Trayectoria de un equipo: cinco minutos en caché, para que recargar el
-// panel no repita las nueve consultas a la federación.
-const trayectoria = (id) => cacheado(`equipo/${TEMPORADA_ISQUAD}/${id}`, 300, async () =>
-  ((await isquad('/ws/equipo', { id_equipo: id, id_temporada: TEMPORADA_ISQUAD })).equipo || {}).trayectoria || []);
+const trayectoria = async (id) =>
+  ((await isquad('/ws/equipo', { id_equipo: id, id_temporada: TEMPORADA_ISQUAD })).equipo || {}).trayectoria || [];
 
 // La trayectoria no dice dónde se juega. El calendario del grupo sí (el
 // número de pabellón de cada partido), y /ws/estadio, el nombre y la dirección.
-const pabellonesDelGrupo = (grupo) => cacheado(`grupo/${grupo}`, 3600, async () => {
+async function pabellonesDelGrupo(grupo) {
   const mapa = {};
   for (const m of (await isquad('/ws/calendario', { id_grupo: grupo })).calendarios || []) mapa[m.id] = m.id_estadio || '';
   return mapa;
-});
+}
 
-const pabellon = (id) => cacheado(`estadio/${id}`, 86400, async () => {
+async function pabellon(id) {
   const e = (await isquad('/ws/estadio', { id_estadio: id })).estadio || {};
   const direccion = arreglarTexto(e.direccion);
   // La localidad es lo que va detrás del código postal: «33012 Oviedo, …».
   const localidad = (direccion.match(/\b\d{5}\s+([^,]+)/) || [])[1] || '';
   return { nombre: arreglarTexto(e.nombre_estadio).trim(), localidad: localidad.trim() };
-});
+}
 
 // Algunos textos de la federación llegan con los bytes UTF-8 leídos como
 // latin-1 («GijÃ³n»). Se reinterpretan sólo si muestran la marca Ã/Â y si el
@@ -113,7 +105,32 @@ function sumarDias(dia, n) {
   return d.toISOString().slice(0, 10);
 }
 
+// Escudos de la federación servidos desde el propio panel. Los de isquad no
+// mandan cabeceras CORS en la descarga, y un <canvas> que dibuja una imagen de
+// otro sitio sin ellas ya no se puede exportar. Pasando por aquí son «del
+// mismo sitio» y la imagen para redes se descarga sin problema.
+async function escudo(url) {
+  const u = url.searchParams.get('u') || '';
+  if (!/^https:\/\/balonmano\.isquad\.es\/images\/[\w\/.-]+\.(?:jpe?g|png|gif|webp)$/i.test(u)) {
+    return new Response('', { status: 400 });
+  }
+  const clave = new Request(`https://admin.balonmanovetusta.com/__cache/escudo/${encodeURIComponent(u)}`);
+  const cache = caches.default;
+  let r = await cache.match(clave);
+  if (!r) {
+    const origen = await fetch(u, { headers: { 'User-Agent': UA } });
+    const tipo = origen.headers.get('Content-Type') || '';
+    if (!origen.ok || !tipo.startsWith('image/')) return new Response('', { status: 404 });
+    r = new Response(await origen.arrayBuffer(), { headers: { 'Content-Type': tipo, 'Cache-Control': 'max-age=604800' } });
+    await cache.put(clave, r.clone());
+  }
+  return new Response(r.body, {
+    headers: { 'Content-Type': r.headers.get('Content-Type'), 'Cache-Control': 'private, max-age=86400', 'X-Content-Type-Options': 'nosniff' },
+  });
+}
+
 export async function rutasResultados(request, env, url) {
+  if (url.pathname === '/admin/escudo' && request.method === 'GET') return escudo(url);
   if (url.pathname !== '/admin/resultados' || request.method !== 'GET') return null;
   // «desde» es el lunes de la semana: entran de lunes a domingo, para no
   // perder los partidos entre semana (las fechas de la federación ya vienen
@@ -122,7 +139,13 @@ export async function rutasResultados(request, env, url) {
   if (!diaValido(desde)) return json({ ok: false, error: 'Fecha no válida.' }, 400);
   const dias = [0, 1, 2, 3, 4, 5, 6].map((n) => sumarDias(desde, n));
 
+  // Cinco minutos en caché: recargar el panel no repite las consultas.
+  const cache = caches.default;
+  const guardada = await cache.match(CACHE_SEMANA(desde));
+  if (guardada) return json(await guardada.json());
+
   const nuestros = new Map(EQUIPOS.map((e) => [e.id, e.nombre]));
+  const rango = new Map(EQUIPOS.map((e, i) => [e.id, i]));
   const vistos = new Map();
   const fallos = [];
   await Promise.all(EQUIPOS.map(async (eq) => {
@@ -139,6 +162,8 @@ export async function rutasResultados(request, env, url) {
         grupo: p.id_grupo,
         fecha: p.fecha,
         equipo: [local && nuestros.get(p.id_local), visitante && nuestros.get(p.id_visitante)].filter(Boolean).join(' · '),
+        // Puesto del equipo en EQUIPOS, que va de mayor a menor categoría.
+        orden: Math.min(local ? rango.get(p.id_local) : 99, visitante ? rango.get(p.id_visitante) : 99),
         local: p.nombre_local,
         visitante: p.nombre_visitante,
         escudo_local: p.url_escudo_local || '',
@@ -151,7 +176,8 @@ export async function rutasResultados(request, env, url) {
       });
     }
   }));
-  const partidos = [...vistos.values()].sort((a, b) => a.fecha.localeCompare(b.fecha));
+  // De mayor a menor categoría y, dentro de cada una, por fecha.
+  const partidos = [...vistos.values()].sort((a, b) => a.orden - b.orden || a.fecha.localeCompare(b.fecha));
 
   // Pabellón de cada partido. Si la federación falla aquí, los partidos salen
   // igual, sólo que sin lugar.
@@ -167,5 +193,13 @@ export async function rutasResultados(request, env, url) {
     }
   } catch { /* sin pabellones */ }
   for (const p of partidos) delete p.grupo;
-  return json({ ok: true, desde, dias, partidos, fallos });
+  const respuesta = { ok: true, desde, dias, partidos, fallos };
+  // Si algún equipo no se ha podido consultar, no se guarda: así la próxima
+  // vez se vuelve a intentar.
+  if (!fallos.length) {
+    await cache.put(CACHE_SEMANA(desde), new Response(JSON.stringify(respuesta), {
+      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'max-age=300' },
+    }));
+  }
+  return json(respuesta);
 }

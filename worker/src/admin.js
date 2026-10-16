@@ -335,24 +335,25 @@ td.partido-res{white-space:normal}
 .eq-res.nuestro{font-weight:700}
 .escudo-res{width:20px;height:20px;object-fit:contain;flex:0 0 auto}
 td.lugar-res{white-space:normal;font-size:.82rem;color:var(--t2);min-width:160px}
-/* La imagen para redes va debajo de la tabla: la vista previa a la
-   izquierda y los controles a su lado. */
+/* Imagen para redes, debajo de la tabla: una barra con los controles y,
+   debajo, un «escenario» oscuro con la imagen centrada. */
 .resultados-grid{display:block}
 .resultados-tabla{min-width:0}
-.grafica{margin-top:24px;background:var(--bg2);border:1px solid var(--l);border-radius:14px;padding:18px}
-.grafica-cuerpo{display:grid;grid-template-columns:minmax(0,380px) minmax(0,340px);gap:24px;align-items:start}
-.grafica-controles{min-width:0}
-.grafica h3{margin:0 0 12px;font-size:.78rem;letter-spacing:1px;text-transform:uppercase;color:var(--t3)}
-.grafica .grafica-op{display:flex;width:100%;margin-bottom:8px}
-.grafica .grafica-op button{flex:1 1 0}
-#graf-lienzo{display:block;width:100%;height:auto;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.18);background:#111}
-.grafica-acciones{display:flex;flex-wrap:wrap;gap:8px}
-.grafica-acciones .pri{flex:1 1 100%}
-.boton-archivo{display:inline-flex;align-items:center;justify-content:center;flex:1 1 0;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
+.grafica{margin-top:34px;padding-top:26px;border-top:1px solid var(--l)}
+.grafica-cabecera{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.grafica-cabecera h3{margin:0 auto 0 0;font-size:1.05rem}
+.grafica-escenario{display:flex;justify-content:center;align-items:center;background:#1b1d22;border-radius:14px;padding:30px}
+#graf-lienzo{display:block;height:min(600px,72vh);width:auto;max-width:100%;border-radius:8px;box-shadow:0 14px 36px rgba(0,0,0,.5);background:#111}
+.boton-archivo{display:inline-flex;align-items:center;justify-content:center;cursor:pointer;border-radius:9px;border:1.5px solid var(--l2);background:var(--bg);padding:9px 15px;font-weight:600}
 .boton-archivo:hover{background:#eceef2}
 .boton-archivo input{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none}
-#graf-quitar{flex:1 1 0}
-@container (max-width:760px){ .grafica-cuerpo{grid-template-columns:minmax(0,1fr)} #graf-lienzo{max-width:420px} }
+@media (max-width:768px){
+  .grafica-cabecera h3{flex-basis:100%}
+  .grafica-cabecera .boton-archivo,.grafica-cabecera #graf-quitar{flex:1 1 0}
+  .grafica-cabecera .pri{flex:1 1 100%}
+  .grafica-escenario{padding:14px}
+  #graf-lienzo{height:auto;width:100%}
+}
 @media (max-width:768px){
   .eq-res{justify-content:flex-end}
   .barra-resultados #res-resumen{margin-left:0;width:100%}
@@ -629,26 +630,22 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
         <p class="msg" id="resultados-msg"></p>
       </div>
       <!-- Imagen para redes: se dibuja en el navegador y se descarga en JPG. -->
-      <aside class="grafica" aria-label="Imagen para redes sociales">
-        <h3>Imagen para redes</h3>
-        <div class="grafica-cuerpo">
-          <canvas id="graf-lienzo" width="1080" height="1350"></canvas>
-          <div class="grafica-controles">
-            <div class="segmento grafica-op" role="group" aria-label="Qué mostrar">
-              <button data-tipo-graf="partidos" class="on">Partidos</button><button data-tipo-graf="resultados">Resultados</button>
-            </div>
-            <div class="segmento grafica-op" role="group" aria-label="Formato">
-              <button data-formato-graf="post" class="on">Post 4:5</button><button data-formato-graf="historia">Historia 9:16</button>
-            </div>
-            <div class="grafica-acciones">
-              <label class="boton-archivo">Elegir fondo<input type="file" id="graf-fondo" accept="image/*"></label>
-              <button id="graf-quitar" hidden>Quitar fondo</button>
-              <button class="pri" id="graf-descargar">Descargar JPG</button>
-            </div>
-            <p class="nota" id="graf-nota"></p>
+      <section class="grafica" aria-label="Imagen para redes sociales">
+        <div class="grafica-cabecera">
+          <h3>Imagen para redes</h3>
+          <div class="segmento" role="group" aria-label="Qué mostrar">
+            <button data-tipo-graf="partidos" class="on">Partidos</button><button data-tipo-graf="resultados">Resultados</button>
           </div>
+          <div class="segmento" role="group" aria-label="Formato">
+            <button data-formato-graf="post" class="on">Post 4:5</button><button data-formato-graf="historia">Historia 9:16</button>
+          </div>
+          <label class="boton-archivo">Elegir fondo<input type="file" id="graf-fondo" accept="image/*"></label>
+          <button id="graf-quitar" hidden>Quitar fondo</button>
+          <button class="pri" id="graf-descargar">Descargar JPG</button>
         </div>
-      </aside>
+        <div class="grafica-escenario"><canvas id="graf-lienzo" width="1080" height="1350"></canvas></div>
+        <p class="nota" id="graf-nota"></p>
+      </section>
     </div>
   </section>
 
