@@ -405,7 +405,7 @@ export const GRAFICA_JS = String.raw`
     // Pie.
     ctx.font = '600 26px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.textAlign = 'left';
     ctx.fillText('balonmanovetusta.com', M, H - M + 6);
-    ctx.textAlign = 'right'; ctx.fillStyle = AMARILLO; ctx.font = '800 26px Inter';
+    ctx.textAlign = 'right'; ctx.font = '800 26px Inter';
     ctx.fillText('#FamiliaVetusta', W - M, H - M + 6);
 
     // Tarjetas.
