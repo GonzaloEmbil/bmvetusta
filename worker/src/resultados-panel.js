@@ -97,8 +97,7 @@ export const RESULTADOS_JS = String.raw`
           equipoHtml(p.local, p.escudo_local, p.nuestro_local)+
           equipoHtml(p.visitante, p.escudo_visitante, p.nuestro_visitante)+'</span></td>'+
         '<td data-k="Resultado">'+celda+'</td>'+
-        '<td class="comp-res" data-k="Competición"><span class="lineas">'+esc(p.competicion)+
-          (p.pabellon ? '<span class="lugar-res">'+esc(p.pabellon)+(p.localidad ? ' · '+esc(p.localidad) : '')+'</span>' : '')+'</span></td>'+
+        '<td class="lugar-res" data-k="Lugar">'+(p.pabellon ? esc(p.pabellon)+(p.localidad ? ' · '+esc(p.localidad) : '') : '<span class="vacio">—</span>')+'</td>'+
         '</tr>';
     }).join('') || '<tr><td colspan="5" style="padding:22px;color:#7b828b">Ningún equipo del club juega esta semana.</td></tr>';
 

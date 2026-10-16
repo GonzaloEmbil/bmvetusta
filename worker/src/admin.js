@@ -334,8 +334,7 @@ td.partido-res{white-space:normal}
 .eq-res+.eq-res{margin-top:3px}
 .eq-res.nuestro{font-weight:700}
 .escudo-res{width:20px;height:20px;object-fit:contain;flex:0 0 auto}
-td.comp-res{white-space:normal;font-size:.8rem;color:var(--t2);min-width:160px}
-.lugar-res{display:block;margin-top:4px;color:var(--t3);font-size:.76rem}
+td.lugar-res{white-space:normal;font-size:.82rem;color:var(--t2);min-width:160px}
 /* Tabla e imagen para redes, una al lado de la otra si caben. */
 .resultados-grid{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:24px;align-items:start}
 .resultados-tabla{min-width:0}
@@ -621,7 +620,7 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
     <div class="resultados-grid">
       <div class="resultados-tabla">
         <div class="tabla-wrap"><table>
-          <thead><tr><th>Día</th><th>Equipo</th><th>Partido</th><th>Resultado</th><th>Competición</th></tr></thead>
+          <thead><tr><th>Día</th><th>Equipo</th><th>Partido</th><th>Resultado</th><th>Lugar</th></tr></thead>
           <tbody id="cuerpo-resultados"></tbody>
         </table></div>
         <p class="msg" id="resultados-msg"></p>

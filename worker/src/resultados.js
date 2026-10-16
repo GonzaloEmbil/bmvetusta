@@ -113,9 +113,6 @@ function sumarDias(dia, n) {
   return d.toISOString().slice(0, 10);
 }
 
-// Las competiciones llegan como «CATEGORÍA - FASE - GRUPO»; basta la primera parte.
-const competicion = (s) => String(s || '').split(' - ')[0].trim();
-
 export async function rutasResultados(request, env, url) {
   if (url.pathname !== '/admin/resultados' || request.method !== 'GET') return null;
   // «desde» es el lunes de la semana: entran de lunes a domingo, para no
@@ -142,7 +139,6 @@ export async function rutasResultados(request, env, url) {
         grupo: p.id_grupo,
         fecha: p.fecha,
         equipo: [local && nuestros.get(p.id_local), visitante && nuestros.get(p.id_visitante)].filter(Boolean).join(' · '),
-        competicion: competicion(p.nombre_competicion),
         local: p.nombre_local,
         visitante: p.nombre_visitante,
         escudo_local: p.url_escudo_local || '',
