@@ -161,8 +161,11 @@ export const GRAFICA_JS = String.raw`
     var k = Math.max(0.62, Math.min(1.3, h / 165));
     var pad = 18 * k;
     ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
-    ctx.fillStyle = AMARILLO; rectRedondo(ctx, x, y, 12, h, 6); ctx.fill();
-    var ix = x + pad + 14, dx = x + w - pad;
+    // Un filo amarillo a la izquierda, recortado por las esquinas de la tarjeta.
+    ctx.save(); rectRedondo(ctx, x, y, w, h, 20 * k); ctx.clip();
+    ctx.fillStyle = AMARILLO; ctx.fillRect(x, y, 5, h);
+    ctx.restore();
+    var ix = x + pad + 6, dx = x + w - pad;
 
     // Fila 1: categoría y día (y hora en la de partidos).
     var y1 = y + pad + 27 * k;
@@ -178,7 +181,7 @@ export const GRAFICA_JS = String.raw`
     if (graf.tipo === 'resultados') return marcador(ctx, p, ix, dx, y1, k, esc2);
 
     // Fila 2: local, «VS», visitante.
-    var yc = y1 + 40 * k, cr = 52 * k, centro = x + w / 2;
+    var yc = y1 + 41 * k, cr = 70 * k, centro = x + w / 2;
     var hueco = 46 * k;
     [['local', ix, 1], ['visitante', dx, -1]].forEach(function(l){
       var lado = l[0], borde = l[1], dir = l[2];
@@ -209,11 +212,11 @@ export const GRAFICA_JS = String.raw`
   // Resultados, como un marcador: cada equipo en su línea con sus goles a la
   // derecha. Así caben los nombres largos y el resultado se lee de un vistazo.
   function marcador(ctx, p, ix, dx, y1, k, esc2){
-    var cr = 44 * k, filas = [['local', p.goles_local], ['visitante', p.goles_visitante]];
+    var cr = 52 * k, filas = [['local', p.goles_local], ['visitante', p.goles_visitante]];
     var otro = { local: p.goles_visitante, visitante: p.goles_local };
     filas.forEach(function(f, n){
       var lado = f[0], goles = f[1];
-      var yc = y1 + 36 * k + n * 50 * k;
+      var yc = y1 + 33 * k + n * 54 * k;
       var img = esc2[lado === 'local' ? p.escudo_local : p.escudo_visitante];
       if (img) {
         var r = Math.min(cr / img.width, cr / img.height);

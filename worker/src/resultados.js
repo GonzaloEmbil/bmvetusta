@@ -62,7 +62,7 @@ async function isquad(ruta, datos) {
 // consulta a la caché cuenta. Por eso se guarda la semana entera de una vez
 // (dos accesos a la caché) en vez de cada consulta a la federación por
 // separado: así una semana normal se queda en unas 25.
-const CACHE_SEMANA = (desde) => new Request(`https://admin.balonmanovetusta.com/__cache/isquad/semana2/${TEMPORADA_ISQUAD}/${desde}`);
+const CACHE_SEMANA = (desde) => new Request(`https://admin.balonmanovetusta.com/__cache/isquad/semana3/${TEMPORADA_ISQUAD}/${desde}`);
 
 const trayectoria = async (id) =>
   ((await isquad('/ws/equipo', { id_equipo: id, id_temporada: TEMPORADA_ISQUAD })).equipo || {}).trayectoria || [];
@@ -75,12 +75,16 @@ async function pabellonesDelGrupo(grupo) {
   return mapa;
 }
 
+// Localidades que la federación da por el barrio o la parroquia y el club
+// prefiere nombrar por el concejo (el Manuel Novo está en Sotiello, Oviedo).
+const LOCALIDADES = { sotiello: 'Oviedo' };
+
 async function pabellon(id) {
   const e = (await isquad('/ws/estadio', { id_estadio: id })).estadio || {};
   const direccion = arreglarTexto(e.direccion);
   // La localidad es lo que va detrás del código postal: «33012 Oviedo, …».
-  const localidad = (direccion.match(/\b\d{5}\s+([^,]+)/) || [])[1] || '';
-  return { nombre: arreglarTexto(e.nombre_estadio).trim(), localidad: localidad.trim() };
+  const localidad = ((direccion.match(/\b\d{5}\s+([^,]+)/) || [])[1] || '').trim();
+  return { nombre: arreglarTexto(e.nombre_estadio).trim(), localidad: LOCALIDADES[localidad.toLowerCase()] || localidad };
 }
 
 // Algunos textos de la federación llegan con los bytes UTF-8 leídos como
