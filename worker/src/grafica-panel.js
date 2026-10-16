@@ -20,6 +20,7 @@ export const GRAFICA_JS = String.raw`
   var AMARILLO = '#ffe500';
   var WEB = 'https://balonmanovetusta.com/src/assets/';
   var DIAS_CORTOS = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+  var DIAS_NOMBRE = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   var MESES_MAY = ['ENERO', 'FEBRERO', 'MARZO', 'ABRIL', 'MAYO', 'JUNIO', 'JULIO', 'AGOSTO', 'SEPTIEMBRE', 'OCTUBRE', 'NOVIEMBRE', 'DICIEMBRE'];
 
   function cargarFuentes(){
@@ -288,6 +289,17 @@ export const GRAFICA_JS = String.raw`
     }
   }
 
+  // El escudo de la cabecera va en blanco: la misma silueta, pintada entera.
+  function enBlanco(img){
+    if (!img) return null;
+    var c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+    var cx = c.getContext('2d');
+    cx.drawImage(img, 0, 0);
+    cx.globalCompositeOperation = 'source-in';
+    cx.fillStyle = '#ffffff'; cx.fillRect(0, 0, c.width, c.height);
+    return c;
+  }
+
   // Los equipos del club llevan el escudo de la web (sin fondo) en vez del JPG
   // de la federación.
   function escudoTarjeta(p, lado, esc2){
@@ -297,31 +309,35 @@ export const GRAFICA_JS = String.raw`
   }
 
   function dibujarTarjeta(ctx, p, x, y, w, h, esc2){
-    // La tarjeta se diseña a 165 px de alto y se escala con k. Va apretada a
-    // propósito: con siete u ocho partidos la letra sigue leyéndose en el móvil.
-    var k = Math.max(0.62, Math.min(1.3, h / 165));
-    var pad = 18 * k;
+    // La tarjeta se diseña a 180 px de alto (165 la de resultados) y se escala
+    // con k. Va apretada a propósito: con siete u ocho partidos la letra sigue
+    // leyéndose en el móvil.
+    var partidos = graf.tipo === 'partidos';
+    var k = Math.max(0.62, Math.min(1.3, h / (partidos ? 180 : 165)));
+    var pad = (partidos ? 16 : 18) * k;
     ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     // Un filo amarillo fino alrededor de la tarjeta.
     ctx.strokeStyle = AMARILLO; ctx.lineWidth = 1;
     rectRedondo(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 20 * k - 0.5); ctx.stroke();
     var ix = x + pad + 4, dx = x + w - pad - 4;
 
-    // Fila 1: categoría y día (y hora en la de partidos).
-    var y1 = y + pad + 27 * k;
-    var d = fechaDe(p), hora = p.fecha.slice(11, 16);
-    var cuando = DIAS_CORTOS[d.getDay()] + ' ' + d.getDate() + (graf.tipo === 'partidos' && hora && hora !== '00:00' ? '  ·  ' + hora : '');
+    // Fila 1: categoría (y el día, en la de resultados).
+    var y1 = y + pad + (partidos ? 26 : 27) * k;
+    var d = fechaDe(p), hora = p.fecha.slice(11, 16), anchoCuando = 0;
     ctx.textBaseline = 'alphabetic';
-    ctx.textAlign = 'right'; ctx.fillStyle = '#ffffff'; ctx.font = (36 * k) + 'px "Bebas Neue"';
-    ctx.fillText(cuando, dx, y1);
-    var anchoCuando = ctx.measureText(cuando).width;
+    if (!partidos) {
+      var cuando = DIAS_CORTOS[d.getDay()] + ' ' + d.getDate();
+      ctx.textAlign = 'right'; ctx.fillStyle = '#ffffff'; ctx.font = (36 * k) + 'px "Bebas Neue"';
+      ctx.fillText(cuando, dx, y1);
+      anchoCuando = ctx.measureText(cuando).width + 40;
+    }
     ctx.textAlign = 'left'; ctx.fillStyle = AMARILLO;
-    ctx.fillText(ajustar(ctx, p.equipo.toUpperCase(), '{t}px "Bebas Neue"', 36 * k, w - 2 * pad - anchoCuando - 40), ix, y1);
+    ctx.fillText(ajustar(ctx, p.equipo.toUpperCase(), '{t}px "Bebas Neue"', (partidos ? 34 : 36) * k, w - 2 * pad - anchoCuando), ix, y1);
 
-    if (graf.tipo === 'resultados') return marcador(ctx, p, ix, dx, y1, k, esc2);
+    if (!partidos) return marcador(ctx, p, ix, dx, y1, k, esc2);
 
     // Fila 2: local, «VS», visitante.
-    var yc = y1 + 41 * k, cr = 70 * k, centro = x + w / 2;
+    var yc = y1 + 38 * k, cr = 62 * k, centro = x + w / 2;
     var hueco = 46 * k;
     [['local', ix, 1], ['visitante', dx, -1]].forEach(function(l){
       var lado = l[0], borde = l[1], dir = l[2];
@@ -341,12 +357,13 @@ export const GRAFICA_JS = String.raw`
     ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font = (40 * k) + 'px "Bebas Neue"';
     ctx.fillText('VS', centro, yc + 3 * k);
 
-    // Fila 3: pabellón y localidad.
-    if (p.pabellon || p.localidad) {
-      var lugar = [bonito(p.pabellon), bonito(p.localidad)].filter(Boolean).join(' · ');
-      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
-      ctx.fillText(ajustar(ctx, lugar, '500 {t}px Inter', 22 * k, w - 2 * pad), centro, y + h - pad);
-    }
+    // Filas 3 y 4: día y hora y, debajo, pabellón y localidad, con la misma letra.
+    var lineas = [DIAS_NOMBRE[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '')];
+    if (p.pabellon || p.localidad) lineas.push([bonito(p.pabellon), bonito(p.localidad)].filter(Boolean).join(' · '));
+    ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
+    lineas.reverse().forEach(function(t, i){
+      ctx.fillText(ajustar(ctx, t, '500 {t}px Inter', 22 * k, w - 2 * pad), centro, y + h - pad - i * 27 * k);
+    });
   }
 
   // Resultados, como un marcador: cada equipo en su línea con sus goles a la
@@ -376,40 +393,40 @@ export const GRAFICA_JS = String.raw`
 
   function dibujar(ctx, W, H, lista, esc2){
     var M = 60;
+    var MARGEN = 54;   // del borde de arriba a la cabecera y del pie al borde de abajo
     dibujarFondo(ctx, W, H);
 
-    // Cabecera: escudo y, en la misma fila, el título y las fechas. Con muchos
-    // partidos en formato post se encoge, para dejar el sitio a las tarjetas.
+    // Cabecera: escudo, título y fechas en una franja. El escudo mide lo
+    // mismo que las mayúsculas del título, así que los tres empiezan y acaban
+    // a la misma altura. Con muchos partidos en formato post se encoge.
     var n = lista.length;
     var c = graf.formato === 'post' && n > 4 ? 0.8 : 1;
-    var tamEscudo = 150 * c, escudo = graf.escudoClubRecortado, anchoEscudo = 0;
-    if (escudo) {
-      anchoEscudo = tamEscudo * escudo.width / escudo.height;
-      ctx.drawImage(escudo, M, M - 6, anchoEscudo, tamEscudo);
-    }
-    var tx = M + anchoEscudo + 30 * c;
+    var escudo = graf.escudoClubBlanco, aspecto = escudo ? escudo.width / escudo.height : 0;
     var titulo = graf.tipo === 'partidos' ? 'PARTIDOS' : 'RESULTADOS', fechas = textoFechas(lista);
-    var tamT = 124 * c, tamF = 64 * c, sep = 26 * c;
-    ctx.font = tamT + 'px "Bebas Neue"'; var anchoT = ctx.measureText(titulo).width;
-    ctx.font = tamF + 'px "Bebas Neue"'; var anchoF = ctx.measureText(fechas).width;
-    // Si no cabe en la fila (fechas largas), se reduce todo a la vez.
-    var cabe = Math.min(1, (W - M - tx) / (anchoT + sep + anchoF));
-    tamT *= cabe; tamF *= cabe; sep *= cabe;
-    var base = M - 6 + tamEscudo / 2 + tamT * 0.35;
+    ctx.font = '100px "Bebas Neue"';
+    var mT = ctx.measureText(titulo), anchoT = mT.width / 100, capT = mT.actualBoundingBoxAscent / 100;
+    var anchoF = ctx.measureText(fechas).width / 100;
+    var tamT = 150 * c, tamF = 70 * c, sepE = 26 * c, sepF = 28 * c;
+    // Si no cabe a lo ancho (fechas largas), se reduce todo a la vez.
+    var cabe = Math.min(1, (W - 2 * M) / (tamT * (capT * aspecto + anchoT) + tamF * anchoF + sepE + sepF));
+    tamT *= cabe; tamF *= cabe; sepE *= cabe; sepF *= cabe;
+    var altoCab = tamT * capT, base = MARGEN + altoCab;
+    if (escudo) ctx.drawImage(escudo, M, MARGEN, altoCab * aspecto, altoCab);
+    var tx = M + (escudo ? altoCab * aspecto + sepE : 0);
     ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
     ctx.fillStyle = AMARILLO; ctx.font = tamT + 'px "Bebas Neue"';
     ctx.fillText(titulo, tx, base);
     ctx.fillStyle = '#ffffff'; ctx.font = tamF + 'px "Bebas Neue"';
-    ctx.fillText(fechas, tx + anchoT * cabe + sep, base);
+    ctx.fillText(fechas, tx + tamT * anchoT + sepF, base);
 
     // Pie.
     ctx.font = '600 26px Inter'; ctx.fillStyle = 'rgba(255,255,255,0.85)'; ctx.textAlign = 'left';
-    ctx.fillText('balonmanovetusta.com', M, H - M + 6);
-    ctx.textAlign = 'right'; ctx.font = '800 26px Inter';
-    ctx.fillText('#FamiliaVetusta', W - M, H - M + 6);
+    ctx.fillText('balonmanovetusta.com', M, H - MARGEN);
+    ctx.textAlign = 'right';
+    ctx.fillText('#FamiliaVetusta', W - M, H - MARGEN);
 
     // Tarjetas.
-    var arriba = M + tamEscudo + 14, abajo = H - M - 50, hueco = 12;
+    var arriba = base + 30 * c, abajo = H - MARGEN - 56, hueco = 12;
     if (!n) {
       ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff'; ctx.font = '600 34px Inter';
       ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
@@ -434,7 +451,7 @@ export const GRAFICA_JS = String.raw`
       ? (total - lista.length) + (total - lista.length === 1 ? ' partido aún sin resultado no sale en la imagen.' : ' partidos aún sin resultado no salen en la imagen.')
       : '';
     if (lista.length > 9) nota.textContent = 'Hay ' + lista.length + ' partidos: las tarjetas salen más pequeñas. En formato historia caben mejor.';
-    var esperas = [cargarFuentes(), graf.escudoClub ? null : imagen(WEB + 'escudo.png').then(function(i){ graf.escudoClub = i; graf.escudoClubRecortado = sinFondo(i); })];
+    var esperas = [cargarFuentes(), graf.escudoClub ? null : imagen(WEB + 'escudo.png').then(function(i){ graf.escudoClub = i; graf.escudoClubRecortado = sinFondo(i); graf.escudoClubBlanco = enBlanco(graf.escudoClubRecortado); })];
     var urls = [];
     lista.forEach(function(p){ [p.escudo_local, p.escudo_visitante].forEach(function(u){ if (u && urls.indexOf(u) < 0) urls.push(u); }); });
     var escudos = {};
