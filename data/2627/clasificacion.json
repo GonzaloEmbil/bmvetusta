@@ -43,6 +43,20 @@
   },
   {
     "posicion": 4,
+    "nombre": "ROYAL PREMIUM GIJON",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+    "es_vetusta": false,
+    "PJ": 5,
+    "PG": 3,
+    "PE": 1,
+    "PP": 1,
+    "GF": 165,
+    "GC": 144,
+    "DIF": 21,
+    "puntos": 7
+  },
+  {
+    "posicion": 5,
     "nombre": "FISIOPAT BM. SARIEGOS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
@@ -56,7 +70,7 @@
     "puntos": 6
   },
   {
-    "posicion": 5,
+    "posicion": 6,
     "nombre": "URBANA BM SORIA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
     "es_vetusta": false,
@@ -70,35 +84,7 @@
     "puntos": 6
   },
   {
-    "posicion": 6,
-    "nombre": "ROYAL PREMIUM GIJON",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-    "es_vetusta": false,
-    "PJ": 4,
-    "PG": 2,
-    "PE": 1,
-    "PP": 1,
-    "GF": 129,
-    "GC": 112,
-    "DIF": 17,
-    "puntos": 5
-  },
-  {
     "posicion": 7,
-    "nombre": "REAL GRUPO DE CULTURA COVADONGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-    "es_vetusta": false,
-    "PJ": 4,
-    "PG": 2,
-    "PE": 0,
-    "PP": 2,
-    "GF": 130,
-    "GC": 123,
-    "DIF": 7,
-    "puntos": 4
-  },
-  {
-    "posicion": 8,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
@@ -112,7 +98,7 @@
     "puntos": 4
   },
   {
-    "posicion": 9,
+    "posicion": 8,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
@@ -123,6 +109,20 @@
     "GF": 128,
     "GC": 123,
     "DIF": 5,
+    "puntos": 4
+  },
+  {
+    "posicion": 9,
+    "nombre": "REAL GRUPO DE CULTURA COVADONGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+    "es_vetusta": false,
+    "PJ": 5,
+    "PG": 2,
+    "PE": 0,
+    "PP": 3,
+    "GF": 162,
+    "GC": 159,
+    "DIF": 3,
     "puntos": 4
   },
   {
@@ -144,13 +144,13 @@
     "nombre": "GRUPO EGIDO BM PINTO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
     "es_vetusta": false,
-    "PJ": 4,
+    "PJ": 5,
     "PG": 2,
     "PE": 0,
-    "PP": 2,
-    "GF": 107,
-    "GC": 117,
-    "DIF": -10,
+    "PP": 3,
+    "GF": 134,
+    "GC": 145,
+    "DIF": -11,
     "puntos": 4
   },
   {
@@ -158,14 +158,14 @@
     "nombre": "CLINISORD LA SALLE MARAVILLAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
     "es_vetusta": false,
-    "PJ": 4,
-    "PG": 1,
+    "PJ": 5,
+    "PG": 2,
     "PE": 0,
     "PP": 3,
-    "GF": 111,
-    "GC": 133,
-    "DIF": -22,
-    "puntos": 2
+    "GF": 139,
+    "GC": 160,
+    "DIF": -21,
+    "puntos": 4
   },
   {
     "posicion": 13,
