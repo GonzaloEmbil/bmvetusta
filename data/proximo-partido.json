@@ -1,21 +1,21 @@
 {
-  "fecha": "2026-10-17 18:00:00",
-  "fecha_display": "Sáb 17 Oct · 18:00h",
+  "fecha": "2026-10-24 18:00:00",
+  "fecha_display": "Sáb 24 Oct · 18:00h",
   "fecha_por_definir": false,
-  "jornada": "5",
-  "es_local": false,
+  "jornada": "6",
+  "es_local": true,
   "local": {
-    "nombre": "Recoletas Salud Arroyo Cabero Edificaciones",
-    "nombre_corto": "Cabero Edificaciones",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
-    "es_vetusta": false
-  },
-  "visitante": {
     "nombre": "Balonmano Vetusta",
     "nombre_corto": "BM Vetusta",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
     "es_vetusta": true
   },
-  "sede": "Antonio Garnacho · Arroyo de la Encomienda",
-  "url_streaming": "https://www.youtube.com/live/UNb8mQWQf_8"
+  "visitante": {
+    "nombre": "Horizonte Atletica",
+    "nombre_corto": "Horizonte Atletica",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+    "es_vetusta": false
+  },
+  "sede": "Florida Arena · Oviedo",
+  "url_streaming": null
 }

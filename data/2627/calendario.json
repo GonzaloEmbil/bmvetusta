@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-10-17 18:00:00",
-    "jornada": "5",
-    "es_local": false,
-    "rival": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
-    "url_streaming": "https://www.youtube.com/live/UNb8mQWQf_8"
-  },
-  {
     "fecha": "2026-10-24 18:00:00",
     "jornada": "6",
     "es_local": true,
@@ -21,6 +13,14 @@
     "es_local": false,
     "rival": "SDC ASTANDER ASTILLERO",
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "2026-11-07 18:00:00",
+    "jornada": "8",
+    "es_local": true,
+    "rival": "GRUPO EGIDO BM PINTO",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
     "url_streaming": null
   }
 ]

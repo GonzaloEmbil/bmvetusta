@@ -1,5 +1,15 @@
 [
   {
+    "fecha": "2026-10-17 18:00:00",
+    "jornada": "5",
+    "es_local": false,
+    "rival": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
+    "goles_vetusta": 29,
+    "goles_rival": 36,
+    "resultado": "D"
+  },
+  {
     "fecha": "2026-10-10 17:30:00",
     "jornada": "4",
     "es_local": true,
@@ -17,16 +27,6 @@
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "goles_vetusta": 27,
     "goles_rival": 33,
-    "resultado": "D"
-  },
-  {
-    "fecha": "2026-09-26 18:00:00",
-    "jornada": "2",
-    "es_local": true,
-    "rival": "INSPARYA BM SANSE",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
-    "goles_vetusta": 27,
-    "goles_rival": 31,
     "resultado": "D"
   }
 ]
