@@ -15,6 +15,20 @@
   },
   {
     "posicion": 2,
+    "nombre": "BATHCO BM. TORRELAVEGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "es_vetusta": false,
+    "PJ": 5,
+    "PG": 5,
+    "PE": 0,
+    "PP": 0,
+    "GF": 157,
+    "GC": 124,
+    "DIF": 33,
+    "puntos": 10
+  },
+  {
+    "posicion": 3,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -26,20 +40,6 @@
     "GC": 109,
     "DIF": 52,
     "puntos": 9
-  },
-  {
-    "posicion": 3,
-    "nombre": "BATHCO BM. TORRELAVEGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "es_vetusta": false,
-    "PJ": 4,
-    "PG": 4,
-    "PE": 0,
-    "PP": 0,
-    "GF": 131,
-    "GC": 100,
-    "DIF": 31,
-    "puntos": 8
   },
   {
     "posicion": 4,
@@ -130,13 +130,13 @@
     "nombre": "LAFUENTE PEREDA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
-    "PJ": 4,
+    "PJ": 5,
     "PG": 2,
     "PE": 0,
-    "PP": 2,
-    "GF": 121,
-    "GC": 119,
-    "DIF": 2,
+    "PP": 3,
+    "GF": 145,
+    "GC": 145,
+    "DIF": 0,
     "puntos": 4
   },
   {
