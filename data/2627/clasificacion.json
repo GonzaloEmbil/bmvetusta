@@ -43,6 +43,20 @@
   },
   {
     "posicion": 4,
+    "nombre": "URBANA BM SORIA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
+    "es_vetusta": false,
+    "PJ": 5,
+    "PG": 3,
+    "PE": 2,
+    "PP": 0,
+    "GF": 156,
+    "GC": 140,
+    "DIF": 16,
+    "puntos": 8
+  },
+  {
+    "posicion": 5,
     "nombre": "ROYAL PREMIUM GIJON",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
     "es_vetusta": false,
@@ -56,7 +70,7 @@
     "puntos": 7
   },
   {
-    "posicion": 5,
+    "posicion": 6,
     "nombre": "HORIZONTE ATLETICA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
     "es_vetusta": false,
@@ -70,7 +84,7 @@
     "puntos": 6
   },
   {
-    "posicion": 6,
+    "posicion": 7,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
@@ -84,7 +98,7 @@
     "puntos": 6
   },
   {
-    "posicion": 7,
+    "posicion": 8,
     "nombre": "FISIOPAT BM. SARIEGOS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
     "es_vetusta": false,
@@ -95,20 +109,6 @@
     "GF": 164,
     "GC": 156,
     "DIF": 8,
-    "puntos": 6
-  },
-  {
-    "posicion": 8,
-    "nombre": "URBANA BM SORIA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
-    "es_vetusta": false,
-    "PJ": 4,
-    "PG": 2,
-    "PE": 2,
-    "PP": 0,
-    "GF": 118,
-    "GC": 114,
-    "DIF": 4,
     "puntos": 6
   },
   {
@@ -172,13 +172,13 @@
     "nombre": "SDC ASTANDER ASTILLERO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "es_vetusta": false,
-    "PJ": 4,
+    "PJ": 5,
     "PG": 1,
     "PE": 0,
-    "PP": 3,
-    "GF": 118,
-    "GC": 127,
-    "DIF": -9,
+    "PP": 4,
+    "GF": 144,
+    "GC": 165,
+    "DIF": -21,
     "puntos": 2
   },
   {
