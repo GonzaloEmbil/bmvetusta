@@ -316,7 +316,7 @@ export const GRAFICA_JS = String.raw`
     var partidos = graf.tipo === 'partidos';
     var k = Math.max(0.62, Math.min(1.3, h / (partidos ? 155 : 142)));
     var pad = (partidos ? 16 : 18) * k;
-    ctx.fillStyle = 'rgba(10,10,12,0.74)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
+    ctx.fillStyle = 'rgba(10,10,12,0.6)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     // Un filo amarillo fino alrededor de la tarjeta.
     ctx.strokeStyle = AMARILLO; ctx.lineWidth = 1;
     rectRedondo(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 20 * k - 0.5); ctx.stroke();
