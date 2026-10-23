@@ -342,9 +342,11 @@ export const GRAFICA_JS = String.raw`
       ctx.fillStyle = nuestro ? AMARILLO : '#ffffff';
       nombreEnLineas(ctx, nombreEquipo(p, lado), xt, yc, ancho, 30 * k, dir === 1 ? 'left' : 'right');
     });
+    // Si el partido ya se ha jugado, el resultado va en lugar del «VS».
+    var jugado = p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null;
     ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-    ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font = (40 * k) + 'px "Bebas Neue"';
-    ctx.fillText('VS', centro, yc + 3 * k);
+    ctx.fillStyle = jugado ? '#ffffff' : 'rgba(255,255,255,0.55)'; ctx.font = (40 * k) + 'px "Bebas Neue"';
+    ctx.fillText(jugado ? p.goles_local + ' - ' + p.goles_visitante : 'VS', centro, yc + 3 * k);
 
     // Filas 2 y 3: día y hora y, debajo, pabellón y localidad, con la misma letra.
     var lineas = [DIAS_NOMBRE[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '')];
