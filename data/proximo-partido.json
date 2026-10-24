@@ -1,21 +1,21 @@
 {
-  "fecha": "2026-10-24 18:00:00",
-  "fecha_display": "Sáb 24 Oct · 18:00h",
+  "fecha": "2026-11-01 12:00:00",
+  "fecha_display": "Dom 1 Nov · 12:00h",
   "fecha_por_definir": false,
-  "jornada": "6",
-  "es_local": true,
+  "jornada": "7",
+  "es_local": false,
   "local": {
+    "nombre": "Sdc Astander Astillero",
+    "nombre_corto": "Astander Astillero",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
+    "es_vetusta": false
+  },
+  "visitante": {
     "nombre": "Balonmano Vetusta",
     "nombre_corto": "BM Vetusta",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
     "es_vetusta": true
   },
-  "visitante": {
-    "nombre": "Horizonte Atletica",
-    "nombre_corto": "Horizonte Atletica",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-    "es_vetusta": false
-  },
-  "sede": "Florida Arena · Oviedo",
-  "url_streaming": "https://www.youtube.com/watch?v=mUqoT9TpLwI"
+  "sede": "La Cantabrica · Astillero",
+  "url_streaming": "https://www.youtube.com/watch?v=lBa_afvqXsY"
 }

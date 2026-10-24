@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-10-24 18:00:00",
-    "jornada": "6",
-    "es_local": true,
-    "rival": "HORIZONTE ATLETICA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-    "url_streaming": "https://www.youtube.com/watch?v=mUqoT9TpLwI"
-  },
-  {
     "fecha": "2026-11-01 12:00:00",
     "jornada": "7",
     "es_local": false,
@@ -21,6 +13,14 @@
     "es_local": true,
     "rival": "GRUPO EGIDO BM PINTO",
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "2026-11-15 12:30:00",
+    "jornada": "9",
+    "es_local": false,
+    "rival": "LAFUENTE PEREDA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "url_streaming": null
   }
 ]
