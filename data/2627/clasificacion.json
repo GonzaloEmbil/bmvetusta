@@ -1,6 +1,20 @@
 [
   {
     "posicion": 1,
+    "nombre": "BATHCO BM. TORRELAVEGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+    "es_vetusta": false,
+    "PJ": 6,
+    "PG": 6,
+    "PE": 0,
+    "PP": 0,
+    "GF": 192,
+    "GC": 150,
+    "DIF": 42,
+    "puntos": 12
+  },
+  {
+    "posicion": 2,
     "nombre": "CLUB BALONMANO ALCOBENDAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
     "es_vetusta": false,
@@ -14,7 +28,7 @@
     "puntos": 11
   },
   {
-    "posicion": 2,
+    "posicion": 3,
     "nombre": "INSPARYA BM SANSE",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
     "es_vetusta": false,
@@ -25,20 +39,6 @@
     "GF": 213,
     "GC": 176,
     "DIF": 37,
-    "puntos": 10
-  },
-  {
-    "posicion": 3,
-    "nombre": "BATHCO BM. TORRELAVEGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "es_vetusta": false,
-    "PJ": 5,
-    "PG": 5,
-    "PE": 0,
-    "PP": 0,
-    "GF": 157,
-    "GC": 124,
-    "DIF": 33,
     "puntos": 10
   },
   {
@@ -186,13 +186,13 @@
     "nombre": "CAJA VIVA -  BALONMANO CAMARGO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
     "es_vetusta": false,
-    "PJ": 5,
+    "PJ": 6,
     "PG": 0,
     "PE": 0,
-    "PP": 5,
-    "GF": 143,
-    "GC": 177,
-    "DIF": -34,
+    "PP": 6,
+    "GF": 169,
+    "GC": 212,
+    "DIF": -43,
     "puntos": 0
   },
   {
