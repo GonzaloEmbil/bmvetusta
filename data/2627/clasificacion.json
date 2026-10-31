@@ -127,6 +127,20 @@
   },
   {
     "posicion": 10,
+    "nombre": "GRUPO EGIDO BM PINTO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "es_vetusta": false,
+    "PJ": 7,
+    "PG": 3,
+    "PE": 0,
+    "PP": 4,
+    "GF": 197,
+    "GC": 209,
+    "DIF": -12,
+    "puntos": 6
+  },
+  {
+    "posicion": 11,
     "nombre": "REAL GRUPO DE CULTURA COVADONGA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
@@ -140,7 +154,7 @@
     "puntos": 4
   },
   {
-    "posicion": 11,
+    "posicion": 12,
     "nombre": "LAFUENTE PEREDA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
@@ -154,7 +168,7 @@
     "puntos": 4
   },
   {
-    "posicion": 12,
+    "posicion": 13,
     "nombre": "SDC ASTANDER ASTILLERO",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "es_vetusta": false,
@@ -165,20 +179,6 @@
     "GF": 183,
     "GC": 201,
     "DIF": -18,
-    "puntos": 4
-  },
-  {
-    "posicion": 13,
-    "nombre": "GRUPO EGIDO BM PINTO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
-    "es_vetusta": false,
-    "PJ": 6,
-    "PG": 2,
-    "PE": 0,
-    "PP": 4,
-    "GF": 160,
-    "GC": 181,
-    "DIF": -21,
     "puntos": 4
   },
   {
@@ -214,13 +214,13 @@
     "nombre": "CONGESA XXI SALAMANCA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
     "es_vetusta": false,
-    "PJ": 6,
+    "PJ": 7,
     "PG": 0,
     "PE": 0,
-    "PP": 6,
-    "GF": 125,
-    "GC": 226,
-    "DIF": -101,
+    "PP": 7,
+    "GF": 153,
+    "GC": 263,
+    "DIF": -110,
     "puntos": 0
   }
 ]
