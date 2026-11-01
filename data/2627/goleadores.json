@@ -1,16 +1,16 @@
 [
   {
     "nombre": "GONZALEZ BARRERO, JAIME",
-    "goles": 29,
-    "partidos": 5,
-    "media": 5.8,
+    "goles": 33,
+    "partidos": 6,
+    "media": 5.5,
     "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e940b05f5b.jpeg"
   },
   {
     "nombre": "DE MIGUEL TORRECILLA, SAUL",
-    "goles": 22,
-    "partidos": 6,
-    "media": 3.7,
+    "goles": 25,
+    "partidos": 7,
+    "media": 3.6,
     "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
   },
   {
@@ -22,38 +22,45 @@
   },
   {
     "nombre": "CANO COTO, MARTIN",
-    "goles": 14,
-    "partidos": 5,
+    "goles": 17,
+    "partidos": 6,
     "media": 2.8,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
   },
   {
     "nombre": "GARCIA JONES, MARTIN",
-    "goles": 10,
-    "partidos": 5,
-    "media": 2,
+    "goles": 14,
+    "partidos": 6,
+    "media": 2.3,
     "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9daddb2629c.jpeg"
   },
   {
     "nombre": "ONDO NSUA, CRISTIAN",
-    "goles": 9,
-    "partidos": 3,
-    "media": 3,
+    "goles": 11,
+    "partidos": 4,
+    "media": 2.8,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
   },
   {
     "nombre": "SANCHEZ DE POSADA ORIHUELA, PEDRO",
-    "goles": 7,
-    "partidos": 5,
-    "media": 1.4,
+    "goles": 9,
+    "partidos": 6,
+    "media": 1.5,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_38613162303531313637303036323335.jpg"
   },
   {
     "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
-    "goles": 7,
-    "partidos": 4,
-    "media": 1.8,
+    "goles": 8,
+    "partidos": 5,
+    "media": 1.6,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+  },
+  {
+    "nombre": "GAMONAL MENENDEZ, LUIS",
+    "goles": 7,
+    "partidos": 2,
+    "media": 3.5,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
   },
   {
     "nombre": "GARCIA CID, CARLOS",
@@ -64,9 +71,9 @@
   },
   {
     "nombre": "ALONSO FERNANDEZ, LUCAS",
-    "goles": 5,
-    "partidos": 3,
-    "media": 1.7,
+    "goles": 6,
+    "partidos": 4,
+    "media": 1.5,
     "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9ad2fd8fbee.jpeg"
   },
   {
@@ -84,6 +91,13 @@
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
   },
   {
+    "nombre": "PRIETO SANZ, JUAN",
+    "goles": 2,
+    "partidos": 2,
+    "media": 1,
+    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_366a6669366d63623072.jpg"
+  },
+  {
     "nombre": "CAMBLOR GOMEZ, ADRIAN",
     "goles": 2,
     "partidos": 1,
@@ -98,25 +112,11 @@
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a6a7637303277317172.jpg"
   },
   {
-    "nombre": "GAMONAL MENENDEZ, LUIS",
-    "goles": 1,
-    "partidos": 1,
-    "media": 1,
-    "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
-  },
-  {
     "nombre": "REY CURBELO, DIEGO",
     "goles": 1,
     "partidos": 1,
     "media": 1,
     "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_356e68756a6834763834.jpg"
-  },
-  {
-    "nombre": "PRIETO SANZ, JUAN",
-    "goles": 1,
-    "partidos": 1,
-    "media": 1,
-    "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_366a6669366d63623072.jpg"
   },
   {
     "nombre": "BAYOD CUEVAS, LUIS MARTIN",

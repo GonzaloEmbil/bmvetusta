@@ -266,14 +266,14 @@
     "fase": "Liga Regular",
     "pos": 15,
     "equipos": 16,
-    "PJ": 6,
+    "PJ": 7,
     "PG": 0,
     "PE": 0,
-    "PP": 6,
+    "PP": 7,
     "puntos": 0,
-    "GF": 140,
-    "GC": 192,
-    "DIF": -52,
+    "GF": 167,
+    "GC": 222,
+    "DIF": -55,
     "en_curso": true
   }
 ]

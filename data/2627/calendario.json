@@ -1,13 +1,5 @@
 [
   {
-    "fecha": "2026-11-01 12:00:00",
-    "jornada": "7",
-    "es_local": false,
-    "rival": "SDC ASTANDER ASTILLERO",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
-    "url_streaming": "https://www.youtube.com/watch?v=lBa_afvqXsY"
-  },
-  {
     "fecha": "2026-11-07 18:00:00",
     "jornada": "8",
     "es_local": true,
@@ -21,6 +13,14 @@
     "es_local": false,
     "rival": "LAFUENTE PEREDA",
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "url_streaming": null
+  },
+  {
+    "fecha": "2026-11-21 18:00:00",
+    "jornada": "10",
+    "es_local": true,
+    "rival": "BATHCO BM. TORRELAVEGA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
     "url_streaming": null
   }
 ]
