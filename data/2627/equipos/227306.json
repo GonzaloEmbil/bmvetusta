@@ -144,7 +144,8 @@
       "rival": "C.P. POETA ANGEL GONZALEZ-C.P. FOZANELDI",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "url_streaming": null,
-      "sede": "Colegio Lorenzo Novo Mier · Oviedo"
+      "sede": "Colegio Lorenzo Novo Mier · Oviedo",
+      "pabellon": "Colegio Lorenzo Novo Mier"
     },
     {
       "fecha": "2026-11-14 12:30:00",
@@ -153,7 +154,8 @@
       "rival": "C.P JUAN RDEZ. MUÑIZ - CP VENTANIELLES",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "url_streaming": null,
-      "sede": "Ceip Villafría de Otero · Oviedo"
+      "sede": "Ceip Villafría de Otero · Oviedo",
+      "pabellon": "Ceip Villafría de Otero"
     }
   ]
 }

@@ -706,7 +706,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<div class="proximos-info">' +
                         '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
                         '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
-                        (match.sede ? '<div class="proximos-sede">' + match.sede + '</div>' : '') +
+                        ((match.pabellon || match.sede) ? '<div class="proximos-sede" title="' + (match.pabellon || match.sede) + '">' + (match.pabellon || match.sede) + '</div>' : '') +
                     '</div>' +
                     '<div class="proximos-datetime">' +
                         '<span class="proximos-date">' + dt.date + '</span>' +
@@ -1111,13 +1111,25 @@ document.addEventListener('DOMContentLoaded', function() {
         var lista = document.getElementById('home-semana-lista');
         if (!caja || !lista) return;
         var cargado = false;
-        var DIAS = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+        var DIAS = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+        var MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
-        // «GRUPO EGIDO BM PINTO» → «Grupo Egido BM Pinto».
+        // «GRUPO EGIDO BM PINTO» → «Grupo Egido BM Pinto»; «IES JOVELLANOS» →
+        // «IES Jovellanos»; «C.P.GESTA» → «C.P.Gesta».
+        var SIGLAS = ['ies', 'ceip', 'cp', 'cd', 'sd', 'sdc', 'sc', 'bm', 'ud', 'ad', 'cb', 'hc', 'bf', 'rgcc', 'ctd'];
+        var MENUDAS = ['de', 'del', 'la', 'las', 'los', 'el', 'y', 'e'];
         function bonito(s) {
-            return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim().split(' ').map(function(w) {
-                if (/^[a-z]\.([a-z]\.)*$/.test(w) || (w.length <= 2 && !/^(de|el|la|y)$/.test(w))) return w.toUpperCase();
-                return w.charAt(0).toUpperCase() + w.slice(1);
+            function trozo(t, primero) {
+                if (!t) return t;
+                if (SIGLAS.indexOf(t) >= 0 || (t.length <= 2 && MENUDAS.indexOf(t) < 0)) return t.toUpperCase();
+                if (!primero && MENUDAS.indexOf(t) >= 0) return t;
+                return t.charAt(0).toUpperCase() + t.slice(1);
+            }
+            return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim().split(' ').map(function(w, i) {
+                // Guiones y puntos se respetan: «c.p.gesta» → «C.P.Gesta», «gonzalez-c.p.» → «Gonzalez-C.P.»
+                return w.split('-').map(function(parte) {
+                    return parte.split('.').map(function(t, j) { return trozo(t, i === 0 && j === 0); }).join('.');
+                }).join('-');
             }).join(' ');
         }
         function escapar(s) { return String(s || '').replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
@@ -1128,10 +1140,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
                 return;
             }
+            // Agrupados por día, con la hora a la izquierda de cada partido.
+            var diaAnterior = '';
             lista.innerHTML = partidos.map(function(p) {
                 var f = String(p.fecha || ''), partes = f.slice(0, 10).split('-'), hora = f.slice(11, 16);
                 var d = new Date(+partes[0], +partes[1] - 1, +partes[2]);
-                var cuando = DIAS[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '');
+                var cabeceraDia = '';
+                if (f.slice(0, 10) !== diaAnterior) {
+                    diaAnterior = f.slice(0, 10);
+                    cabeceraDia = '<div class="semana-dia">' + DIAS[d.getDay()] + ' ' + d.getDate() + ' de ' + MESES[d.getMonth()] + '</div>';
+                }
                 var jugado = p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null;
                 var marcador = '';
                 if (jugado) {
@@ -1147,12 +1165,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     var texto = nuestro ? (ambos && categoria ? categoria : 'Vetusta') : bonito(nombre);
                     return '<span class="semana-eq' + (nuestro ? ' nuestro' : '') + '">' + escapar(texto) + '</span>';
                 };
-                var lugar = [bonito(p.pabellon), p.localidad].filter(Boolean).join(' · ');
-                return '<div class="semana-partido">' +
-                    '<div class="semana-cuando"><span>' + cuando + '</span><span class="semana-cat">' + escapar(p.equipo) + '</span></div>' +
-                    '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local, p.equipo_local) + '<span class="semana-vs">–</span>' + equipo(p.visitante, p.nuestro_visitante, p.equipo_visitante) + marcador + '</div>' +
-                    (lugar ? '<div class="semana-lugar">' + escapar(lugar) + '</div>' : '') +
-                '</div>';
+                var lugar = bonito(p.pabellon);
+                return cabeceraDia +
+                    '<div class="semana-partido' + (jugado ? ' jugado' : '') + '">' +
+                        '<div class="semana-hora">' + (hora && hora !== '00:00' ? hora : '—') + '</div>' +
+                        '<div class="semana-cuerpo">' +
+                            '<div class="semana-cat">' + escapar(p.equipo) + '</div>' +
+                            '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local, p.equipo_local) + '<span class="semana-vs">vs</span>' + equipo(p.visitante, p.nuestro_visitante, p.equipo_visitante) + '</div>' +
+                            (lugar ? '<div class="semana-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
+                        '</div>' +
+                        marcador +
+                    '</div>';
             }).join('');
         }
 

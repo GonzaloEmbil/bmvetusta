@@ -217,7 +217,8 @@
       "rival": "REAL GRUPO DE CULTURA COVADONGA B",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
       "url_streaming": null,
-      "sede": "Braulio Garcia · Gijón"
+      "sede": "Braulio Garcia · Gijón",
+      "pabellon": "Pabellon Braulio Garcia"
     },
     {
       "fecha": "2026-11-14 16:00:00",
@@ -226,7 +227,8 @@
       "rival": "ATLETICA BOSCO - HORIZONTE B",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "url_streaming": null,
-      "sede": "La Magdalena · Avilés"
+      "sede": "La Magdalena · Avilés",
+      "pabellon": "Polideportivo Municipal la Magdalena"
     }
   ],
   "goleadores": [

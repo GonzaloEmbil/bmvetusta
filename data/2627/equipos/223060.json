@@ -231,7 +231,8 @@
       "rival": "OVIEDO BF - CTD LOBAS ALIMERKA A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/74/square_3934767737726137786a.jpg",
       "url_streaming": null,
-      "sede": "Florida Arena · Oviedo"
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Municipal Florida Arena"
     },
     {
       "fecha": "2026-11-14 12:30:00",
@@ -240,7 +241,8 @@
       "rival": "SIERO D.B.-VILLANUEVA A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
       "url_streaming": null,
-      "sede": "Polid. Manuel Novo · Oviedo"
+      "sede": "Polid. Manuel Novo · Oviedo",
+      "pabellon": "Polid. Manuel Novo"
     }
   ]
 }

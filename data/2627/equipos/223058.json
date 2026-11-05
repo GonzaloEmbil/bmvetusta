@@ -211,7 +211,8 @@
       "rival": "IES CORVERA",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
       "url_streaming": null,
-      "sede": "Toso Muñiz · Sobre las Vegas"
+      "sede": "Toso Muñiz · Sobre las Vegas",
+      "pabellon": "Polideportivo Toso Muñiz"
     },
     {
       "fecha": "2026-11-08 11:15:00",
@@ -220,7 +221,8 @@
       "rival": "BOSCO ATLETICA A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "url_streaming": null,
-      "sede": "De Vallobin · Oviedo"
+      "sede": "De Vallobin · Oviedo",
+      "pabellon": "Polideportivo de Vallobin"
     },
     {
       "fecha": "2026-11-14 13:45:00",
@@ -229,7 +231,8 @@
       "rival": "C.D. V. DE LUANCO-N.CARREÑO",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
       "url_streaming": null,
-      "sede": "Polid. Manuel Novo · Oviedo"
+      "sede": "Polid. Manuel Novo · Oviedo",
+      "pabellon": "Polid. Manuel Novo"
     }
   ]
 }

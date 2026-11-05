@@ -240,8 +240,11 @@ export function buildCalendario(matches, teamId = TEAM_ID) {
       rival: rival,
       escudo_rival: escudoRival || null,
       url_streaming: streaming,
-      // El pabellón lo rellena conSedes(); hasta entonces va el id.
+      // Los rellena conSedes(); hasta entonces va el id. `sede` es el nombre
+      // corto con la localidad («Florida Arena · Oviedo»); `pabellon`, el
+      // nombre completo sin localidad, para donde hay sitio.
       sede: null,
+      pabellon: null,
       id_estadio: m.id_estadio ? String(m.id_estadio) : null,
     };
   });
@@ -280,7 +283,9 @@ export async function conSedes(calendario, fetchStadium) {
   for (const p of calendario) {
     if (p.id_estadio) {
       try {
-        p.sede = sedeDe(await fetchStadium(p.id_estadio));
+        const stadium = await fetchStadium(p.id_estadio);
+        p.sede = sedeDe(stadium);
+        p.pabellon = stadium && stadium.nombre_estadio ? titleCase(fixMojibake(stadium.nombre_estadio).trim()) : null;
       } catch (err) {
         console.warn(`   ⚠ pabellón ${p.id_estadio}: ${err.message}`);
       }
