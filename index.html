@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-23">
+    <link rel="stylesheet" href="style.css?v=campana-24">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -1396,13 +1396,23 @@
             </div>
         </section>
 
-        <!-- El mapa de la liga, sólo en móvil. Va duplicado porque arriba y aquí
-             caen en secciones distintas y no hay forma de reordenarlo con CSS;
-             la imagen es la misma, así que el navegador la descarga una vez. -->
-        <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster-movil" aria-label="Grupo B de Primera Nacional 2026/2027">
+        <!-- Entre la clasificación y Prensa: el mapa de la liga y el cartel de
+             abonados. En escritorio van los dos en fila; en móvil el cartel no
+             sale (en su lugar va la animación del carnet, abajo). El mapa va
+             duplicado porque arriba y aquí caen en secciones distintas y no hay
+             forma de reordenarlo con CSS; la imagen es la misma, así que el
+             navegador la descarga una vez. -->
+        <div class="home-posters-row">
+        <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster-abajo" aria-label="Grupo B de Primera Nacional 2026/2027">
             <picture>
                 <source srcset="src/assets/mapaliga.webp" type="image/webp">
                 <img loading="lazy" decoding="async" src="src/assets/mapaliga.png" alt="Grupo B de Primera Nacional 2026/2027">
+            </picture>
+        </a>
+        <a href="./abonate/" class="home-cartel-abonados" aria-label="Hazte abonado de la temporada 2026/2027">
+            <picture>
+                <source srcset="src/assets/cartel_abonados_2627.webp" type="image/webp">
+                <img loading="lazy" decoding="async" src="src/assets/cartel_abonados_2627.jpg" alt="Campaña de abonados 2026/2027 del Balonmano Vetusta">
             </picture>
         </a>
 
@@ -1417,6 +1427,7 @@
                    disablepictureinpicture disableremoteplayback
                    aria-hidden="true"></video>
         </a>
+        </div><!-- /home-posters-row -->
 
         <!-- Prensa Preview -->
         <section class="prensa-preview-section">
@@ -1635,7 +1646,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-23"></script>
+    <script src="script.js?v=campana-24"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No

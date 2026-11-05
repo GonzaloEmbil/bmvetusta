@@ -3794,9 +3794,56 @@ body {
    portada: en escritorio manda el mapa —ahí no se toca nada—, y en móvil sale
    el vídeo y el mapa baja al final, entre los goleadores y Prensa. */
 .home-video,
-.home-poster-movil,
+.home-poster-abajo,
+.home-cartel-abonados,
 .home-anim-movil {
     display: none;
+}
+
+/* Escritorio: entre la clasificación y Prensa, el mapa de la liga y el
+   cartel de abonados en fila. Los dos son 4:5, así que a la misma anchura
+   salen de la misma altura. 420px es lo que mide el mapa de arriba en una
+   pantalla de 1440. */
+@media (min-width: 769px) {
+    .home-posters-row {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 24px;
+        width: 100%;
+        max-width: 1300px;
+        /* Sin márgenes propios: los 25px de arriba los pone la clasificación
+           y los de abajo, Prensa (la columna principal no funde márgenes). */
+        margin: 0 auto;
+        padding: 0 20px;
+        box-sizing: border-box;
+    }
+
+    .home-poster-abajo,
+    .home-cartel-abonados {
+        display: block;
+        width: min(420px, calc((100% - 24px) / 2));
+        transition: transform 0.2s;
+    }
+
+    .home-poster-abajo:hover,
+    .home-cartel-abonados:hover {
+        transform: translateY(-2px);
+    }
+
+    .home-poster-abajo picture,
+    .home-cartel-abonados picture {
+        display: block;
+    }
+
+    .home-poster-abajo img,
+    .home-cartel-abonados img {
+        display: block;
+        width: 100%;
+        height: auto;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+    }
 }
 
 /* Mobile: centred below the news carousel, in natural flow */
@@ -3819,14 +3866,14 @@ body {
     }
 
     /* El mapa, ya abajo. Mismo ancho que el resto de bloques de la columna. */
-    .home-poster-movil {
+    .home-poster-abajo {
         display: block;
         width: 90%;
         max-width: 360px;
         margin: 0 auto 34px;
     }
 
-    .home-poster-movil img {
+    .home-poster-abajo img {
         display: block;
         width: 100%;
         height: auto;
@@ -3885,7 +3932,7 @@ body {
         margin-bottom: 24px;
     }
 
-    .home-poster-movil {
+    .home-poster-abajo {
         margin-top: 0;
         margin-bottom: 24px;
     }
