@@ -3776,10 +3776,17 @@ body {
 }
 
 /* Escritorio: entre la clasificación y Prensa, el mapa de la liga y el
-   cartel de abonados en fila. Los dos son 4:5, así que a la misma anchura
-   salen de la misma altura. 420px es lo que mide el mapa de arriba en una
-   pantalla de 1440. */
+   cartel de abonados en fila, a todo el ancho de la sección de clasificación
+   (1300px con 20px de margen a cada lado, como .liga-section). Los dos son
+   4:5, así que a la misma anchura salen de la misma altura. Prensa, debajo,
+   va al mismo ancho. */
 @media (min-width: 769px) {
+    .prensa-preview-section {
+        width: 100%;
+        max-width: 1300px;
+        padding: 0 20px;
+    }
+
     .home-posters-row {
         display: flex;
         justify-content: center;
@@ -3797,7 +3804,7 @@ body {
     .home-poster-abajo,
     .home-cartel-abonados {
         display: block;
-        width: min(420px, calc((100% - 24px) / 2));
+        width: calc((100% - 24px) / 2);
         transition: transform 0.2s;
     }
 
