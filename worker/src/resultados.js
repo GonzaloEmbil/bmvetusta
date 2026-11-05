@@ -157,6 +157,10 @@ export async function semanaDelClub(desde) {
         grupo: p.id_grupo,
         fecha: p.fecha,
         equipo: [local && nuestros.get(p.id_local), visitante && nuestros.get(p.id_visitante)].filter(Boolean).join(' · '),
+        // La categoría de cada lado nuestro (en un partido entre dos equipos
+        // del club, los dos), para que la web los nombre por separado.
+        equipo_local: local ? nuestros.get(p.id_local) : null,
+        equipo_visitante: visitante ? nuestros.get(p.id_visitante) : null,
         // Puesto del equipo en EQUIPOS, que va de mayor a menor categoría.
         orden: Math.min(local ? rango.get(p.id_local) : 99, visitante ? rango.get(p.id_visitante) : 99),
         local: p.nombre_local,

@@ -53,6 +53,14 @@ export const EQUIPOS = [
   { id: '216662', nombre: 'Infantil Femenino', web: true },
   { id: '221137', nombre: 'Infantil Masculino A', web: true },
   { id: '223207', nombre: 'Infantil Masculino B', web: true },
+  // Las escuelas: en la federación van con el nombre del colegio y el escudo
+  // del club. Los prebenjamines no tienen competición todavía.
+  { id: '227306', nombre: 'Alevín Masculino', web: true },
+  { id: '227276', nombre: 'Benjamín · Amor de Dios', web: true },
+  { id: '227279', nombre: 'Benjamín · Villafría-Carmen Ruiz Tilve', web: true },
+  { id: '227367', nombre: 'Benjamín · Germán Fdez Ramos-Gesta', web: true },
+  { id: '227277', nombre: 'Prebenjamín · Germán Fdz Ramos', web: false },
+  { id: '227278', nombre: 'Prebenjamín · Gesta-Ventanielles', web: false },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

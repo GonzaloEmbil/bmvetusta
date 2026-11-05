@@ -1140,13 +1140,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     var clase = p.nuestro_local && p.nuestro_visitante ? 'borr' : nuestros > suyos ? 'si' : nuestros < suyos ? 'no' : 'borr';
                     marcador = '<span class="semana-marcador ' + clase + '">' + p.goles_local + '–' + p.goles_visitante + '</span>';
                 }
-                var equipo = function(nombre, nuestro) {
-                    return '<span class="semana-eq' + (nuestro ? ' nuestro' : '') + '">' + escapar(nuestro ? 'Vetusta' : bonito(nombre)) + '</span>';
+                // Nuestro lado se llama «Vetusta»; si los dos son del club
+                // (dos escuelas), cada uno con su categoría.
+                var ambos = p.nuestro_local && p.nuestro_visitante;
+                var equipo = function(nombre, nuestro, categoria) {
+                    var texto = nuestro ? (ambos && categoria ? categoria : 'Vetusta') : bonito(nombre);
+                    return '<span class="semana-eq' + (nuestro ? ' nuestro' : '') + '">' + escapar(texto) + '</span>';
                 };
                 var lugar = [bonito(p.pabellon), p.localidad].filter(Boolean).join(' · ');
                 return '<div class="semana-partido">' +
                     '<div class="semana-cuando"><span>' + cuando + '</span><span class="semana-cat">' + escapar(p.equipo) + '</span></div>' +
-                    '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local) + '<span class="semana-vs">–</span>' + equipo(p.visitante, p.nuestro_visitante) + marcador + '</div>' +
+                    '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local, p.equipo_local) + '<span class="semana-vs">–</span>' + equipo(p.visitante, p.nuestro_visitante, p.equipo_visitante) + marcador + '</div>' +
                     (lugar ? '<div class="semana-lugar">' + escapar(lugar) + '</div>' : '') +
                 '</div>';
             }).join('');

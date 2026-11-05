@@ -1,0 +1,178 @@
+{
+  "equipo": {
+    "id": "227367",
+    "nombre": "Benjamín · Germán Fdez Ramos-Gesta"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete Femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete Masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete Masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil Femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil Masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil Masculino B"
+    },
+    {
+      "id": "227306",
+      "nombre": "Alevín Masculino"
+    },
+    {
+      "id": "227276",
+      "nombre": "Benjamín · Amor de Dios"
+    },
+    {
+      "id": "227279",
+      "nombre": "Benjamín · Villafría-Carmen Ruiz Tilve"
+    },
+    {
+      "id": "227367",
+      "nombre": "Benjamín · Germán Fdez Ramos-Gesta"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1040046",
+      "nombre": "Primera Fase · Grupo Oviedo-siero-castrillon-carreño",
+      "competicion": "Juegos Deportivos del Principado Benjamin B (minibalonmano) · Primera Fase · Grupo Oviedo-siero-castrillon-carreño",
+      "actual": true
+    }
+  ],
+  "grupo": "1040046",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "C. LOYOLA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 2,
+      "nombre": "CP SAN FELIX",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 3,
+      "nombre": "C.P. VILLAFRIA-C.P. CARMEN RUIZ TILVE",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 4,
+      "nombre": "C.P. AMOR DE DIOS",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 5,
+      "nombre": "C.P.EL VALLIN C.P CAMPIELLO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 6,
+      "nombre": "CP. HERMANOS ARREGUI",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 7,
+      "nombre": "CP. GERMAN FDEZ RAMOS - CP GESTA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    }
+  ],
+  "resultados": [],
+  "calendario": [
+    {
+      "fecha": "2026-11-14 11:30:00",
+      "jornada": "2",
+      "es_local": true,
+      "rival": "C. LOYOLA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "C.p.gesta · Oviedo"
+    }
+  ]
+}

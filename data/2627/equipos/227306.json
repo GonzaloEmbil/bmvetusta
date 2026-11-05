@@ -1,0 +1,159 @@
+{
+  "equipo": {
+    "id": "227306",
+    "nombre": "Alevín Masculino"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete Femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete Masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete Masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil Femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil Masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil Masculino B"
+    },
+    {
+      "id": "227306",
+      "nombre": "Alevín Masculino"
+    },
+    {
+      "id": "227276",
+      "nombre": "Benjamín · Amor de Dios"
+    },
+    {
+      "id": "227279",
+      "nombre": "Benjamín · Villafría-Carmen Ruiz Tilve"
+    },
+    {
+      "id": "227367",
+      "nombre": "Benjamín · Germán Fdez Ramos-Gesta"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1040025",
+      "nombre": "Primera Fase · Grupo Oviedo",
+      "competicion": "Juegos Deportivos del Principado Alevin Masculino · Primera Fase · Grupo Oviedo",
+      "actual": true
+    }
+  ],
+  "grupo": "1040025",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "C.P. POETA ANGEL GONZALEZ-C.P. FOZANELDI",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 2,
+      "nombre": "CP VILLAFRIA - CP GERMAN FDEZ RAMOS - AMOR DE DIOS",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 3,
+      "nombre": "C.P JUAN RDEZ. MUÑIZ - CP VENTANIELLES",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 4,
+      "nombre": "C.P. PARQUE INFANTIL",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    },
+    {
+      "posicion": 5,
+      "nombre": "C.P. LORENZO NOVO MIER",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 0,
+      "PG": 0,
+      "PE": 0,
+      "PP": 0,
+      "GF": 0,
+      "GC": 0,
+      "DIF": 0,
+      "puntos": 0
+    }
+  ],
+  "resultados": [],
+  "calendario": [
+    {
+      "fecha": "2026-11-07 12:20:00",
+      "jornada": "1",
+      "es_local": false,
+      "rival": "C.P. POETA ANGEL GONZALEZ-C.P. FOZANELDI",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Lorenzo Novo Mier · Oviedo"
+    },
+    {
+      "fecha": "2026-11-14 12:30:00",
+      "jornada": "2",
+      "es_local": true,
+      "rival": "C.P JUAN RDEZ. MUÑIZ - CP VENTANIELLES",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "url_streaming": null,
+      "sede": "Ceip Villafría de Otero · Oviedo"
+    }
+  ]
+}
