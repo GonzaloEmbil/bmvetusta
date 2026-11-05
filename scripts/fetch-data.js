@@ -85,6 +85,12 @@ async function fetchActa(grupo, matchId) {
   return data.acta || null;
 }
 
+async function fetchTrajectory(teamId) {
+  const data = await apiPost('/ws/equipo', { id_equipo: String(teamId), id_temporada: liga.TEMPORADA_ACTUAL });
+  // Response: { status: "OK", equipo: { nombre, trayectoria: [...] } }
+  return (data.equipo && data.equipo.trayectoria) || [];
+}
+
 async function fetchStadium(stadiumId) {
   console.log(`   🏟️  Fetching stadium ${stadiumId} …`);
   const data = await apiPost('/ws/estadio', {
@@ -170,8 +176,8 @@ function writeJson(dir, name, data) {
  * Fetch the match reports (actas) of every finished Vetusta match of a
  * group whose acta has been uploaded. Used to build the scorers list.
  */
-async function fetchVetustaActas(matches, grupo) {
-  const finishedWithActa = liga.matchesWithActa(matches);
+async function fetchVetustaActas(matches, grupo, teamId) {
+  const finishedWithActa = liga.matchesWithActa(matches, teamId);
   console.log(`   📝 ${finishedWithActa.length} actas de partidos del Vetusta …`);
 
   const actas = [];
@@ -222,8 +228,60 @@ async function buildSeason(season, isCurrent) {
     writeJson(DATA_DIR, 'proximo-partido.json', proximoPartido);
 
     console.log(`   → ${clasificacion.length} equipos · ${resultados.length} resultados · ${goleadores.length} goleadores · ${calendario.length} próximos · próximo-partido: ${proximoPartido ? 'sí' : 'no'}`);
+    const grupo = liga.TEMPORADAS.find((t) => t.code === season.code).grupo;
+    return {
+      grupos: [liga.grupoPrimera(grupo)],
+      grupo,
+      clasificacion, resultados, calendario, goleadores,
+    };
   } else {
     console.log(`   → ${clasificacion.length} equipos · ${resultados.length} resultados · ${goleadores.length} goleadores`);
+  }
+  return null;
+}
+
+/**
+ * data/<current>/equipos/<id>.json — the fallback for the public site's
+ * category section (one file per club team shown on the website, the first
+ * team included), in the same shape the Worker serves at
+ * /api/equipo/<season>/<id>.json: the team's league groups (phases) and the
+ * standings, results and upcoming matches of the current one.
+ */
+async function buildEquipos(firstTeam) {
+  const dir = path.join(DATA_DIR, liga.TEMPORADA_ACTUAL, 'equipos');
+  if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+  const equipos = liga.EQUIPOS.filter((e) => e.web).map((e) => ({ id: e.id, nombre: e.nombre }));
+
+  for (const e of liga.EQUIPOS) {
+    if (!e.web) continue;
+    console.log(`\n=== ${e.nombre} (${e.id}) ===`);
+    let salida;
+    if (e.id === liga.TEAM_ID) {
+      salida = firstTeam;
+    } else {
+      const trayectoria = await fetchTrajectory(e.id);
+      const grupos = liga.gruposDeLiga(trayectoria);
+      const actual = grupos.find((g) => g.actual);
+      if (!actual) {
+        console.log('   → sin competición de liga todavía');
+        salida = { grupos: [], grupo: null, clasificacion: [], resultados: [], calendario: [] };
+      } else {
+        await sleep(1000);
+        const matches = await fetchCalendar(actual.id);
+        salida = {
+          grupos,
+          grupo: actual.id,
+          clasificacion: liga.buildClasificacion(matches, e.id),
+          resultados: liga.buildResultados(matches, e.id),
+          calendario: liga.buildCalendario(matches, e.id),
+        };
+        // Scorers only for the senior teams flagged in EQUIPOS.
+        if (e.goleadores) salida.goleadores = liga.buildGoleadores(await fetchVetustaActas(matches, actual.id, e.id), e.id);
+        console.log(`   → ${grupos.length} grupo(s) de liga · ${salida.clasificacion.length} equipos · ${salida.resultados.length} resultados · ${salida.calendario.length} próximos${salida.goleadores ? ' · ' + salida.goleadores.length + ' goleadores' : ''}`);
+      }
+      await sleep(1000);
+    }
+    writeJson(dir, `${e.id}.json`, { equipo: { id: e.id, nombre: e.nombre }, temporada: liga.TEMPORADA_ACTUAL, equipos, ...salida });
   }
 }
 
@@ -244,7 +302,8 @@ async function main() {
       console.log(`\n=== Temporada ${season.label}: sin cambios (usa --backfill para regenerar) ===`);
       continue;
     }
-    await buildSeason(season, isCurrent);
+    const firstTeam = await buildSeason(season, isCurrent);
+    if (isCurrent) await buildEquipos(firstTeam);
   }
 
   console.log('\n✅ Datos escritos en data/<temporada>/ (historia.json y proximo-partido.json globales)');

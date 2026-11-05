@@ -1,0 +1,216 @@
+{
+  "equipo": {
+    "id": "223058",
+    "nombre": "Cadete masculino A"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil masculino B"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1040565",
+      "nombre": "Primera Fase · 1ª División",
+      "competicion": "Juegos Deportivos del Principado Cadete Masculino · Primera Fase · 1ª División",
+      "actual": true
+    }
+  ],
+  "grupo": "1040565",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "BOSCO ATLETICA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 66,
+      "GC": 35,
+      "DIF": 31,
+      "puntos": 4
+    },
+    {
+      "posicion": 2,
+      "nombre": "JUANFERSA GIJON A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 60,
+      "GC": 31,
+      "DIF": 29,
+      "puntos": 4
+    },
+    {
+      "posicion": 3,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 0,
+      "PP": 1,
+      "GF": 93,
+      "GC": 86,
+      "DIF": 7,
+      "puntos": 4
+    },
+    {
+      "posicion": 4,
+      "nombre": "C.D. V. DE LUANCO-N.CARREÑO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 0,
+      "PP": 1,
+      "GF": 81,
+      "GC": 82,
+      "DIF": -1,
+      "puntos": 4
+    },
+    {
+      "posicion": 5,
+      "nombre": "CTD CONFIA BASE OVIEDO A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 78,
+      "GC": 60,
+      "DIF": 18,
+      "puntos": 2
+    },
+    {
+      "posicion": 6,
+      "nombre": "IES CORVERA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 56,
+      "GC": 63,
+      "DIF": -7,
+      "puntos": 2
+    },
+    {
+      "posicion": 7,
+      "nombre": "AUTO-CENTER PRINCIPADO A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 1,
+      "PG": 0,
+      "PE": 0,
+      "PP": 1,
+      "GF": 28,
+      "GC": 33,
+      "DIF": -5,
+      "puntos": 0
+    },
+    {
+      "posicion": 8,
+      "nombre": "DEPORTIVO ESTADIO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100954/square_70676d6f3136706f6c72.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 56,
+      "GC": 86,
+      "DIF": -30,
+      "puntos": 0
+    },
+    {
+      "posicion": 9,
+      "nombre": "CODEMA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 0,
+      "PE": 0,
+      "PP": 3,
+      "GF": 64,
+      "GC": 106,
+      "DIF": -42,
+      "puntos": 0
+    }
+  ],
+  "resultados": [
+    {
+      "fecha": "2026-10-22 17:30:00",
+      "jornada": "1",
+      "es_local": false,
+      "rival": "REAL GRUPO DE CULTURA COVADONGA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "goles_vetusta": 28,
+      "goles_rival": 33,
+      "resultado": "D"
+    }
+  ],
+  "calendario": [
+    {
+      "fecha": "2026-11-07 12:45:00",
+      "jornada": "4",
+      "es_local": false,
+      "rival": "IES CORVERA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
+      "url_streaming": null
+    },
+    {
+      "fecha": "2026-11-08 11:15:00",
+      "jornada": "3",
+      "es_local": true,
+      "rival": "BOSCO ATLETICA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "url_streaming": null
+    },
+    {
+      "fecha": "2026-11-14 13:45:00",
+      "jornada": "5",
+      "es_local": true,
+      "rival": "C.D. V. DE LUANCO-N.CARREÑO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "url_streaming": null
+    }
+  ]
+}

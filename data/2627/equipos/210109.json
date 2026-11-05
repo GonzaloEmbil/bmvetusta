@@ -1,0 +1,300 @@
+{
+  "equipo": {
+    "id": "210109",
+    "nombre": "Segunda Nacional"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil masculino B"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1038546",
+      "nombre": "Fase Principal · Grupo Único",
+      "competicion": "Campeonato Territorial 2ª División Estatal Masculina · Fase Principal · Grupo Único",
+      "actual": true
+    }
+  ],
+  "grupo": "1038546",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "C.D. VILLA DE LUANCO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 3,
+      "PE": 0,
+      "PP": 0,
+      "GF": 94,
+      "GC": 69,
+      "DIF": 25,
+      "puntos": 6
+    },
+    {
+      "posicion": 2,
+      "nombre": "SC SYNERKOS CASTRILLON",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 1,
+      "PP": 0,
+      "GF": 104,
+      "GC": 81,
+      "DIF": 23,
+      "puntos": 5
+    },
+    {
+      "posicion": 3,
+      "nombre": "CONFIA BASE OVIEDO B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 0,
+      "PP": 1,
+      "GF": 99,
+      "GC": 75,
+      "DIF": 24,
+      "puntos": 4
+    },
+    {
+      "posicion": 4,
+      "nombre": "ATLETICA BOSCO - HORIZONTE B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 0,
+      "PP": 1,
+      "GF": 99,
+      "GC": 92,
+      "DIF": 7,
+      "puntos": 4
+    },
+    {
+      "posicion": 5,
+      "nombre": "ROYAL PREMIUM GIJON B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 1,
+      "PE": 0,
+      "PP": 2,
+      "GF": 82,
+      "GC": 97,
+      "DIF": -15,
+      "puntos": 2
+    },
+    {
+      "posicion": 6,
+      "nombre": "GRUAS DANIEL&ADAM CODEMA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 1,
+      "PE": 0,
+      "PP": 2,
+      "GF": 83,
+      "GC": 84,
+      "DIF": -1,
+      "puntos": 2
+    },
+    {
+      "posicion": 7,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 0,
+      "PE": 1,
+      "PP": 2,
+      "GF": 84,
+      "GC": 97,
+      "DIF": -13,
+      "puntos": 1
+    },
+    {
+      "posicion": 8,
+      "nombre": "AUTO-CENTER PRINCIPADO B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 3,
+      "PG": 0,
+      "PE": 0,
+      "PP": 3,
+      "GF": 48,
+      "GC": 98,
+      "DIF": -50,
+      "puntos": 0
+    }
+  ],
+  "resultados": [
+    {
+      "fecha": "2026-10-24 20:00:00",
+      "jornada": "3",
+      "es_local": true,
+      "rival": "SC SYNERKOS CASTRILLON",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
+      "goles_vetusta": 13,
+      "goles_rival": 34,
+      "resultado": "D"
+    },
+    {
+      "fecha": "2026-10-17 17:30:00",
+      "jornada": "2",
+      "es_local": false,
+      "rival": "C.D. VILLA DE LUANCO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "goles_vetusta": 17,
+      "goles_rival": 29,
+      "resultado": "D"
+    },
+    {
+      "fecha": "2026-10-03 18:00:00",
+      "jornada": "1",
+      "es_local": true,
+      "rival": "CONFIA BASE OVIEDO B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "goles_vetusta": 18,
+      "goles_rival": 35,
+      "resultado": "D"
+    }
+  ],
+  "calendario": [
+    {
+      "fecha": "2026-11-08 12:00:00",
+      "jornada": "4",
+      "es_local": false,
+      "rival": "REAL GRUPO DE CULTURA COVADONGA B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "url_streaming": null
+    },
+    {
+      "fecha": "2026-11-14 16:00:00",
+      "jornada": "5",
+      "es_local": false,
+      "rival": "ATLETICA BOSCO - HORIZONTE B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "url_streaming": null
+    }
+  ],
+  "goleadores": [
+    {
+      "nombre": "CAMBLOR GOMEZ, ADRIAN",
+      "goles": 9,
+      "partidos": 3,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_61376538383966366338383966313737.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ GARCIA, MARCOS",
+      "goles": 8,
+      "partidos": 3,
+      "media": 2.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c7274316c39676f326b.jpg"
+    },
+    {
+      "nombre": "MENENDEZ FERNANDEZ, DANIEL",
+      "goles": 7,
+      "partidos": 3,
+      "media": 2.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_73786c6c707566756330.jpg"
+    },
+    {
+      "nombre": "MONTAÑO MONTES, SANTIAGO",
+      "goles": 6,
+      "partidos": 3,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a736a6266706f646138.jpg"
+    },
+    {
+      "nombre": "LORCA ARIAS, PEDRO",
+      "goles": 4,
+      "partidos": 2,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_66796b6c6e3334397877.jpg"
+    },
+    {
+      "nombre": "SOLIS GONZALEZ, JOSE ALBERTO",
+      "goles": 3,
+      "partidos": 1,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64766531336635646471.jpg"
+    },
+    {
+      "nombre": "PANIAGUA GARCIA, JAVIER",
+      "goles": 3,
+      "partidos": 2,
+      "media": 1.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3739656d7633646f7770.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ CASO, PABLO",
+      "goles": 2,
+      "partidos": 2,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_656d6a36786732713572.jpg"
+    },
+    {
+      "nombre": "GOMEZ ESPINA, MARCOS",
+      "goles": 2,
+      "partidos": 2,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_69356d6f397775656472.jpg"
+    },
+    {
+      "nombre": "FRANCISCO PALACIO, DARIO",
+      "goles": 2,
+      "partidos": 1,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
+    },
+    {
+      "nombre": "VILLAMIL ALCIVAR, JOSEPH FRANCISCO",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3735373069317335786e.jpg"
+    },
+    {
+      "nombre": "FUENTES FUERTES, HUGO",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_68f6adcaccd7d.jpg"
+    }
+  ]
+}

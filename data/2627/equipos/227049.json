@@ -1,0 +1,204 @@
+{
+  "equipo": {
+    "id": "227049",
+    "nombre": "Cadete masculino B"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil masculino B"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1040566",
+      "nombre": "Primera Fase · 2ª División",
+      "competicion": "Juegos Deportivos del Principado Cadete Masculino · Primera Fase · 2ª División",
+      "actual": true
+    }
+  ],
+  "grupo": "1040566",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "JUANFERSA GIJON C",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 85,
+      "GC": 50,
+      "DIF": 35,
+      "puntos": 4
+    },
+    {
+      "posicion": 2,
+      "nombre": "JUANFERSA GIJON B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 82,
+      "GC": 53,
+      "DIF": 29,
+      "puntos": 4
+    },
+    {
+      "posicion": 3,
+      "nombre": "BOSCO ATLETICA B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 66,
+      "GC": 38,
+      "DIF": 28,
+      "puntos": 4
+    },
+    {
+      "posicion": 4,
+      "nombre": "CONFIA BASE OVIEDO B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 73,
+      "GC": 74,
+      "DIF": -1,
+      "puntos": 2
+    },
+    {
+      "posicion": 5,
+      "nombre": "BOSCO ATLETICA C",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 45,
+      "GC": 48,
+      "DIF": -3,
+      "puntos": 2
+    },
+    {
+      "posicion": 6,
+      "nombre": "CONFIA BASE OVIEDO C",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 64,
+      "GC": 87,
+      "DIF": -23,
+      "puntos": 0
+    },
+    {
+      "posicion": 7,
+      "nombre": "AUTO-CENTER PRINCIPADO B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 36,
+      "GC": 61,
+      "DIF": -25,
+      "puntos": 0
+    },
+    {
+      "posicion": 8,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 32,
+      "GC": 72,
+      "DIF": -40,
+      "puntos": 0
+    }
+  ],
+  "resultados": [
+    {
+      "fecha": "2026-10-24 10:00:00",
+      "jornada": "2",
+      "es_local": true,
+      "rival": "BOSCO ATLETICA C",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "goles_vetusta": 18,
+      "goles_rival": 23,
+      "resultado": "D"
+    },
+    {
+      "fecha": "2026-10-17 11:30:00",
+      "jornada": "1",
+      "es_local": false,
+      "rival": "JUANFERSA GIJON B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "goles_vetusta": 18,
+      "goles_rival": 38,
+      "resultado": "D"
+    }
+  ],
+  "calendario": [
+    {
+      "fecha": "2026-11-07 10:00:00",
+      "jornada": "3",
+      "es_local": false,
+      "rival": "REAL GRUPO DE CULTURA COVADONGA B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "url_streaming": null
+    },
+    {
+      "fecha": "2026-11-14 10:00:00",
+      "jornada": "4",
+      "es_local": true,
+      "rival": "JUANFERSA GIJON C",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "url_streaming": null
+    }
+  ]
+}

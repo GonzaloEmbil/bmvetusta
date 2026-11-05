@@ -1,0 +1,228 @@
+{
+  "equipo": {
+    "id": "216662",
+    "nombre": "Infantil femenino"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil masculino B"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1040635",
+      "nombre": "Primera Fase · 1ª División",
+      "competicion": "Juegos Deportivos del Principado Infantil Femenino · Primera Fase · 1ª División",
+      "actual": true
+    }
+  ],
+  "grupo": "1040635",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "I.E.S. AVELINA CERRA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100880/square_6c776d39656930326d30.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 3,
+      "PE": 0,
+      "PP": 0,
+      "GF": 86,
+      "GC": 47,
+      "DIF": 39,
+      "puntos": 6
+    },
+    {
+      "posicion": 2,
+      "nombre": "SIERO D.B. - VILLANUEVA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 50,
+      "GC": 23,
+      "DIF": 27,
+      "puntos": 4
+    },
+    {
+      "posicion": 3,
+      "nombre": "BALONMANO GIJON  A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 0,
+      "PP": 1,
+      "GF": 70,
+      "GC": 52,
+      "DIF": 18,
+      "puntos": 4
+    },
+    {
+      "posicion": 4,
+      "nombre": "CONFIA BASE OVIEDO A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 2,
+      "PE": 0,
+      "PP": 1,
+      "GF": 44,
+      "GC": 61,
+      "DIF": -17,
+      "puntos": 4
+    },
+    {
+      "posicion": 5,
+      "nombre": "OVIEDO BF - CTD LOBAS ALIMERKA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/74/square_3934767737726137786a.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 42,
+      "GC": 29,
+      "DIF": 13,
+      "puntos": 2
+    },
+    {
+      "posicion": 6,
+      "nombre": "DEPORTIVO ESTADIO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100954/square_70676d6f3136706f6c72.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 1,
+      "PE": 0,
+      "PP": 2,
+      "GF": 55,
+      "GC": 62,
+      "DIF": -7,
+      "puntos": 2
+    },
+    {
+      "posicion": 7,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 3,
+      "PG": 1,
+      "PE": 0,
+      "PP": 2,
+      "GF": 35,
+      "GC": 73,
+      "DIF": -38,
+      "puntos": 2
+    },
+    {
+      "posicion": 8,
+      "nombre": "B.M LA CALZADA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 38,
+      "GC": 41,
+      "DIF": -3,
+      "puntos": 0
+    },
+    {
+      "posicion": 9,
+      "nombre": "AUTO-CENTER PRINCIPADO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 3,
+      "PG": 0,
+      "PE": 0,
+      "PP": 3,
+      "GF": 35,
+      "GC": 67,
+      "DIF": -32,
+      "puntos": 0
+    }
+  ],
+  "resultados": [
+    {
+      "fecha": "2026-10-31 10:00:00",
+      "jornada": "3",
+      "es_local": true,
+      "rival": "OVIEDO BF - CTD LOBAS ALIMERKA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/74/square_3934767737726137786a.jpg",
+      "goles_vetusta": 6,
+      "goles_rival": 26,
+      "resultado": "D"
+    },
+    {
+      "fecha": "2026-10-24 10:00:00",
+      "jornada": "2",
+      "es_local": false,
+      "rival": "REAL GRUPO DE CULTURA COVADONGA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "goles_vetusta": 16,
+      "goles_rival": 18,
+      "resultado": "D"
+    },
+    {
+      "fecha": "2026-10-17 12:00:00",
+      "jornada": "1",
+      "es_local": true,
+      "rival": "DEPORTIVO ESTADIO ",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100954/square_70676d6f3136706f6c72.jpg",
+      "goles_vetusta": 13,
+      "goles_rival": 23,
+      "resultado": "D"
+    }
+  ],
+  "calendario": [
+    {
+      "fecha": "2026-11-07 09:45:00",
+      "jornada": "4",
+      "es_local": false,
+      "rival": "SIERO D.B. - VILLANUEVA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
+      "url_streaming": null
+    },
+    {
+      "fecha": "2026-12-03 17:00:00",
+      "jornada": "8",
+      "es_local": true,
+      "rival": "B.M LA CALZADA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
+      "url_streaming": null
+    }
+  ]
+}

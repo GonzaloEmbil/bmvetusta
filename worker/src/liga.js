@@ -1,8 +1,9 @@
 /**
- * Cálculos de la liga del primer equipo a partir de los datos de la
+ * Cálculos de liga de los equipos del club a partir de los datos de la
  * federación: clasificación (con los desempates del art. 152 del RPC de la
- * RFEBM), últimos resultados, goleadores (de las actas), próximos partidos y
- * próximo partido para el banner.
+ * RFEBM), últimos resultados, goleadores (de las actas), próximos partidos,
+ * el próximo partido del primer equipo para el banner y los grupos de liga
+ * (fases) de cada equipo.
  *
  * Lo usan dos sitios y por eso vive aquí, sin tocar disco ni red: la tarea
  * de GitHub (scripts/fetch-data.js), que escribe los JSON estáticos de
@@ -27,8 +28,32 @@ export const TEMPORADAS = [
 ];
 export const TEMPORADA_ACTUAL = '2627';
 
+// El grupo de Primera Nacional como lo ve el selector de fase (sólo hay uno).
+export const grupoPrimera = (grupo) => ({
+  id: grupo, nombre: 'Liga Regular · Grupo B', competicion: 'Primera Nacional · Liga Regular · Grupo B', actual: true,
+});
+
 // El nombre del equipo cambia con el patrocinador; el id no.
 export const TEAM_ID = '209500';
+
+// Equipos del club en la federación, de mayor a menor categoría y, en cada
+// edad, el femenino antes que el masculino. Es la lista del área privada; la
+// web pública enseña los que llevan «web» (el juvenil no, de momento) y sólo
+// publica goleadores de los que llevan «goleadores»: los equipos sénior. En
+// cantera son menores y sus nombres y fotos no se sacan de las actas. Hay
+// que repasarla al empezar cada temporada y cuando la federación cree grupos
+// nuevos (scripts/equipos-club.mjs los localiza).
+export const EQUIPOS = [
+  { id: '209500', nombre: 'Primera Nacional', web: true, goleadores: true },
+  { id: '210109', nombre: 'Segunda Nacional', web: true, goleadores: true },
+  { id: '208099', nombre: 'Juvenil masculino', web: false },
+  { id: '223060', nombre: 'Cadete femenino', web: true },
+  { id: '223058', nombre: 'Cadete masculino A', web: true },
+  { id: '227049', nombre: 'Cadete masculino B', web: true },
+  { id: '216662', nombre: 'Infantil femenino', web: true },
+  { id: '221137', nombre: 'Infantil masculino A', web: true },
+  { id: '223207', nombre: 'Infantil masculino B', web: true },
+];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -57,14 +82,15 @@ export function fixMojibake(str) {
 }
 
 // The club's display name changes per season (sponsor), but id_equipo is
-// stable, so identify Vetusta by id across seasons.
-export function sideIsVetusta(m, side) {
+// stable, so identify the team by id across seasons. `teamId` defaults to
+// the first team; the other club teams pass their own.
+export function sideIsVetusta(m, side, teamId = TEAM_ID) {
   const id = side === 'local' ? m.id_local : m.id_visitante;
-  return String(id) === TEAM_ID;
+  return String(id) === String(teamId);
 }
 
-export function matchHasVetusta(m) {
-  return sideIsVetusta(m, 'local') || sideIsVetusta(m, 'visitante');
+export function matchHasVetusta(m, teamId = TEAM_ID) {
+  return sideIsVetusta(m, 'local', teamId) || sideIsVetusta(m, 'visitante', teamId);
 }
 
 // A fixture only counts as "upcoming" once it has a real, parseable date.
@@ -187,14 +213,14 @@ export function formatDateForBanner(dateStr) {
 /**
  * Build calendario.json — next 3 pending Vetusta matches.
  */
-export function buildCalendario(matches) {
+export function buildCalendario(matches, teamId = TEAM_ID) {
   const pending = matches
-    .filter((m) => !isFinished(m) && matchHasVetusta(m) && hasValidDate(m))
+    .filter((m) => !isFinished(m) && matchHasVetusta(m, teamId) && hasValidDate(m))
     .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
     .slice(0, 3);
 
   return pending.map((m) => {
-    const esLocal = sideIsVetusta(m, 'local');
+    const esLocal = sideIsVetusta(m, 'local', teamId);
     const rival = esLocal ? m.nombre_visitante : m.nombre_local;
     const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
     const streaming = m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null;
@@ -400,7 +426,7 @@ function resolveTiedGroup(tiedTeams, finishedMatches) {
 /**
  * Build clasificacion.json — full standings computed from results.
  */
-export function buildClasificacion(matches) {
+export function buildClasificacion(matches, teamId = TEAM_ID) {
   const teams = {}; // keyed by normalised name
 
   // Collect all unique team names with their shield URLs
@@ -473,7 +499,7 @@ export function buildClasificacion(matches) {
     posicion: i + 1,
     nombre: t.nombre,
     escudo: t.escudo,
-    es_vetusta: String(t.id) === TEAM_ID,
+    es_vetusta: String(t.id) === String(teamId),
     PJ: t.PJ,
     PG: t.PG,
     PE: t.PE,
@@ -489,9 +515,9 @@ export function buildClasificacion(matches) {
  * Finished Vetusta matches whose match report has been uploaded: the ones
  * whose acta is worth fetching for the scorers list.
  */
-export function matchesWithActa(matches) {
+export function matchesWithActa(matches, teamId = TEAM_ID) {
   return matches.filter(
-    (m) => isFinished(m) && String(m.acta_subida) === '1' && matchHasVetusta(m)
+    (m) => isFinished(m) && String(m.acta_subida) === '1' && matchHasVetusta(m, teamId)
   );
 }
 
@@ -502,9 +528,10 @@ export function matchesWithActa(matches) {
  *   { id, nombre, id_equipo, nombre_equipo, minuto, dorsal, bloque, comentario, es_penalti, es_propia }
  * We count individual goal events per player where id_equipo === TEAM_ID.
  */
-export function buildGoleadores(actas) {
+export function buildGoleadores(actas, teamId = TEAM_ID) {
   const scorers = {}; // keyed by player name → total goals
   const playerPhotosById = {}; // player id → photo URL
+  teamId = String(teamId);
 
   for (const { matchId, acta } of actas) {
     if (!acta) continue;
@@ -512,7 +539,7 @@ export function buildGoleadores(actas) {
     // Collect player photos from jugadores array, keyed by player ID
     if (Array.isArray(acta.jugadores)) {
       for (const j of acta.jugadores) {
-        if (String(j.id_equipo) !== TEAM_ID) continue;
+        if (String(j.id_equipo) !== teamId) continue;
         const playerId = String(j.id || '').trim();
         const foto = (j.imagen || '').trim();
         if (playerId && foto) {
@@ -526,7 +553,7 @@ export function buildGoleadores(actas) {
 
     for (const g of acta.goles) {
       // Only count goals from our team
-      if (String(g.id_equipo) !== TEAM_ID) continue;
+      if (String(g.id_equipo) !== teamId) continue;
 
       // Skip own goals (propia) — they count for the other team
       if (String(g.es_propia) === '1') continue;
@@ -562,14 +589,14 @@ export function buildGoleadores(actas) {
 /**
  * Build resultados.json — last 3 finished Vetusta matches.
  */
-export function buildResultados(matches) {
+export function buildResultados(matches, teamId = TEAM_ID) {
   const finished = matches
-    .filter((m) => isFinished(m) && matchHasVetusta(m))
+    .filter((m) => isFinished(m) && matchHasVetusta(m, teamId))
     .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
     .slice(0, 3);
 
   return finished.map((m) => {
-    const esLocal = sideIsVetusta(m, 'local');
+    const esLocal = sideIsVetusta(m, 'local', teamId);
     const rival = esLocal ? m.nombre_visitante : m.nombre_local;
     const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
     const golesVetusta = esLocal ? parseInt(m.resultado_local, 10) : parseInt(m.resultado_visitante, 10);
@@ -669,4 +696,57 @@ export async function buildProximoPartido(matches, fetchStadium) {
     sede: venue,
     url_streaming: m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null,
   };
+}
+
+// ── Grupos de liga de un equipo ──────────────────────────────────────────────
+
+// La trayectoria (/ws/equipo) trae todos los partidos de la temporada, de
+// cualquier competición. Los de liga son los que no son amistosos, torneos ni
+// copa. En cantera la liga va por fases, cada una un grupo distinto: la lista
+// sale en orden de calendario y «actual» es el grupo del último partido jugado
+// (o el primero por jugar si aún no se ha jugado ninguno), que es lo que se
+// enseña por defecto.
+const NO_LIGA = /AMISTOS|TORNEO|COPA/i;
+
+export function gruposDeLiga(trayectoria) {
+  const grupos = new Map();
+  for (const p of trayectoria || []) {
+    if (!p.id_grupo || NO_LIGA.test(p.nombre_competicion || '')) continue;
+    const id = String(p.id_grupo);
+    const g = grupos.get(id) || { id, competicion: p.nombre_competicion || '', desde: '', ultimoJugado: '' };
+    const fecha = hasValidDate(p) ? String(p.fecha) : '';
+    if (fecha && (!g.desde || fecha < g.desde)) g.desde = fecha;
+    if (fecha && isFinished(p) && fecha > g.ultimoJugado) g.ultimoJugado = fecha;
+    grupos.set(id, g);
+  }
+  const lista = [...grupos.values()].sort((a, b) => a.desde.localeCompare(b.desde));
+  const jugados = lista.filter((g) => g.ultimoJugado).sort((a, b) => b.ultimoJugado.localeCompare(a.ultimoJugado));
+  const actual = jugados[0] || lista[0];
+  return lista.map((g) => ({
+    id: g.id,
+    nombre: nombreFase(g.competicion),
+    competicion: competicionBonita(g.competicion),
+    actual: g === actual,
+  }));
+}
+
+// La federación escribe los nombres en mayúsculas y sin acentos:
+// «JUEGOS DEPORTIVOS DEL PRINCIPADO CADETE FEMENINO - PRIMERA FASE - 1ª DIVISION»
+// → «Juegos Deportivos del Principado Cadete Femenino · Primera Fase · 1ª División».
+const ACENTOS = { Division: 'División', Unico: 'Único', Unica: 'Única', Categoria: 'Categoría', Juvenil: 'Juvenil' };
+function tramoBonito(s) {
+  return titleCase(s.trim())
+    .split(' ')
+    .map((w) => (ACENTOS[w] || (/^[IVXLC]+$/i.test(w) ? w.toUpperCase() : w)))
+    .join(' ');
+}
+export function competicionBonita(nombre) {
+  return String(nombre || '').split(/\s+-\s+/).filter(Boolean).map(tramoBonito).join(' · ');
+}
+
+// Para el selector de fase: lo que va después del nombre de la competición
+// («Primera Fase · 1ª División»); si no hay nada más, el nombre entero.
+export function nombreFase(nombre) {
+  const tramos = String(nombre || '').split(/\s+-\s+/).filter(Boolean);
+  return (tramos.length > 1 ? tramos.slice(1) : tramos).map(tramoBonito).join(' · ');
 }

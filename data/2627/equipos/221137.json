@@ -1,0 +1,204 @@
+{
+  "equipo": {
+    "id": "221137",
+    "nombre": "Infantil masculino A"
+  },
+  "temporada": "2627",
+  "equipos": [
+    {
+      "id": "209500",
+      "nombre": "Primera Nacional"
+    },
+    {
+      "id": "210109",
+      "nombre": "Segunda Nacional"
+    },
+    {
+      "id": "223060",
+      "nombre": "Cadete femenino"
+    },
+    {
+      "id": "223058",
+      "nombre": "Cadete masculino A"
+    },
+    {
+      "id": "227049",
+      "nombre": "Cadete masculino B"
+    },
+    {
+      "id": "216662",
+      "nombre": "Infantil femenino"
+    },
+    {
+      "id": "221137",
+      "nombre": "Infantil masculino A"
+    },
+    {
+      "id": "223207",
+      "nombre": "Infantil masculino B"
+    }
+  ],
+  "grupos": [
+    {
+      "id": "1040597",
+      "nombre": "Primera Fase · 1ª División",
+      "competicion": "Juegos Deportivos del Principado Infantil Masculino · Primera Fase · 1ª División",
+      "actual": true
+    }
+  ],
+  "grupo": "1040597",
+  "clasificacion": [
+    {
+      "posicion": 1,
+      "nombre": "JUANFERSA GIJON A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 2,
+      "PE": 0,
+      "PP": 0,
+      "GF": 70,
+      "GC": 37,
+      "DIF": 33,
+      "puntos": 4
+    },
+    {
+      "posicion": 2,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 1,
+      "PP": 0,
+      "GF": 48,
+      "GC": 28,
+      "DIF": 20,
+      "puntos": 3
+    },
+    {
+      "posicion": 3,
+      "nombre": "H. LA ESTACION-I.E.S. CRISTO DEL SOCORRO A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 1,
+      "PP": 0,
+      "GF": 57,
+      "GC": 39,
+      "DIF": 18,
+      "puntos": 3
+    },
+    {
+      "posicion": 4,
+      "nombre": "BOSCO ATLETICA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 71,
+      "GC": 58,
+      "DIF": 13,
+      "puntos": 2
+    },
+    {
+      "posicion": 5,
+      "nombre": "CTD CONFIA  BASE OVIEDO  A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 59,
+      "GC": 61,
+      "DIF": -2,
+      "puntos": 2
+    },
+    {
+      "posicion": 6,
+      "nombre": "AUTO-CENTER PRINCIPADO A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 2,
+      "PG": 1,
+      "PE": 0,
+      "PP": 1,
+      "GF": 52,
+      "GC": 64,
+      "DIF": -12,
+      "puntos": 2
+    },
+    {
+      "posicion": 7,
+      "nombre": "CLUB NAUTICO CARREÑO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 36,
+      "GC": 70,
+      "DIF": -34,
+      "puntos": 0
+    },
+    {
+      "posicion": 8,
+      "nombre": "I.E.S CORVERA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 45,
+      "GC": 81,
+      "DIF": -36,
+      "puntos": 0
+    }
+  ],
+  "resultados": [
+    {
+      "fecha": "2026-10-24 10:00:00",
+      "jornada": "2",
+      "es_local": true,
+      "rival": "BOSCO ATLETICA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "goles_vetusta": 33,
+      "goles_rival": 28,
+      "resultado": "V"
+    },
+    {
+      "fecha": "2026-10-17 10:00:00",
+      "jornada": "1",
+      "es_local": false,
+      "rival": "JUANFERSA GIJON A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "goles_vetusta": 19,
+      "goles_rival": 36,
+      "resultado": "D"
+    }
+  ],
+  "calendario": [
+    {
+      "fecha": "2026-11-07 11:30:00",
+      "jornada": "3",
+      "es_local": false,
+      "rival": " H. LA ESTACION-I.E.S. CRISTO DEL SOCORRO A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "url_streaming": null
+    },
+    {
+      "fecha": "2026-11-14 10:00:00",
+      "jornada": "4",
+      "es_local": true,
+      "rival": "REAL GRUPO DE CULTURA COVADONGA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "url_streaming": null
+    }
+  ]
+}

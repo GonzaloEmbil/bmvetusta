@@ -20,20 +20,10 @@ const UA = '6&"7*/5*&,?"->(1483>%1*!("%* 0\'\'>8.38-"?",("2#,!$(1>:64?"?,#?*=\'"
 
 export const TEMPORADA_ISQUAD = '2627';
 
-// id de equipo en la federación → cómo se llama en el panel. El orden importa:
-// de mayor a menor categoría, que es como salen en la tabla y en la imagen, y
-// dentro de cada edad, el femenino siempre antes que el masculino.
-export const EQUIPOS = [
-  { id: '209500', nombre: 'Primera Nacional' },
-  { id: '210109', nombre: 'Segunda Nacional' },
-  { id: '208099', nombre: 'Juvenil masculino' },
-  { id: '223060', nombre: 'Cadete femenino' },
-  { id: '223058', nombre: 'Cadete masculino A' },
-  { id: '227049', nombre: 'Cadete masculino B' },
-  { id: '216662', nombre: 'Infantil femenino' },
-  { id: '221137', nombre: 'Infantil masculino A' },
-  { id: '223207', nombre: 'Infantil masculino B' },
-];
+// La lista de equipos del club (id en la federación → nombre) está en liga.js,
+// compartida con la web pública; aquí se usa entera, juvenil incluido.
+import { EQUIPOS } from './liga.js';
+export { EQUIPOS };
 
 const CAB = {
   'Content-Type': 'application/json; charset=utf-8',
