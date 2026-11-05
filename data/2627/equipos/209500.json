@@ -458,5 +458,26 @@
       "media": 1,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_38633939613531393561363866643634.jpg"
     }
-  ]
+  ],
+  "proximo-partido": {
+    "fecha": "2026-11-07 18:00:00",
+    "fecha_display": "Sáb 7 Nov · 18:00h",
+    "fecha_por_definir": false,
+    "jornada": "8",
+    "es_local": true,
+    "local": {
+      "nombre": "Balonmano Vetusta",
+      "nombre_corto": "BM Vetusta",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true
+    },
+    "visitante": {
+      "nombre": "Grupo Egido Bm Pinto",
+      "nombre_corto": "BM Pinto",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+      "es_vetusta": false
+    },
+    "sede": "Florida Arena · Oviedo",
+    "url_streaming": "https://www.youtube.com/watch?v=yuEYAU5onkM&list=PLff6MHUti9M8"
+  }
 }

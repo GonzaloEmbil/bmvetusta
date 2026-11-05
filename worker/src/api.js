@@ -45,8 +45,10 @@ const listaEquipos = () => EQUIPOS_WEB.map((e) => ({ id: e.id, nombre: e.nombre 
 
 const CAB = {
   'Content-Type': 'application/json; charset=utf-8',
-  // El navegador guarda la respuesta un minuto: recargar no repite la lectura.
-  'Cache-Control': 'public, max-age=60',
+  // El navegador guarda la respuesta cinco minutos: quien va de página en
+  // página no vuelve a ejecutar el worker. Los datos se renuevan cada 15, así
+  // que como mucho ve datos de hace 20 en vez de 16.
+  'Cache-Control': 'public, max-age=300',
   'Access-Control-Allow-Origin': '*',
   'X-Content-Type-Options': 'nosniff',
 };
@@ -198,6 +200,9 @@ function paquete(equipo, temporada, grupos, grupo, d, actualizado) {
     calendario: d.calendario,
   };
   if (d.goleadores) cuerpo.goleadores = d.goleadores;
+  // El primer equipo trae también el próximo partido: la portada pinta el
+  // banner con él y se ahorra una petición.
+  if (d['proximo-partido'] !== undefined) cuerpo['proximo-partido'] = d['proximo-partido'];
   cuerpo.actualizado = actualizado;
   return json(cuerpo, 200, { 'X-Actualizado': actualizado || '' });
 }

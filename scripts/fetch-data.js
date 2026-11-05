@@ -233,6 +233,7 @@ async function buildSeason(season, isCurrent) {
       grupos: [liga.grupoPrimera(grupo)],
       grupo,
       clasificacion, resultados, calendario, goleadores,
+      'proximo-partido': proximoPartido,
     };
   } else {
     console.log(`   → ${clasificacion.length} equipos · ${resultados.length} resultados · ${goleadores.length} goleadores`);

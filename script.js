@@ -555,6 +555,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     (function loadLeagueData() {
+        // Sólo la portada tiene la sección; en las demás páginas no hay nada
+        // que pintar y no se pide nada al worker.
+        if (!document.getElementById('standings-table')) return;
         var TEAM_NAME = 'AUTO-CENTER PRINCIPADO';
 
         function normaliseName(name) {
@@ -830,6 +833,8 @@ document.addEventListener('DOMContentLoaded', function() {
             conRespaldo(api, './data/' + CURRENT_SEASON + '/equipos/' + id + '.json?v=' + Date.now())
                 .then(function(r) { if (!r.ok) throw new Error('datos ' + r.status); return r.json(); })
                 .then(function(j) {
+                    // El banner del próximo partido viene en el paquete de Primera.
+                    if (j['proximo-partido'] !== undefined) pintarBanner(j['proximo-partido']);
                     if (id !== equipoActual) return;   // se ha cambiado de categoría mientras cargaba
 
                     // El selector de categorías se rellena con la lista del paquete.
@@ -872,6 +877,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 .catch(function(err) {
                     console.warn('Failed to load team data:', err);
                     if (id === equipoActual) mensajeClasificacion('No se han podido cargar los datos.');
+                    if (alCargar) alCargar(null);
                 });
         }
 
@@ -929,7 +935,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // tanto. Así en pretemporada no se enseña una clasificación a ceros, y
         // el día del primer partido se cambia sin tocar el HTML.
         cargarEquipo(PRIMER_EQUIPO, null, function(j) {
-            if (j.resultados && j.resultados.length) return;
+            // Si el paquete no ha llegado, o no trae el próximo partido (un
+            // respaldo antiguo), el banner se pide aparte.
+            if (!j || j['proximo-partido'] === undefined) cargarBannerAparte();
+            if (!j || (j.resultados && j.resultados.length)) return;
             var code = seasonBefore(CURRENT_SEASON);
             if (seasonSelect) seasonSelect.value = code;
             loadSeason(code);
@@ -1055,10 +1064,63 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })();
 
-    // ── Next Match Banner: populate from proximo-partido.json (worker, con respaldo) ──
-    (function loadNextMatchBanner() {
+    // ── Banner del próximo partido ──
+    // Sólo existe en la portada. Ahí lo pinta la sección de categorías con el
+    // próximo partido que ya viene en el paquete de Primera Nacional, así que
+    // no hace falta pedirlo aparte; cargarBannerAparte() queda para cuando el
+    // paquete no lo trae o no llega. En las demás páginas no hay banner y no
+    // se pide nada.
+    function pintarBanner(match) {
         var banner = document.getElementById('match-banner');
         var bannerLink = document.getElementById('match-banner-link');
+        if (!banner) return;
+        if (!match) {
+            // No upcoming match — hide the banner
+            banner.style.display = 'none';
+            return;
+        }
+        var vetustaEscudo = 'src/assets/escudo.png';
+
+        // Home team
+        var homeBadge = document.getElementById('match-home-badge');
+        var homeNameFull = document.getElementById('match-home-name-full');
+        var homeNameShort = document.getElementById('match-home-name-short');
+        if (homeBadge) homeBadge.src = match.local.es_vetusta ? vetustaEscudo : (match.local.escudo || '');
+        if (homeNameFull) homeNameFull.textContent = match.local.nombre || '';
+        if (homeNameShort) homeNameShort.textContent = match.local.nombre_corto || '';
+
+        // Away team
+        var awayBadge = document.getElementById('match-away-badge');
+        var awayNameFull = document.getElementById('match-away-name-full');
+        var awayNameShort = document.getElementById('match-away-name-short');
+        if (awayBadge) awayBadge.src = match.visitante.es_vetusta ? vetustaEscudo : (match.visitante.escudo || '');
+        if (awayNameFull) awayNameFull.textContent = match.visitante.nombre || '';
+        if (awayNameShort) awayNameShort.textContent = match.visitante.nombre_corto || '';
+
+        // Center info
+        var venue = document.getElementById('match-venue');
+        var datetime = document.getElementById('match-datetime');
+        if (venue) venue.textContent = match.sede || '';
+        if (datetime) datetime.textContent = match.fecha_display || '';
+
+        // Longer "Horario por definir" text needs smaller type
+        var center = document.querySelector('.match-center');
+        if (center) {
+            center.classList.toggle('match-center-tbd', !!match.fecha_por_definir);
+        }
+
+        // ── Enlace al directo ──
+        if (match.url_streaming) {
+            if (bannerLink) bannerLink.href = match.url_streaming;
+        } else if (bannerLink) {
+            // No streaming URL: make banner link non-clickable
+            bannerLink.removeAttribute('href');
+            bannerLink.style.cursor = 'default';
+        }
+    }
+
+    function cargarBannerAparte() {
+        if (!document.getElementById('match-banner')) return;
 
         // Determine base path to data/ depending on page depth
         var scriptTags = document.querySelectorAll('script[src*="script.js"]');
@@ -1070,66 +1132,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // El banner completo sólo existe en la portada.
-        var isHomepage = !!banner;
-
         conRespaldo('/api/liga/' + TEMPORADA_ACTUAL + '/proximo-partido.json', basePath + 'data/proximo-partido.json?v=' + Date.now())
             .then(function(r) { return r.ok ? r.json() : null; })
-            .then(function(match) {
-                if (!match) {
-                    // No upcoming match — hide the banner
-                    if (banner) banner.style.display = 'none';
-                    return;
-                }
-
-                // ── Populate banner (homepage only) ──
-                if (isHomepage) {
-                    var vetustaEscudo = 'src/assets/escudo.png';
-
-                    // Home team
-                    var homeBadge = document.getElementById('match-home-badge');
-                    var homeNameFull = document.getElementById('match-home-name-full');
-                    var homeNameShort = document.getElementById('match-home-name-short');
-                    if (homeBadge) homeBadge.src = match.local.es_vetusta ? vetustaEscudo : (match.local.escudo || '');
-                    if (homeNameFull) homeNameFull.textContent = match.local.nombre || '';
-                    if (homeNameShort) homeNameShort.textContent = match.local.nombre_corto || '';
-
-                    // Away team
-                    var awayBadge = document.getElementById('match-away-badge');
-                    var awayNameFull = document.getElementById('match-away-name-full');
-                    var awayNameShort = document.getElementById('match-away-name-short');
-                    if (awayBadge) awayBadge.src = match.visitante.es_vetusta ? vetustaEscudo : (match.visitante.escudo || '');
-                    if (awayNameFull) awayNameFull.textContent = match.visitante.nombre || '';
-                    if (awayNameShort) awayNameShort.textContent = match.visitante.nombre_corto || '';
-
-                    // Center info
-                    var venue = document.getElementById('match-venue');
-                    var datetime = document.getElementById('match-datetime');
-                    if (venue) venue.textContent = match.sede || '';
-                    if (datetime) datetime.textContent = match.fecha_display || '';
-
-                    // Longer "Horario por definir" text needs smaller type
-                    var center = document.querySelector('.match-center');
-                    if (center) {
-                        center.classList.toggle('match-center-tbd', !!match.fecha_por_definir);
-                    }
-                }
-
-                // ── Enlace al directo desde el banner de portada ──
-                if (match.url_streaming) {
-                    if (bannerLink) {
-                        bannerLink.href = match.url_streaming;
-                    }
-                } else {
-                    // No streaming URL: make banner link non-clickable
-                    if (bannerLink) {
-                        bannerLink.removeAttribute('href');
-                        bannerLink.style.cursor = 'default';
-                    }
-                }
-            })
+            .then(pintarBanner)
             .catch(function() { /* silently ignore */ });
-    })();
+    }
 
     // ── Scroll animations (IntersectionObserver) ──
     // Delay setup until loading screen is gone so elements aren't
