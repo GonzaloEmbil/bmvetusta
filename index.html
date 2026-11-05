@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-24">
+    <link rel="stylesheet" href="style.css?v=campana-25">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -1114,17 +1114,23 @@
                     </div>
                 </div>
             </div>
-            <!-- League map poster on the right, matching the news carousel height -->
+            <!-- A la derecha, a la altura del carrusel de noticias: en escritorio
+                 la animación del carnet de abonado (la misma de Abónate) y en
+                 móvil el vídeo de la campaña. -->
             <div class="home-tournament-stack home-poster-row">
-                <!-- Sólo en móvil: ocupa el sitio del mapa, que baja al final. -->
+                <!-- Sólo en móvil. -->
                 <div class="home-video">
                     <iframe src="https://www.youtube-nocookie.com/embed/cFKJLLbQ0Co" title="Campaña de abonados 2026/2027 del Balonmano Vetusta" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster" aria-label="Grupo B de Primera Nacional 2026/2027">
-                    <picture>
-                        <source srcset="src/assets/mapaliga.webp" type="image/webp">
-                        <img src="src/assets/mapaliga.png" alt="Grupo B de Primera Nacional 2026/2027">
-                    </picture>
+                <!-- Sólo en escritorio. Se ve como una imagen animada (sin sonido,
+                     en bucle, sin controles) y no se descarga hasta que está a la
+                     vista; en móvil está oculta y no llega a descargarse. -->
+                <a href="./abonate/" class="home-anim-arriba" aria-label="Hazte abonado de la temporada 2026/2027">
+                    <video class="anim-auto" muted loop playsinline preload="none"
+                           poster="src/assets/animacioncarnet2627.jpg"
+                           data-src="src/assets/animacioncarnet2627.mp4"
+                           disablepictureinpicture disableremoteplayback
+                           aria-hidden="true"></video>
                 </a>
             </div><!-- /home-tournament-stack -->
             </div><!-- /fold-row -->
@@ -1398,10 +1404,7 @@
 
         <!-- Entre la clasificación y Prensa: el mapa de la liga y el cartel de
              abonados. En escritorio van los dos en fila; en móvil el cartel no
-             sale (en su lugar va la animación del carnet, abajo). El mapa va
-             duplicado porque arriba y aquí caen en secciones distintas y no hay
-             forma de reordenarlo con CSS; la imagen es la misma, así que el
-             navegador la descarga una vez. -->
+             sale (en su lugar va la animación del carnet, abajo). -->
         <div class="home-posters-row">
         <a href="./noticias/grupo-b-primera-nacional-2026-07-09.html" class="home-poster-abajo" aria-label="Grupo B de Primera Nacional 2026/2027">
             <picture>
@@ -1646,7 +1649,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-24"></script>
+    <script src="script.js?v=campana-25"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No

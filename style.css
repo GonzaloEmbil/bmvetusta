@@ -3759,41 +3759,16 @@ body {
     align-items: stretch;
 }
 
-.home-poster {
-    flex: 0 0 auto;
-    max-width: 100%;
-    height: 100%;
-    display: block;
-    transition: transform 0.2s;
-}
-
-.home-poster:hover {
-    transform: translateY(-2px);
-}
-
-.home-poster picture {
-    display: block;
-    height: 100%;
-}
-
-.home-poster img {
-    height: 100%;
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    border-radius: 12px;
-    box-shadow: 0 6px 18px rgba(0,0,0,0.28);
-}
-
 /* Club photo — desktop only, same width as the banner */
 .home-club-photo {
     display: none;
 }
 
-/* El vídeo de la campaña y el mapa de la liga se turnan en el hueco de la
-   portada: en escritorio manda el mapa —ahí no se toca nada—, y en móvil sale
-   el vídeo y el mapa baja al final, entre los goleadores y Prensa. */
+/* El vídeo de la campaña y la animación del carnet se turnan en el hueco de
+   la portada: en escritorio va la animación y en móvil el vídeo. El mapa de
+   la liga va abajo, entre los goleadores y Prensa. */
 .home-video,
+.home-anim-arriba,
 .home-poster-abajo,
 .home-cartel-abonados,
 .home-anim-movil {
@@ -3848,9 +3823,6 @@ body {
 
 /* Mobile: centred below the news carousel, in natural flow */
 @media (max-width: 768px) {
-    /* El mapa cede su sitio al vídeo. */
-    .home-poster-row .home-poster { display: none; }
-
     .home-video {
         display: block;
         width: 100%;
@@ -4160,32 +4132,41 @@ body {
         min-width: 0;
     }
 
-    /* The poster is absolutely positioned inside its grid cell so its
-       natural height (420px wide x 4:5 = 525px) doesn't force the row
-       taller than the above-fold allows; it scales to whatever height
-       the carousel column settles on. */
+    /* The animation is absolutely positioned inside its grid cell so its
+       natural height (720 x 1280) doesn't force the row taller than the
+       above-fold allows; it takes the height the carousel column settles on
+       and, being 9:16, its width follows, centred in the column. */
     .fold-row > .home-tournament-stack {
         position: relative;
         min-height: 0;
         overflow: hidden;
     }
 
-    .fold-row > .home-tournament-stack .home-poster {
+    .fold-row > .home-tournament-stack .home-anim-arriba {
+        display: block;
         position: absolute;
         top: 0;
-        left: 0;
-        right: 0;
         bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        aspect-ratio: 9 / 16;
+        max-width: 100%;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #0b0b0b;
+        box-shadow: 0 6px 18px rgba(0,0,0,0.28);
+        transition: transform 0.2s;
     }
 
-    .fold-row > .home-tournament-stack .home-poster picture {
-        height: 100%;
+    .fold-row > .home-tournament-stack .home-anim-arriba:hover {
+        transform: translate(-50%, -2px);
     }
 
-    .fold-row > .home-tournament-stack .home-poster img {
+    .fold-row > .home-tournament-stack .home-anim-arriba video {
+        display: block;
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
     }
 
     .home-tournament-banner {
