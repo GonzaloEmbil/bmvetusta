@@ -251,7 +251,8 @@ document.addEventListener('DOMContentLoaded', function() {
             { href: 'https://elpiguena.com/', img: 'elpigueña.png', alt: 'El Pigüeña' },
             { href: 'https://www.administraciones-lorca.es/', img: 'administracioneslorca.png', alt: 'Administraciones Lorca' },
             { href: 'https://maps.app.goo.gl/gmJEMYNMoNBPEAov5', img: 'cafegernika.jpg', alt: 'Café Gernika' },
-            { href: 'https://www.instagram.com/continentallugones/', img: 'cafecontinental.jpg', alt: 'Café Continental' }
+            { href: 'https://www.instagram.com/continentallugones/', img: 'cafecontinental.jpg', alt: 'Café Continental' },
+            { href: 'https://www.google.com/maps/search/?api=1&amp;query=Cafeter%C3%ADa+Moon+Calle+Cudillero+8+Oviedo', img: 'cafeteriamoonlogo.jpg', alt: 'Cafetería Moon' }
         ];
 
         function buildLinks() {
