@@ -46,13 +46,13 @@ export const TEAM_ID = '209500';
 export const EQUIPOS = [
   { id: '209500', nombre: 'Primera Nacional', web: true, goleadores: true },
   { id: '210109', nombre: 'Segunda Nacional', web: true, goleadores: true },
-  { id: '208099', nombre: 'Juvenil masculino', web: false },
-  { id: '223060', nombre: 'Cadete femenino', web: true },
-  { id: '223058', nombre: 'Cadete masculino A', web: true },
-  { id: '227049', nombre: 'Cadete masculino B', web: true },
-  { id: '216662', nombre: 'Infantil femenino', web: true },
-  { id: '221137', nombre: 'Infantil masculino A', web: true },
-  { id: '223207', nombre: 'Infantil masculino B', web: true },
+  { id: '208099', nombre: 'Juvenil Masculino', web: false },
+  { id: '223060', nombre: 'Cadete Femenino', web: true },
+  { id: '223058', nombre: 'Cadete Masculino A', web: true },
+  { id: '227049', nombre: 'Cadete Masculino B', web: true },
+  { id: '216662', nombre: 'Infantil Femenino', web: true },
+  { id: '221137', nombre: 'Infantil Masculino A', web: true },
+  { id: '223207', nombre: 'Infantil Masculino B', web: true },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────

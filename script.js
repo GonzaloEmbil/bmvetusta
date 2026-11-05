@@ -801,21 +801,13 @@ document.addEventListener('DOMContentLoaded', function() {
         var goleadoresPanel = document.getElementById('goleadores-panel');
         var proximosPanel = document.getElementById('proximos-panel');
         var tituloEl = document.getElementById('liga-titulo');
-        var subtituloEl = document.getElementById('liga-subtitulo');
         var seasonSelect = document.getElementById('season-select');
         var equipoActual = PRIMER_EQUIPO;
 
-        function etiquetaTemporada(code) { return '20' + code.slice(0, 2) + ' / 20' + code.slice(2); }
         function mostrar(el, si) { if (el) el.hidden = !si; }
 
-        function cabecera(nombre, competicion, code) {
+        function cabecera(nombre) {
             if (tituloEl) tituloEl.textContent = nombre;
-            if (subtituloEl) {
-                // La competición de Primera empieza por el propio nombre; no se repite.
-                var c = competicion || '';
-                if (c.indexOf(nombre + ' · ') === 0) c = c.slice(nombre.length + 3);
-                subtituloEl.textContent = (c ? c + ' · ' : '') + 'Temporada ' + etiquetaTemporada(code);
-            }
         }
 
         function enlaceClasificacion(id, grupo) {
@@ -848,9 +840,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         categoriaSelect.value = id;
                     }
 
-                    var grupoActivo = null;
-                    (j.grupos || []).forEach(function(g) { if (g.id === j.grupo) grupoActivo = g; });
-                    cabecera(j.equipo.nombre, grupoActivo ? grupoActivo.competicion : '', CURRENT_SEASON);
+                    cabecera(j.equipo.nombre);
 
                     // Fases: sólo si el equipo tiene más de un grupo de liga.
                     var conFases = (j.grupos || []).length > 1;
@@ -892,7 +882,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             var basePath = './data/' + code + '/';
             var cacheBust = '?v=' + Date.now();
-            cabecera('Primera Nacional', 'Liga Regular · Grupo B', code);
+            cabecera('Primera Nacional');
             mostrar(faseWrap, false);
             mostrar(goleadoresPanel, true);
             if (proximosPanel) proximosPanel.style.display = 'none';

@@ -1,7 +1,7 @@
 {
   "equipo": {
     "id": "223060",
-    "nombre": "Cadete femenino"
+    "nombre": "Cadete Femenino"
   },
   "temporada": "2627",
   "equipos": [
@@ -15,27 +15,27 @@
     },
     {
       "id": "223060",
-      "nombre": "Cadete femenino"
+      "nombre": "Cadete Femenino"
     },
     {
       "id": "223058",
-      "nombre": "Cadete masculino A"
+      "nombre": "Cadete Masculino A"
     },
     {
       "id": "227049",
-      "nombre": "Cadete masculino B"
+      "nombre": "Cadete Masculino B"
     },
     {
       "id": "216662",
-      "nombre": "Infantil femenino"
+      "nombre": "Infantil Femenino"
     },
     {
       "id": "221137",
-      "nombre": "Infantil masculino A"
+      "nombre": "Infantil Masculino A"
     },
     {
       "id": "223207",
-      "nombre": "Infantil masculino B"
+      "nombre": "Infantil Masculino B"
     }
   ],
   "grupos": [
