@@ -6,6 +6,12 @@
  *
  * Usage:  node scripts/fetch-data.js
  * Requires: Node 18+ (uses native fetch)
+ *
+ * The processing (standings with tiebreakers, scorers, results, next match)
+ * lives in worker/src/liga.js, shared with the Cloudflare Worker that serves
+ * the same JSON live at balonmanovetusta.com/api. The files written here are
+ * the static fallback the website uses when the Worker can't be reached, so
+ * both must produce identical output — hence one implementation.
  */
 
 const fs = require('fs');
@@ -15,20 +21,6 @@ const path = require('path');
 
 const BASE_URL = 'https://balonmano.isquad.es';
 
-// Every season we publish, oldest → newest. `grupo` is the RFEBM/isquad
-// id_grupo for that season's Primera Nacional (Grupo B). Past seasons are
-// immutable: they're only (re)generated with `--backfill`; the current
-// season is refreshed on every run.
-const SEASONS = [
-  { code: '2122', grupo: '1007844', label: '2021/2022' },
-  { code: '2223', grupo: '1012866', label: '2022/2023' },
-  { code: '2324', grupo: '1018089', label: '2023/2024' },
-  { code: '2425', grupo: '1023856', label: '2024/2025' },
-  { code: '2526', grupo: '1031242', label: '2025/2026' },
-  { code: '2627', grupo: '1038396', label: '2026/2027' },
-];
-const CURRENT_SEASON_CODE = '2627';
-
 // Administrative corrections that the raw match data doesn't reflect
 // (e.g. federative point deductions). Keyed by season code; merged onto
 // the computed historia row. 2024/25: −4 pts sanction left Vetusta 6th/34
@@ -36,9 +28,6 @@ const CURRENT_SEASON_CODE = '2627';
 const HISTORIA_OVERRIDES = {
   '2425': { pos: 6, puntos: 34 },
 };
-
-const TEAM_ID = '209500';
-const TEAM_NAME = 'AUTO-CENTER PRINCIPADO';
 
 const HEADERS = {
   'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
@@ -49,6 +38,9 @@ const HEADERS = {
 };
 
 const DATA_DIR = path.join(__dirname, '..', 'data');
+
+// Shared processing module (ESM); loaded in main() since this file is CJS.
+let liga;
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -73,156 +65,6 @@ async function apiPost(endpoint, body) {
   return res.json();
 }
 
-/**
- * Normalise a team name to allow reliable comparison.
- */
-function normaliseName(name) {
-  return (name || '').trim().toUpperCase();
-}
-
-/**
- * Repair double-encoded text coming from the API. Some records (notably the
- * /ws/estadio addresses) store UTF-8 bytes that were read as latin-1, so
- * "Gijón" arrives as "GijÃ³n". Re-interpreting the bytes fixes it. Only
- * strings showing the telltale Ã/Â are touched, and the result is discarded
- * if it produced replacement characters.
- */
-function fixMojibake(str) {
-  if (!str || !/[ÃÂ]/.test(str)) return str;
-  try {
-    const fixed = Buffer.from(str, 'latin1').toString('utf8');
-    return fixed.includes('�') ? str : fixed;
-  } catch (err) {
-    return str;
-  }
-}
-
-function isVetusta(name) {
-  return normaliseName(name) === normaliseName(TEAM_NAME);
-}
-
-// The club's display name changes per season (sponsor), but id_equipo is
-// stable, so identify Vetusta by id across seasons.
-function sideIsVetusta(m, side) {
-  const id = side === 'local' ? m.id_local : m.id_visitante;
-  return String(id) === TEAM_ID;
-}
-
-function matchHasVetusta(m) {
-  return sideIsVetusta(m, 'local') || sideIsVetusta(m, 'visitante');
-}
-
-// A fixture only counts as "upcoming" once it has a real, parseable date.
-// Before the calendar is published (e.g. a season that hasn't started),
-// matches exist with an empty fecha and must not surface as próximos.
-function hasValidDate(m) {
-  if (!m.fecha || !String(m.fecha).trim()) return false;
-  const d = new Date(String(m.fecha).replace(' ', 'T'));
-  return !isNaN(d.getTime());
-}
-
-/**
- * Title-case a team name, keeping Spanish prepositions lowercase.
- */
-function titleCase(str) {
-  const lower = new Set(['de', 'del', 'la', 'las', 'los', 'el', 'y', 'e']);
-  return str
-    .split(/\s+/)
-    .map((w, i) => {
-      const lc = w.toLowerCase();
-      if (i > 0 && lower.has(lc)) return lc;
-      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
-    })
-    .join(' ');
-}
-
-/**
- * Generate a short display name from an ALL-CAPS team name.
- *   "UNIVERSIDAD DE LEON ADEMAR" → "León Ademar"
- *   "CAJA VIVA -  BALONMANO CAMARGO" → "BM Camargo"
- */
-function shortName(raw) {
-  let name = raw.replace(/\s*-+\s*/g, ' ').trim();
-  // Replace BALONMANO → BM before processing
-  name = name.replace(/\bBALONMANO\b/gi, 'BM');
-  const lower = new Set(['de', 'del', 'la', 'las', 'los', 'el', 'y', 'e']);
-  const acronyms = new Set(['BM', 'SD', 'CD', 'CF', 'SDC', 'CB', 'AD']);
-  const words = name.split(/\s+/);
-  const significant = words.filter((w) => !lower.has(w.toLowerCase()));
-  if (significant.length <= 2) {
-    return significant.map((w) => {
-      if (acronyms.has(w.toUpperCase())) return w.toUpperCase();
-      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
-    }).join(' ');
-  }
-  return significant
-    .slice(-2)
-    .map((w) => {
-      if (acronyms.has(w.toUpperCase())) return w.toUpperCase();
-      return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
-    })
-    .join(' ');
-}
-
-/**
- * Extract city from a stadium address string.
- *   "C. Valdés, 2, 33012 Oviedo, Asturias, España" → "Oviedo"
- */
-function extractCity(address) {
-  if (!address) return null;
-  // Look for 5-digit postal code followed by city name
-  const m = address.match(/\d{5}\s+([^,]+)/);
-  return m ? m[1].trim() : null;
-}
-
-/**
- * Shorten a stadium name for the banner.
- *   "POLIDEPORTIVO MUNICIPAL FLORIDA ARENA" → "Florida Arena"
- */
-function shortVenueName(raw) {
-  if (!raw) return null;
-  // Strip common prefixes (case-insensitive)
-  const prefixes = [
-    /^POLIDEPORTIVO\s+MUNICIPAL\s+/i,
-    /^POLIDEPORTIVO\s+/i,
-    /^PABELLON\s+MUNICIPAL\s+DE\s+DEPORTES\s+/i,
-    /^PABELLON\s+MUNICIPAL\s+/i,
-    /^PABELLON\s+DE\s+DEPORTES\s+/i,
-    /^PABELLON\s+/i,
-    /^COMPLEJO\s+DEPORTIVO\s+MUNICIPAL\s+/i,
-    /^COMPLEJO\s+DEPORTIVO\s+/i,
-    /^CENTRO\s+DEPORTIVO\s+MUNICIPAL\s+/i,
-    /^CENTRO\s+DEPORTIVO\s+/i,
-    /^INSTALACIONES\s+DEPORTIVAS\s+/i,
-  ];
-  let name = raw.trim();
-  for (const re of prefixes) {
-    name = name.replace(re, '');
-  }
-  return titleCase(name.trim());
-}
-
-/**
- * Format a date string to Spanish display for the banner.
- *   "2026-03-29 12:00:00" → "Dom 29 Mar · 12:00h"
- */
-function formatDateForBanner(dateStr) {
-  if (!dateStr || dateStr.trim() === '') return 'Horario por definir';
-  const d = new Date(dateStr.replace(' ', 'T'));
-  if (isNaN(d.getTime())) return dateStr;
-
-  const days = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-  const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-
-  const dayName = days[d.getDay()];
-  const dayNum = d.getDate();
-  const month = months[d.getMonth()];
-  const hours = String(d.getHours()).padStart(2, '0');
-  const mins = String(d.getMinutes()).padStart(2, '0');
-
-  return `${dayName} ${dayNum} ${month} · ${hours}:${mins}h`;
-}
-
 // ── Data fetching ────────────────────────────────────────────────────────────
 
 async function fetchCalendar(grupo) {
@@ -244,384 +86,12 @@ async function fetchActa(grupo, matchId) {
 }
 
 async function fetchStadium(stadiumId) {
+  console.log(`   🏟️  Fetching stadium ${stadiumId} …`);
   const data = await apiPost('/ws/estadio', {
     id_estadio: String(stadiumId),
   });
   // Response: { status: "OK", estadio: { nombre_estadio, direccion, ... } }
   return data.estadio || null;
-}
-
-// ── Processors ───────────────────────────────────────────────────────────────
-
-/**
- * Build data/calendario.json — next 5 pending Vetusta matches.
- */
-function buildCalendario(matches) {
-  const pending = matches
-    .filter((m) => {
-      const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-      return isPending && matchHasVetusta(m) && hasValidDate(m);
-    })
-    .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
-    .slice(0, 3);
-
-  return pending.map((m) => {
-    const esLocal = sideIsVetusta(m, 'local');
-    const rival = esLocal ? m.nombre_visitante : m.nombre_local;
-    const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
-    const streaming = m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null;
-
-    return {
-      fecha: m.fecha,
-      jornada: m.jornada,
-      es_local: esLocal,
-      rival: rival,
-      escudo_rival: escudoRival || null,
-      url_streaming: streaming,
-    };
-  });
-}
-
-// ── Tiebreaker helpers (Art. 152, RPC RFEBM Feb 2025) ───────────────────
-
-/**
- * Group a sorted array into sub-arrays where adjacent elements share
- * the same value (as returned by valueFn).
- */
-function groupByValue(arr, valueFn) {
-  const groups = [];
-  for (const item of arr) {
-    const val = valueFn(item);
-    if (groups.length === 0 || valueFn(groups[groups.length - 1][0]) !== val) {
-      groups.push([item]);
-    } else {
-      groups[groups.length - 1].push(item);
-    }
-  }
-  return groups;
-}
-
-/**
- * Get finished matches played exclusively among a set of teams.
- */
-function getGroupH2HMatches(teamNorms, finishedMatches) {
-  return finishedMatches.filter((m) => {
-    const local = normaliseName(m.nombre_local);
-    const visit = normaliseName(m.nombre_visitante);
-    return teamNorms.includes(local) && teamNorms.includes(visit);
-  });
-}
-
-/**
- * Compute mini-league stats (pts, gf, gc, dif) for each team within a group.
- */
-function computeGroupH2HStats(teamNorms, h2hMatches) {
-  const stats = {};
-  for (const n of teamNorms) {
-    stats[n] = { pts: 0, gf: 0, gc: 0, dif: 0 };
-  }
-  for (const m of h2hMatches) {
-    const gl = parseInt(m.resultado_local, 10);
-    const gv = parseInt(m.resultado_visitante, 10);
-    if (isNaN(gl) || isNaN(gv)) continue;
-    const local = normaliseName(m.nombre_local);
-    const visit = normaliseName(m.nombre_visitante);
-    if (!stats[local] || !stats[visit]) continue;
-    stats[local].gf += gl;
-    stats[local].gc += gv;
-    stats[visit].gf += gv;
-    stats[visit].gc += gl;
-    if (gl > gv) {
-      stats[local].pts += 2;
-    } else if (gl < gv) {
-      stats[visit].pts += 2;
-    } else {
-      stats[local].pts += 1;
-      stats[visit].pts += 1;
-    }
-  }
-  for (const n of teamNorms) {
-    stats[n].dif = stats[n].gf - stats[n].gc;
-  }
-  return stats;
-}
-
-/**
- * Check whether every pair among the given teams has at least `min` h2h matches.
- */
-function allPairsHaveMinMatches(teamNorms, h2hMatches, min) {
-  for (let i = 0; i < teamNorms.length; i++) {
-    for (let j = i + 1; j < teamNorms.length; j++) {
-      const count = h2hMatches.filter((m) => {
-        const l = normaliseName(m.nombre_local);
-        const v = normaliseName(m.nombre_visitante);
-        return (l === teamNorms[i] && v === teamNorms[j]) ||
-               (l === teamNorms[j] && v === teamNorms[i]);
-      }).length;
-      if (count < min) return false;
-    }
-  }
-  return true;
-}
-
-/**
- * Sort teams by valueFn (desc), group by equal values, and recursively
- * resolve each sub-group.  Returns null if all values are equal (no split).
- */
-function splitAndResolve(teams, valueFn, finishedMatches) {
-  const sorted = [...teams].sort((a, b) => valueFn(b) - valueFn(a));
-  const groups = groupByValue(sorted, valueFn);
-  if (groups.length <= 1) return null;
-  return groups.flatMap((g) => resolveTiedGroup(g, finishedMatches));
-}
-
-/**
- * Resolve tie between exactly 2 teams — Art. 152 a).
- */
-function resolveTwoTeamTie(a, b, finishedMatches) {
-  const normA = normaliseName(a.nombre);
-  const normB = normaliseName(b.nombre);
-  const h2h = getGroupH2HMatches([normA, normB], finishedMatches);
-  const hasH2H = h2h.length > 0;
-
-  if (hasH2H) {
-    const s = computeGroupH2HStats([normA, normB], h2h);
-    // 1º H2H goal difference
-    if (s[normA].dif !== s[normB].dif)
-      return s[normA].dif > s[normB].dif ? [a, b] : [b, a];
-  }
-
-  // 2º Overall goal difference
-  if (a.DIF !== b.DIF) return a.DIF > b.DIF ? [a, b] : [b, a];
-
-  // 3º Overall goals scored
-  if (a.GF !== b.GF) return a.GF > b.GF ? [a, b] : [b, a];
-
-  if (hasH2H) {
-    const s = computeGroupH2HStats([normA, normB], h2h);
-    // 4º H2H GF/GC ratio
-    const rA = s[normA].gc > 0 ? s[normA].gf / s[normA].gc : s[normA].gf;
-    const rB = s[normB].gc > 0 ? s[normB].gf / s[normB].gc : s[normB].gf;
-    if (Math.abs(rA - rB) > 1e-9) return rA > rB ? [a, b] : [b, a];
-  }
-
-  // 5º Overall GF/GC ratio
-  const rA = a.GC > 0 ? a.GF / a.GC : a.GF;
-  const rB = b.GC > 0 ? b.GF / b.GC : b.GF;
-  if (Math.abs(rA - rB) > 1e-9) return rA > rB ? [a, b] : [b, a];
-
-  return [a, b]; // 6º would be a tiebreaker match
-}
-
-/**
- * Resolve tie among 3+ teams — Art. 152 b).
- */
-function resolveMultiTeamTie(teams, finishedMatches) {
-  const norms = teams.map((t) => normaliseName(t.nombre));
-  const h2h = getGroupH2HMatches(norms, finishedMatches);
-  const canUseH2H = allPairsHaveMinMatches(norms, h2h, 1);
-  const norm = (t) => normaliseName(t.nombre);
-
-  if (canUseH2H) {
-    const s = computeGroupH2HStats(norms, h2h);
-    // 1º H2H points
-    let r = splitAndResolve(teams, (t) => s[norm(t)].pts, finishedMatches);
-    if (r) return r;
-    // 2º H2H goal difference
-    r = splitAndResolve(teams, (t) => s[norm(t)].dif, finishedMatches);
-    if (r) return r;
-  }
-
-  // 3º Overall goal difference
-  let r = splitAndResolve(teams, (t) => t.DIF, finishedMatches);
-  if (r) return r;
-
-  if (canUseH2H) {
-    const s = computeGroupH2HStats(norms, h2h);
-    // 4º H2H goals scored
-    r = splitAndResolve(teams, (t) => s[norm(t)].gf, finishedMatches);
-    if (r) return r;
-  }
-
-  // 5º Overall goals scored
-  r = splitAndResolve(teams, (t) => t.GF, finishedMatches);
-  if (r) return r;
-
-  // 6º Overall GF/GC ratio (scaled to integer for safe comparison)
-  const ratio = (t) => {
-    if (t.GC === 0) return t.GF > 0 ? 1e9 : 0;
-    return Math.round((t.GF / t.GC) * 100000);
-  };
-  r = splitAndResolve(teams, ratio, finishedMatches);
-  if (r) return r;
-
-  return teams;
-}
-
-/**
- * Dispatch tiebreaker resolution based on group size.
- */
-function resolveTiedGroup(tiedTeams, finishedMatches) {
-  if (tiedTeams.length <= 1) return tiedTeams;
-  if (tiedTeams.length === 2) {
-    return resolveTwoTeamTie(tiedTeams[0], tiedTeams[1], finishedMatches);
-  }
-  return resolveMultiTeamTie(tiedTeams, finishedMatches);
-}
-
-/**
- * Build data/clasificacion.json — full standings computed from results.
- */
-function buildClasificacion(matches) {
-  const teams = {}; // keyed by normalised name
-
-  // Collect all unique team names with their shield URLs
-  for (const m of matches) {
-    const localNorm = normaliseName(m.nombre_local);
-    const visitNorm = normaliseName(m.nombre_visitante);
-
-    if (!teams[localNorm]) {
-      teams[localNorm] = {
-        id: String(m.id_local || ''),
-        nombre: m.nombre_local?.trim(),
-        escudo: m.url_escudo_local || null,
-        PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0,
-      };
-    }
-    if (!teams[visitNorm]) {
-      teams[visitNorm] = {
-        id: String(m.id_visitante || ''),
-        nombre: m.nombre_visitante?.trim(),
-        escudo: m.url_escudo_visitante || null,
-        PJ: 0, PG: 0, PE: 0, PP: 0, GF: 0, GC: 0,
-      };
-    }
-  }
-
-  // Process only finalised matches
-  const finished = matches.filter(
-    (m) => (m.estado_partido || '').toLowerCase() === 'finalizado'
-  );
-
-  for (const m of finished) {
-    const gl = parseInt(m.resultado_local, 10);
-    const gv = parseInt(m.resultado_visitante, 10);
-    if (isNaN(gl) || isNaN(gv)) continue;
-
-    const local = teams[normaliseName(m.nombre_local)];
-    const visit = teams[normaliseName(m.nombre_visitante)];
-    if (!local || !visit) continue;
-
-    local.PJ++;
-    visit.PJ++;
-    local.GF += gl;
-    local.GC += gv;
-    visit.GF += gv;
-    visit.GC += gl;
-
-    if (gl > gv) {
-      local.PG++;
-      visit.PP++;
-    } else if (gl < gv) {
-      visit.PG++;
-      local.PP++;
-    } else {
-      local.PE++;
-      visit.PE++;
-    }
-  }
-
-  // Classify using Art. 152 tiebreaker rules (RPC RFEBM Feb 2025)
-  const teamsArray = Object.values(teams).map((t) => ({
-    ...t,
-    DIF: t.GF - t.GC,
-    puntos: t.PG * 2 + t.PE,
-  }));
-  teamsArray.sort((a, b) => b.puntos - a.puntos);
-  const groups = groupByValue(teamsArray, (t) => t.puntos);
-  const sorted = groups.flatMap((g) =>
-    g.length === 1 ? g : resolveTiedGroup(g, finished)
-  );
-
-  return sorted.map((t, i) => ({
-    posicion: i + 1,
-    nombre: t.nombre,
-    escudo: t.escudo,
-    es_vetusta: String(t.id) === TEAM_ID,
-    PJ: t.PJ,
-    PG: t.PG,
-    PE: t.PE,
-    PP: t.PP,
-    GF: t.GF,
-    GC: t.GC,
-    DIF: t.DIF,
-    puntos: t.puntos,
-  }));
-}
-
-/**
- * Build data/goleadores.json — top scorers of the Vetusta team.
- *
- * Each entry in acta.goles is a single goal event:
- *   { id, nombre, id_equipo, nombre_equipo, minuto, dorsal, bloque, comentario, es_penalti, es_propia }
- * We count individual goal events per player where id_equipo === TEAM_ID.
- */
-function buildGoleadores(actas) {
-  const scorers = {}; // keyed by player name → total goals
-  const matchesByPlayer = {}; // player name → Set of matchIds
-  const playerPhotosById = {}; // player id → photo URL
-
-  for (const { matchId, acta } of actas) {
-    if (!acta) continue;
-
-    // Collect player photos from jugadores array, keyed by player ID
-    if (Array.isArray(acta.jugadores)) {
-      for (const j of acta.jugadores) {
-        if (String(j.id_equipo) !== TEAM_ID) continue;
-        const playerId = String(j.id || '').trim();
-        const foto = (j.imagen || '').trim();
-        if (playerId && foto) {
-          // Convert http to https for security
-          playerPhotosById[playerId] = foto.replace(/^http:\/\//, 'https://');
-        }
-      }
-    }
-
-    if (!Array.isArray(acta.goles)) continue;
-
-    for (const g of acta.goles) {
-      // Only count goals from our team
-      if (String(g.id_equipo) !== TEAM_ID) continue;
-
-      // Skip own goals (propia) — they count for the other team
-      if (String(g.es_propia) === '1') continue;
-
-      const name = (g.nombre || '').trim();
-      const playerId = String(g.id || '').trim();
-      if (!name) continue;
-
-      if (!scorers[name]) {
-        scorers[name] = { goals: 0, playerId, matches: new Set() };
-      }
-      scorers[name].goals++;
-      scorers[name].matches.add(matchId);
-      // Keep latest playerId (in case of discrepancies)
-      if (playerId) scorers[name].playerId = playerId;
-    }
-  }
-
-  return Object.entries(scorers)
-    .map(([nombre, data]) => {
-      const partidos = data.matches.size || 0;
-      return {
-        nombre,
-        goles: data.goals,
-        partidos,
-        media: partidos > 0 ? Math.round((data.goals / partidos) * 10) / 10 : 0,
-        foto: playerPhotosById[data.playerId] || null,
-      };
-    })
-    .sort((a, b) => b.goles - a.goles);
 }
 
 /**
@@ -652,12 +122,12 @@ function buildHistoria(currentMatches) {
 
   // Whether the current season still has pending Vetusta matches.
   const currentHasPending = (currentMatches || []).some(
-    (m) => (m.estado_partido || '').toLowerCase() !== 'finalizado' && matchHasVetusta(m)
+    (m) => (m.estado_partido || '').toLowerCase() !== 'finalizado' && liga.matchHasVetusta(m)
   );
 
   // Primera Nacional era — derived from each season's clasificacion.json.
   const primeraSeasons = [];
-  for (const s of SEASONS) {
+  for (const s of liga.TEMPORADAS) {
     const file = path.join(DATA_DIR, s.code, 'clasificacion.json');
     let clasif;
     try {
@@ -681,129 +151,13 @@ function buildHistoria(currentMatches) {
       PJ: v.PJ, PG: v.PG, PE: v.PE, PP: v.PP,
       puntos: v.puntos,
       GF: v.GF, GC: v.GC, DIF: v.DIF,
-      en_curso: s.code === CURRENT_SEASON_CODE ? currentHasPending : false,
+      en_curso: s.code === liga.TEMPORADA_ACTUAL ? currentHasPending : false,
     };
     if (HISTORIA_OVERRIDES[s.code]) Object.assign(row, HISTORIA_OVERRIDES[s.code]);
     primeraSeasons.push(row);
   }
 
   return [...olderSeasons, ...primeraSeasons];
-}
-
-/**
- * Build data/resultados.json — last 3 finished Vetusta matches.
- */
-function buildResultados(matches) {
-  const finished = matches
-    .filter((m) => {
-      const isFin = (m.estado_partido || '').toLowerCase() === 'finalizado';
-      return isFin && matchHasVetusta(m);
-    })
-    .sort((a, b) => new Date(b.fecha) - new Date(a.fecha))
-    .slice(0, 3);
-
-  return finished.map((m) => {
-    const esLocal = sideIsVetusta(m, 'local');
-    const rival = esLocal ? m.nombre_visitante : m.nombre_local;
-    const escudoRival = esLocal ? m.url_escudo_visitante : m.url_escudo_local;
-    const golesVetusta = esLocal ? parseInt(m.resultado_local, 10) : parseInt(m.resultado_visitante, 10);
-    const golesRival = esLocal ? parseInt(m.resultado_visitante, 10) : parseInt(m.resultado_local, 10);
-    let resultado = 'E';
-    if (golesVetusta > golesRival) resultado = 'V';
-    else if (golesVetusta < golesRival) resultado = 'D';
-
-    return {
-      fecha: m.fecha,
-      jornada: m.jornada,
-      es_local: esLocal,
-      rival: rival,
-      escudo_rival: escudoRival || null,
-      goles_vetusta: golesVetusta,
-      goles_rival: golesRival,
-      resultado: resultado,
-    };
-  });
-}
-
-/**
- * Build data/proximo-partido.json — next match banner data.
- * Includes stadium info fetched from /ws/estadio.
- */
-async function buildProximoPartido(matches) {
-  const pending = matches.filter((m) => {
-    const isPending = (m.estado_partido || '').toLowerCase() !== 'finalizado';
-    return isPending && matchHasVetusta(m);
-  });
-
-  const dated = pending
-    .filter(hasValidDate)
-    .sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-
-  // In preseason the RFEBM publishes the fixture list before assigning
-  // kick-off times, so there is a next match but no date yet. Fall back to
-  // the earliest matchday and show "Por definir" rather than hiding the
-  // banner entirely.
-  let m = dated[0];
-  let dateUndefined = false;
-  if (!m) {
-    m = pending
-      .slice()
-      .sort((a, b) => (parseInt(a.jornada, 10) || 0) - (parseInt(b.jornada, 10) || 0))[0];
-    dateUndefined = true;
-  }
-
-  if (!m) return null;
-
-  const esLocal = sideIsVetusta(m, 'local');
-
-  // Fetch stadium info for venue name and city
-  let venueName = null;
-  let venueCity = null;
-  if (m.id_estadio) {
-    try {
-      console.log(`   🏟️  Fetching stadium ${m.id_estadio} …`);
-      const stadium = await fetchStadium(m.id_estadio);
-      if (stadium) {
-        venueName = fixMojibake(stadium.nombre_estadio) || null;
-        venueCity = fixMojibake(extractCity(stadium.direccion)) || null;
-      }
-    } catch (err) {
-      console.warn(`   ⚠ Failed to fetch stadium: ${err.message}`);
-    }
-  }
-
-  // Build venue line: "Stadium Name · City" or just one of them
-  let venue = null;
-  const shortVenue = shortVenueName(venueName);
-  if (shortVenue && venueCity) {
-    venue = `${shortVenue} · ${venueCity}`;
-  } else if (shortVenue) {
-    venue = shortVenue;
-  } else if (venueCity) {
-    venue = venueCity;
-  }
-
-  return {
-    fecha: dateUndefined ? null : m.fecha,
-    fecha_display: dateUndefined ? 'Horario por definir' : formatDateForBanner(m.fecha),
-    fecha_por_definir: dateUndefined,
-    jornada: m.jornada,
-    es_local: esLocal,
-    local: {
-      nombre: sideIsVetusta(m, 'local') ? 'Balonmano Vetusta' : titleCase(m.nombre_local),
-      nombre_corto: sideIsVetusta(m, 'local') ? 'BM Vetusta' : shortName(m.nombre_local),
-      escudo: m.url_escudo_local || null,
-      es_vetusta: sideIsVetusta(m, 'local'),
-    },
-    visitante: {
-      nombre: sideIsVetusta(m, 'visitante') ? 'Balonmano Vetusta' : titleCase(m.nombre_visitante),
-      nombre_corto: sideIsVetusta(m, 'visitante') ? 'BM Vetusta' : shortName(m.nombre_visitante),
-      escudo: m.url_escudo_visitante || null,
-      es_vetusta: sideIsVetusta(m, 'visitante'),
-    },
-    sede: venue,
-    url_streaming: m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null,
-  };
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -817,12 +171,7 @@ function writeJson(dir, name, data) {
  * group whose acta has been uploaded. Used to build the scorers list.
  */
 async function fetchVetustaActas(matches, grupo) {
-  const finishedWithActa = matches.filter(
-    (m) =>
-      (m.estado_partido || '').toLowerCase() === 'finalizado' &&
-      String(m.acta_subida) === '1' &&
-      matchHasVetusta(m)
-  );
+  const finishedWithActa = liga.matchesWithActa(matches);
   console.log(`   📝 ${finishedWithActa.length} actas de partidos del Vetusta …`);
 
   const actas = [];
@@ -853,9 +202,9 @@ async function buildSeason(season, isCurrent) {
   }
   const actas = await fetchVetustaActas(matches, season.grupo);
 
-  const clasificacion = buildClasificacion(matches);
-  const resultados = buildResultados(matches);
-  const goleadores = buildGoleadores(actas);
+  const clasificacion = liga.buildClasificacion(matches);
+  const resultados = liga.buildResultados(matches);
+  const goleadores = liga.buildGoleadores(actas);
 
   const dir = path.join(DATA_DIR, season.code);
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -864,11 +213,11 @@ async function buildSeason(season, isCurrent) {
   writeJson(dir, 'goleadores.json', goleadores);
 
   if (isCurrent) {
-    const calendario = buildCalendario(matches);
+    const calendario = liga.buildCalendario(matches);
     writeJson(dir, 'calendario.json', calendario);
 
     const historia = buildHistoria(matches);
-    const proximoPartido = await buildProximoPartido(matches);
+    const proximoPartido = await liga.buildProximoPartido(matches, fetchStadium);
     writeJson(DATA_DIR, 'historia.json', historia);
     writeJson(DATA_DIR, 'proximo-partido.json', proximoPartido);
 
@@ -881,13 +230,15 @@ async function buildSeason(season, isCurrent) {
 async function main() {
   console.log('🏐 BM Vetusta — Data Fetcher\n');
 
+  liga = await import('../worker/src/liga.js');
+
   // Past seasons are immutable: only (re)generated with --backfill or when
   // their folder is missing. The current season is refreshed every run.
   const backfill = process.argv.includes('--backfill');
   if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
 
-  for (const season of SEASONS) {
-    const isCurrent = season.code === CURRENT_SEASON_CODE;
+  for (const season of liga.TEMPORADAS) {
+    const isCurrent = season.code === liga.TEMPORADA_ACTUAL;
     const dir = path.join(DATA_DIR, season.code);
     if (!isCurrent && !backfill && fs.existsSync(dir)) {
       console.log(`\n=== Temporada ${season.label}: sin cambios (usa --backfill para regenerar) ===`);
