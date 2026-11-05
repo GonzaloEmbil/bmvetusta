@@ -545,6 +545,17 @@ document.addEventListener('DOMContentLoaded', function() {
     // si no responde en 5 s o falla, el JSON estático que deja la tarea de
     // GitHub. Devuelve la respuesta buena de las dos, así quien llama la trata
     // igual que antes.
+    // Un partido se da por «en juego» desde una hora antes del inicio hasta
+    // una hora después del final, contando dos horas de partido. Lo usan el
+    // icono de directo de los próximos partidos y la pastilla del banner.
+    function enDirecto(fechaStr) {
+        if (!fechaStr) return false;
+        var inicio = new Date(String(fechaStr).replace(' ', 'T')).getTime();
+        if (isNaN(inicio)) return false;
+        var ahora = Date.now();
+        return ahora >= inicio - 60 * 60000 && ahora <= inicio + 3 * 60 * 60000;
+    }
+
     function conRespaldo(api, estatico) {
         var control = typeof AbortController !== 'undefined' ? new AbortController() : null;
         var tope = control ? setTimeout(function() { control.abort(); }, 5000) : null;
@@ -644,15 +655,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // ── Upcoming matches (max 3 for side panel) ──
-        // Un partido se da por «en juego» desde una hora antes del inicio hasta
-        // una hora después del final, contando dos horas de partido.
-        function enDirecto(fechaStr) {
-            if (!fechaStr) return false;
-            var inicio = new Date(String(fechaStr).replace(' ', 'T')).getTime();
-            if (isNaN(inicio)) return false;
-            var ahora = Date.now();
-            return ahora >= inicio - 60 * 60000 && ahora <= inicio + 3 * 60 * 60000;
-        }
         function refrescarDirectos() {
             document.querySelectorAll('.proximos-streaming[data-inicio]').forEach(function(el) {
                 el.classList.toggle('en-directo', enDirecto(el.getAttribute('data-inicio')));
@@ -1128,10 +1130,16 @@ document.addEventListener('DOMContentLoaded', function() {
         if (awayNameFull) awayNameFull.textContent = match.visitante.nombre || '';
         if (awayNameShort) awayNameShort.textContent = match.visitante.nombre_corto || '';
 
-        // Center info
+        // Center info. La línea del lugar guarda lo que necesita para
+        // convertirse en la pastilla STREAMING mientras se juega el partido.
         var venue = document.getElementById('match-venue');
         var datetime = document.getElementById('match-datetime');
-        if (venue) venue.textContent = match.sede || '';
+        if (venue) {
+            venue.setAttribute('data-sede', match.sede || '');
+            venue.setAttribute('data-inicio', match.fecha || '');
+            venue.setAttribute('data-streaming', match.url_streaming ? '1' : '');
+            actualizarDirectoBanner();
+        }
         if (datetime) datetime.textContent = match.fecha_display || '';
 
         // Longer "Horario por definir" text needs smaller type
@@ -1149,6 +1157,21 @@ document.addEventListener('DOMContentLoaded', function() {
             bannerLink.style.cursor = 'default';
         }
     }
+
+    // Mientras se juega un partido con directo, la línea del lugar del banner
+    // pasa a ser la pastilla roja STREAMING; fuera de ese rato, el lugar.
+    // Se revisa cada minuto por si la página se queda abierta.
+    function actualizarDirectoBanner() {
+        var venue = document.getElementById('match-venue');
+        if (!venue) return;
+        var live = venue.getAttribute('data-streaming') === '1' && enDirecto(venue.getAttribute('data-inicio'));
+        if (live) {
+            if (!venue.querySelector('.match-streaming')) venue.innerHTML = '<span class="match-streaming">Streaming</span>';
+        } else {
+            venue.textContent = venue.getAttribute('data-sede') || '';
+        }
+    }
+    setInterval(actualizarDirectoBanner, 60000);
 
     function cargarBannerAparte() {
         if (!document.getElementById('match-banner')) return;
