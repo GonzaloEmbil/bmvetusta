@@ -17,8 +17,11 @@ import { renovacion } from './renovacion.js';
 import { rutasCampanas, rutasPublicas, campanasProgramadas } from './campanas.js';
 import { rutasProspectos } from './prospectos.js';
 import { rutasResultados } from './resultados.js';
+import { rutasApi } from './api.js';
 
 const PRIVADO = 'admin.balonmanovetusta.com';
+// Web pública: de aquí sólo llega /api/* (la ruta de wrangler.toml).
+const PUBLICO = 'balonmanovetusta.com';
 
 const PRECIOS = { 'Sub 18': 20, 'Adulto': 40, 'Matrimonio': 70, 'Familiar': 90 };
 
@@ -296,12 +299,17 @@ const json = (obj, status, extra) =>
 // ── Worker ─────────────────────────────────────────────────────────────────
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     const origen = request.headers.get('Origin');
     const cabeceras = cors(origen, env);
 
     if (request.method === 'OPTIONS') return new Response(null, { status: 204, headers: cabeceras });
+
+    // ── Web pública ─────────────────────────────────────────────────────────
+    // Datos de la liga, de sólo lectura y sin Access. Nada más del dominio
+    // público pasa por aquí.
+    if (url.hostname === PUBLICO) return rutasApi(request, env, ctx, url);
 
     // ── Zona privada ────────────────────────────────────────────────────────
     // Cloudflare Access filtra por delante y aquí se vuelve a comprobar su

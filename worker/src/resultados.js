@@ -42,7 +42,7 @@ const CAB = {
 };
 const json = (obj, status = 200) => new Response(JSON.stringify(obj), { status, headers: CAB });
 
-async function isquad(ruta, datos) {
+export async function isquad(ruta, datos) {
   const r = await fetch(`${ISQUAD}${ruta}`, {
     method: 'POST',
     headers: {

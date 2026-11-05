@@ -34,6 +34,13 @@ custom_domain = true
 pattern = "admin.balonmanovetusta.com"
 custom_domain = true
 
+# Datos de la liga para la web pública. Es una ruta, no un dominio: el Worker
+# sólo atiende balonmanovetusta.com/api/* y el resto de la web sigue saliendo
+# de GitHub Pages. Sin Access: son datos públicos y de sólo lectura.
+[[routes]]
+pattern = "balonmanovetusta.com/api/*"
+zone_name = "balonmanovetusta.com"
+
 [[d1_databases]]
 binding = "DB"
 database_name = "bmvetusta-abonados"

@@ -182,3 +182,12 @@ CREATE TABLE IF NOT EXISTS limites (
 );
 
 CREATE INDEX IF NOT EXISTS limites_busqueda ON limites (ruta, ip_hash, ts);
+
+-- Datos de la liga para la web pública (balonmanovetusta.com/api). Una fila
+-- por temporada con los JSON calculados, las actas ya leídas y los
+-- pabellones, para no volver a pedirlos a la federación. Ver api.js.
+CREATE TABLE IF NOT EXISTS liga_cache (
+  clave       TEXT PRIMARY KEY,              -- «liga:2627»
+  json        TEXT NOT NULL,
+  actualizado TEXT NOT NULL                  -- ISO UTC del último intento
+);
