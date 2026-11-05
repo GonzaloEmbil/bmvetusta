@@ -858,6 +858,22 @@ body {
     outline: none;
 }
 
+/* Los selectores de la sección (categoría, temporada, fase) en fila; en
+   pantallas estrechas se apilan. */
+.liga-selectores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin-top: 10px;
+}
+
+.liga-season-select-wrap[hidden],
+.liga-panel[hidden] {
+    display: none;
+}
+
 .liga-row {
     display: grid;
     grid-template-columns: 60% 1fr;

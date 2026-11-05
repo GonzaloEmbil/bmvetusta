@@ -786,73 +786,164 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // ── Categorías ──
+        // La sección enseña cualquier equipo del club. El selector de categoría
+        // elige el equipo; el de temporada sólo existe para el primer equipo
+        // (las anteriores son JSON estáticos) y el de fase aparece cuando la
+        // liga de cantera va por fases. Todo lo de la temporada en curso llega
+        // en un solo paquete por equipo: /api/equipo (el worker) y, de
+        // respaldo, data/<temporada>/equipos/<id>.json.
+        var PRIMER_EQUIPO = '209500';
+        var categoriaSelect = document.getElementById('categoria-select');
+        var faseSelect = document.getElementById('fase-select');
+        var faseWrap = document.getElementById('fase-wrap');
+        var temporadaWrap = document.getElementById('temporada-wrap');
+        var goleadoresPanel = document.getElementById('goleadores-panel');
+        var proximosPanel = document.getElementById('proximos-panel');
+        var tituloEl = document.getElementById('liga-titulo');
+        var subtituloEl = document.getElementById('liga-subtitulo');
+        var seasonSelect = document.getElementById('season-select');
+        var equipoActual = PRIMER_EQUIPO;
+
+        function etiquetaTemporada(code) { return '20' + code.slice(0, 2) + ' / 20' + code.slice(2); }
+        function mostrar(el, si) { if (el) el.hidden = !si; }
+
+        function cabecera(nombre, competicion, code) {
+            if (tituloEl) tituloEl.textContent = nombre;
+            if (subtituloEl) {
+                // La competición de Primera empieza por el propio nombre; no se repite.
+                var c = competicion || '';
+                if (c.indexOf(nombre + ' · ') === 0) c = c.slice(nombre.length + 3);
+                subtituloEl.textContent = (c ? c + ' · ' : '') + 'Temporada ' + etiquetaTemporada(code);
+            }
+        }
+
+        function enlaceClasificacion(id, grupo) {
+            var extLink = document.getElementById('standings-external-link');
+            if (extLink && grupo) {
+                extLink.href = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=' + id + '&id=' + grupo + '&id_superficie=1';
+            }
+        }
+
+        function mensajeClasificacion(texto) {
+            var tbody = document.querySelector('#standings-table tbody');
+            if (tbody) tbody.innerHTML = '<tr><td colspan="10" style="padding:30px 20px;color:#555;text-align:center;font-size:0.85rem;">' + texto + '</td></tr>';
+        }
+
+        // Temporada en curso de cualquier equipo (y, si se pide, de un grupo
+        // concreto de los suyos). `alCargar` recibe el paquete ya pintado.
+        function cargarEquipo(id, grupo, alCargar) {
+            setLoading();
+            var api = '/api/equipo/' + CURRENT_SEASON + '/' + id + '.json' + (grupo ? '?grupo=' + grupo : '');
+            conRespaldo(api, './data/' + CURRENT_SEASON + '/equipos/' + id + '.json?v=' + Date.now())
+                .then(function(r) { if (!r.ok) throw new Error('datos ' + r.status); return r.json(); })
+                .then(function(j) {
+                    if (id !== equipoActual) return;   // se ha cambiado de categoría mientras cargaba
+
+                    // El selector de categorías se rellena con la lista del paquete.
+                    if (categoriaSelect && j.equipos && categoriaSelect.options.length < j.equipos.length) {
+                        categoriaSelect.innerHTML = j.equipos.map(function(e) {
+                            return '<option value="' + e.id + '">' + e.nombre + '</option>';
+                        }).join('');
+                        categoriaSelect.value = id;
+                    }
+
+                    var grupoActivo = null;
+                    (j.grupos || []).forEach(function(g) { if (g.id === j.grupo) grupoActivo = g; });
+                    cabecera(j.equipo.nombre, grupoActivo ? grupoActivo.competicion : '', CURRENT_SEASON);
+
+                    // Fases: sólo si el equipo tiene más de un grupo de liga.
+                    var conFases = (j.grupos || []).length > 1;
+                    mostrar(faseWrap, conFases);
+                    if (conFases && faseSelect) {
+                        faseSelect.innerHTML = j.grupos.map(function(g) {
+                            return '<option value="' + g.id + '">' + g.nombre + '</option>';
+                        }).join('');
+                        faseSelect.value = j.grupo;
+                    }
+                    mostrar(temporadaWrap, id === PRIMER_EQUIPO);
+                    if (proximosPanel) proximosPanel.style.display = '';
+                    enlaceClasificacion(id, j.grupo);
+
+                    if (!j.grupo) {
+                        mensajeClasificacion('Todavía no hay competición de liga publicada.');
+                        renderResultados([]);
+                        renderProximos([]);
+                        mostrar(goleadoresPanel, false);
+                    } else {
+                        renderStandings(j.clasificacion);
+                        renderResultados(j.resultados);
+                        renderProximos(j.calendario);
+                        mostrar(goleadoresPanel, !!j.goleadores);
+                        if (j.goleadores) renderGoleadores(j.goleadores);
+                    }
+                    if (alCargar) alCargar(j);
+                })
+                .catch(function(err) {
+                    console.warn('Failed to load team data:', err);
+                    if (id === equipoActual) mensajeClasificacion('No se han podido cargar los datos.');
+                });
+        }
+
+        // Temporadas anteriores: sólo del primer equipo y de los JSON estáticos
+        // (no cambian). La actual va por cargarEquipo.
         function loadSeason(code) {
-            var isCurrent = code === CURRENT_SEASON;
+            if (code === CURRENT_SEASON) { cargarEquipo(PRIMER_EQUIPO, null); return; }
+
             var basePath = './data/' + code + '/';
             var cacheBust = '?v=' + Date.now();
-
-            // Upcoming matches only make sense for the current season.
-            var proximosPanel = document.getElementById('proximos-panel');
-            if (proximosPanel) proximosPanel.style.display = isCurrent ? '' : 'none';
-
-            // Point the external standings link at this season's group.
-            var extLink = document.getElementById('standings-external-link');
-            if (extLink && SEASON_GROUP[code]) {
-                extLink.href = 'https://resultadosbalonmano.isquad.es/equipo.php?seleccion=0&id_equipo=209500&id=' + SEASON_GROUP[code] + '&id_superficie=1';
-            }
-
+            cabecera('Primera Nacional', 'Liga Regular · Grupo B', code);
+            mostrar(faseWrap, false);
+            mostrar(goleadoresPanel, true);
+            if (proximosPanel) proximosPanel.style.display = 'none';
+            if (SEASON_GROUP[code]) enlaceClasificacion(PRIMER_EQUIPO, SEASON_GROUP[code]);
             setLoading();
 
-            // La temporada en curso sale del worker (con los estáticos de
-            // respaldo); las anteriores, que no cambian, de los estáticos.
             function pedir(nombre) {
-                var estatico = basePath + nombre + cacheBust;
-                return (isCurrent ? conRespaldo('/api/liga/' + code + '/' + nombre, estatico) : fetch(estatico))
+                return fetch(basePath + nombre + cacheBust)
                     .then(function(r) { return r.ok ? r.json() : []; })
                     .catch(function() { return []; });
             }
-            Promise.all([
-                pedir('clasificacion.json'),
-                pedir('resultados.json'),
-                pedir('goleadores.json'),
-                isCurrent ? pedir('calendario.json') : Promise.resolve([])
-            ]).then(function(results) {
-                renderStandings(results[0]);
-                renderResultados(results[1]);
-                renderGoleadores(results[2]);
-                if (isCurrent) renderProximos(results[3]);
-            }).catch(function(err) {
-                console.warn('Failed to load league data:', err);
-            });
+            Promise.all([pedir('clasificacion.json'), pedir('resultados.json'), pedir('goleadores.json')])
+                .then(function(results) {
+                    renderStandings(results[0]);
+                    renderResultados(results[1]);
+                    renderGoleadores(results[2]);
+                }).catch(function(err) {
+                    console.warn('Failed to load league data:', err);
+                });
         }
 
-        // La temporada que sale por defecto se decide sola: la actual en
-        // cuanto tiene al menos un resultado, y la anterior mientras tanto.
-        // Así en pretemporada no se enseña una clasificación a ceros, y el día
-        // del primer partido se cambia sin que nadie tenga que acordarse de
-        // tocar el HTML — que es justo lo que pasó en septiembre de 2026.
         function seasonBefore(code) {
             var a = parseInt(code.slice(0, 2), 10) - 1;
             var b = parseInt(code.slice(2), 10) - 1;
             return (a < 10 ? '0' : '') + a + (b < 10 ? '0' : '') + b;
         }
 
-        var seasonSelect = document.getElementById('season-select');
         if (seasonSelect) {
-            seasonSelect.addEventListener('change', function() {
-                loadSeason(seasonSelect.value);
+            seasonSelect.addEventListener('change', function() { loadSeason(seasonSelect.value); });
+        }
+        if (categoriaSelect) {
+            categoriaSelect.addEventListener('change', function() {
+                equipoActual = categoriaSelect.value;
+                if (seasonSelect) seasonSelect.value = CURRENT_SEASON;
+                cargarEquipo(equipoActual, null);
             });
         }
+        if (faseSelect) {
+            faseSelect.addEventListener('change', function() { cargarEquipo(equipoActual, faseSelect.value); });
+        }
 
-        conRespaldo('/api/liga/' + CURRENT_SEASON + '/resultados.json', './data/' + CURRENT_SEASON + '/resultados.json?v=' + Date.now())
-            .then(function(r) { return r.ok ? r.json() : []; })
-            .then(function(res) {
-                var started = Array.isArray(res) && res.length > 0;
-                var code = started ? CURRENT_SEASON : seasonBefore(CURRENT_SEASON);
-                if (seasonSelect) seasonSelect.value = code;
-                loadSeason(code);
-            })
-            .catch(function() { loadSeason(CURRENT_SEASON); });
+        // La temporada que sale por defecto se decide sola: la actual en
+        // cuanto el primer equipo tiene algún resultado, y la anterior mientras
+        // tanto. Así en pretemporada no se enseña una clasificación a ceros, y
+        // el día del primer partido se cambia sin tocar el HTML.
+        cargarEquipo(PRIMER_EQUIPO, null, function(j) {
+            if (j.resultados && j.resultados.length) return;
+            var code = seasonBefore(CURRENT_SEASON);
+            if (seasonSelect) seasonSelect.value = code;
+            loadSeason(code);
+        });
     })();
 
     // News Carousel (Homepage)

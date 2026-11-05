@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-28">
+    <link rel="stylesheet" href="style.css?v=campana-29">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -1316,20 +1316,37 @@
             </div>
         </section>
 
-        <!-- Liga: Clasificación + Próximos + Goleadores (two-column layout) -->
+        <!-- Liga: clasificación, próximos, resultados y goleadores de cualquier
+             equipo del club. El selector de categoría se rellena con la lista
+             que trae cada paquete de datos (la de EQUIPOS en worker/src/liga.js);
+             el de temporada sólo vale para Primera Nacional y el de fase aparece
+             cuando la liga va por fases. Lo pinta script.js. -->
         <section class="liga-section">
             <div class="liga-section-header">
-                <h2 class="liga-section-title">Primera Nacional</h2>
-                <div class="liga-season-select-wrap">
-                    <label for="season-select" class="liga-season-label">Temporada</label>
-                    <select id="season-select" class="liga-season-select" aria-label="Seleccionar temporada">
-                        <option value="2627" selected>2026 / 2027</option>
-                        <option value="2526">2025 / 2026</option>
-                        <option value="2425">2024 / 2025</option>
-                        <option value="2324">2023 / 2024</option>
-                        <option value="2223">2022 / 2023</option>
-                        <option value="2122">2021 / 2022</option>
-                    </select>
+                <h2 class="liga-section-title" id="liga-titulo">Primera Nacional</h2>
+                <p class="liga-section-subtitle" id="liga-subtitulo">Liga Regular · Grupo B · Temporada 2026 / 2027</p>
+                <div class="liga-selectores">
+                    <div class="liga-season-select-wrap">
+                        <label for="categoria-select" class="liga-season-label">Categoría</label>
+                        <select id="categoria-select" class="liga-season-select" aria-label="Seleccionar categoría">
+                            <option value="209500" selected>Primera Nacional</option>
+                        </select>
+                    </div>
+                    <div class="liga-season-select-wrap" id="temporada-wrap">
+                        <label for="season-select" class="liga-season-label">Temporada</label>
+                        <select id="season-select" class="liga-season-select" aria-label="Seleccionar temporada">
+                            <option value="2627" selected>2026 / 2027</option>
+                            <option value="2526">2025 / 2026</option>
+                            <option value="2425">2024 / 2025</option>
+                            <option value="2324">2023 / 2024</option>
+                            <option value="2223">2022 / 2023</option>
+                            <option value="2122">2021 / 2022</option>
+                        </select>
+                    </div>
+                    <div class="liga-season-select-wrap" id="fase-wrap" hidden>
+                        <label for="fase-select" class="liga-season-label">Fase</label>
+                        <select id="fase-select" class="liga-season-select" aria-label="Seleccionar fase"></select>
+                    </div>
                 </div>
             </div>
             <div class="liga-row">
@@ -1388,8 +1405,8 @@
                             <div class="liga-loading"><div class="liga-loading-spinner"></div></div>
                         </div>
                     </div>
-                    <!-- Máximos goleadores -->
-                    <div class="liga-panel">
+                    <!-- Máximos goleadores: sólo los equipos sénior (ver EQUIPOS en liga.js) -->
+                    <div class="liga-panel" id="goleadores-panel">
                         <h3 class="liga-panel-title">
                             <svg class="liga-panel-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
                             Máximos Goleadores
@@ -1649,7 +1666,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-28"></script>
+    <script src="script.js?v=campana-29"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No
