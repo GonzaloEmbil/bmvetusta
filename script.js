@@ -536,6 +536,24 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ── Data-driven components: Clasificación, Próximos, Goleadores ──
+
+    // Temporada en curso. La usan el bloque de la liga y el banner del próximo
+    // partido; las anteriores sólo existen como JSON estáticos.
+    var TEMPORADA_ACTUAL = '2627';
+
+    // Datos de la liga: primero el worker (/api, renovado cada 15 minutos) y,
+    // si no responde en 5 s o falla, el JSON estático que deja la tarea de
+    // GitHub. Devuelve la respuesta buena de las dos, así quien llama la trata
+    // igual que antes.
+    function conRespaldo(api, estatico) {
+        var control = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        var tope = control ? setTimeout(function() { control.abort(); }, 5000) : null;
+        return fetch(api, control ? { signal: control.signal } : {})
+            .then(function(r) { if (!r.ok) throw new Error('api ' + r.status); return r; })
+            .catch(function() { return fetch(estatico); })
+            .then(function(r) { if (tope) clearTimeout(tope); return r; });
+    }
+
     (function loadLeagueData() {
         var TEAM_NAME = 'AUTO-CENTER PRINCIPADO';
 
@@ -753,7 +771,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // ── Season selector ──
         // Group ids per season, to point the external "Clasificación" link
         // at the right isquad group.
-        var CURRENT_SEASON = '2627';
+        var CURRENT_SEASON = TEMPORADA_ACTUAL;
         var SEASON_GROUP = {
             '2122': '1007844', '2223': '1012866', '2324': '1018089',
             '2425': '1023856', '2526': '1031242', '2627': '1038396'
@@ -785,13 +803,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
             setLoading();
 
+            // La temporada en curso sale del worker (con los estáticos de
+            // respaldo); las anteriores, que no cambian, de los estáticos.
+            function pedir(nombre) {
+                var estatico = basePath + nombre + cacheBust;
+                return (isCurrent ? conRespaldo('/api/liga/' + code + '/' + nombre, estatico) : fetch(estatico))
+                    .then(function(r) { return r.ok ? r.json() : []; })
+                    .catch(function() { return []; });
+            }
             Promise.all([
-                fetch(basePath + 'clasificacion.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
-                fetch(basePath + 'resultados.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
-                fetch(basePath + 'goleadores.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; }),
-                isCurrent
-                    ? fetch(basePath + 'calendario.json' + cacheBust).then(function(r) { return r.ok ? r.json() : []; })
-                    : Promise.resolve([])
+                pedir('clasificacion.json'),
+                pedir('resultados.json'),
+                pedir('goleadores.json'),
+                isCurrent ? pedir('calendario.json') : Promise.resolve([])
             ]).then(function(results) {
                 renderStandings(results[0]);
                 renderResultados(results[1]);
@@ -820,7 +844,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
-        fetch('./data/' + CURRENT_SEASON + '/resultados.json?v=' + Date.now())
+        conRespaldo('/api/liga/' + CURRENT_SEASON + '/resultados.json', './data/' + CURRENT_SEASON + '/resultados.json?v=' + Date.now())
             .then(function(r) { return r.ok ? r.json() : []; })
             .then(function(res) {
                 var started = Array.isArray(res) && res.length > 0;
@@ -950,7 +974,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })();
 
-    // ── Next Match Banner: populate from proximo-partido.json ──
+    // ── Next Match Banner: populate from proximo-partido.json (worker, con respaldo) ──
     (function loadNextMatchBanner() {
         var banner = document.getElementById('match-banner');
         var bannerLink = document.getElementById('match-banner-link');
@@ -968,7 +992,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // El banner completo sólo existe en la portada.
         var isHomepage = !!banner;
 
-        fetch(basePath + 'data/proximo-partido.json?v=' + Date.now())
+        conRespaldo('/api/liga/' + TEMPORADA_ACTUAL + '/proximo-partido.json', basePath + 'data/proximo-partido.json?v=' + Date.now())
             .then(function(r) { return r.ok ? r.json() : null; })
             .then(function(match) {
                 if (!match) {
