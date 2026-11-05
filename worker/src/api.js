@@ -49,7 +49,8 @@ const CAB = {
   // página no vuelve a ejecutar el worker. Los datos se renuevan cada 15, así
   // que como mucho ve datos de hace 20 en vez de 16.
   'Cache-Control': 'public, max-age=300',
-  'Access-Control-Allow-Origin': '*',
+  // Sin cabecera CORS: la web llama desde su propio dominio, y así otras webs
+  // no pueden consumir la API desde el navegador de sus visitantes.
   'X-Content-Type-Options': 'nosniff',
 };
 const json = (obj, status = 200, extra = {}) =>
