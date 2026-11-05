@@ -22,7 +22,7 @@ export const TEMPORADA_ISQUAD = '2627';
 
 // La lista de equipos del club (id en la federación → nombre) está en liga.js,
 // compartida con la web pública; aquí se usa entera, juvenil incluido.
-import { EQUIPOS } from './liga.js';
+import { EQUIPOS, localidadBonita } from './liga.js';
 export { EQUIPOS };
 
 const CAB = {
@@ -66,16 +66,12 @@ async function pabellonesDelGrupo(grupo) {
   return mapa;
 }
 
-// Localidades que la federación da por el barrio o la parroquia y el club
-// prefiere nombrar por el concejo (el Manuel Novo está en Sotiello, Oviedo).
-const LOCALIDADES = { sotiello: 'Oviedo' };
-
 async function pabellon(id) {
   const e = (await isquad('/ws/estadio', { id_estadio: id })).estadio || {};
   const direccion = arreglarTexto(e.direccion);
   // La localidad es lo que va detrás del código postal: «33012 Oviedo, …».
   const localidad = ((direccion.match(/\b\d{5}\s+([^,]+)/) || [])[1] || '').trim();
-  return { nombre: arreglarTexto(e.nombre_estadio).trim(), localidad: LOCALIDADES[localidad.toLowerCase()] || localidad };
+  return { nombre: arreglarTexto(e.nombre_estadio).trim(), localidad: localidadBonita(localidad) || '' };
 }
 
 // Algunos textos de la federación llegan con los bytes UTF-8 leídos como

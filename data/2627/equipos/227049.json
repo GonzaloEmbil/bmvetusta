@@ -190,7 +190,8 @@
       "es_local": false,
       "rival": "REAL GRUPO DE CULTURA COVADONGA B",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "R. Grupo de C. Covadonga - Pista Exterior · Gijón"
     },
     {
       "fecha": "2026-11-14 10:00:00",
@@ -198,7 +199,8 @@
       "es_local": true,
       "rival": "JUANFERSA GIJON C",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "C.p. German Fernandez Ramos · Oviedo"
     }
   ]
 }

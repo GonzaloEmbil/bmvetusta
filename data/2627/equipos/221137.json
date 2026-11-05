@@ -190,7 +190,8 @@
       "es_local": false,
       "rival": " H. LA ESTACION-I.E.S. CRISTO DEL SOCORRO A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "Jenaro Fernandez Diego · Luanco"
     },
     {
       "fecha": "2026-11-14 10:00:00",
@@ -198,7 +199,8 @@
       "es_local": true,
       "rival": "REAL GRUPO DE CULTURA COVADONGA A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "Polid. Manuel Novo · Oviedo"
     }
   ]
 }

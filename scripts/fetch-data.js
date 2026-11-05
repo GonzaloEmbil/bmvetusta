@@ -91,6 +91,16 @@ async function fetchTrajectory(teamId) {
   return (data.equipo && data.equipo.trayectoria) || [];
 }
 
+// Venues one after another with a short pause, like the match reports.
+const stadiumCache = {};
+async function fetchStadiumSuave(stadiumId) {
+  if (!stadiumCache[stadiumId]) {
+    await sleep(500);
+    stadiumCache[stadiumId] = await fetchStadium(stadiumId);
+  }
+  return stadiumCache[stadiumId];
+}
+
 async function fetchStadium(stadiumId) {
   console.log(`   🏟️  Fetching stadium ${stadiumId} …`);
   const data = await apiPost('/ws/estadio', {
@@ -219,7 +229,7 @@ async function buildSeason(season, isCurrent) {
   writeJson(dir, 'goleadores.json', goleadores);
 
   if (isCurrent) {
-    const calendario = liga.buildCalendario(matches);
+    const calendario = await liga.conSedes(liga.buildCalendario(matches), fetchStadiumSuave);
     writeJson(dir, 'calendario.json', calendario);
 
     const historia = buildHistoria(matches);
@@ -274,7 +284,7 @@ async function buildEquipos(firstTeam) {
           grupo: actual.id,
           clasificacion: liga.buildClasificacion(matches, e.id),
           resultados: liga.buildResultados(matches, e.id),
-          calendario: liga.buildCalendario(matches, e.id),
+          calendario: await liga.conSedes(liga.buildCalendario(matches, e.id), fetchStadiumSuave),
         };
         // Scorers only for the senior teams flagged in EQUIPOS.
         if (e.goleadores) salida.goleadores = liga.buildGoleadores(await fetchVetustaActas(matches, actual.id, e.id), e.id);

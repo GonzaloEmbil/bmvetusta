@@ -162,7 +162,8 @@
       "es_local": false,
       "rival": "IES JOVELLANOS",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100896/square_77663233727864683078.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "C.p. Principe de Asturias · Gijón"
     },
     {
       "fecha": "2026-11-14 11:15:00",
@@ -170,7 +171,8 @@
       "es_local": true,
       "rival": "JUANFERSA GIJON B",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "Polid. Manuel Novo · Oviedo"
     }
   ]
 }

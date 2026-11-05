@@ -1267,6 +1267,16 @@ body {
     letter-spacing: 1px;
 }
 
+/* Pabellón y localidad del próximo partido. */
+.proximos-sede {
+    font-size: 0.66rem;
+    color: #8a8a8a;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .proximos-localidad-local {
     color: #4CAF50;
 }
@@ -1310,6 +1320,11 @@ body {
     color: #ff4444;
     text-decoration: none;
     transition: all 0.3s ease;
+}
+
+/* El icono sólo late mientras se juega el partido (clase en-directo, la pone
+   script.js según la hora). */
+.proximos-streaming.en-directo a {
     animation: streamPulse 2s ease-in-out infinite;
 }
 

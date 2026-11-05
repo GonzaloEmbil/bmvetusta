@@ -232,8 +232,54 @@ export function buildCalendario(matches, teamId = TEAM_ID) {
       rival: rival,
       escudo_rival: escudoRival || null,
       url_streaming: streaming,
+      // El pabellón lo rellena conSedes(); hasta entonces va el id.
+      sede: null,
+      id_estadio: m.id_estadio ? String(m.id_estadio) : null,
     };
   });
+}
+
+// Localidades que la federación da por el barrio o la parroquia y el club
+// prefiere nombrar por el concejo (el Manuel Novo está en Sotiello, Oviedo).
+export const LOCALIDADES = { sotiello: 'Oviedo' };
+
+/** Localidad tal como se enseña: en forma de título y con el mapa de arriba. */
+export function localidadBonita(ciudad) {
+  if (!ciudad) return null;
+  const limpia = titleCase(String(ciudad).trim());
+  return LOCALIDADES[limpia.toLowerCase()] || limpia;
+}
+
+/**
+ * «Pabellón · Localidad» a partir de un registro de /ws/estadio, igual que lo
+ * enseña el banner: "Florida Arena · Oviedo". Null si no hay nada que decir.
+ */
+export function sedeDe(stadium) {
+  if (!stadium) return null;
+  const venueName = fixMojibake(stadium.nombre_estadio) || null;
+  const venueCity = localidadBonita(fixMojibake(extractCity(stadium.direccion)));
+  const shortVenue = shortVenueName(venueName);
+  if (shortVenue && venueCity) return `${shortVenue} · ${venueCity}`;
+  return shortVenue || venueCity || null;
+}
+
+/**
+ * Rellena la sede de cada próximo partido con `fetchStadium(id)` (inyectada,
+ * para que quien llama guarde los pabellones como prefiera). Si un pabellón
+ * no se puede consultar, la sede queda a null y el resto sigue.
+ */
+export async function conSedes(calendario, fetchStadium) {
+  for (const p of calendario) {
+    if (p.id_estadio) {
+      try {
+        p.sede = sedeDe(await fetchStadium(p.id_estadio));
+      } catch (err) {
+        console.warn(`   ⚠ pabellón ${p.id_estadio}: ${err.message}`);
+      }
+    }
+    delete p.id_estadio;
+  }
+  return calendario;
 }
 
 // ── Tiebreaker helpers (Art. 152, RPC RFEBM Feb 2025) ───────────────────
@@ -649,30 +695,14 @@ export async function buildProximoPartido(matches, fetchStadium) {
 
   const esLocal = sideIsVetusta(m, 'local');
 
-  // Fetch stadium info for venue name and city
-  let venueName = null;
-  let venueCity = null;
+  // Venue line: "Stadium Name · City" (or just one of them)
+  let venue = null;
   if (m.id_estadio) {
     try {
-      const stadium = await fetchStadium(m.id_estadio);
-      if (stadium) {
-        venueName = fixMojibake(stadium.nombre_estadio) || null;
-        venueCity = fixMojibake(extractCity(stadium.direccion)) || null;
-      }
+      venue = sedeDe(await fetchStadium(m.id_estadio));
     } catch (err) {
       console.warn(`   ⚠ Failed to fetch stadium: ${err.message}`);
     }
-  }
-
-  // Build venue line: "Stadium Name · City" or just one of them
-  let venue = null;
-  const shortVenue = shortVenueName(venueName);
-  if (shortVenue && venueCity) {
-    venue = `${shortVenue} · ${venueCity}`;
-  } else if (shortVenue) {
-    venue = shortVenue;
-  } else if (venueCity) {
-    venue = venueCity;
   }
 
   return {

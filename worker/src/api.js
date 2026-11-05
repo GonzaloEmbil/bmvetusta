@@ -106,6 +106,20 @@ async function completarActas(fila, grupo, partidos, teamId) {
   return conActa.filter((m) => fila.actas[m.id]).map((m) => ({ matchId: m.id, acta: fila.actas[m.id] }));
 }
 
+// Pabellones de una fila, pedidos una sola vez: devuelve la función que
+// buildProximoPartido() y conSedes() usan para consultarlos.
+function estadiosDe(fila) {
+  fila.estadios = fila.estadios || {};
+  return async (id) => {
+    id = String(id);
+    if (!fila.estadios[id]) {
+      const e = (await isquad('/ws/estadio', { id_estadio: id })).estadio;
+      if (e) fila.estadios[id] = { nombre_estadio: e.nombre_estadio, direccion: e.direccion };
+    }
+    return fila.estadios[id] || null;
+  };
+}
+
 // ── Primer equipo: los cinco JSON ──────────────────────────────────────────
 
 async function renovarLiga(env, temporada) {
@@ -117,21 +131,13 @@ async function renovarLiga(env, temporada) {
     const partidos = (await isquad('/ws/calendario', { id_grupo: t.grupo })).calendarios || [];
     if (!partidos.length) throw new Error('calendario vacío');
     const actas = await completarActas(fila, t.grupo, partidos, liga.TEAM_ID);
-
-    const estadio = async (id) => {
-      id = String(id);
-      if (!fila.estadios[id]) {
-        const e = (await isquad('/ws/estadio', { id_estadio: id })).estadio;
-        if (e) fila.estadios[id] = { nombre_estadio: e.nombre_estadio, direccion: e.direccion };
-      }
-      return fila.estadios[id] || null;
-    };
+    const estadio = estadiosDe(fila);
 
     fila.salida = {
       clasificacion: liga.buildClasificacion(partidos),
       resultados: liga.buildResultados(partidos),
       goleadores: liga.buildGoleadores(actas),
-      calendario: liga.buildCalendario(partidos),
+      calendario: await liga.conSedes(liga.buildCalendario(partidos), estadio),
       'proximo-partido': await liga.buildProximoPartido(partidos, estadio),
     };
     fila.actualizado = ahora;
@@ -151,8 +157,9 @@ async function filaLiga(env, ctx, temporada) {
 
 // ── Equipos del club: un paquete por equipo y grupo ─────────────────────────
 
-// La fila de un equipo guarda sus grupos de liga (de la trayectoria) y, por
-// grupo, lo calculado del calendario; las actas, sólo si lleva goleadores.
+// La fila de un equipo guarda sus grupos de liga (de la trayectoria), por
+// grupo lo calculado del calendario, los pabellones ya consultados y, sólo
+// si lleva goleadores, las actas.
 async function renovarEquipo(env, temporada, equipo, grupoPedido) {
   const clave = `equipo:${temporada}:${equipo.id}`;
   const fila = (await leer(env, clave)) || { grupos: [], datos: {}, actas: {} };
@@ -167,7 +174,7 @@ async function renovarEquipo(env, temporada, equipo, grupoPedido) {
       const datos = {
         clasificacion: liga.buildClasificacion(partidos, equipo.id),
         resultados: liga.buildResultados(partidos, equipo.id),
-        calendario: liga.buildCalendario(partidos, equipo.id),
+        calendario: await liga.conSedes(liga.buildCalendario(partidos, equipo.id), estadiosDe(fila)),
         actualizado: ahora,
       };
       if (equipo.goleadores) datos.goleadores = liga.buildGoleadores(await completarActas(fila, grupo, partidos, equipo.id), equipo.id);

@@ -644,6 +644,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // ── Upcoming matches (max 3 for side panel) ──
+        // Un partido se da por «en juego» desde una hora antes del inicio hasta
+        // una hora después del final, contando dos horas de partido.
+        function enDirecto(fechaStr) {
+            if (!fechaStr) return false;
+            var inicio = new Date(String(fechaStr).replace(' ', 'T')).getTime();
+            if (isNaN(inicio)) return false;
+            var ahora = Date.now();
+            return ahora >= inicio - 60 * 60000 && ahora <= inicio + 3 * 60 * 60000;
+        }
+        function refrescarDirectos() {
+            document.querySelectorAll('.proximos-streaming[data-inicio]').forEach(function(el) {
+                el.classList.toggle('en-directo', enDirecto(el.getAttribute('data-inicio')));
+            });
+        }
+        setInterval(refrescarDirectos, 60000);
+
         function renderProximos(data) {
             var container = document.getElementById('proximos-list');
             if (!container || !Array.isArray(data)) return;
@@ -665,10 +681,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 var card = document.createElement('div');
                 card.className = 'proximos-card ' + cardSideClass;
 
+                // El icono del directo sólo late mientras se juega el
+                // partido (ver enDirecto); refrescarDirectos() lo revisa
+                // cada minuto por si la página se queda abierta.
                 var streamingHTML = '';
                 if (match.url_streaming) {
                     streamingHTML =
-                        '<div class="proximos-streaming">' +
+                        '<div class="proximos-streaming' + (enDirecto(match.fecha) ? ' en-directo' : '') + '" data-inicio="' + (match.fecha || '') + '">' +
                             '<a href="' + match.url_streaming + '" target="_blank" rel="noopener noreferrer" title="Ver en directo">' +
                                 '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
                             '</a>' +
@@ -681,6 +700,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<div class="proximos-info">' +
                         '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
                         '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
+                        (match.sede ? '<div class="proximos-sede">' + match.sede + '</div>' : '') +
                     '</div>' +
                     '<div class="proximos-datetime">' +
                         '<span class="proximos-date">' + dt.date + '</span>' +

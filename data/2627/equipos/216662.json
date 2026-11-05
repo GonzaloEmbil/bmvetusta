@@ -214,7 +214,8 @@
       "es_local": false,
       "rival": "SIERO D.B. - VILLANUEVA A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "Nuevo Polideportivo Municipal de Pola de Siero"
     },
     {
       "fecha": "2026-12-03 17:00:00",
@@ -222,7 +223,8 @@
       "es_local": true,
       "rival": "B.M LA CALZADA",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
-      "url_streaming": null
+      "url_streaming": null,
+      "sede": "C.p. German Fernandez Ramos · Oviedo"
     }
   ]
 }
