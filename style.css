@@ -1491,12 +1491,15 @@ body {
    botón sobre la franja amarilla del header; va fuera de .header-container
    porque esa franja se mide desde el borde de la ventana, no desde el
    contenedor centrado, y el header (sticky) le sirve de referencia. En
-   móvil desaparece y su sitio es una tarjeta más del menú. */
+   móvil desaparece y su sitio es una tarjeta más del menú.
+   Centrado en la franja: el degradado del header está inclinado, pero a
+   media altura la franja amarilla mide siempre unos 260px, sea cual sea el
+   ancho de la ventana, así que el centro del botón va a 130px del borde. */
 .header-privada {
     position: absolute;
     top: 50%;
-    right: 32px;
-    transform: translateY(-50%);
+    right: 130px;
+    transform: translate(50%, -50%);
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -1515,7 +1518,7 @@ body {
 .header-privada:hover {
     background: #1c1c1c;
     box-shadow: 0 6px 16px rgba(0, 0, 0, 0.28);
-    transform: translateY(-50%) scale(1.04);
+    transform: translate(50%, -50%) scale(1.04);
 }
 
 .header-privada:focus-visible {
@@ -1530,6 +1533,14 @@ body {
 /* La tarjeta del menú móvil no existe en el menú de escritorio. */
 .nav .nav-privada {
     display: none;
+}
+
+/* Escritorio estrecho: el menú, centrado, llega hasta la franja amarilla y
+   el candado centrado en ella chocaría con «PATROCINIOS»; se arrima al borde. */
+@media (min-width: 769px) and (max-width: 899px) {
+    .header-privada {
+        right: 62px;
+    }
 }
 
 /* Escritorio: sólo el candado, en un círculo negro sobre la franja amarilla
@@ -1549,38 +1560,6 @@ body {
     }
 }
 
-/* Escritorio estrecho: el menú centrado llega casi a la franja amarilla. */
-@media (min-width: 769px) and (max-width: 1099px) {
-    .header-privada {
-        right: 24px;
-    }
-}
-
-/* Al bajar la página, en escritorio, el header se vuelve blanco con las
-   letras negras; la cuña amarilla de la derecha no cambia. La clase la pone
-   script.js según el scroll. Sólo los enlaces de primer nivel: los del
-   desplegable de CLUB siguen sobre su fondo oscuro. */
-@media (min-width: 769px) {
-    .header.desplazado {
-        background: linear-gradient(120deg, #fff 0%, #fff calc(100% - 250px), #FDED3A calc(100% - 250px), #FDED3A 100%);
-        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
-    }
-
-    .header.desplazado .nav > a,
-    .header.desplazado .nav > .nav-dropdown > .nav-dropdown-toggle {
-        color: #000;
-    }
-
-    .header.desplazado .nav > a:hover,
-    .header.desplazado .nav > .nav-dropdown > .nav-dropdown-toggle:hover {
-        color: #000;
-    }
-
-    /* El escudo es amarillo pensado para fondo negro; sobre blanco, en negro. */
-    .header.desplazado .logo img {
-        filter: brightness(0);
-    }
-}
 
 /* Hamburger Menu */
 .hamburger {
