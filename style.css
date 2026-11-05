@@ -1516,16 +1516,53 @@ body {
     display: none;
 }
 
-/* Escritorio estrecho: el menú centrado llega casi a la franja amarilla y
-   el texto no cabe, así que queda sólo el candado (el aria-label lo nombra). */
-@media (min-width: 769px) and (max-width: 1099px) {
+/* Escritorio: sólo el candado, en un círculo negro sobre la franja amarilla
+   (el aria-label lo nombra). */
+@media (min-width: 769px) {
     .header-privada {
-        right: 24px;
         padding: 11px;
     }
 
     .header-privada span {
         display: none;
+    }
+
+    .header-privada svg {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Escritorio estrecho: el menú centrado llega casi a la franja amarilla. */
+@media (min-width: 769px) and (max-width: 1099px) {
+    .header-privada {
+        right: 24px;
+    }
+}
+
+/* Al bajar la página, en escritorio, el header se vuelve blanco con las
+   letras negras; la cuña amarilla de la derecha no cambia. La clase la pone
+   script.js según el scroll. Sólo los enlaces de primer nivel: los del
+   desplegable de CLUB siguen sobre su fondo oscuro. */
+@media (min-width: 769px) {
+    .header.desplazado {
+        background: linear-gradient(120deg, #fff 0%, #fff calc(100% - 250px), #FDED3A calc(100% - 250px), #FDED3A 100%);
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .header.desplazado .nav > a,
+    .header.desplazado .nav > .nav-dropdown > .nav-dropdown-toggle {
+        color: #000;
+    }
+
+    .header.desplazado .nav > a:hover,
+    .header.desplazado .nav > .nav-dropdown > .nav-dropdown-toggle:hover {
+        color: #000;
+    }
+
+    /* El escudo es amarillo pensado para fondo negro; sobre blanco, en negro. */
+    .header.desplazado .logo img {
+        filter: brightness(0);
     }
 }
 

@@ -974,6 +974,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     })();
 
+    // ── Header al bajar ──
+    // En escritorio, con la página desplazada, el header pasa a fondo blanco
+    // con letras negras (clase «desplazado»; el CSS sólo la aplica a partir
+    // de 769px, así que en móvil no hace nada).
+    (function headerAlDesplazar() {
+        var header = document.querySelector('.header');
+        if (!header) return;
+        function aplicar() {
+            header.classList.toggle('desplazado', window.scrollY > 20);
+        }
+        window.addEventListener('scroll', aplicar, { passive: true });
+        aplicar();
+    })();
+
     // ── Next Match Banner: populate from proximo-partido.json (worker, con respaldo) ──
     (function loadNextMatchBanner() {
         var banner = document.getElementById('match-banner');
