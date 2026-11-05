@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-32">
+    <link rel="stylesheet" href="style.css?v=campana-33">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -1323,14 +1323,14 @@
              cuando la liga va por fases. Lo pinta script.js. -->
         <section class="liga-section">
             <div class="liga-section-header">
-                <h2 class="liga-section-title" id="liga-titulo">Primera Nacional</h2>
+                <!-- La categoría hace de título de la sección: es un selector
+                     vestido de título, con su flecha. -->
+                <div class="liga-categoria">
+                    <select id="categoria-select" class="liga-categoria-select" aria-label="Categoría">
+                        <option value="209500" selected>Primera Nacional</option>
+                    </select>
+                </div>
                 <div class="liga-selectores">
-                    <div class="liga-season-select-wrap">
-                        <label for="categoria-select" class="liga-season-label">Categoría</label>
-                        <select id="categoria-select" class="liga-season-select" aria-label="Seleccionar categoría">
-                            <option value="209500" selected>Primera Nacional</option>
-                        </select>
-                    </div>
                     <div class="liga-season-select-wrap" id="temporada-wrap">
                         <label for="season-select" class="liga-season-label">Temporada</label>
                         <select id="season-select" class="liga-season-select" aria-label="Seleccionar temporada">
@@ -1665,7 +1665,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-32"></script>
+    <script src="script.js?v=campana-33"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No

@@ -803,14 +803,24 @@ document.addEventListener('DOMContentLoaded', function() {
         var temporadaWrap = document.getElementById('temporada-wrap');
         var goleadoresPanel = document.getElementById('goleadores-panel');
         var proximosPanel = document.getElementById('proximos-panel');
-        var tituloEl = document.getElementById('liga-titulo');
         var seasonSelect = document.getElementById('season-select');
         var equipoActual = PRIMER_EQUIPO;
 
         function mostrar(el, si) { if (el) el.hidden = !si; }
 
-        function cabecera(nombre) {
-            if (tituloEl) tituloEl.textContent = nombre;
+        // Un <select> mide lo que su opción más larga, y la flecha quedaría
+        // lejos del texto. Se ajusta al ancho del texto elegido, medido con
+        // la misma letra.
+        function ajustarAnchoCategoria() {
+            if (!categoriaSelect || !categoriaSelect.options.length) return;
+            var cs = getComputedStyle(categoriaSelect);
+            var medidor = document.createElement('span');
+            medidor.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:' + cs.font + ';letter-spacing:' + cs.letterSpacing + ';text-transform:' + cs.textTransform;
+            medidor.textContent = categoriaSelect.options[categoriaSelect.selectedIndex].textContent;
+            document.body.appendChild(medidor);
+            var ancho = medidor.offsetWidth + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+            document.body.removeChild(medidor);
+            categoriaSelect.style.width = Math.ceil(ancho) + 'px';
         }
 
         function enlaceClasificacion(id, grupo) {
@@ -844,8 +854,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         }).join('');
                         categoriaSelect.value = id;
                     }
+                    ajustarAnchoCategoria();
 
-                    cabecera(j.equipo.nombre);
 
                     // Fases: sólo si el equipo tiene más de un grupo de liga.
                     var conFases = (j.grupos || []).length > 1;
@@ -888,7 +898,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             var basePath = './data/' + code + '/';
             var cacheBust = '?v=' + Date.now();
-            cabecera('Primera Nacional');
             mostrar(faseWrap, false);
             mostrar(goleadoresPanel, true);
             if (proximosPanel) proximosPanel.style.display = 'none';
@@ -921,6 +930,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (categoriaSelect) {
             categoriaSelect.addEventListener('change', function() {
+                ajustarAnchoCategoria();
                 equipoActual = categoriaSelect.value;
                 if (seasonSelect) seasonSelect.value = CURRENT_SEASON;
                 cargarEquipo(equipoActual, null);
@@ -934,6 +944,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // cuanto el primer equipo tiene algún resultado, y la anterior mientras
         // tanto. Así en pretemporada no se enseña una clasificación a ceros, y
         // el día del primer partido se cambia sin tocar el HTML.
+        ajustarAnchoCategoria();
         cargarEquipo(PRIMER_EQUIPO, null, function(j) {
             // Si el paquete no ha llegado, o no trae el próximo partido (un
             // respaldo antiguo), el banner se pide aparte.
