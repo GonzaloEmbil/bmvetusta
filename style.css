@@ -3937,38 +3937,42 @@ body {
     }
 }
 
-/* Desktop: the fold row is a 3-column grid — main carousel | tag
-   mini-carousels | map poster. Grid replaces the old absolute
-   positioning + JS height sync: the columns now match heights natively. */
+/* Desktop: the fold row is a grid — main carousel with the three tag
+   mini-carousels in a row beneath it | map poster spanning both rows. Grid
+   replaces the old absolute positioning + JS height sync: the columns match
+   heights natively. */
 @media (min-width: 769px) {
     .fold-row {
         --fold-pad: 40px;
         --fold-gap: 20px;
-        /* All three content columns grow with the viewport. Expressed in vw
-           (not fr or %) so the same value can be reused in the arrow's calc()
-           below — a percentage there would resolve against the padding box
-           instead of the grid's content box and drift by the padding. Floors
-           keep them readable on small laptops, ceilings stop them sprawling on
-           ultrawide screens. The tag column takes a slightly bigger share than
-           its old fixed 250px (295px at 1440), at the carousel's expense. */
-        --tags-col: clamp(250px, 20.5vw, 480px);
+        /* Height of the tag mini-carousels row. The row comes out of the main
+           carousel's height (the fold-row as a whole is sized by JS so the
+           teams carousel starts at the viewport bottom), so it scales with the
+           viewport height: shorter on small laptops, capped on tall screens. */
+        --tags-row: clamp(110px, 17vh, 190px);
         /* Same natural width as the prev arrow (21px), so the glyph sits the
            same distance from its box edge on both sides. */
         --arrow-col: 21px;
+        /* Expressed in vw (not fr or %) so the same value can be reused in the
+           arrow's calc() below — a percentage there would resolve against the
+           padding box instead of the grid's content box and drift by the
+           padding. */
         --map-col: clamp(400px, 29vw, 620px);
         position: relative;
         display: grid;
         /* The empty arrow column reserves the slot the "next" button is
            absolutely positioned into (see .news-carousel-next below). */
-        grid-template-columns: minmax(0, 1fr) var(--tags-col) var(--arrow-col) var(--map-col);
+        grid-template-columns: minmax(0, 1fr) var(--arrow-col) var(--map-col);
+        grid-template-rows: minmax(0, 1fr) var(--tags-row);
         gap: var(--fold-gap);
         padding: 0 var(--fold-pad);
         align-items: stretch;
     }
 
-    /* The next arrow advances the main carousel AND the three tag boxes, so
-       it sits to the right of them rather than hugging the carousel. Pulled
-       out of the flex row with absolute positioning, which leaves the mobile
+    /* The next arrow sits in its own grid column, 10px from the main card
+       like the prev arrow on the other side, and vertically centred on the
+       card (the first grid row), not on the card plus the tag row. Pulled out
+       of the flex row with absolute positioning, which leaves the mobile
        layout (where it stays beside the carousel) untouched. */
     /* Static so the absolutely-positioned arrow below resolves against
        .fold-row (the grid) instead of this flex row. */
@@ -3976,12 +3980,12 @@ body {
         position: static;
     }
 
-    /* The +10px puts the arrow exactly 10px from the tag column — matching
+    /* The +10px puts the arrow exactly 10px from the main card — matching
        the flex gap between the prev arrow and the carousel on the left. Width
        is left natural so it hugs the glyph like the prev arrow does. */
     .fold-row > .news-carousel-section .news-carousel-next {
         position: absolute;
-        top: 50%;
+        top: calc((100% - var(--tags-row) - var(--fold-gap)) / 2);
         transform: translateY(-50%);
         right: calc(var(--map-col) + var(--fold-gap) + var(--fold-pad) + 10px);
         z-index: 5;
@@ -3993,8 +3997,7 @@ body {
         .fold-row {
             --fold-pad: 24px;
             --fold-gap: 16px;
-            --tags-col: clamp(210px, 21vw, 260px);
-            grid-template-columns: minmax(0, 1fr) var(--tags-col) var(--arrow-col);
+            grid-template-columns: minmax(0, 1fr) var(--arrow-col);
         }
 
         .fold-row > .home-tournament-stack {
@@ -4002,7 +4005,7 @@ body {
         }
 
         /* No map here, so the arrow is the last column: 30px keeps the same
-           10px gap to the tag column (24 pad + 21 arrow + 16 gap - 21 - 10). */
+           10px gap to the main card (24 pad + 21 arrow + 16 gap - 21 - 10). */
         .fold-row > .news-carousel-section .news-carousel-next {
             right: 30px;
         }
@@ -4060,12 +4063,47 @@ body {
         min-height: 140px;
     }
 
-    /* Explicit columns: there are only three children for four tracks (the
-       arrow slot is filled by an absolutely-positioned button), so without
-       this the map poster would fall into the narrow arrow track. */
-    .fold-row > .news-carousel-section { grid-column: 1; }
-    .fold-row > .tag-carousels { grid-column: 2; }
-    .fold-row > .home-tournament-stack { grid-column: 4; }
+    /* Short laptop screens (a 1366x768 screen leaves ~650px once the browser
+       bars are in): a slimmer tag row and a lower image floor keep the card's
+       text from being clipped. Below ~620px the excerpt goes too. */
+    @media (max-height: 760px) {
+        .fold-row {
+            --tags-row: 90px;
+        }
+
+        .fold-row .news-carousel-slide-image {
+            min-height: 60px;
+        }
+    }
+
+    @media (max-height: 620px) {
+        .fold-row .news-carousel-slide-excerpt {
+            display: none;
+        }
+    }
+
+    /* Explicit placement: the arrow slot is filled by an absolutely-positioned
+       button, so without this the map poster would fall into the narrow arrow
+       track. The tag row goes under the main card and the poster spans both
+       rows. */
+    .fold-row > .news-carousel-section { grid-column: 1; grid-row: 1; }
+    .fold-row > .tag-carousels { grid-column: 1; grid-row: 2; }
+    .fold-row > .home-tournament-stack { grid-column: 3; grid-row: 1 / 3; }
+
+    /* The three tag boxes side by side, lined up with the main card: the
+       margin skips the prev arrow and its 10px gap, which sit in the same
+       grid column to the card's left. */
+    .fold-row > .tag-carousels {
+        flex-direction: row;
+        gap: var(--fold-gap);
+        margin-left: calc(var(--arrow-col) + 10px);
+        min-height: 0;
+    }
+
+    .fold-row > .tag-carousels .tag-carousel {
+        flex: 1 1 0;
+        min-width: 0;
+    }
 
     /* Neutralise the standalone sizing these had outside the grid */
     .fold-row > .news-carousel-section {
