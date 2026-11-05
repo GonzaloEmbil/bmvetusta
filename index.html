@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-37">
+    <link rel="stylesheet" href="style.css?v=campana-38">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -1133,6 +1133,14 @@
                            aria-hidden="true"></video>
                 </a>
             </div><!-- /home-tournament-stack -->
+            <!-- Sólo en escritorio ancho (desde 1440px): los partidos de esta
+                 semana de todos los equipos del club, como en el área privada.
+                 Lo rellena script.js desde /api/semana.json (respaldo en
+                 data/2627/semana.json). En móvil no existe. -->
+            <aside class="home-semana" id="home-semana" aria-label="Partidos de esta semana">
+                <h3 class="home-semana-titulo">Esta semana</h3>
+                <div class="home-semana-lista" id="home-semana-lista"></div>
+            </aside>
             </div><!-- /fold-row -->
 
 
@@ -1666,7 +1674,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-37"></script>
+    <script src="script.js?v=campana-38"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No

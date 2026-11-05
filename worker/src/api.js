@@ -4,6 +4,9 @@
  *   /api/liga/<temporada>/<archivo>.json   los cinco JSON del primer equipo
  *       (clasificación, resultados, goleadores, calendario y próximo partido),
  *       los mismos que la tarea de GitHub deja en data/.
+ *   /api/semana.json   los partidos de la semana en curso (lunes a domingo) de
+ *       todos los equipos del club, con resultado si se han jugado y con
+ *       pabellón: el recuadro de la portada, igual que el área privada.
  *   /api/equipo/<temporada>/<id>.json[?grupo=<id_grupo>]   todo lo que pinta
  *       la sección de categorías de la portada para un equipo del club, en una
  *       sola respuesta: sus grupos de liga (fases), y clasificación, resultados
@@ -29,7 +32,7 @@
  */
 
 import * as liga from './liga.js';
-import { isquad } from './resultados.js';
+import { isquad, semanaDelClub, lunesActual } from './resultados.js';
 
 const FRESCURA = 15 * 60 * 1000;
 const CADUCIDAD = 6 * 60 * 60 * 1000;
@@ -246,10 +249,42 @@ async function rutaEquipo(env, ctx, temporada, id, grupoPedido) {
   return paquete(equipo, temporada, fila.grupos, null, { clasificacion: [], resultados: [], calendario: [] }, fila.actualizado);
 }
 
+// ── Semana del club ─────────────────────────────────────────────────────────
+
+// Una fila por semana (lunes). Si algún equipo no se ha podido consultar, no
+// se da por renovada: se sirve lo anterior y se reintenta.
+async function renovarSemana(env, desde) {
+  const clave = `semana:${desde}`;
+  const fila = (await leer(env, clave)) || {};
+  const ahora = new Date().toISOString();
+  try {
+    const r = await semanaDelClub(desde);
+    if (r.fallos.length) throw new Error('sin respuesta de: ' + r.fallos.join(', '));
+    fila.salida = { desde: r.desde, dias: r.dias, partidos: r.partidos };
+    fila.actualizado = ahora;
+  } catch (e) {
+    console.warn(`semana ${desde}: no se ha podido renovar: ${e.message}`);
+  }
+  fila.intento = ahora;
+  await guardar(env, clave, fila);
+  return fila;
+}
+
+async function rutaSemana(env, ctx) {
+  const desde = lunesActual();
+  let fila = await leer(env, `semana:${desde}`);
+  const nueva = await segunFrescura(ctx, fila && fila.actualizado, fila && fila.intento, () => renovarSemana(env, desde));
+  if (nueva) fila = nueva;
+  if (!fila || !fila.salida) return sinDatos();
+  return json({ ...fila.salida, actualizado: fila.actualizado }, 200, { 'X-Actualizado': fila.actualizado });
+}
+
 // ── Rutas ───────────────────────────────────────────────────────────────────
 
 export async function rutasApi(request, env, ctx, url) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return json({ error: 'método' }, 405);
+
+  if (url.pathname === '/api/semana.json') return rutaSemana(env, ctx);
 
   const eq = /^\/api\/equipo\/(\d{4})\/(\d+)\.json$/.exec(url.pathname);
   if (eq) {

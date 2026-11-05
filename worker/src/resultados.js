@@ -120,21 +120,25 @@ async function escudo(url) {
   });
 }
 
-export async function rutasResultados(request, env, url) {
-  if (url.pathname === '/admin/escudo' && request.method === 'GET') return escudo(url);
-  if (url.pathname !== '/admin/resultados' || request.method !== 'GET') return null;
-  // «desde» es el lunes de la semana: entran de lunes a domingo, para no
-  // perder los partidos entre semana (las fechas de la federación ya vienen
-  // en hora de España).
-  const desde = url.searchParams.get('desde');
-  if (!diaValido(desde)) return json({ ok: false, error: 'Fecha no válida.' }, 400);
+// Lunes de la semana en curso en hora de España (las fechas de la federación
+// van en esa hora), AAAA-MM-DD. `ahora` se inyecta en las pruebas.
+export function lunesActual(ahora = Date.now()) {
+  const f = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit', weekday: 'short' });
+  const partes = Object.fromEntries(f.formatToParts(new Date(ahora)).map((p) => [p.type, p.value]));
+  const hoy = `${partes.year}-${partes.month}-${partes.day}`;
+  const indice = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4, Sat: 5, Sun: 6 }[partes.weekday];
+  return sumarDias(hoy, -indice);
+}
+
+/**
+ * Partidos de todos los equipos del club en una semana (de lunes a domingo),
+ * con resultado si se han jugado y con pabellón y localidad. `desde` es el
+ * lunes, AAAA-MM-DD. Lo usan el área privada (/admin/resultados), la web
+ * pública (/api/semana.json, en api.js) y la tarea de GitHub (el respaldo
+ * estático). Unas 23 consultas a la federación.
+ */
+export async function semanaDelClub(desde) {
   const dias = [0, 1, 2, 3, 4, 5, 6].map((n) => sumarDias(desde, n));
-
-  // Cinco minutos en caché: recargar el panel no repite las consultas.
-  const cache = caches.default;
-  const guardada = await cache.match(CACHE_SEMANA(desde));
-  if (guardada) return json(await guardada.json());
-
   const nuestros = new Map(EQUIPOS.map((e) => [e.id, e.nombre]));
   const rango = new Map(EQUIPOS.map((e, i) => [e.id, i]));
   const vistos = new Map();
@@ -184,10 +188,27 @@ export async function rutasResultados(request, env, url) {
     }
   } catch { /* sin pabellones */ }
   for (const p of partidos) delete p.grupo;
-  const respuesta = { ok: true, desde, dias, partidos, fallos };
+  return { ok: true, desde, dias, partidos, fallos };
+}
+
+export async function rutasResultados(request, env, url) {
+  if (url.pathname === '/admin/escudo' && request.method === 'GET') return escudo(url);
+  if (url.pathname !== '/admin/resultados' || request.method !== 'GET') return null;
+  // «desde» es el lunes de la semana: entran de lunes a domingo, para no
+  // perder los partidos entre semana (las fechas de la federación ya vienen
+  // en hora de España).
+  const desde = url.searchParams.get('desde');
+  if (!diaValido(desde)) return json({ ok: false, error: 'Fecha no válida.' }, 400);
+
+  // Cinco minutos en caché: recargar el panel no repite las consultas.
+  const cache = caches.default;
+  const guardada = await cache.match(CACHE_SEMANA(desde));
+  if (guardada) return json(await guardada.json());
+
+  const respuesta = await semanaDelClub(desde);
   // Si algún equipo no se ha podido consultar, no se guarda: así la próxima
   // vez se vuelve a intentar.
-  if (!fallos.length) {
+  if (!respuesta.fallos.length) {
     await cache.put(CACHE_SEMANA(desde), new Response(JSON.stringify(respuesta), {
       headers: { 'Content-Type': 'application/json', 'Cache-Control': 'max-age=300' },
     }));

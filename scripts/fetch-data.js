@@ -296,6 +296,18 @@ async function buildEquipos(firstTeam) {
   }
 }
 
+/**
+ * data/<current>/semana.json — this week's matches of every club team, the
+ * fallback for the home page's week box (same data as /api/semana.json).
+ */
+async function buildSemana() {
+  const { semanaDelClub, lunesActual } = await import('../worker/src/resultados.js');
+  const semana = await semanaDelClub(lunesActual());
+  if (semana.fallos.length) console.warn(`   ⚠ semana: sin respuesta de ${semana.fallos.join(', ')}`);
+  writeJson(path.join(DATA_DIR, liga.TEMPORADA_ACTUAL), 'semana.json', { desde: semana.desde, dias: semana.dias, partidos: semana.partidos });
+  console.log(`\n=== Semana del ${semana.desde}: ${semana.partidos.length} partidos ===`);
+}
+
 async function main() {
   console.log('🏐 BM Vetusta — Data Fetcher\n');
 
@@ -314,7 +326,10 @@ async function main() {
       continue;
     }
     const firstTeam = await buildSeason(season, isCurrent);
-    if (isCurrent) await buildEquipos(firstTeam);
+    if (isCurrent) {
+      await buildEquipos(firstTeam);
+      await buildSemana();
+    }
   }
 
   console.log('\n✅ Datos escritos en data/<temporada>/ (historia.json y proximo-partido.json globales)');

@@ -655,8 +655,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // ── Upcoming matches (max 3 for side panel) ──
+        // El enlace al directo de cada tarjeta sólo existe (y late) mientras
+        // se juega el partido: la clase va en la tarjeta y el CSS lo enseña.
         function refrescarDirectos() {
-            document.querySelectorAll('.proximos-streaming[data-inicio]').forEach(function(el) {
+            document.querySelectorAll('.proximos-card[data-inicio]').forEach(function(el) {
                 el.classList.toggle('en-directo', enDirecto(el.getAttribute('data-inicio')));
             });
         }
@@ -683,13 +685,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 var card = document.createElement('div');
                 card.className = 'proximos-card ' + cardSideClass;
 
-                // El icono del directo sólo late mientras se juega el
-                // partido (ver enDirecto); refrescarDirectos() lo revisa
-                // cada minuto por si la página se queda abierta.
+                // El enlace al directo sólo se ve mientras se juega el partido
+                // (ver enDirecto); refrescarDirectos() lo revisa cada minuto
+                // por si la página se queda abierta.
                 var streamingHTML = '';
                 if (match.url_streaming) {
+                    card.setAttribute('data-inicio', match.fecha || '');
+                    if (enDirecto(match.fecha)) card.classList.add('en-directo');
                     streamingHTML =
-                        '<div class="proximos-streaming' + (enDirecto(match.fecha) ? ' en-directo' : '') + '" data-inicio="' + (match.fecha || '') + '">' +
+                        '<div class="proximos-streaming">' +
                             '<a href="' + match.url_streaming + '" target="_blank" rel="noopener noreferrer" title="Ver en directo">' +
                                 '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>' +
                             '</a>' +
@@ -1094,6 +1098,75 @@ document.addEventListener('DOMContentLoaded', function() {
                     resetAutoPlay();
                 }
             }, { passive: true });
+        }
+    })();
+
+    // ── Recuadro «Esta semana» (portada, escritorio ancho) ──
+    // Los partidos de la semana de todos los equipos del club. Sólo se piden
+    // cuando el recuadro se ve (desde 1440px); si la ventana crece después,
+    // se cargan entonces. Igual que todo lo demás: el worker primero y el JSON
+    // estático de respaldo.
+    (function cargarSemana() {
+        var caja = document.getElementById('home-semana');
+        var lista = document.getElementById('home-semana-lista');
+        if (!caja || !lista) return;
+        var cargado = false;
+        var DIAS = ['DOM', 'LUN', 'MAR', 'MIÉ', 'JUE', 'VIE', 'SÁB'];
+
+        // «GRUPO EGIDO BM PINTO» → «Grupo Egido BM Pinto».
+        function bonito(s) {
+            return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim().split(' ').map(function(w) {
+                if (/^[a-z]\.([a-z]\.)*$/.test(w) || (w.length <= 2 && !/^(de|el|la|y)$/.test(w))) return w.toUpperCase();
+                return w.charAt(0).toUpperCase() + w.slice(1);
+            }).join(' ');
+        }
+        function escapar(s) { return String(s || '').replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+
+        function pintar(j) {
+            var partidos = (j.partidos || []).slice().sort(function(a, b) { return String(a.fecha).localeCompare(String(b.fecha)); });
+            if (!partidos.length) {
+                lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
+                return;
+            }
+            lista.innerHTML = partidos.map(function(p) {
+                var f = String(p.fecha || ''), partes = f.slice(0, 10).split('-'), hora = f.slice(11, 16);
+                var d = new Date(+partes[0], +partes[1] - 1, +partes[2]);
+                var cuando = DIAS[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '');
+                var jugado = p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null;
+                var marcador = '';
+                if (jugado) {
+                    var nuestros = p.nuestro_local ? p.goles_local : p.goles_visitante;
+                    var suyos = p.nuestro_local ? p.goles_visitante : p.goles_local;
+                    var clase = p.nuestro_local && p.nuestro_visitante ? 'borr' : nuestros > suyos ? 'si' : nuestros < suyos ? 'no' : 'borr';
+                    marcador = '<span class="semana-marcador ' + clase + '">' + p.goles_local + '–' + p.goles_visitante + '</span>';
+                }
+                var equipo = function(nombre, nuestro) {
+                    return '<span class="semana-eq' + (nuestro ? ' nuestro' : '') + '">' + escapar(nuestro ? 'Vetusta' : bonito(nombre)) + '</span>';
+                };
+                var lugar = [bonito(p.pabellon), p.localidad].filter(Boolean).join(' · ');
+                return '<div class="semana-partido">' +
+                    '<div class="semana-cuando"><span>' + cuando + '</span><span class="semana-cat">' + escapar(p.equipo) + '</span></div>' +
+                    '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local) + '<span class="semana-vs">–</span>' + equipo(p.visitante, p.nuestro_visitante) + marcador + '</div>' +
+                    (lugar ? '<div class="semana-lugar">' + escapar(lugar) + '</div>' : '') +
+                '</div>';
+            }).join('');
+        }
+
+        function cargar() {
+            if (cargado || getComputedStyle(caja).display === 'none') return;
+            cargado = true;
+            conRespaldo('/api/semana.json', './data/' + TEMPORADA_ACTUAL + '/semana.json?v=' + Date.now())
+                .then(function(r) { if (!r.ok) throw new Error('semana ' + r.status); return r.json(); })
+                .then(pintar)
+                .catch(function() {
+                    cargado = false;
+                    lista.innerHTML = '<p class="home-semana-vacio">No se han podido cargar los partidos.</p>';
+                });
+        }
+        cargar();
+        if (window.matchMedia) {
+            var mq = window.matchMedia('(min-width: 1440px)');
+            if (mq.addEventListener) mq.addEventListener('change', cargar); else if (mq.addListener) mq.addListener(cargar);
         }
     })();
 

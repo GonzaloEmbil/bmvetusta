@@ -838,11 +838,12 @@ body {
     margin: 0;
 }
 
-/* Season selector */
+/* Selectores de temporada y fase: la etiqueta encima, como en Categoría. */
 .liga-season-select-wrap {
     display: inline-flex;
+    flex-direction: column;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     margin-top: 4px;
 }
 
@@ -1346,9 +1347,17 @@ body {
     transition: all 0.3s ease;
 }
 
-/* El icono sólo late mientras se juega el partido (clase en-directo, la pone
-   script.js según la hora). */
-.proximos-streaming.en-directo a {
+/* El enlace al directo sólo existe mientras se juega el partido (clase
+   en-directo en la tarjeta, la pone script.js según la hora), y late. */
+.proximos-streaming {
+    display: none;
+}
+
+.proximos-card.en-directo .proximos-streaming {
+    display: block;
+}
+
+.proximos-card.en-directo .proximos-streaming a {
     animation: streamPulse 2s ease-in-out infinite;
 }
 
@@ -5201,4 +5210,142 @@ body {
         padding: 16px 24px;
         font-size: 0.98rem;
     }
+}
+
+/* ── Recuadro «Esta semana» de la portada ──────────────────────────────────
+   Los partidos de la semana de todos los equipos del club, a la derecha del
+   carrusel y a la altura de la animación del carnet. Sólo en escritorio
+   ancho: con cuatro columnas, por debajo de 1440px el carrusel quedaría
+   demasiado estrecho; ahí (y en móvil) no existe. Lo rellena script.js. */
+.home-semana {
+    display: none;
+}
+
+@media (min-width: 1440px) {
+    .fold-row {
+        /* Dos columnas laterales iguales; el carrusel queda centrado. Algo
+           más estrechas que la animación sola para dejar sitio al carrusel. */
+        --map-col: clamp(330px, 24vw, 480px);
+        grid-template-columns: var(--map-col) minmax(0, 1fr) var(--arrow-col) var(--map-col);
+    }
+
+    .fold-row > .home-semana {
+        display: flex;
+        flex-direction: column;
+        grid-column: 4;
+        grid-row: 1 / 3;
+        min-height: 0;
+        background: #1c1c1c;
+        border: 1px solid #262626;
+        border-radius: 12px;
+        padding: 14px 14px 10px;
+        overflow: hidden;
+    }
+
+    /* La flecha «›» sigue a 10px del carrusel, ahora con el recuadro detrás. */
+    .fold-row > .news-carousel-section .news-carousel-next {
+        right: calc(var(--fold-pad) + var(--map-col) + 2 * var(--fold-gap) - 10px);
+    }
+}
+
+.home-semana-titulo {
+    margin: 0 0 10px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FDED3A;
+}
+
+.home-semana-lista {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    scrollbar-width: thin;
+}
+
+.home-semana-vacio {
+    color: #777;
+    font-size: 0.8rem;
+    margin: 0;
+}
+
+.semana-partido {
+    border-top: 1px solid #262626;
+    padding-top: 8px;
+}
+
+.semana-partido:first-child {
+    border-top: 0;
+    padding-top: 0;
+}
+
+.semana-cuando {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 0.66rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #9a9a9a;
+}
+
+.semana-cat {
+    color: #FDED3A;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.semana-rivales {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #fff;
+}
+
+.semana-eq {
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.semana-eq.nuestro {
+    color: #FDED3A;
+    font-weight: 800;
+}
+
+.semana-vs {
+    flex: 0 0 auto;
+    color: #666;
+}
+
+.semana-marcador {
+    flex: 0 0 auto;
+    margin-left: auto;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.semana-marcador.si { background: rgba(46, 204, 113, 0.18); color: #2ecc71; }
+.semana-marcador.no { background: rgba(255, 68, 68, 0.18); color: #ff6b6b; }
+.semana-marcador.borr { background: rgba(255, 255, 255, 0.1); color: #ddd; }
+
+.semana-lugar {
+    margin-top: 2px;
+    font-size: 0.64rem;
+    color: #777;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
