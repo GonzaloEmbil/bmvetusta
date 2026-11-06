@@ -1135,12 +1135,16 @@ document.addEventListener('DOMContentLoaded', function() {
         function escapar(s) { return String(s || '').replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
         function pintar(j) {
-            var partidos = (j.partidos || []).slice().sort(function(a, b) { return String(a.fecha).localeCompare(String(b.fecha)); });
+            // Por día y, dentro del día, de mayor a menor categoría: llegan ya
+            // por categoría (como en el área privada) y la ordenación por día
+            // es estable, así que ese orden se conserva dentro de cada día.
+            var partidos = (j.partidos || []).slice().sort(function(a, b) {
+                return String(a.fecha).slice(0, 10).localeCompare(String(b.fecha).slice(0, 10));
+            });
             if (!partidos.length) {
                 lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
                 return;
             }
-            // Agrupados por día, con la hora a la izquierda de cada partido.
             var diaAnterior = '';
             lista.innerHTML = partidos.map(function(p) {
                 var f = String(p.fecha || ''), partes = f.slice(0, 10).split('-'), hora = f.slice(11, 16);
@@ -1170,9 +1174,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     '<div class="semana-partido' + (jugado ? ' jugado' : '') + '">' +
                         '<div class="semana-hora">' + (hora && hora !== '00:00' ? hora : '—') + '</div>' +
                         '<div class="semana-cuerpo">' +
-                            '<div class="semana-cat">' + escapar(p.equipo) + '</div>' +
-                            '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local, p.equipo_local) + '<span class="semana-vs">vs</span>' + equipo(p.visitante, p.nuestro_visitante, p.equipo_visitante) + '</div>' +
-                            (lugar ? '<div class="semana-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
+                            '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local, p.equipo_local) + '<span class="semana-vs">–</span>' + equipo(p.visitante, p.nuestro_visitante, p.equipo_visitante) + '</div>' +
+                            '<div class="semana-cat" title="' + escapar(p.equipo + (lugar ? ' · ' + lugar : '')) + '">' + escapar(p.equipo) + (lugar ? ' · ' + escapar(lugar) : '') + '</div>' +
                         '</div>' +
                         marcador +
                     '</div>';

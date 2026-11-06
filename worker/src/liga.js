@@ -53,14 +53,16 @@ export const EQUIPOS = [
   { id: '216662', nombre: 'Infantil Femenino', web: true },
   { id: '221137', nombre: 'Infantil Masculino A', web: true },
   { id: '223207', nombre: 'Infantil Masculino B', web: true },
-  // Las escuelas: en la federación van con el nombre del colegio y el escudo
-  // del club. Los prebenjamines no tienen competición todavía.
-  { id: '227306', nombre: 'Alevín Masculino', web: true },
+  // Las escuelas: en la federación van con el nombre de los colegios y el
+  // escudo del club; aquí, con el primer colegio para distinguirlas. Los
+  // prebenjamines no tienen competición todavía.
+  { id: '227306', nombre: 'Alevín · Villafría', web: true },        // CP Villafría - CP Germán Fdez Ramos - Amor de Dios
+  { id: '210714', nombre: 'Alevín · Ventanielles', web: true },     // C.P Juan Rdez. Muñiz - CP Ventanielles
   { id: '227276', nombre: 'Benjamín · Amor de Dios', web: true },
-  { id: '227279', nombre: 'Benjamín · Villafría-Carmen Ruiz Tilve', web: true },
-  { id: '227367', nombre: 'Benjamín · Germán Fdez Ramos-Gesta', web: true },
+  { id: '227279', nombre: 'Benjamín · Villafría', web: true },      // C.P. Villafría - C.P. Carmen Ruiz Tilve
+  { id: '227367', nombre: 'Benjamín · Germán Fdez Ramos', web: true }, // CP Germán Fdez Ramos - CP Gesta
   { id: '227277', nombre: 'Prebenjamín · Germán Fdz Ramos', web: false },
-  { id: '227278', nombre: 'Prebenjamín · Gesta-Ventanielles', web: false },
+  { id: '227278', nombre: 'Prebenjamín · Gesta', web: false },      // C.P. Gesta-Ventanielles
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
