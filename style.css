@@ -3715,56 +3715,57 @@ body {
     flex: 1;
 }
 
-/* Text column of each card: the tag pill sits above the headline, inside
-   the box. Every box uses the neutral (Club) pill style. */
+/* Text column of each card, like .prensa-thumb-content: the tag line
+   above the headline, vertically centred next to the photo. */
 .tag-card-body {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    justify-content: center;
     gap: 8px;
     min-width: 0;
-    align-self: stretch;
+    padding: 12px 12px 12px 0;
 }
 
-/* La sección, como texto pequeño en amarillo: sin pastilla. */
+/* La sección, en amarillo con el mismo estilo que la fecha de Prensa. */
 .tag-card-body .news-tag {
-    font-size: 0.62rem;
-    font-weight: 700;
-    letter-spacing: 1.6px;
-    text-transform: uppercase;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: normal;
+    text-transform: none;
     color: #FDED3A;
     background: none;
     border: 0;
     padding: 0;
 }
 
-/* Crossfade stack: every card shares one grid cell. Sólo texto, como una
-   columna editorial: la sección en pequeño y el titular; la tarjeta entera
-   es el enlace. Superficie plana, sin filetes ni llamadas. */
+/* Crossfade stack: every card shares one grid cell. Mismo molde que las
+   tarjetas pequeñas de Prensa (.prensa-thumb): foto a la izquierda, fondo
+   #232323 sin filete, y la caja se eleva al pasar el ratón. */
 .tag-carousel-track {
     position: relative;
     display: grid;
     grid-template: 1fr / 1fr;
     flex: 1;
     min-height: 0;
-    background: #141414;
-    border: 1px solid #242424;
+    background: #232323;
     border-radius: 12px;
     overflow: hidden;
-    transition: background-color 0.2s, border-color 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    container-type: inline-size;
 }
 
 .tag-carousel-track:hover {
-    background: #181818;
-    border-color: #2e2e2e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(253, 237, 58, 0.1);
 }
 
 .tag-card {
     grid-area: 1 / 1;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 18px 20px;
+    align-items: stretch;
+    gap: 15px;
+    padding: 0;
     min-height: 0;
     text-decoration: none;
     opacity: 0;
@@ -3777,44 +3778,56 @@ body {
     pointer-events: auto;
 }
 
-/* Fixed width + vertical stretch: fills the box without the circular
-   sizing you get from a percentage height inside a stretched row. */
+/* La foto, a toda la altura de la caja. En Prensa mide 140px fijos; aquí
+   las cajas van de 170 a 350px según la pantalla, así que es proporcional
+   (36%, entre 64 y 140px) para que el titular conserve sitio. En móvil,
+   100px como en Prensa. La caja recorta las esquinas. */
 .tag-card-thumb {
-    /* Grows with the (now elastic) card so the thumb doesn't shrink into a
-       stamp on wide screens. Floor = the old fixed 84px, so narrow layouts
-       look exactly as before. Height is driven by the card via align-self. */
-    width: clamp(84px, 26%, 150px);
+    width: clamp(64px, 36%, 140px);
+    min-width: 0;
     height: auto;
     align-self: stretch;
     flex: 0 0 auto;
     object-fit: cover;
-    border-radius: 8px;
     display: block;
     min-height: 0;
 }
 
 .tag-card-title {
-    color: #f2f2f2;
-    font-size: 0.95rem;
+    color: #fff;
+    font-size: 0.9rem;
     font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: -0.01em;
+    line-height: 1.3;
+    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
 }
 
-/* Por si queda alguna miniatura en el marcado: no se enseña. */
-.tag-card-thumb {
-    display: none;
-}
+/* Caja estrecha (tres en fila junto a «Partidos de la semana», ~170px):
+   todo más apretado y el titular con hasta cinco líneas, que la caja mide
+   170px de alto y sobra sitio. */
+@container (max-width: 200px) {
+    .tag-card {
+        gap: 10px;
+    }
 
-.tag-carousel-track:hover .tag-card.active .tag-card-title {
-    color: #fff;
-    text-decoration: underline;
-    text-decoration-color: rgba(253, 237, 58, 0.6);
-    text-underline-offset: 3px;
+    .tag-card-body {
+        padding: 10px 10px 10px 0;
+        gap: 5px;
+    }
+
+    .tag-card-body .news-tag {
+        font-size: 0.7rem;
+    }
+
+    /* Más específica que la regla de escritorio (cuatro líneas), que va
+       después en el archivo. */
+    .fold-row > .tag-carousels .tag-carousel-track .tag-card-title {
+        font-size: 0.78rem;
+        -webkit-line-clamp: 5;
+    }
 }
 
 /* Tournament banner — base styles shared by mobile and desktop */
@@ -4319,6 +4332,12 @@ body {
         min-width: 0;
     }
 
+    /* Las cajas miden 170px de alto: cabe una línea más de titular que en
+       las tarjetas de Prensa. */
+    .fold-row > .tag-carousels .tag-card-title {
+        -webkit-line-clamp: 4;
+    }
+
     /* Neutralise the standalone sizing these had outside the grid */
     .fold-row > .news-carousel-section {
         max-width: none;
@@ -4731,7 +4750,16 @@ body {
         min-width: 100px;
     }
 
+    .tag-card-thumb {
+        width: 100px;
+        min-width: 100px;
+    }
+
     .prensa-thumb-title {
+        font-size: 0.8rem;
+    }
+
+    .tag-card-title {
         font-size: 0.8rem;
     }
 
