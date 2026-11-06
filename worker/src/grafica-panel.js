@@ -357,9 +357,9 @@ export const GRAFICA_JS = String.raw`
     ctx.fillStyle = jugado ? '#ffffff' : 'rgba(255,255,255,0.55)'; ctx.font = (40 * k) + 'px "Bebas Neue"';
     ctx.fillText(jugado ? p.goles_local + ' - ' + p.goles_visitante : 'VS', centro, yc + 3 * k);
 
-    // Filas 2 y 3: día y hora y, debajo, pabellón y localidad, con la misma letra.
+    // Filas 2 y 3: día y hora y, debajo, el pabellón (sin la localidad), con la misma letra.
     var lineas = [DIAS_NOMBRE[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '')];
-    if (p.pabellon || p.localidad) lineas.push([bonito(p.pabellon), bonito(p.localidad)].filter(Boolean).join(' · '));
+    if (p.pabellon) lineas.push(bonito(p.pabellon));
     if (compacta) lineas = [lineas.join('  ·  ')];
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
     lineas.reverse().forEach(function(t, i){
