@@ -193,19 +193,23 @@ export const GRAFICA_JS = String.raw`
     return String(s || '').toLowerCase().split(/(\s+)/).map(function(p, i){
       if (/^\s+$/.test(p) || !p) return p;
       if (/^([a-záéíóúñ]\.){1,4}$/i.test(p)) return p.toUpperCase();
+      // «c.p.gesta» (siglas pegadas al nombre): «C.P. Gesta».
+      var pegado = /^((?:[a-záéíóúñ]\.){1,4})([a-záéíóúñ].*)$/i.exec(p);
+      if (pegado) return pegado[1].toUpperCase() + ' ' + pegado[2].charAt(0).toUpperCase() + pegado[2].slice(1);
       if (i > 0 && MENUDAS.indexOf(p) >= 0) return p;
       return p.replace(/^(["“«(]?)(\S)/, function(_, a, b){ return a + b.toUpperCase(); });
     }).join('');
   }
 
   // Los equipos del club salen con el nombre de su categoría («CADETE
-  // FEMENINO»). En un partido entre dos equipos del club, p.equipo trae las
-  // dos categorías, la del local primero.
+  // FEMENINO»): la de su lado, que viene aparte en equipo_local y
+  // equipo_visitante. No se parte p.equipo por « · », porque los nombres de
+  // las escuelas («Alevín · Villafría - …») llevan ese mismo separador.
   function nombreEquipo(p, lado){
     var nuestro = lado === 'local' ? p.nuestro_local : p.nuestro_visitante;
     if (!nuestro) return String(lado === 'local' ? p.local : p.visitante).replace(/\s+/g, ' ').trim();
-    var cats = String(p.equipo).split(' · ');
-    return (lado === 'visitante' && cats.length > 1 ? cats[1] : cats[0]).toUpperCase();
+    var cat = lado === 'local' ? p.equipo_local : p.equipo_visitante;
+    return String(cat || p.equipo).toUpperCase();
   }
 
   function partidosGrafica(){
@@ -315,6 +319,11 @@ export const GRAFICA_JS = String.raw`
     // que sale el equipo del club.
     var partidos = graf.tipo === 'partidos';
     var k = Math.max(0.62, Math.min(1.3, h / (partidos ? 155 : 142)));
+    // Con muchos partidos la tarjeta queda más baja que el diseño (k tocaría
+    // su mínimo y las filas se pisarían): entonces día, hora y pabellón van
+    // en una sola línea, un diseño de 128 px que se escala a lo que haya.
+    var compacta = partidos && h / 155 < 0.62;
+    if (compacta) k = Math.max(0.5, Math.min(0.62, h / 128));
     var pad = (partidos ? 16 : 18) * k;
     ctx.fillStyle = 'rgba(10,10,12,0.6)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     // Un filo amarillo fino alrededor de la tarjeta.
@@ -351,6 +360,7 @@ export const GRAFICA_JS = String.raw`
     // Filas 2 y 3: día y hora y, debajo, pabellón y localidad, con la misma letra.
     var lineas = [DIAS_NOMBRE[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '')];
     if (p.pabellon || p.localidad) lineas.push([bonito(p.pabellon), bonito(p.localidad)].filter(Boolean).join(' · '));
+    if (compacta) lineas = [lineas.join('  ·  ')];
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
     lineas.reverse().forEach(function(t, i){
       ctx.fillText(ajustar(ctx, t, '500 {t}px Inter', 22 * k, w - 2 * pad), centro, y + h - pad - i * 27 * k);
@@ -384,7 +394,7 @@ export const GRAFICA_JS = String.raw`
 
   function dibujar(ctx, W, H, lista, esc2){
     var M = 60;
-    var MARGEN = 54;   // del borde de arriba a la cabecera y del pie al borde de abajo
+    var MARGEN = 32;   // del borde de arriba a la cabecera y de la base del pie al borde de abajo
     dibujarFondo(ctx, W, H);
 
     // Cabecera: escudo y, centrados a su altura, el título y las fechas en la
@@ -421,7 +431,8 @@ export const GRAFICA_JS = String.raw`
     ctx.fillText('#FamiliaVetusta', W - M, H - MARGEN);
 
     // Tarjetas.
-    var arriba = abajoCab + 24 * c, abajo = H - MARGEN - 56, hueco = 12;
+    // Entre el pie y la última tarjeta, la altura del pie (26 px) y un hueco.
+    var arriba = abajoCab + 18 * c, abajo = H - MARGEN - 26 - 20, hueco = 12;
     if (!n) {
       ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff'; ctx.font = '600 34px Inter';
       ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
