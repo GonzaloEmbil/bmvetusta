@@ -1,7 +1,7 @@
 {
   "equipo": {
     "id": "210714",
-    "nombre": "Alevín · Ventanielles"
+    "nombre": "Alevín · Juan Rdez. Muñiz - Ventanielles"
   },
   "temporada": "2627",
   "equipos": [
@@ -39,11 +39,11 @@
     },
     {
       "id": "227306",
-      "nombre": "Alevín · Villafría"
+      "nombre": "Alevín · Villafría - Germán Fdez Ramos - Amor de Dios"
     },
     {
       "id": "210714",
-      "nombre": "Alevín · Ventanielles"
+      "nombre": "Alevín · Juan Rdez. Muñiz - Ventanielles"
     },
     {
       "id": "227276",
@@ -51,11 +51,11 @@
     },
     {
       "id": "227279",
-      "nombre": "Benjamín · Villafría"
+      "nombre": "Benjamín · Villafría - Carmen Ruiz Tilve"
     },
     {
       "id": "227367",
-      "nombre": "Benjamín · Germán Fdez Ramos"
+      "nombre": "Benjamín · Germán Fdez Ramos - Gesta"
     }
   ],
   "grupos": [

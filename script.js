@@ -834,19 +834,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function mostrar(el, si) { if (el) el.hidden = !si; }
 
-        // Un <select> mide lo que su opción más larga, y la flecha quedaría
-        // lejos del texto. Se ajusta al ancho del texto elegido, medido con
-        // la misma letra.
-        function ajustarAnchoCategoria() {
-            if (!categoriaSelect || !categoriaSelect.options.length) return;
-            var cs = getComputedStyle(categoriaSelect);
-            var medidor = document.createElement('span');
-            medidor.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;font:' + cs.font + ';letter-spacing:' + cs.letterSpacing + ';text-transform:' + cs.textTransform;
-            medidor.textContent = categoriaSelect.options[categoriaSelect.selectedIndex].textContent;
-            document.body.appendChild(medidor);
-            var ancho = medidor.offsetWidth + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
-            document.body.removeChild(medidor);
-            categoriaSelect.style.width = Math.ceil(ancho) + 'px';
+        // El texto visible del selector de categoría (el <select> va invisible
+        // encima): el nombre de la opción elegida.
+        var categoriaTexto = document.getElementById('categoria-texto');
+        function pintarCategoria() {
+            if (categoriaTexto && categoriaSelect && categoriaSelect.options.length) {
+                categoriaTexto.textContent = categoriaSelect.options[categoriaSelect.selectedIndex].textContent;
+            }
         }
 
         function enlaceClasificacion(id, grupo) {
@@ -880,7 +874,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         }).join('');
                         categoriaSelect.value = id;
                     }
-                    ajustarAnchoCategoria();
+                    pintarCategoria();
 
 
                     // Fases: sólo si el equipo tiene más de un grupo de liga.
@@ -956,7 +950,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (categoriaSelect) {
             categoriaSelect.addEventListener('change', function() {
-                ajustarAnchoCategoria();
+                pintarCategoria();
                 equipoActual = categoriaSelect.value;
                 if (seasonSelect) seasonSelect.value = CURRENT_SEASON;
                 cargarEquipo(equipoActual, null);
@@ -970,7 +964,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // cuanto el primer equipo tiene algún resultado, y la anterior mientras
         // tanto. Así en pretemporada no se enseña una clasificación a ceros, y
         // el día del primer partido se cambia sin tocar el HTML.
-        ajustarAnchoCategoria();
+        pintarCategoria();
         cargarEquipo(PRIMER_EQUIPO, null, function(j) {
             // Si el paquete no ha llegado, o no trae el próximo partido (un
             // respaldo antiguo), el banner se pide aparte.
