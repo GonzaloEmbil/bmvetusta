@@ -325,7 +325,7 @@ export const GRAFICA_JS = String.raw`
     var compacta = partidos && h / 155 < 0.62;
     if (compacta) k = Math.max(0.5, Math.min(0.62, h / 128));
     var pad = (partidos ? 16 : 18) * k;
-    ctx.fillStyle = 'rgba(10,10,12,0.5)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
+    ctx.fillStyle = 'rgba(10,10,12,0.4)'; rectRedondo(ctx, x, y, w, h, 20 * k); ctx.fill();
     // Un filo amarillo fino alrededor de la tarjeta.
     ctx.strokeStyle = AMARILLO; ctx.lineWidth = 1;
     rectRedondo(ctx, x + 0.5, y + 0.5, w - 1, h - 1, 20 * k - 0.5); ctx.stroke();
