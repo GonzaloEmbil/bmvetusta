@@ -1156,11 +1156,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     var clase = p.nuestro_local && p.nuestro_visitante ? 'borr' : nuestros > suyos ? 'si' : nuestros < suyos ? 'no' : 'borr';
                     marcador = '<span class="semana-marcador ' + clase + '">' + p.goles_local + '–' + p.goles_visitante + '</span>';
                 }
-                // Nuestro lado se llama «Vetusta»; si los dos son del club
-                // (dos escuelas), cada uno con su categoría.
-                var ambos = p.nuestro_local && p.nuestro_visitante;
+                // Nuestro lado se llama como su categoría (igual que en el área
+                // privada); si los dos son del club (dos escuelas), cada uno con
+                // la suya. El rival, con su nombre; debajo, sólo el pabellón.
                 var equipo = function(nombre, nuestro, categoria) {
-                    var texto = nuestro ? (ambos && categoria ? categoria : 'Vetusta') : bonito(nombre);
+                    var texto = nuestro ? (categoria || p.equipo) : bonito(nombre);
                     return '<span class="semana-eq' + (nuestro ? ' nuestro' : '') + '">' + escapar(texto) + '</span>';
                 };
                 var lugar = bonito(p.pabellon);
@@ -1169,7 +1169,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         '<div class="semana-hora">' + (hora && hora !== '00:00' ? hora : '—') + '</div>' +
                         '<div class="semana-cuerpo">' +
                             '<div class="semana-rivales">' + equipo(p.local, p.nuestro_local, p.equipo_local) + '<span class="semana-vs">–</span>' + equipo(p.visitante, p.nuestro_visitante, p.equipo_visitante) + '</div>' +
-                            '<div class="semana-cat" title="' + escapar(p.equipo + (lugar ? ' · ' + lugar : '')) + '">' + escapar(p.equipo) + (lugar ? ' · ' + escapar(lugar) : '') + '</div>' +
+                            (lugar ? '<div class="semana-cat" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
                         '</div>' +
                         marcador +
                     '</div>';
