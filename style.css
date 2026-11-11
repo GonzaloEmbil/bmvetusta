@@ -4181,11 +4181,17 @@ body {
            padding box instead of the grid's content box and drift by the
            padding. */
         --map-col: clamp(400px, 29vw, 620px);
+        /* La columna del carnet animado: el vídeo es 9:16, pero su contenido
+           (los textos y la tarjeta) sólo ocupa el 63% central del ancho; el
+           resto es fondo. La columna mide lo que el contenido (unos 0,35 de
+           la altura de la fila) y el vídeo se recorta por los lados con
+           object-fit: cover. Así el carrusel gana el ancho sobrante. */
+        --anim-col: clamp(260px, 16vw, 400px);
         position: relative;
         display: grid;
         /* The empty arrow column reserves the slot the "next" button is
            absolutely positioned into (see .news-carousel-next below). */
-        grid-template-columns: var(--map-col) minmax(0, 1fr) var(--arrow-col);
+        grid-template-columns: var(--anim-col) minmax(0, 1fr) var(--arrow-col);
         grid-template-rows: minmax(0, 1fr) var(--tags-row);
         gap: var(--fold-gap);
         padding: 0 var(--fold-pad);
@@ -4349,7 +4355,9 @@ body {
     /* The animation is absolutely positioned inside its grid cell so its
        natural height (720 x 1280) doesn't force the row taller than the
        above-fold allows; it takes the height the carousel column settles on
-       and, being 9:16, its width follows, centred in the column. */
+       and, being 9:16, its width follows, centred in the column. The column
+       (--anim-col) is narrower than that width on purpose: max-width caps
+       the box and object-fit: cover crops the video's empty sides. */
     .fold-row > .home-tournament-stack {
         position: relative;
         min-height: 0;
@@ -5304,10 +5312,10 @@ body {
 
 @media (min-width: 1440px) {
     .fold-row {
-        /* Dos columnas laterales iguales; el carrusel queda centrado. Algo
-           más estrechas que la animación sola para dejar sitio al carrusel. */
+        /* A la izquierda la columna del carnet (--anim-col, estrecha) y a la
+           derecha el recuadro de partidos; el carrusel se queda con el resto. */
         --map-col: clamp(330px, 24vw, 480px);
-        grid-template-columns: var(--map-col) minmax(0, 1fr) var(--arrow-col) var(--map-col);
+        grid-template-columns: var(--anim-col) minmax(0, 1fr) var(--arrow-col) var(--map-col);
     }
 
     .fold-row > .home-semana {
