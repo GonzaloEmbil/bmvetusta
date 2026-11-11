@@ -4181,17 +4181,11 @@ body {
            padding box instead of the grid's content box and drift by the
            padding. */
         --map-col: clamp(400px, 29vw, 620px);
-        /* La columna del carnet animado: el vídeo es 9:16, pero su contenido
-           (los textos y la tarjeta) sólo ocupa el 63% central del ancho; el
-           resto es fondo. La columna mide lo que el contenido (unos 0,35 de
-           la altura de la fila) y el vídeo se recorta por los lados con
-           object-fit: cover. Así el carrusel gana el ancho sobrante. */
-        --anim-col: clamp(260px, 16vw, 400px);
         position: relative;
         display: grid;
         /* The empty arrow column reserves the slot the "next" button is
            absolutely positioned into (see .news-carousel-next below). */
-        grid-template-columns: var(--anim-col) minmax(0, 1fr) var(--arrow-col);
+        grid-template-columns: var(--map-col) minmax(0, 1fr) var(--arrow-col);
         grid-template-rows: minmax(0, 1fr) var(--tags-row);
         gap: var(--fold-gap);
         padding: 0 var(--fold-pad);
@@ -4355,9 +4349,7 @@ body {
     /* The animation is absolutely positioned inside its grid cell so its
        natural height (720 x 1280) doesn't force the row taller than the
        above-fold allows; it takes the height the carousel column settles on
-       and, being 9:16, its width follows, centred in the column. The column
-       (--anim-col) is narrower than that width on purpose: max-width caps
-       the box and object-fit: cover crops the video's empty sides. */
+       and, being 9:16, its width follows, centred in the column. */
     .fold-row > .home-tournament-stack {
         position: relative;
         min-height: 0;
@@ -5312,10 +5304,13 @@ body {
 
 @media (min-width: 1440px) {
     .fold-row {
-        /* A la izquierda la columna del carnet (--anim-col, estrecha) y a la
-           derecha el recuadro de partidos; el carrusel se queda con el resto. */
+        /* El carnet a la izquierda, algo más estrecho que sin recuadro, y a
+           la derecha el recuadro de partidos en una columna aún más
+           estrecha: lo justo para una tarjeta (escudo, nombre a dos líneas,
+           pastilla, nombre, escudo). El carrusel se queda con el resto. */
         --map-col: clamp(330px, 24vw, 480px);
-        grid-template-columns: var(--anim-col) minmax(0, 1fr) var(--arrow-col) var(--map-col);
+        --semana-col: clamp(300px, 20vw, 380px);
+        grid-template-columns: var(--map-col) minmax(0, 1fr) var(--arrow-col) var(--semana-col);
     }
 
     .fold-row > .home-semana {
@@ -5333,7 +5328,7 @@ body {
 
     /* La flecha «›» sigue a 10px del carrusel, ahora con el recuadro detrás. */
     .fold-row > .news-carousel-section .news-carousel-next {
-        right: calc(var(--fold-pad) + var(--map-col) + 2 * var(--fold-gap) - 10px);
+        right: calc(var(--fold-pad) + var(--semana-col) + 2 * var(--fold-gap) - 10px);
     }
 }
 
@@ -5341,6 +5336,7 @@ body {
     margin: 0;
     padding: 0 0 14px;
     border-bottom: 1px solid #2a2a2a;
+    text-align: center;
     font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: 2px;
@@ -5358,6 +5354,8 @@ body {
     overflow-y: auto;
     scrollbar-width: thin;
     scrollbar-color: #333 transparent;
+    /* Las tarjetas se miden contra la lista (ver la variante compacta). */
+    container-type: inline-size;
 }
 
 .home-semana-vacio {
@@ -5482,4 +5480,39 @@ body {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+/* Lista estrecha (el recuadro mide 300px hasta unos 1500px de pantalla):
+   escudos y pastilla algo más pequeños y menos aire para que los nombres
+   largos quepan en tres líneas sin cortarse. */
+@container (max-width: 310px) {
+    .semana-tarjeta {
+        padding: 8px 10px 7px;
+    }
+
+    .st-duelo {
+        gap: 6px;
+        margin-top: 6px;
+    }
+
+    .st-lado {
+        gap: 6px;
+    }
+
+    .st-escudo {
+        width: 26px;
+        height: 26px;
+    }
+
+    .st-nombre {
+        font-size: 0.7rem;
+    }
+
+    .st-centro {
+        padding: 2px 6px;
+    }
+
+    .st-pie {
+        margin-top: 6px;
+    }
 }
