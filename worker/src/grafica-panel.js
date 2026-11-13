@@ -466,7 +466,7 @@ export const GRAFICA_JS = String.raw`
     var secciones = (PAGINAS[graf.pagina] || []).map(function(nombre){
       return { nombre: nombre, partidos: lista.filter(function(p){ return seccionDe(p) === nombre; }) };
     }).filter(function(s){ return s.partidos.length; });
-    var tamS = 38 * c, altoS = tamS * 0.72, sepS = 18 * c, bajoS = 10 * c;
+    var tamS = 58 * c, altoS = tamS * 0.72, sepS = 22 * c, bajoS = 12 * c;
     var fijo = secciones.length * (altoS + bajoS) + (secciones.length - 1) * sepS + (n - secciones.length) * hueco;
     var alto = Math.min(215, (abajo - arriba - fijo) / n);
     var y = arriba;
