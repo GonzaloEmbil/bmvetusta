@@ -212,6 +212,17 @@ export const GRAFICA_JS = String.raw`
     return String(cat || p.equipo).toUpperCase();
   }
 
+  // Bloques de la imagen. El sénior son los dos equipos nacionales; las
+  // escuelas, los alevines, benjamines y prebenjamines (sus nombres de
+  // categoría llevan el colegio detrás); el resto es cantera.
+  var SECCIONES = ['SENIOR', 'CANTERA', 'ESCUELAS'];
+  function seccionDe(p){
+    var t = String(p.equipo || '').toLowerCase();
+    if (/nacional|s[eé]nior/.test(t)) return 'SENIOR';
+    if (/alev[ií]n|benjam[ií]n|escuela/.test(t)) return 'ESCUELAS';
+    return 'CANTERA';
+  }
+
   function partidosGrafica(){
     var lista = (typeof ultimaSemana !== 'undefined' && ultimaSemana && ultimaSemana.partidos) || [];
     if (graf.tipo === 'resultados') return lista.filter(function(p){ return p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null; });
@@ -438,10 +449,34 @@ export const GRAFICA_JS = String.raw`
       ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
       return;
     }
-    var alto = Math.min(215, (abajo - arriba - hueco * (n - 1)) / n);
-    // Las tarjetas van pegadas al título; si sobra sitio, se ve la foto debajo.
+    // Los partidos van en tres bloques, Senior, Cantera y Escuelas, cada uno
+    // con su título (sólo los que tienen partidos). Las tarjetas se reparten
+    // el alto que queda tras descontar los títulos y los huecos; van pegadas
+    // a la cabecera y, si sobra sitio, se ve la foto debajo.
+    var secciones = SECCIONES.map(function(nombre){
+      return { nombre: nombre, partidos: lista.filter(function(p){ return seccionDe(p) === nombre; }) };
+    }).filter(function(s){ return s.partidos.length; });
+    var tamS = 38 * c, altoS = tamS * 0.72, sepS = 18 * c, bajoS = 10 * c;
+    var fijo = secciones.length * (altoS + bajoS) + (secciones.length - 1) * sepS + (n - secciones.length) * hueco;
+    var alto = Math.min(215, (abajo - arriba - fijo) / n);
     var y = arriba;
-    lista.forEach(function(p){ dibujarTarjeta(ctx, p, M, y, W - 2 * M, alto, esc2); y += alto + hueco; });
+    secciones.forEach(function(s, i){
+      if (i) y += sepS;
+      // El título en amarillo y, desde donde acaba, una línea fina hasta el
+      // borde derecho de las tarjetas.
+      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = AMARILLO; ctx.font = tamS + 'px "Bebas Neue"';
+      ctx.fillText(s.nombre, M, y + altoS);
+      var finT = M + ctx.measureText(s.nombre).width + 16 * c;
+      ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(finT, y + altoS / 2 + 0.5); ctx.lineTo(W - M, y + altoS / 2 + 0.5); ctx.stroke();
+      y += altoS + bajoS;
+      s.partidos.forEach(function(p, j){
+        if (j) y += hueco;
+        dibujarTarjeta(ctx, p, M, y, W - 2 * M, alto, esc2);
+        y += alto;
+      });
+    });
   }
 
   // Dibuja la vista previa. Los turnos evitan que una carga lenta (fuentes,
