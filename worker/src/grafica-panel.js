@@ -15,7 +15,7 @@
  */
 export const GRAFICA_JS = String.raw`
   // ── Imagen para redes ─────────────────────────────────────────────────────
-  var graf = { tipo: 'partidos', formato: 'post', fondo: null, escudos: {}, fuentes: null, escudoClub: null, turno: 0 };
+  var graf = { tipo: 'partidos', formato: 'post', pagina: 'club', fondo: null, escudos: {}, fuentes: null, escudoClub: null, turno: 0 };
   var FORMATOS = { post: [1080, 1350], historia: [1080, 1920] };
   var AMARILLO = '#ffe500';
   var WEB = 'https://balonmanovetusta.com/src/assets/';
@@ -212,10 +212,12 @@ export const GRAFICA_JS = String.raw`
     return String(cat || p.equipo).toUpperCase();
   }
 
-  // Bloques de la imagen. El sénior son los dos equipos nacionales; las
-  // escuelas, los alevines, benjamines y prebenjamines (sus nombres de
-  // categoría llevan el colegio detrás); el resto es cantera.
-  var SECCIONES = ['SENIOR', 'CANTERA', 'ESCUELAS'];
+  // La imagen va en dos páginas: una con el sénior y la cantera y otra con
+  // las escuelas, cada una con sus bloques y su título. El sénior son los
+  // dos equipos nacionales; las escuelas, los alevines, benjamines y
+  // prebenjamines (sus nombres de categoría llevan el colegio detrás); el
+  // resto es cantera.
+  var PAGINAS = { club: ['SENIOR', 'CANTERA'], escuelas: ['ESCUELAS'] };
   function seccionDe(p){
     var t = String(p.equipo || '').toLowerCase();
     if (/nacional|s[eé]nior/.test(t)) return 'SENIOR';
@@ -223,8 +225,15 @@ export const GRAFICA_JS = String.raw`
     return 'CANTERA';
   }
 
-  function partidosGrafica(){
+  // Los partidos de la semana que van en la página elegida.
+  function partidosPagina(){
     var lista = (typeof ultimaSemana !== 'undefined' && ultimaSemana && ultimaSemana.partidos) || [];
+    var bloques = PAGINAS[graf.pagina] || [];
+    return lista.filter(function(p){ return bloques.indexOf(seccionDe(p)) >= 0; });
+  }
+
+  function partidosGrafica(){
+    var lista = partidosPagina();
     if (graf.tipo === 'resultados') return lista.filter(function(p){ return p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null; });
     return lista.filter(function(p){ return p.estado !== 'Suspendido'; });
   }
@@ -374,7 +383,7 @@ export const GRAFICA_JS = String.raw`
     if (compacta) lineas = [lineas.join('  ·  ')];
     ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic'; ctx.fillStyle = 'rgba(255,255,255,0.78)';
     lineas.reverse().forEach(function(t, i){
-      ctx.fillText(ajustar(ctx, t, '500 {t}px Inter', 22 * k, w - 2 * pad), centro, y + h - pad - i * 27 * k);
+      ctx.fillText(ajustar(ctx, t, '500 {t}px Inter', 25 * k, w - 2 * pad), centro, y + h - pad - i * 30 * k);
     });
   }
 
@@ -445,15 +454,16 @@ export const GRAFICA_JS = String.raw`
     // Entre el pie y la última tarjeta, la altura del pie (26 px) y un hueco.
     var arriba = abajoCab + 18 * c, abajo = H - MARGEN - 26 - 20, hueco = 12;
     if (!n) {
+      var de = graf.pagina === 'escuelas' ? ' de las escuelas' : '';
       ctx.textAlign = 'center'; ctx.fillStyle = '#ffffff'; ctx.font = '600 34px Inter';
-      ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos esta semana' : 'Todavía no hay resultados esta semana', W / 2, (arriba + abajo) / 2);
+      ctx.fillText(graf.tipo === 'partidos' ? 'No hay partidos' + de + ' esta semana' : 'Todavía no hay resultados' + de + ' esta semana', W / 2, (arriba + abajo) / 2);
       return;
     }
-    // Los partidos van en tres bloques, Senior, Cantera y Escuelas, cada uno
-    // con su título (sólo los que tienen partidos). Las tarjetas se reparten
-    // el alto que queda tras descontar los títulos y los huecos; van pegadas
-    // a la cabecera y, si sobra sitio, se ve la foto debajo.
-    var secciones = SECCIONES.map(function(nombre){
+    // Los bloques de la página (Senior y Cantera, o Escuelas), cada uno con
+    // su título (sólo los que tienen partidos). Las tarjetas se reparten el
+    // alto que queda tras descontar los títulos y los huecos; van pegadas a
+    // la cabecera y, si sobra sitio, se ve la foto debajo.
+    var secciones = (PAGINAS[graf.pagina] || []).map(function(nombre){
       return { nombre: nombre, partidos: lista.filter(function(p){ return seccionDe(p) === nombre; }) };
     }).filter(function(s){ return s.partidos.length; });
     var tamS = 38 * c, altoS = tamS * 0.72, sepS = 18 * c, bajoS = 10 * c;
@@ -462,14 +472,10 @@ export const GRAFICA_JS = String.raw`
     var y = arriba;
     secciones.forEach(function(s, i){
       if (i) y += sepS;
-      // El título en amarillo y, desde donde acaba, una línea fina hasta el
-      // borde derecho de las tarjetas.
-      ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
-      ctx.fillStyle = AMARILLO; ctx.font = tamS + 'px "Bebas Neue"';
-      ctx.fillText(s.nombre, M, y + altoS);
-      var finT = M + ctx.measureText(s.nombre).width + 16 * c;
-      ctx.strokeStyle = 'rgba(255,255,255,0.3)'; ctx.lineWidth = 1;
-      ctx.beginPath(); ctx.moveTo(finT, y + altoS / 2 + 0.5); ctx.lineTo(W - M, y + altoS / 2 + 0.5); ctx.stroke();
+      // El título del bloque, en blanco y centrado.
+      ctx.textAlign = 'center'; ctx.textBaseline = 'alphabetic';
+      ctx.fillStyle = '#ffffff'; ctx.font = tamS + 'px "Bebas Neue"';
+      ctx.fillText(s.nombre, W / 2, y + altoS);
       y += altoS + bajoS;
       s.partidos.forEach(function(p, j){
         if (j) y += hueco;
@@ -487,7 +493,7 @@ export const GRAFICA_JS = String.raw`
     var turno = ++graf.turno;
     var dims = FORMATOS[graf.formato], lista = partidosGrafica();
     var nota = document.getElementById('graf-nota');
-    var total = (typeof ultimaSemana !== 'undefined' && ultimaSemana && ultimaSemana.partidos || []).length;
+    var total = partidosPagina().length;
     nota.textContent = graf.tipo === 'resultados' && lista.length < total
       ? (total - lista.length) + (total - lista.length === 1 ? ' partido aún sin resultado no sale en la imagen.' : ' partidos aún sin resultado no salen en la imagen.')
       : '';
@@ -515,7 +521,7 @@ export const GRAFICA_JS = String.raw`
           b.disabled = false;
           if (!blob) { document.getElementById('graf-nota').textContent = 'No se ha podido generar la imagen.'; return; }
           var dia = (partidosGrafica()[0] || { fecha: semana || '' }).fecha.slice(0, 10);
-          guardarArchivo(blob, (graf.tipo === 'partidos' ? 'partidos-' : 'resultados-') + dia + (graf.formato === 'historia' ? '-historia' : '') + '.jpg');
+          guardarArchivo(blob, (graf.tipo === 'partidos' ? 'partidos-' : 'resultados-') + dia + (graf.pagina === 'escuelas' ? '-escuelas' : '') + (graf.formato === 'historia' ? '-historia' : '') + '.jpg');
         }, 'image/jpeg', 0.92);
       } catch (e) {
         b.disabled = false;
@@ -536,6 +542,13 @@ export const GRAFICA_JS = String.raw`
       graf.formato = b.dataset.formatoGraf;
       document.querySelectorAll('[data-formato-graf]').forEach(function(x){ x.classList.toggle('on', x === b); });
       document.getElementById('graf-lienzo').classList.toggle('historia', graf.formato === 'historia');
+      pintarGrafica();
+    });
+  });
+  document.querySelectorAll('[data-pagina-graf]').forEach(function(b){
+    b.addEventListener('click', function(){
+      graf.pagina = b.dataset.paginaGraf;
+      document.querySelectorAll('[data-pagina-graf]').forEach(function(x){ x.classList.toggle('on', x === b); });
       pintarGrafica();
     });
   });

@@ -639,6 +639,9 @@ dialog#descarga::backdrop{background:rgba(20,22,26,.45)}
           <div class="segmento" role="group" aria-label="Formato">
             <button data-formato-graf="post" class="on">Post 4:5</button><button data-formato-graf="historia">Historia 9:16</button>
           </div>
+          <div class="segmento" role="group" aria-label="Página">
+            <button data-pagina-graf="club" class="on">Senior y cantera</button><button data-pagina-graf="escuelas">Escuelas</button>
+          </div>
           <label class="boton-archivo">Elegir fondo<input type="file" id="graf-fondo" accept="image/*"></label>
           <button id="graf-quitar" hidden>Quitar fondo</button>
           <button class="pri" id="graf-descargar">Descargar JPG</button>
