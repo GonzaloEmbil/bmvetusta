@@ -1,0 +1,108 @@
+{
+  "temporada": "2025/2026",
+  "partidos": [
+    {
+      "id": "1507999",
+      "fecha": "2025-08-23 18:00:00",
+      "fase": "XI COPA PRINCIPADO SENIOR MASCULINA - PRIMERA FASE - ELIMINATORIA A DOBLE VUELTA",
+      "local": "AUTO-CENTER PRINCIPADO",
+      "visitante": "HORIZONTE ATLETICA",
+      "resultado": "24-28"
+    },
+    {
+      "id": "1508000",
+      "fecha": "2025-08-30 20:00:00",
+      "fase": "XI COPA PRINCIPADO SENIOR MASCULINA - PRIMERA FASE - ELIMINATORIA A DOBLE VUELTA",
+      "local": "HORIZONTE ATLETICA",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "31-23"
+    },
+    {
+      "id": "1508003",
+      "fecha": "2025-09-07 10:00:00",
+      "fase": "XI COPA PRINCIPADO SENIOR MASCULINA - FASE FINAL - 4º Y 5º PUESTO",
+      "local": "AUTO-CENTER PRINCIPADO",
+      "visitante": "REAL GRUPO DE CULTURA COVADONGA",
+      "resultado": "26-33"
+    }
+  ],
+  "goleadores": [
+    {
+      "nombre": "GAMONAL MENENDEZ, LUIS",
+      "goles": 17,
+      "partidos": 3,
+      "media": 5.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
+    },
+    {
+      "nombre": "BARONETTO, SANTIAGO",
+      "goles": 10,
+      "partidos": 2,
+      "media": 5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3939753972326f356d6f.jpg"
+    },
+    {
+      "nombre": "TORRONTEGUI RODRIGUEZ, FELIPE",
+      "goles": 8,
+      "partidos": 2,
+      "media": 4,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_726462346e63736b6377.jpg"
+    },
+    {
+      "nombre": "CANO COTO, MARTIN",
+      "goles": 8,
+      "partidos": 3,
+      "media": 2.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+    },
+    {
+      "nombre": "GARCIA CID, CARLOS",
+      "goles": 7,
+      "partidos": 2,
+      "media": 3.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_303533367970676d6b30.jpg"
+    },
+    {
+      "nombre": "DE MIGUEL TORRECILLA, SAUL",
+      "goles": 6,
+      "partidos": 2,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+    },
+    {
+      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+      "goles": 5,
+      "partidos": 3,
+      "media": 1.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+    },
+    {
+      "nombre": "ONDO NSUA, CRISTIAN",
+      "goles": 5,
+      "partidos": 2,
+      "media": 2.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+    },
+    {
+      "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+      "goles": 4,
+      "partidos": 3,
+      "media": 1.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+    },
+    {
+      "nombre": "REVIN, MIKHAIL",
+      "goles": 2,
+      "partidos": 2,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_34376366613138353562323736396634.jpg"
+    },
+    {
+      "nombre": "CARBAJO DEAN, JOSE MARIA",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
+    }
+  ]
+}

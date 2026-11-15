@@ -85,8 +85,8 @@ async function fetchActa(grupo, matchId) {
   return data.acta || null;
 }
 
-async function fetchTrajectory(teamId) {
-  const data = await apiPost('/ws/equipo', { id_equipo: String(teamId), id_temporada: liga.TEMPORADA_ACTUAL });
+async function fetchTrajectory(teamId, temporada = liga.TEMPORADA_ACTUAL) {
+  const data = await apiPost('/ws/equipo', { id_equipo: String(teamId), id_temporada: temporada });
   // Response: { status: "OK", equipo: { nombre, trayectoria: [...] } }
   return (data.equipo && data.equipo.trayectoria) || [];
 }
@@ -252,6 +252,88 @@ async function buildSeason(season, isCurrent) {
 }
 
 /**
+ * data/<code>/copa.json — the first team's Copa Principado matches of a
+ * season and its scorers, from the match reports. The cup is played in
+ * August and September, before the league, so a season's file is final
+ * once the cup is over; it is (re)built for the current season on every
+ * run and for a past season only when missing (or with --backfill).
+ */
+async function buildCopa(season) {
+  console.log(`\n=== Copa Principado ${season.label} ===`);
+  const trayectoria = await fetchTrajectory(liga.TEAM_ID, season.code);
+  const partidos = trayectoria.filter((m) => /COPA PRINCIPADO/i.test(m.nombre_competicion || ''));
+  const actas = [];
+  for (const m of partidos) {
+    if ((m.estado_partido || '').toLowerCase() !== 'finalizado' || String(m.acta_subida) !== '1') continue;
+    await sleep(1000);
+    try {
+      actas.push({ matchId: m.id, acta: await fetchActa(m.id_grupo, m.id) });
+    } catch (err) {
+      console.warn(`   ⚠ acta ${m.id}: ${err.message}`);
+    }
+  }
+  const salida = {
+    temporada: season.label,
+    partidos: partidos.map((m) => ({
+      id: m.id, fecha: m.fecha, fase: m.nombre_competicion,
+      local: m.nombre_local, visitante: m.nombre_visitante,
+      resultado: m.resultado_local === null || m.resultado_local === '' ? null : `${m.resultado_local}-${m.resultado_visitante}`,
+    })),
+    goleadores: liga.buildGoleadores(actas),
+  };
+  writeJson(path.join(DATA_DIR, season.code), 'copa.json', salida);
+  console.log(`   → ${partidos.length} partidos · ${actas.length} actas · ${salida.goleadores.length} goleadores`);
+  await sleep(1000);
+}
+
+// «FERNANDEZ OLMEDO , ENRIQUE» y «FERNANDEZ OLMEDO, ENRIQUE» son la misma
+// persona: la clave quita los espacios sobrantes.
+const claveJugador = (nombre) => String(nombre || '').replace(/\s+,/g, ',').replace(/\s+/g, ' ').trim().toUpperCase();
+
+/**
+ * data/historia-goleadores.json — the club's all-time scorers in Primera
+ * Nacional and in the Copa Principado, summed over the seasons' files.
+ * The Primera list leaves the current season out: the Historia page adds
+ * it from the Worker's live scorers (static file as fallback), so the
+ * ranking moves with every match without waiting for this script.
+ */
+function buildHistoriaGoleadores() {
+  const sumar = (acumulado, lista, temporada) => {
+    for (const p of lista || []) {
+      const k = claveJugador(p.nombre);
+      const e = acumulado[k] || (acumulado[k] = { nombre: k, goles: 0, partidos: 0, temporadas: [], foto: null });
+      e.goles += p.goles || 0;
+      e.partidos += p.partidos || 0;
+      if (!e.temporadas.includes(temporada)) e.temporadas.push(temporada);
+      if (p.foto) e.foto = p.foto;   // la más reciente
+    }
+  };
+  const leer = (code, name) => {
+    try { return JSON.parse(fs.readFileSync(path.join(DATA_DIR, code, name), 'utf-8')); } catch (err) { return null; }
+  };
+  const ordenar = (acumulado) => Object.values(acumulado).sort((a, b) => b.goles - a.goles || a.partidos - b.partidos || a.nombre.localeCompare(b.nombre));
+
+  const primera = {}, copa = {};
+  const primeraDesde = [], copaDesde = [];
+  for (const s of liga.TEMPORADAS) {
+    if (s.code !== liga.TEMPORADA_ACTUAL) {
+      const g = leer(s.code, 'goleadores.json');
+      if (g && g.length) { sumar(primera, g, s.label); primeraDesde.push(s.label); }
+    }
+    const c = leer(s.code, 'copa.json');
+    if (c && c.goleadores && c.goleadores.length) { sumar(copa, c.goleadores, s.label); copaDesde.push(s.label); }
+  }
+  const actual = liga.TEMPORADAS.find((t) => t.code === liga.TEMPORADA_ACTUAL);
+  const salida = {
+    actual: { code: actual.code, label: actual.label },
+    primera: { desde: primeraDesde[0] || null, goleadores: ordenar(primera) },
+    copa: { desde: copaDesde[0] || null, hasta: copaDesde[copaDesde.length - 1] || null, goleadores: ordenar(copa) },
+  };
+  writeJson(DATA_DIR, 'historia-goleadores.json', salida);
+  console.log(`\n=== Goleadores históricos: ${salida.primera.goleadores.length} en Primera (sin la temporada actual) · ${salida.copa.goleadores.length} en Copa ===`);
+}
+
+/**
  * data/<current>/equipos/<id>.json — the fallback for the public site's
  * category section (one file per club team shown on the website, the first
  * team included), in the same shape the Worker serves at
@@ -321,6 +403,7 @@ async function main() {
   for (const season of liga.TEMPORADAS) {
     const isCurrent = season.code === liga.TEMPORADA_ACTUAL;
     const dir = path.join(DATA_DIR, season.code);
+    if (isCurrent || backfill || !fs.existsSync(path.join(dir, 'copa.json'))) await buildCopa(season);
     if (!isCurrent && !backfill && fs.existsSync(dir)) {
       console.log(`\n=== Temporada ${season.label}: sin cambios (usa --backfill para regenerar) ===`);
       continue;
@@ -331,8 +414,9 @@ async function main() {
       await buildSemana();
     }
   }
+  buildHistoriaGoleadores();
 
-  console.log('\n✅ Datos escritos en data/<temporada>/ (historia.json y proximo-partido.json globales)');
+  console.log('\n✅ Datos escritos en data/<temporada>/ (historia.json, proximo-partido.json e historia-goleadores.json globales)');
 }
 
 main().catch((err) => {

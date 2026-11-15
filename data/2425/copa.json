@@ -1,0 +1,137 @@
+{
+  "temporada": "2024/2025",
+  "partidos": [
+    {
+      "id": "1393039",
+      "fecha": "2024-08-30 19:45:00",
+      "fase": "X COPA PRINCIPADO - SÉNIOR MASCULINA - PRIMERA FASE - GRUPO UNICO",
+      "local": "AUTO-CENTER PRINCIPADO",
+      "visitante": "REAL GRUPO DE CULTURA COVADONGA",
+      "resultado": "31-22"
+    },
+    {
+      "id": "1393041",
+      "fecha": "2024-09-01 12:00:00",
+      "fase": "X COPA PRINCIPADO - SÉNIOR MASCULINA - PRIMERA FASE - GRUPO UNICO",
+      "local": "ROYAL PREMIUM GIJON",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "20-29"
+    },
+    {
+      "id": "1393043",
+      "fecha": "2024-09-14 19:30:00",
+      "fase": "X COPA PRINCIPADO - SÉNIOR MASCULINA - FASE FINAL - FASE FINAL",
+      "local": "HORIZONTE ATLETICA",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "25-27"
+    },
+    {
+      "id": "1393044",
+      "fecha": "2024-09-15 13:00:00",
+      "fase": "X COPA PRINCIPADO - SÉNIOR MASCULINA - FASE FINAL - FASE FINAL",
+      "local": "UNION FINANCIERA",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "28-22"
+    }
+  ],
+  "goleadores": [
+    {
+      "nombre": "GAMONAL MENENDEZ, LUIS",
+      "goles": 21,
+      "partidos": 4,
+      "media": 5.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
+    },
+    {
+      "nombre": "REMESEIRO ROSETE, CRISTIAN",
+      "goles": 21,
+      "partidos": 4,
+      "media": 5.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_62663964663138303064633039646139.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ GRANDA, PABLO",
+      "goles": 17,
+      "partidos": 4,
+      "media": 4.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3663746f367273323438.jpg"
+    },
+    {
+      "nombre": "VEGA HARWOOD , MIGUEL",
+      "goles": 12,
+      "partidos": 4,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c346a336d6a74706e6e.jpg"
+    },
+    {
+      "nombre": "SANCHEZ NORNIELLA, CARLOS ALBERTO",
+      "goles": 7,
+      "partidos": 4,
+      "media": 1.8,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c696133656f61757974.jpg"
+    },
+    {
+      "nombre": "CANO COTO, MARTIN",
+      "goles": 7,
+      "partidos": 4,
+      "media": 1.8,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+    },
+    {
+      "nombre": "DE MIGUEL TORRECILLA, SAUL",
+      "goles": 7,
+      "partidos": 2,
+      "media": 3.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+    },
+    {
+      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+      "goles": 5,
+      "partidos": 2,
+      "media": 2.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+    },
+    {
+      "nombre": "ONDO NSUA, CRISTIAN",
+      "goles": 4,
+      "partidos": 3,
+      "media": 1.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+    },
+    {
+      "nombre": "BAHAMONDE BERNAL, RODRIGO NOAH",
+      "goles": 3,
+      "partidos": 2,
+      "media": 1.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d6976716f6267763335.jpg"
+    },
+    {
+      "nombre": "GARCIA JONES, MARTIN",
+      "goles": 2,
+      "partidos": 1,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9daddb2629c.jpeg"
+    },
+    {
+      "nombre": "CARBAJO DEAN, JOSE MARIA",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
+    },
+    {
+      "nombre": "FUENTES FUERTES, HUGO",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_68f6adcaccd7d.jpg"
+    },
+    {
+      "nombre": "MONTAÑO MONTES, SANTIAGO",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a736a6266706f646138.jpg"
+    }
+  ]
+}

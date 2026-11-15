@@ -1,0 +1,779 @@
+{
+  "actual": {
+    "code": "2627",
+    "label": "2026/2027"
+  },
+  "primera": {
+    "desde": "2021/2022",
+    "goleadores": [
+      {
+        "nombre": "FERNANDEZ GRANDA, PABLO",
+        "goles": 595,
+        "partidos": 111,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2023/2024",
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3663746f367273323438.jpg"
+      },
+      {
+        "nombre": "DE MIGUEL TORRECILLA, SAUL",
+        "goles": 354,
+        "partidos": 90,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_681b3513f19ad.jpeg"
+      },
+      {
+        "nombre": "FERNANDEZ OLMEDO, ENRIQUE",
+        "goles": 320,
+        "partidos": 114,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+      },
+      {
+        "nombre": "GAMONAL MENENDEZ, LUIS",
+        "goles": 300,
+        "partidos": 89,
+        "temporadas": [
+          "2021/2022",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_671f619263028.jpeg"
+      },
+      {
+        "nombre": "GARCIA JONES, MARTIN",
+        "goles": 267,
+        "partidos": 104,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_67300a3febc45.jpeg"
+      },
+      {
+        "nombre": "PULGAR DE LA TORRE, DAVID",
+        "goles": 253,
+        "partidos": 62,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_67050cc7edf56.jpeg"
+      },
+      {
+        "nombre": "CANCIO CASAS, MAXIMO ESTEBAN",
+        "goles": 239,
+        "partidos": 50,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_313565646f3861643470.jpg"
+      },
+      {
+        "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+        "goles": 237,
+        "partidos": 62,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+      },
+      {
+        "nombre": "CANO COTO, MARTIN",
+        "goles": 199,
+        "partidos": 74,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+      },
+      {
+        "nombre": "SOLIÑO HERMELO, MANUEL",
+        "goles": 177,
+        "partidos": 54,
+        "temporadas": [
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_66793974777933746874.jpg"
+      },
+      {
+        "nombre": "REMESEIRO ROSETE, CRISTIAN",
+        "goles": 155,
+        "partidos": 26,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_686c3077776736697862.jpg"
+      },
+      {
+        "nombre": "PUERTAS BARRIADA, JOSE ANGEL",
+        "goles": 130,
+        "partidos": 49,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c3563776872306c3532.jpg"
+      },
+      {
+        "nombre": "SANCHEZ NORNIELLA, CARLOS ALBERTO",
+        "goles": 113,
+        "partidos": 39,
+        "temporadas": [
+          "2023/2024",
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c696133656f61757974.jpg"
+      },
+      {
+        "nombre": "VEGA HARWOOD, MIGUEL",
+        "goles": 107,
+        "partidos": 30,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c346a336d6a74706e6e.jpg"
+      },
+      {
+        "nombre": "ONDO NSUA, CRISTIAN",
+        "goles": 104,
+        "partidos": 47,
+        "temporadas": [
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+      },
+      {
+        "nombre": "GOMEZ MARTINEZ, ISMAEL",
+        "goles": 102,
+        "partidos": 24,
+        "temporadas": [
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_69babe95b9322.jpeg"
+      },
+      {
+        "nombre": "CASTAÑO GUTIERREZ, GONZALO",
+        "goles": 97,
+        "partidos": 29,
+        "temporadas": [
+          "2021/2022",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_376e6a6832796e313132.jpg"
+      },
+      {
+        "nombre": "ARGUELLES ALVAREZ, JUAN",
+        "goles": 91,
+        "partidos": 25,
+        "temporadas": [
+          "2021/2022"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_75323064753672313765.jpg"
+      },
+      {
+        "nombre": "ARIAS HERRERO, DANIEL",
+        "goles": 72,
+        "partidos": 34,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_796a666f347676353831.jpg"
+      },
+      {
+        "nombre": "BARONETTO, SANTIAGO",
+        "goles": 57,
+        "partidos": 15,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3939753972326f356d6f.jpg"
+      },
+      {
+        "nombre": "GARCIA CID, CARLOS",
+        "goles": 55,
+        "partidos": 20,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_303533367970676d6b30.jpg"
+      },
+      {
+        "nombre": "ALVAREZ FERNANDEZ, IGNACIO",
+        "goles": 30,
+        "partidos": 15,
+        "temporadas": [
+          "2021/2022"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_36647435346a6d793570.jpg"
+      },
+      {
+        "nombre": "CASTAÑO GUTIERREZ, ALBERTO",
+        "goles": 24,
+        "partidos": 11,
+        "temporadas": [
+          "2021/2022"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_747763306e6e38676669.jpg"
+      },
+      {
+        "nombre": "CARBAJO DEAN, JOSE MARIA",
+        "goles": 17,
+        "partidos": 13,
+        "temporadas": [
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
+      },
+      {
+        "nombre": "LOPEZ GONZALEZ, BRANDON",
+        "goles": 12,
+        "partidos": 5,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_74303836797276336b6f.jpg"
+      },
+      {
+        "nombre": "FRANCISCO PALACIO, DARIO",
+        "goles": 11,
+        "partidos": 6,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
+      },
+      {
+        "nombre": "SANTOS GARCIA, MANUEL",
+        "goles": 11,
+        "partidos": 10,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a6a7637303277317172.jpg"
+      },
+      {
+        "nombre": "BAHAMONDE BERNAL, RODRIGO NOAH",
+        "goles": 8,
+        "partidos": 4,
+        "temporadas": [
+          "2021/2022",
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d6976716f6267763335.jpg"
+      },
+      {
+        "nombre": "WERMBTER, FEDERICO",
+        "goles": 8,
+        "partidos": 6,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_39373933377238633267.jpg"
+      },
+      {
+        "nombre": "MARTINEZ-GANDIA TELENTI, RAMON",
+        "goles": 7,
+        "partidos": 2,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_33323366686a336d6b71.jpg"
+      },
+      {
+        "nombre": "GARCIA GARCIA, PABLO",
+        "goles": 7,
+        "partidos": 6,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_386c7865373775643865.jpg"
+      },
+      {
+        "nombre": "FERNANDEZ SUAREZ, DANIEL",
+        "goles": 6,
+        "partidos": 6,
+        "temporadas": [
+          "2023/2024",
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64783764316e646d3336.jpg"
+      },
+      {
+        "nombre": "VIDAL CONSTENLA, MARCO",
+        "goles": 4,
+        "partidos": 2,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_39736b766534726a3979.jpg"
+      },
+      {
+        "nombre": "BAYOD CUEVAS, LUIS MARTIN",
+        "goles": 4,
+        "partidos": 3,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_377477796d766a347965.jpg"
+      },
+      {
+        "nombre": "PRIETO SANZ, JUAN",
+        "goles": 4,
+        "partidos": 4,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_366a6669366d63623072.jpg"
+      },
+      {
+        "nombre": "REVIN, MIKHAIL",
+        "goles": 3,
+        "partidos": 3,
+        "temporadas": [
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6e777077797364396466.jpg"
+      },
+      {
+        "nombre": "MONTAÑO MONTES, SANTIAGO",
+        "goles": 2,
+        "partidos": 1,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a736a6266706f646138.jpg"
+      },
+      {
+        "nombre": "VILLASANTE COLINA, ADRIAN",
+        "goles": 2,
+        "partidos": 1,
+        "temporadas": [
+          "2021/2022"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_777771637170336c6267.jpg"
+      },
+      {
+        "nombre": "ARECES NORNIELLA, JORGE",
+        "goles": 2,
+        "partidos": 2,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_35776362636339366975.jpg"
+      },
+      {
+        "nombre": "CAMBLOR GOMEZ, ADRIAN",
+        "goles": 2,
+        "partidos": 2,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6963716a6d6768637032.jpg"
+      },
+      {
+        "nombre": "LOPEZ FERNANDEZ, JORGE",
+        "goles": 2,
+        "partidos": 2,
+        "temporadas": [
+          "2021/2022",
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_666b716f363676713274.jpg"
+      },
+      {
+        "nombre": "BARZANA GONZALEZ, MATEO",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2021/2022"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_796f3766706766336339.jpg"
+      },
+      {
+        "nombre": "BAYOD CUEVAS, ANTONIO",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2021/2022"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7965693369756f6c6e69.jpg"
+      },
+      {
+        "nombre": "JIMENEZ ICARDO, IKER",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70396f73346738316536.jpg"
+      },
+      {
+        "nombre": "MIYAR FERNANDEZ, PABLO",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7632786f6a3667616338.jpg"
+      }
+    ]
+  },
+  "copa": {
+    "desde": "2022/2023",
+    "hasta": "2026/2027",
+    "goleadores": [
+      {
+        "nombre": "FERNANDEZ GRANDA, PABLO",
+        "goles": 44,
+        "partidos": 10,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3663746f367273323438.jpg"
+      },
+      {
+        "nombre": "DE MIGUEL TORRECILLA, SAUL",
+        "goles": 43,
+        "partidos": 11,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026",
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+      },
+      {
+        "nombre": "GAMONAL MENENDEZ, LUIS",
+        "goles": 41,
+        "partidos": 8,
+        "temporadas": [
+          "2024/2025",
+          "2025/2026",
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
+      },
+      {
+        "nombre": "CANCIO CASAS, MAXIMO ESTEBAN",
+        "goles": 31,
+        "partidos": 5,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_313565646f3861643470.jpg"
+      },
+      {
+        "nombre": "FERNANDEZ OLMEDO, ENRIQUE",
+        "goles": 29,
+        "partidos": 12,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2024/2025",
+          "2025/2026",
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+      },
+      {
+        "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+        "goles": 27,
+        "partidos": 9,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024",
+          "2025/2026",
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+      },
+      {
+        "nombre": "CANO COTO, MARTIN",
+        "goles": 25,
+        "partidos": 12,
+        "temporadas": [
+          "2023/2024",
+          "2024/2025",
+          "2025/2026",
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+      },
+      {
+        "nombre": "PULGAR DE LA TORRE, DAVID",
+        "goles": 23,
+        "partidos": 6,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a973aa54e204.jpeg"
+      },
+      {
+        "nombre": "REMESEIRO ROSETE, CRISTIAN",
+        "goles": 21,
+        "partidos": 4,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_62663964663138303064633039646139.jpg"
+      },
+      {
+        "nombre": "VEGA HARWOOD, MIGUEL",
+        "goles": 12,
+        "partidos": 4,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c346a336d6a74706e6e.jpg"
+      },
+      {
+        "nombre": "GOMEZ MARTINEZ, ISMAEL",
+        "goles": 11,
+        "partidos": 2,
+        "temporadas": [
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa5ae03b22c2.jpeg"
+      },
+      {
+        "nombre": "BARONETTO, SANTIAGO",
+        "goles": 10,
+        "partidos": 2,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3939753972326f356d6f.jpg"
+      },
+      {
+        "nombre": "ONDO NSUA, CRISTIAN",
+        "goles": 9,
+        "partidos": 5,
+        "temporadas": [
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+      },
+      {
+        "nombre": "TORRONTEGUI RODRIGUEZ, FELIPE",
+        "goles": 8,
+        "partidos": 2,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_726462346e63736b6377.jpg"
+      },
+      {
+        "nombre": "ARIAS HERRERO, DANIEL",
+        "goles": 8,
+        "partidos": 4,
+        "temporadas": [
+          "2022/2023",
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_796a666f347676353831.jpg"
+      },
+      {
+        "nombre": "GARCIA CID, CARLOS",
+        "goles": 7,
+        "partidos": 2,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_303533367970676d6b30.jpg"
+      },
+      {
+        "nombre": "GONZALEZ BARRERO, JAIME",
+        "goles": 7,
+        "partidos": 2,
+        "temporadas": [
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e940b05f5b.jpeg"
+      },
+      {
+        "nombre": "SANCHEZ NORNIELLA, CARLOS ALBERTO",
+        "goles": 7,
+        "partidos": 4,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c696133656f61757974.jpg"
+      },
+      {
+        "nombre": "FERNANDEZ SUAREZ, DANIEL",
+        "goles": 5,
+        "partidos": 1,
+        "temporadas": [
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64783764316e646d3336.jpg"
+      },
+      {
+        "nombre": "GARCIA JONES, MARTIN",
+        "goles": 5,
+        "partidos": 2,
+        "temporadas": [
+          "2022/2023",
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9daddb2629c.jpeg"
+      },
+      {
+        "nombre": "SANCHEZ DE POSADA ORIHUELA, PEDRO",
+        "goles": 5,
+        "partidos": 2,
+        "temporadas": [
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_38613162303531313637303036323335.jpg"
+      },
+      {
+        "nombre": "MARTINEZ-GANDIA TELENTI, RAMON",
+        "goles": 4,
+        "partidos": 2,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_33323366686a336d6b71.jpg"
+      },
+      {
+        "nombre": "REY CURBELO, DIEGO",
+        "goles": 4,
+        "partidos": 2,
+        "temporadas": [
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_356e68756a6834763834.jpg"
+      },
+      {
+        "nombre": "ALONSO FERNANDEZ, LUCAS",
+        "goles": 3,
+        "partidos": 1,
+        "temporadas": [
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9ad2fd8fbee.jpeg"
+      },
+      {
+        "nombre": "BAHAMONDE BERNAL, RODRIGO NOAH",
+        "goles": 3,
+        "partidos": 2,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d6976716f6267763335.jpg"
+      },
+      {
+        "nombre": "CASTAÑO GUTIERREZ, GONZALO",
+        "goles": 2,
+        "partidos": 1,
+        "temporadas": [
+          "2023/2024"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_376e6a6832796e313132.jpg"
+      },
+      {
+        "nombre": "FRANCISCO PALACIO, DARIO",
+        "goles": 2,
+        "partidos": 1,
+        "temporadas": [
+          "2026/2027"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
+      },
+      {
+        "nombre": "CARBAJO DEAN, JOSE MARIA",
+        "goles": 2,
+        "partidos": 2,
+        "temporadas": [
+          "2024/2025",
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6d35756576343878776b.jpg"
+      },
+      {
+        "nombre": "REVIN, MIKHAIL",
+        "goles": 2,
+        "partidos": 2,
+        "temporadas": [
+          "2025/2026"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_34376366613138353562323736396634.jpg"
+      },
+      {
+        "nombre": "FUENTES FUERTES, HUGO",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_68f6adcaccd7d.jpg"
+      },
+      {
+        "nombre": "GARCIA GARCIA, PABLO",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2022/2023"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_386c7865373775643865.jpg"
+      },
+      {
+        "nombre": "MONTAÑO MONTES, SANTIAGO",
+        "goles": 1,
+        "partidos": 1,
+        "temporadas": [
+          "2024/2025"
+        ],
+        "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a736a6266706f646138.jpg"
+      }
+    ]
+  }
+}

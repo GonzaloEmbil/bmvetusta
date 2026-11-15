@@ -1,0 +1,93 @@
+{
+  "temporada": "2022/2023",
+  "partidos": [
+    {
+      "id": "1227305",
+      "fecha": "2022-09-02 19:00:00",
+      "fase": "COPA PRINCIPADO - FASE PREVIA - VIII COPA PRINCIPADO MASCULINA - FASE PREVIA",
+      "local": "BALONMANO VETUSTA",
+      "visitante": "GRUPO IMQ",
+      "resultado": "28-36"
+    },
+    {
+      "id": "1227307",
+      "fecha": "2022-09-04 12:00:00",
+      "fase": "COPA PRINCIPADO - FASE PREVIA - VIII COPA PRINCIPADO MASCULINA - FASE PREVIA",
+      "local": "CAFES TOSCAF - ATLETICA",
+      "visitante": "BALONMANO VETUSTA",
+      "resultado": "27-29"
+    }
+  ],
+  "goleadores": [
+    {
+      "nombre": "CANCIO CASAS, MAXIMO ESTEBAN",
+      "goles": 12,
+      "partidos": 2,
+      "media": 6,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_313565646f3861643470.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ GRANDA, PABLO",
+      "goles": 11,
+      "partidos": 2,
+      "media": 5.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3663746f367273323438.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+      "goles": 10,
+      "partidos": 2,
+      "media": 5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+    },
+    {
+      "nombre": "PULGAR DE LA TORRE, DAVID",
+      "goles": 6,
+      "partidos": 2,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a973aa54e204.jpeg"
+    },
+    {
+      "nombre": "MARTINEZ-GANDIA TELENTI, RAMON",
+      "goles": 4,
+      "partidos": 2,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_33323366686a336d6b71.jpg"
+    },
+    {
+      "nombre": "ARIAS HERRERO , DANIEL",
+      "goles": 4,
+      "partidos": 2,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_796a666f347676353831.jpg"
+    },
+    {
+      "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+      "goles": 4,
+      "partidos": 1,
+      "media": 4,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+    },
+    {
+      "nombre": "GARCIA JONES, MARTIN",
+      "goles": 3,
+      "partidos": 1,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9daddb2629c.jpeg"
+    },
+    {
+      "nombre": "DE MIGUEL TORRECILLA, SAUL",
+      "goles": 2,
+      "partidos": 1,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+    },
+    {
+      "nombre": "GARCIA GARCIA, PABLO",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_386c7865373775643865.jpg"
+    }
+  ]
+}

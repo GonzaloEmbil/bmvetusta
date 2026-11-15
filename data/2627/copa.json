@@ -1,0 +1,93 @@
+{
+  "temporada": "2026/2027",
+  "partidos": [
+    {
+      "id": "1606666",
+      "fecha": "2026-08-29 16:00:00",
+      "fase": "XII COPA PRINCIPADO - SENIOR MASCULINA - FASE PREVIA - FASE PREVIA COPA PRINCIPADO",
+      "local": "ROYAL PREMIUM GIJON",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "27-22"
+    },
+    {
+      "id": "1606669",
+      "fecha": "2026-08-30 10:00:00",
+      "fase": "XII COPA PRINCIPADO - SENIOR MASCULINA - FASE PREVIA - FASE PREVIA COPA PRINCIPADO",
+      "local": "AUTO-CENTER PRINCIPADO",
+      "visitante": "REAL GRUPO DE CULTURA COVADONGA",
+      "resultado": "23-24"
+    }
+  ],
+  "goleadores": [
+    {
+      "nombre": "DE MIGUEL TORRECILLA, SAUL",
+      "goles": 13,
+      "partidos": 2,
+      "media": 6.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+    },
+    {
+      "nombre": "GONZALEZ BARRERO, JAIME",
+      "goles": 7,
+      "partidos": 2,
+      "media": 3.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e940b05f5b.jpeg"
+    },
+    {
+      "nombre": "SANCHEZ DE POSADA ORIHUELA, PEDRO",
+      "goles": 5,
+      "partidos": 2,
+      "media": 2.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_38613162303531313637303036323335.jpg"
+    },
+    {
+      "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+      "goles": 5,
+      "partidos": 1,
+      "media": 5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+    },
+    {
+      "nombre": "REY CURBELO, DIEGO",
+      "goles": 4,
+      "partidos": 2,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_356e68756a6834763834.jpg"
+    },
+    {
+      "nombre": "GAMONAL MENENDEZ, LUIS",
+      "goles": 3,
+      "partidos": 1,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
+    },
+    {
+      "nombre": "ALONSO FERNANDEZ, LUCAS",
+      "goles": 3,
+      "partidos": 1,
+      "media": 3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9ad2fd8fbee.jpeg"
+    },
+    {
+      "nombre": "FRANCISCO PALACIO, DARIO",
+      "goles": 2,
+      "partidos": 1,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
+    },
+    {
+      "nombre": "CANO COTO, MARTIN",
+      "goles": 2,
+      "partidos": 1,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+      "goles": 1,
+      "partidos": 1,
+      "media": 1,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+    }
+  ]
+}

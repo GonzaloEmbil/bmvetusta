@@ -2937,6 +2937,151 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
+/* Máximos goleadores: dos bloques en fila (Primera Nacional y Copa
+   Principado), cada uno con la lista en el molde de los goleadores de la
+   portada: puesto, foto redonda, nombre con partidos y media, y los goles
+   en amarillo a la derecha. */
+.historia-goleadores {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    align-items: start;
+}
+
+.hg-bloque {
+    overflow: hidden;
+}
+
+.hg-titulo {
+    margin: 0;
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #FDED3A;
+}
+
+.hg-desde {
+    margin-left: 8px;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: none;
+    color: #666;
+}
+
+.hg-fila {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.035);
+}
+
+.hg-fila:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.018);
+}
+
+.hg-fila:last-child {
+    border-bottom: none;
+}
+
+.hg-pos {
+    flex: 0 0 24px;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 800;
+    color: rgba(253, 237, 58, 0.6);
+}
+
+.hg-foto {
+    flex: 0 0 36px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 2px solid rgba(255, 255, 255, 0.08);
+}
+
+.hg-foto-vacia {
+    display: block;
+}
+
+.hg-jugador {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.hg-nombre {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.hg-datos {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: #666;
+}
+
+.hg-goles {
+    flex: 0 0 auto;
+    min-width: 50px;
+    text-align: right;
+}
+
+.hg-goles-num {
+    display: block;
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1;
+    color: #FDED3A;
+}
+
+.hg-goles-txt {
+    display: block;
+    margin-top: 2px;
+    font-size: 0.55rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: #555;
+}
+
+.hg-vacio {
+    margin: 0;
+    padding: 20px 16px;
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.hg-nota {
+    margin-top: 12px;
+    border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    .historia-goleadores {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+    }
+
+    /* En móvil el nombre completo no cabe en una línea: se parte. */
+    .hg-nombre {
+        white-space: normal;
+        line-height: 1.25;
+    }
+}
+
 @media (max-width: 768px) {
     .historia-section {
         margin: 40px auto;

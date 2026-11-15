@@ -1,0 +1,116 @@
+{
+  "temporada": "2023/2024",
+  "partidos": [
+    {
+      "id": "1313214",
+      "fecha": "2023-09-01 19:00:00",
+      "fase": "COPA PRINCIPADO DE ASTURIAS - FASE PREVIA - COPA PRINCIPADO DE ASTURIAS",
+      "local": "AUTO-CENTER PRINCIPADO",
+      "visitante": "REAL GRUPO DE CULTURA COVADONGA",
+      "resultado": "34-21"
+    },
+    {
+      "id": "1313216",
+      "fecha": "2023-09-03 12:00:00",
+      "fase": "COPA PRINCIPADO DE ASTURIAS - FASE PREVIA - COPA PRINCIPADO DE ASTURIAS",
+      "local": "ROYAL PREMIUM GIJON",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "22-32"
+    },
+    {
+      "id": "1316016",
+      "fecha": "2023-09-09 19:30:00",
+      "fase": "COPA PRINCIPADO DE ASTURIAS - FASE FINAL - ",
+      "local": "HORIZONTE ATLETICA ",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "24-22"
+    },
+    {
+      "id": "1316018",
+      "fecha": "2023-09-10 10:00:00",
+      "fase": "COPA PRINCIPADO DE ASTURIAS - FASE FINAL - ",
+      "local": "ROYAL PREMIUM GIJON",
+      "visitante": "AUTO-CENTER PRINCIPADO",
+      "resultado": "23-31"
+    }
+  ],
+  "goleadores": [
+    {
+      "nombre": "CANCIO CASAS, MAXIMO ESTEBAN",
+      "goles": 19,
+      "partidos": 3,
+      "media": 6.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_313565646f3861643470.jpg"
+    },
+    {
+      "nombre": "PULGAR DE LA TORRE, DAVID",
+      "goles": 17,
+      "partidos": 4,
+      "media": 4.3,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a973aa54e204.jpeg"
+    },
+    {
+      "nombre": "FERNANDEZ GRANDA, PABLO",
+      "goles": 16,
+      "partidos": 4,
+      "media": 4,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3663746f367273323438.jpg"
+    },
+    {
+      "nombre": "DE MIGUEL TORRECILLA, SAUL",
+      "goles": 15,
+      "partidos": 4,
+      "media": 3.8,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
+    },
+    {
+      "nombre": "RODRIGUEZ FERNANDEZ, HUGO",
+      "goles": 14,
+      "partidos": 4,
+      "media": 3.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_70787965746d67316f73.jpg"
+    },
+    {
+      "nombre": "GOMEZ MARTINEZ, ISMAEL",
+      "goles": 11,
+      "partidos": 2,
+      "media": 5.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa5ae03b22c2.jpeg"
+    },
+    {
+      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+      "goles": 8,
+      "partidos": 4,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
+    },
+    {
+      "nombre": "CANO COTO, MARTIN",
+      "goles": 8,
+      "partidos": 4,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
+    },
+    {
+      "nombre": "FERNANDEZ SUAREZ, DANIEL",
+      "goles": 5,
+      "partidos": 1,
+      "media": 5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64783764316e646d3336.jpg"
+    },
+    {
+      "nombre": "ARIAS HERRERO , DANIEL",
+      "goles": 4,
+      "partidos": 2,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_796a666f347676353831.jpg"
+    },
+    {
+      "nombre": "CASTAÑO GUTIERREZ, GONZALO",
+      "goles": 2,
+      "partidos": 1,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_376e6a6832796e313132.jpg"
+    }
+  ]
+}
