@@ -1,31 +1,31 @@
 [
   {
-    "fecha": "2026-11-07 18:00:00",
-    "jornada": "8",
-    "es_local": true,
-    "rival": "GRUPO EGIDO BM PINTO",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
-    "url_streaming": "https://www.youtube.com/watch?v=yuEYAU5onkM&list=PLff6MHUti9M8",
-    "sede": "Florida Arena · Oviedo",
-    "pabellon": "Polideportivo Municipal Florida Arena"
-  },
-  {
-    "fecha": "2026-11-15 12:30:00",
-    "jornada": "9",
-    "es_local": false,
-    "rival": "LAFUENTE PEREDA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
-    "url_streaming": null,
-    "sede": "Numancia · Santander",
-    "pabellon": "Pabellon Numancia"
-  },
-  {
     "fecha": "2026-11-21 18:00:00",
     "jornada": "10",
     "es_local": true,
     "rival": "BATHCO BM. TORRELAVEGA",
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
     "url_streaming": "https://www.youtube.com/watch?v=MRS_0aUgAhM&list=PLff6MHUti9M8&index=2",
+    "sede": "Florida Arena · Oviedo",
+    "pabellon": "Polideportivo Municipal Florida Arena"
+  },
+  {
+    "fecha": "2026-11-28 18:00:00",
+    "jornada": "11",
+    "es_local": false,
+    "rival": "CLINISORD LA SALLE MARAVILLAS",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
+    "url_streaming": null,
+    "sede": "Col. la Salle Sagrado Corazon (madrid) · Madrid",
+    "pabellon": "Col. la Salle Sagrado Corazon (madrid)"
+  },
+  {
+    "fecha": "2026-12-05 18:00:00",
+    "jornada": "12",
+    "es_local": true,
+    "rival": "URBANA BM SORIA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
+    "url_streaming": null,
     "sede": "Florida Arena · Oviedo",
     "pabellon": "Polideportivo Municipal Florida Arena"
   }

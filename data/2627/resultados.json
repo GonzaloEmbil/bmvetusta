@@ -1,5 +1,25 @@
 [
   {
+    "fecha": "2026-11-15 12:30:00",
+    "jornada": "9",
+    "es_local": false,
+    "rival": "LAFUENTE PEREDA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+    "goles_vetusta": 18,
+    "goles_rival": 25,
+    "resultado": "D"
+  },
+  {
+    "fecha": "2026-11-07 18:00:00",
+    "jornada": "8",
+    "es_local": true,
+    "rival": "GRUPO EGIDO BM PINTO",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "goles_vetusta": 19,
+    "goles_rival": 17,
+    "resultado": "V"
+  },
+  {
     "fecha": "2026-11-01 12:00:00",
     "jornada": "7",
     "es_local": false,
@@ -7,26 +27,6 @@
     "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
     "goles_vetusta": 27,
     "goles_rival": 30,
-    "resultado": "D"
-  },
-  {
-    "fecha": "2026-10-24 18:00:00",
-    "jornada": "6",
-    "es_local": true,
-    "rival": "HORIZONTE ATLETICA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-    "goles_vetusta": 16,
-    "goles_rival": 32,
-    "resultado": "D"
-  },
-  {
-    "fecha": "2026-10-17 18:00:00",
-    "jornada": "5",
-    "es_local": false,
-    "rival": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
-    "goles_vetusta": 29,
-    "goles_rival": 36,
     "resultado": "D"
   }
 ]

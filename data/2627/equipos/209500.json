@@ -70,212 +70,212 @@
   "clasificacion": [
     {
       "posicion": 1,
-      "nombre": "BATHCO BM. TORRELAVEGA",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-      "es_vetusta": false,
-      "PJ": 7,
-      "PG": 7,
-      "PE": 0,
-      "PP": 0,
-      "GF": 227,
-      "GC": 175,
-      "DIF": 52,
-      "puntos": 14
-    },
-    {
-      "posicion": 2,
-      "nombre": "CLUB BALONMANO ALCOBENDAS",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
-      "es_vetusta": false,
-      "PJ": 7,
-      "PG": 5,
-      "PE": 2,
-      "PP": 0,
-      "GF": 227,
-      "GC": 162,
-      "DIF": 65,
-      "puntos": 12
-    },
-    {
-      "posicion": 3,
       "nombre": "URBANA BM SORIA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 5,
+      "PJ": 9,
+      "PG": 7,
       "PE": 2,
       "PP": 0,
-      "GF": 221,
-      "GC": 188,
-      "DIF": 33,
-      "puntos": 12
+      "GF": 279,
+      "GC": 240,
+      "DIF": 39,
+      "puntos": 16
     },
     {
-      "posicion": 4,
+      "posicion": 2,
+      "nombre": "BATHCO BM. TORRELAVEGA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
+      "es_vetusta": false,
+      "PJ": 9,
+      "PG": 8,
+      "PE": 0,
+      "PP": 1,
+      "GF": 288,
+      "GC": 216,
+      "DIF": 72,
+      "puntos": 16
+    },
+    {
+      "posicion": 3,
       "nombre": "ROYAL PREMIUM GIJON",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 5,
+      "PJ": 9,
+      "PG": 7,
       "PE": 1,
       "PP": 1,
-      "GF": 233,
-      "GC": 201,
-      "DIF": 32,
-      "puntos": 11
+      "GF": 299,
+      "GC": 259,
+      "DIF": 40,
+      "puntos": 15
+    },
+    {
+      "posicion": 4,
+      "nombre": "CLUB BALONMANO ALCOBENDAS",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/288/square_31323034717539646f75.jpg",
+      "es_vetusta": false,
+      "PJ": 9,
+      "PG": 6,
+      "PE": 2,
+      "PP": 1,
+      "GF": 288,
+      "GC": 221,
+      "DIF": 67,
+      "puntos": 14
     },
     {
       "posicion": 5,
       "nombre": "INSPARYA BM SANSE",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/305/square_74396b6a72766a626963.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 5,
-      "PE": 1,
+      "PJ": 9,
+      "PG": 6,
+      "PE": 2,
       "PP": 1,
-      "GF": 240,
-      "GC": 203,
-      "DIF": 37,
-      "puntos": 11
+      "GF": 318,
+      "GC": 273,
+      "DIF": 45,
+      "puntos": 14
     },
     {
       "posicion": 6,
       "nombre": "HORIZONTE ATLETICA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 5,
-      "PE": 0,
+      "PJ": 9,
+      "PG": 6,
+      "PE": 1,
       "PP": 2,
-      "GF": 235,
-      "GC": 180,
-      "DIF": 55,
-      "puntos": 10
+      "GF": 308,
+      "GC": 252,
+      "DIF": 56,
+      "puntos": 13
     },
     {
       "posicion": 7,
       "nombre": "FISIOPAT BM. SARIEGOS",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100468/square_787464346b7964783679.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 4,
+      "PJ": 9,
+      "PG": 5,
       "PE": 0,
-      "PP": 3,
-      "GF": 228,
-      "GC": 222,
-      "DIF": 6,
-      "puntos": 8
+      "PP": 4,
+      "GF": 293,
+      "GC": 280,
+      "DIF": 13,
+      "puntos": 10
     },
     {
       "posicion": 8,
-      "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
-      "es_vetusta": false,
-      "PJ": 7,
-      "PG": 3,
-      "PE": 1,
-      "PP": 3,
-      "GF": 228,
-      "GC": 220,
-      "DIF": 8,
-      "puntos": 7
-    },
-    {
-      "posicion": 9,
       "nombre": "CLINISORD LA SALLE MARAVILLAS",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 3,
+      "PJ": 9,
+      "PG": 4,
       "PE": 0,
-      "PP": 4,
-      "GF": 195,
-      "GC": 216,
-      "DIF": -21,
-      "puntos": 6
-    },
-    {
-      "posicion": 10,
-      "nombre": "SDC ASTANDER ASTILLERO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
-      "es_vetusta": false,
-      "PJ": 7,
-      "PG": 3,
-      "PE": 0,
-      "PP": 4,
-      "GF": 213,
-      "GC": 228,
+      "PP": 5,
+      "GF": 254,
+      "GC": 269,
       "DIF": -15,
-      "puntos": 6
+      "puntos": 8
     },
     {
-      "posicion": 11,
+      "posicion": 9,
       "nombre": "GRUPO EGIDO BM PINTO",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 3,
+      "PJ": 9,
+      "PG": 4,
       "PE": 0,
-      "PP": 4,
-      "GF": 197,
-      "GC": 209,
+      "PP": 5,
+      "GF": 246,
+      "GC": 258,
       "DIF": -12,
-      "puntos": 6
+      "puntos": 8
+    },
+    {
+      "posicion": 10,
+      "nombre": "LAFUENTE PEREDA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+      "es_vetusta": false,
+      "PJ": 9,
+      "PG": 4,
+      "PE": 0,
+      "PP": 5,
+      "GF": 241,
+      "GC": 244,
+      "DIF": -3,
+      "puntos": 8
+    },
+    {
+      "posicion": 11,
+      "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
+      "es_vetusta": false,
+      "PJ": 9,
+      "PG": 3,
+      "PE": 1,
+      "PP": 5,
+      "GF": 291,
+      "GC": 293,
+      "DIF": -2,
+      "puntos": 7
     },
     {
       "posicion": 12,
       "nombre": "REAL GRUPO DE CULTURA COVADONGA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 2,
+      "PJ": 9,
+      "PG": 3,
       "PE": 1,
-      "PP": 4,
-      "GF": 221,
-      "GC": 231,
+      "PP": 5,
+      "GF": 292,
+      "GC": 302,
       "DIF": -10,
-      "puntos": 5
+      "puntos": 7
     },
     {
       "posicion": 13,
-      "nombre": "LAFUENTE PEREDA",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+      "nombre": "SDC ASTANDER ASTILLERO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/112/square_626a3568337770617030.jpg",
       "es_vetusta": false,
-      "PJ": 7,
-      "PG": 2,
+      "PJ": 9,
+      "PG": 3,
       "PE": 0,
-      "PP": 5,
-      "GF": 188,
-      "GC": 205,
-      "DIF": -17,
-      "puntos": 4
+      "PP": 6,
+      "GF": 274,
+      "GC": 299,
+      "DIF": -25,
+      "puntos": 6
     },
     {
       "posicion": 14,
-      "nombre": "CAJA VIVA -  BALONMANO CAMARGO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
-      "es_vetusta": false,
-      "PJ": 7,
-      "PG": 0,
-      "PE": 0,
-      "PP": 7,
-      "GF": 196,
-      "GC": 244,
-      "DIF": -48,
-      "puntos": 0
-    },
-    {
-      "posicion": 15,
       "nombre": "AUTO-CENTER PRINCIPADO",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
-      "PJ": 7,
+      "PJ": 9,
+      "PG": 1,
+      "PE": 0,
+      "PP": 8,
+      "GF": 204,
+      "GC": 264,
+      "DIF": -60,
+      "puntos": 2
+    },
+    {
+      "posicion": 15,
+      "nombre": "CAJA VIVA -  BALONMANO CAMARGO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/115/square_633062667072386c3368.jpg",
+      "es_vetusta": false,
+      "PJ": 9,
       "PG": 0,
       "PE": 0,
-      "PP": 7,
-      "GF": 167,
-      "GC": 222,
-      "DIF": -55,
+      "PP": 9,
+      "GF": 243,
+      "GC": 310,
+      "DIF": -67,
       "puntos": 0
     },
     {
@@ -283,17 +283,37 @@
       "nombre": "CONGESA XXI SALAMANCA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
       "es_vetusta": false,
-      "PJ": 7,
+      "PJ": 9,
       "PG": 0,
       "PE": 0,
-      "PP": 7,
-      "GF": 153,
-      "GC": 263,
-      "DIF": -110,
+      "PP": 9,
+      "GF": 188,
+      "GC": 326,
+      "DIF": -138,
       "puntos": 0
     }
   ],
   "resultados": [
+    {
+      "fecha": "2026-11-15 12:30:00",
+      "jornada": "9",
+      "es_local": false,
+      "rival": "LAFUENTE PEREDA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
+      "goles_vetusta": 18,
+      "goles_rival": 25,
+      "resultado": "D"
+    },
+    {
+      "fecha": "2026-11-07 18:00:00",
+      "jornada": "8",
+      "es_local": true,
+      "rival": "GRUPO EGIDO BM PINTO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+      "goles_vetusta": 19,
+      "goles_rival": 17,
+      "resultado": "V"
+    },
     {
       "fecha": "2026-11-01 12:00:00",
       "jornada": "7",
@@ -303,49 +323,9 @@
       "goles_vetusta": 27,
       "goles_rival": 30,
       "resultado": "D"
-    },
-    {
-      "fecha": "2026-10-24 18:00:00",
-      "jornada": "6",
-      "es_local": true,
-      "rival": "HORIZONTE ATLETICA",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "goles_vetusta": 16,
-      "goles_rival": 32,
-      "resultado": "D"
-    },
-    {
-      "fecha": "2026-10-17 18:00:00",
-      "jornada": "5",
-      "es_local": false,
-      "rival": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
-      "goles_vetusta": 29,
-      "goles_rival": 36,
-      "resultado": "D"
     }
   ],
   "calendario": [
-    {
-      "fecha": "2026-11-07 18:00:00",
-      "jornada": "8",
-      "es_local": true,
-      "rival": "GRUPO EGIDO BM PINTO",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
-      "url_streaming": "https://www.youtube.com/watch?v=yuEYAU5onkM&list=PLff6MHUti9M8",
-      "sede": "Florida Arena · Oviedo",
-      "pabellon": "Polideportivo Municipal Florida Arena"
-    },
-    {
-      "fecha": "2026-11-15 12:30:00",
-      "jornada": "9",
-      "es_local": false,
-      "rival": "LAFUENTE PEREDA",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
-      "url_streaming": null,
-      "sede": "Numancia · Santander",
-      "pabellon": "Pabellon Numancia"
-    },
     {
       "fecha": "2026-11-21 18:00:00",
       "jornada": "10",
@@ -355,21 +335,41 @@
       "url_streaming": "https://www.youtube.com/watch?v=MRS_0aUgAhM&list=PLff6MHUti9M8&index=2",
       "sede": "Florida Arena · Oviedo",
       "pabellon": "Polideportivo Municipal Florida Arena"
+    },
+    {
+      "fecha": "2026-11-28 18:00:00",
+      "jornada": "11",
+      "es_local": false,
+      "rival": "CLINISORD LA SALLE MARAVILLAS",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
+      "url_streaming": null,
+      "sede": "Col. la Salle Sagrado Corazon (madrid) · Madrid",
+      "pabellon": "Col. la Salle Sagrado Corazon (madrid)"
+    },
+    {
+      "fecha": "2026-12-05 18:00:00",
+      "jornada": "12",
+      "es_local": true,
+      "rival": "URBANA BM SORIA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/139/square_6a68756a757030356e76.jpg",
+      "url_streaming": null,
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Municipal Florida Arena"
     }
   ],
   "goleadores": [
     {
       "nombre": "GONZALEZ BARRERO, JAIME",
-      "goles": 33,
-      "partidos": 6,
-      "media": 5.5,
+      "goles": 36,
+      "partidos": 7,
+      "media": 5.1,
       "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e940b05f5b.jpeg"
     },
     {
       "nombre": "DE MIGUEL TORRECILLA, SAUL",
-      "goles": 25,
-      "partidos": 7,
-      "media": 3.6,
+      "goles": 34,
+      "partidos": 9,
+      "media": 3.8,
       "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9e71145f022.jpeg"
     },
     {
@@ -381,59 +381,59 @@
     },
     {
       "nombre": "CANO COTO, MARTIN",
-      "goles": 17,
-      "partidos": 6,
-      "media": 2.8,
+      "goles": 18,
+      "partidos": 7,
+      "media": 2.6,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_63333165617677617130.jpg"
     },
     {
-      "nombre": "GARCIA JONES, MARTIN",
-      "goles": 14,
+      "nombre": "ONDO NSUA, CRISTIAN",
+      "goles": 16,
       "partidos": 6,
+      "media": 2.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
+    },
+    {
+      "nombre": "GARCIA JONES, MARTIN",
+      "goles": 16,
+      "partidos": 7,
       "media": 2.3,
       "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9daddb2629c.jpeg"
     },
     {
-      "nombre": "ONDO NSUA, CRISTIAN",
-      "goles": 11,
-      "partidos": 4,
-      "media": 2.8,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_766b336136683565326a.jpg"
-    },
-    {
       "nombre": "SANCHEZ DE POSADA ORIHUELA, PEDRO",
-      "goles": 9,
-      "partidos": 6,
+      "goles": 12,
+      "partidos": 8,
       "media": 1.5,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_38613162303531313637303036323335.jpg"
     },
     {
-      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
-      "goles": 8,
-      "partidos": 5,
-      "media": 1.6,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
-    },
-    {
       "nombre": "GAMONAL MENENDEZ, LUIS",
-      "goles": 7,
-      "partidos": 2,
-      "media": 3.5,
+      "goles": 11,
+      "partidos": 3,
+      "media": 3.7,
       "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6aa4040947710.jpeg"
     },
     {
       "nombre": "GARCIA CID, CARLOS",
-      "goles": 6,
-      "partidos": 5,
-      "media": 1.2,
+      "goles": 10,
+      "partidos": 6,
+      "media": 1.7,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_303533367970676d6b30.jpg"
     },
     {
       "nombre": "ALONSO FERNANDEZ, LUCAS",
-      "goles": 6,
-      "partidos": 4,
-      "media": 1.5,
+      "goles": 10,
+      "partidos": 6,
+      "media": 1.7,
       "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_6a9ad2fd8fbee.jpeg"
+    },
+    {
+      "nombre": "FERNANDEZ OLMEDO , ENRIQUE",
+      "goles": 9,
+      "partidos": 6,
+      "media": 1.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_7432686371366c617633.jpg"
     },
     {
       "nombre": "FRANCISCO PALACIO, DARIO",
@@ -441,6 +441,13 @@
       "partidos": 2,
       "media": 1.5,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
+    },
+    {
+      "nombre": "CAMBLOR GOMEZ, ADRIAN",
+      "goles": 3,
+      "partidos": 2,
+      "media": 1.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_61376538383966366338383966313737.jpg"
     },
     {
       "nombre": "CARBAJO DEAN, JOSE MARIA",
@@ -455,13 +462,6 @@
       "partidos": 2,
       "media": 1,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_366a6669366d63623072.jpg"
-    },
-    {
-      "nombre": "CAMBLOR GOMEZ, ADRIAN",
-      "goles": 2,
-      "partidos": 1,
-      "media": 2,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_61376538383966366338383966313737.jpg"
     },
     {
       "nombre": "SANTOS GARCIA, MANUEL",
@@ -486,10 +486,10 @@
     }
   ],
   "proximo-partido": {
-    "fecha": "2026-11-07 18:00:00",
-    "fecha_display": "Sáb 7 Nov · 18:00h",
+    "fecha": "2026-11-21 18:00:00",
+    "fecha_display": "Sáb 21 Nov · 18:00h",
     "fecha_por_definir": false,
-    "jornada": "8",
+    "jornada": "10",
     "es_local": true,
     "local": {
       "nombre": "Balonmano Vetusta",
@@ -498,12 +498,12 @@
       "es_vetusta": true
     },
     "visitante": {
-      "nombre": "Grupo Egido Bm Pinto",
-      "nombre_corto": "BM Pinto",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+      "nombre": "Bathco Bm. Torrelavega",
+      "nombre_corto": "Bm. Torrelavega",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
       "es_vetusta": false
     },
     "sede": "Florida Arena · Oviedo",
-    "url_streaming": "https://www.youtube.com/watch?v=yuEYAU5onkM&list=PLff6MHUti9M8"
+    "url_streaming": "https://www.youtube.com/watch?v=MRS_0aUgAhM&list=PLff6MHUti9M8&index=2"
   }
 }

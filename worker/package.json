@@ -1,0 +1,5 @@
+{
+  "name": "bmvetusta-worker",
+  "private": true,
+  "type": "module"
+}

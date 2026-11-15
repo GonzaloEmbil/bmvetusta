@@ -1,8 +1,8 @@
 {
-  "fecha": "2026-11-07 18:00:00",
-  "fecha_display": "Sáb 7 Nov · 18:00h",
+  "fecha": "2026-11-21 18:00:00",
+  "fecha_display": "Sáb 21 Nov · 18:00h",
   "fecha_por_definir": false,
-  "jornada": "8",
+  "jornada": "10",
   "es_local": true,
   "local": {
     "nombre": "Balonmano Vetusta",
@@ -11,11 +11,11 @@
     "es_vetusta": true
   },
   "visitante": {
-    "nombre": "Grupo Egido Bm Pinto",
-    "nombre_corto": "BM Pinto",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "nombre": "Bathco Bm. Torrelavega",
+    "nombre_corto": "Bm. Torrelavega",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
     "es_vetusta": false
   },
   "sede": "Florida Arena · Oviedo",
-  "url_streaming": "https://www.youtube.com/watch?v=yuEYAU5onkM&list=PLff6MHUti9M8"
+  "url_streaming": "https://www.youtube.com/watch?v=MRS_0aUgAhM&list=PLff6MHUti9M8&index=2"
 }
