@@ -203,10 +203,50 @@
     <script src="../script.js?v=campana-48"></script>
     <script>
     (function() {
+        // La tabla sale del JSON estático que genera la Action de GitHub.
+        // La fila de la temporada en curso es la única que cambia, y es la
+        // línea del Vetusta en la clasificación de Primera Nacional, que el
+        // worker calcula en vivo para la portada: se pide también y, si
+        // llega, sustituye a la del JSON (que así deja de depender de que
+        // la Action haya corrido). Si el worker no responde en 5 s, se
+        // queda la del JSON.
+        var TEMPORADA = { code: '2627', label: '2026/2027' };
         var cacheBust = '?v=' + Date.now();
-        fetch('../data/historia.json' + cacheBust)
+        var estatico = fetch('../data/historia.json' + cacheBust)
             .then(function(r) { return r.ok ? r.json() : []; })
-            .then(function(data) {
+            .catch(function() { return []; });
+        var control = typeof AbortController !== 'undefined' ? new AbortController() : null;
+        var tope = control ? setTimeout(function() { control.abort(); }, 5000) : null;
+        var enVivo = fetch('/api/liga/' + TEMPORADA.code + '/clasificacion.json', control ? { signal: control.signal } : {})
+            .then(function(r) { if (!r.ok) throw new Error('api ' + r.status); return r.json(); })
+            .then(function(clasif) {
+                if (tope) clearTimeout(tope);
+                if (!Array.isArray(clasif)) return null;
+                var v = null;
+                clasif.forEach(function(t) { if (t.es_vetusta) v = t; });
+                if (!v || !v.PJ) return null;
+                return {
+                    temporada: TEMPORADA.label, division: '1ª Nacional', fase: 'Liga Regular',
+                    pos: v.posicion, equipos: clasif.length,
+                    PJ: v.PJ, PG: v.PG, PE: v.PE, PP: v.PP, puntos: v.puntos,
+                    GF: v.GF, GC: v.GC, DIF: v.DIF, en_curso: true
+                };
+            })
+            .catch(function() { if (tope) clearTimeout(tope); return null; });
+        Promise.all([estatico, enVivo])
+            .then(function(res) {
+                var data = res[0] || [], viva = res[1];
+                if (viva) {
+                    var i = -1;
+                    data.forEach(function(s, k) { if (s.temporada === TEMPORADA.label && !s.sub) i = k; });
+                    if (i >= 0) {
+                        // Si la Action ya dio la temporada por cerrada, se respeta.
+                        viva.en_curso = data[i].en_curso;
+                        data[i] = viva;
+                    } else {
+                        data.push(viva);
+                    }
+                }
                 var tbody = document.querySelector('#historia-table tbody');
                 if (!tbody || !data.length) return;
                 tbody.innerHTML = '';
