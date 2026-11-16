@@ -115,31 +115,17 @@
       "nombre": "CP SAN FELIX",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
       "es_vetusta": false,
-      "PJ": 0,
-      "PG": 0,
+      "PJ": 1,
+      "PG": 1,
       "PE": 0,
       "PP": 0,
-      "GF": 0,
-      "GC": 0,
-      "DIF": 0,
-      "puntos": 0
+      "GF": 6,
+      "GC": 2,
+      "DIF": 4,
+      "puntos": 2
     },
     {
       "posicion": 5,
-      "nombre": "C.P. VILLAFRIA-C.P. CARMEN RUIZ TILVE",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
-      "es_vetusta": false,
-      "PJ": 1,
-      "PG": 0,
-      "PE": 0,
-      "PP": 1,
-      "GF": 0,
-      "GC": 8,
-      "DIF": -8,
-      "puntos": 0
-    },
-    {
-      "posicion": 6,
       "nombre": "CP. HERMANOS ARREGUI",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
       "es_vetusta": false,
@@ -153,7 +139,7 @@
       "puntos": 0
     },
     {
-      "posicion": 7,
+      "posicion": 6,
       "nombre": "CP. GERMAN FDEZ RAMOS - CP GESTA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": false,
@@ -164,6 +150,20 @@
       "GF": 0,
       "GC": 8,
       "DIF": -8,
+      "puntos": 0
+    },
+    {
+      "posicion": 7,
+      "nombre": "C.P. VILLAFRIA-C.P. CARMEN RUIZ TILVE",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": false,
+      "PJ": 2,
+      "PG": 0,
+      "PE": 0,
+      "PP": 2,
+      "GF": 2,
+      "GC": 14,
+      "DIF": -12,
       "puntos": 0
     }
   ],

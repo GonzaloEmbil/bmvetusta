@@ -70,6 +70,34 @@
   "clasificacion": [
     {
       "posicion": 1,
+      "nombre": "JUANFERSA GIJON B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "es_vetusta": false,
+      "PJ": 4,
+      "PG": 4,
+      "PE": 0,
+      "PP": 0,
+      "GF": 152,
+      "GC": 94,
+      "DIF": 58,
+      "puntos": 8
+    },
+    {
+      "posicion": 2,
+      "nombre": "BOSCO ATLETICA B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 4,
+      "PG": 4,
+      "PE": 0,
+      "PP": 0,
+      "GF": 137,
+      "GC": 86,
+      "DIF": 51,
+      "puntos": 8
+    },
+    {
+      "posicion": 3,
       "nombre": "JUANFERSA GIJON C",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
@@ -83,21 +111,7 @@
       "puntos": 6
     },
     {
-      "posicion": 2,
-      "nombre": "JUANFERSA GIJON B",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-      "es_vetusta": false,
-      "PJ": 3,
-      "PG": 3,
-      "PE": 0,
-      "PP": 0,
-      "GF": 110,
-      "GC": 61,
-      "DIF": 49,
-      "puntos": 6
-    },
-    {
-      "posicion": 3,
+      "posicion": 4,
       "nombre": "CONFIA BASE OVIEDO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
@@ -111,31 +125,17 @@
       "puntos": 6
     },
     {
-      "posicion": 4,
-      "nombre": "BOSCO ATLETICA B",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "es_vetusta": false,
-      "PJ": 3,
-      "PG": 3,
-      "PE": 0,
-      "PP": 0,
-      "GF": 95,
-      "GC": 64,
-      "DIF": 31,
-      "puntos": 6
-    },
-    {
       "posicion": 5,
       "nombre": "BOSCO ATLETICA C",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
-      "PJ": 3,
+      "PJ": 4,
       "PG": 1,
       "PE": 0,
-      "PP": 2,
-      "GF": 76,
-      "GC": 95,
-      "DIF": -19,
+      "PP": 3,
+      "GF": 109,
+      "GC": 137,
+      "DIF": -28,
       "puntos": 2
     },
     {
@@ -154,20 +154,6 @@
     },
     {
       "posicion": 7,
-      "nombre": "CONFIA BASE OVIEDO C",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "es_vetusta": false,
-      "PJ": 3,
-      "PG": 0,
-      "PE": 0,
-      "PP": 3,
-      "GF": 72,
-      "GC": 115,
-      "DIF": -43,
-      "puntos": 0
-    },
-    {
-      "posicion": 8,
       "nombre": "AUTO-CENTER PRINCIPADO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
@@ -178,6 +164,20 @@
       "GF": 72,
       "GC": 118,
       "DIF": -46,
+      "puntos": 0
+    },
+    {
+      "posicion": 8,
+      "nombre": "CONFIA BASE OVIEDO C",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
+      "PJ": 4,
+      "PG": 0,
+      "PE": 0,
+      "PP": 4,
+      "GF": 94,
+      "GC": 157,
+      "DIF": -63,
       "puntos": 0
     }
   ],
