@@ -171,6 +171,16 @@
       "url_streaming": null,
       "sede": "De Ventanielles · Oviedo",
       "pabellon": "Polideportivo de Ventanielles"
+    },
+    {
+      "fecha": "2026-11-28 12:10:00",
+      "jornada": "4",
+      "es_local": false,
+      "rival": "C.P. POETA ANGEL GONZALEZ-C.P. FOZANELDI",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Ceip Buenavista I · Oviedo",
+      "pabellon": "Ceip Buenavista I"
     }
   ]
 }

@@ -105,9 +105,9 @@
       "PG": 3,
       "PE": 0,
       "PP": 1,
-      "GF": 142,
+      "GF": 135,
       "GC": 103,
-      "DIF": 39,
+      "DIF": 32,
       "puntos": 6
     },
     {
@@ -176,8 +176,8 @@
       "PE": 0,
       "PP": 4,
       "GF": 93,
-      "GC": 156,
-      "DIF": -63,
+      "GC": 149,
+      "DIF": -56,
       "puntos": 0
     },
     {
@@ -237,6 +237,16 @@
       "url_streaming": null,
       "sede": "De Vallobin · Oviedo",
       "pabellon": "Polideportivo de Vallobin"
+    },
+    {
+      "fecha": "2026-11-28 10:00:00",
+      "jornada": "7",
+      "es_local": true,
+      "rival": "JUANFERSA GIJON A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "url_streaming": null,
+      "sede": "Polid. Mpal. la Carisa \\\"yago Lamela\\\" · Oviedo",
+      "pabellon": "Polid. Mpal. la Carisa \\\"yago Lamela\\\""
     }
   ]
 }

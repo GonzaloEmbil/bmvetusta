@@ -70,8 +70,8 @@
   "clasificacion": [
     {
       "posicion": 1,
-      "nombre": "C.P. AMOR DE DIOS",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "nombre": "CP SAN FELIX",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
       "es_vetusta": false,
       "PJ": 2,
       "PG": 2,
@@ -84,17 +84,17 @@
     },
     {
       "posicion": 2,
-      "nombre": "C. LOYOLA",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "nombre": "C.P. AMOR DE DIOS",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": false,
-      "PJ": 1,
-      "PG": 1,
+      "PJ": 2,
+      "PG": 2,
       "PE": 0,
       "PP": 0,
-      "GF": 8,
-      "GC": 0,
-      "DIF": 8,
-      "puntos": 2
+      "GF": 14,
+      "GC": 2,
+      "DIF": 12,
+      "puntos": 4
     },
     {
       "posicion": 3,
@@ -112,16 +112,16 @@
     },
     {
       "posicion": 4,
-      "nombre": "CP SAN FELIX",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
+      "nombre": "C. LOYOLA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
-      "PJ": 1,
+      "PJ": 2,
       "PG": 1,
       "PE": 0,
-      "PP": 0,
-      "GF": 6,
-      "GC": 2,
-      "DIF": 4,
+      "PP": 1,
+      "GF": 8,
+      "GC": 8,
+      "DIF": 0,
       "puntos": 2
     },
     {
@@ -199,6 +199,16 @@
       "url_streaming": null,
       "sede": "C.p.gesta · Oviedo",
       "pabellon": "C.p.gesta"
+    },
+    {
+      "fecha": "2026-11-28 12:25:00",
+      "jornada": "4",
+      "es_local": false,
+      "rival": "C. LOYOLA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Lorenzo Novo Mier · Oviedo",
+      "pabellon": "Colegio Lorenzo Novo Mier"
     }
   ]
 }

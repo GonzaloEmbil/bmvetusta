@@ -223,6 +223,16 @@
       "url_streaming": null,
       "sede": "Toso Muñiz · Sobre las Vegas",
       "pabellon": "Polideportivo Toso Muñiz"
+    },
+    {
+      "fecha": "2026-11-28 12:00:00",
+      "jornada": "6",
+      "es_local": false,
+      "rival": "CLUB NAUTICO CARREÑO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
+      "url_streaming": null,
+      "sede": "Polid. Mpal. Vicente Lopez Carril · Candás",
+      "pabellon": "Polid. Mpal. Vicente Lopez Carril"
     }
   ]
 }

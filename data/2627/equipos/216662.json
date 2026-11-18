@@ -239,6 +239,16 @@
       "pabellon": "Polid. Mpal. la Carisa \\\"yago Lamela\\\""
     },
     {
+      "fecha": "2026-11-28 13:30:00",
+      "jornada": "7",
+      "es_local": false,
+      "rival": "CONFIA BASE OVIEDO A ",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Lorenzo Novo Mier · Oviedo",
+      "pabellon": "Colegio Lorenzo Novo Mier"
+    },
+    {
       "fecha": "2026-12-03 17:00:00",
       "jornada": "8",
       "es_local": true,

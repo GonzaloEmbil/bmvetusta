@@ -223,6 +223,16 @@
       "url_streaming": null,
       "sede": "Colegio Santo Angel - Salesianos Aviles · Avilés",
       "pabellon": "Colegio Santo Angel - Salesianos Aviles"
+    },
+    {
+      "fecha": "2026-11-28 11:10:00",
+      "jornada": "6",
+      "es_local": false,
+      "rival": "CONFIA BASE OVIEDO C",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Lorenzo Novo Mier · Oviedo",
+      "pabellon": "Colegio Lorenzo Novo Mier"
     }
   ]
 }

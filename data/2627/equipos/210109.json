@@ -223,6 +223,16 @@
       "url_streaming": null,
       "sede": "Florida Arena · Oviedo",
       "pabellon": "Polideportivo Municipal Florida Arena"
+    },
+    {
+      "fecha": "2026-11-28 18:00:00",
+      "jornada": "7",
+      "es_local": false,
+      "rival": "GRUAS DANIEL&ADAM CODEMA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Corazon de Maria · Gijón",
+      "pabellon": "Polideportivo Colegio Corazon de Maria"
     }
   ],
   "goleadores": [
