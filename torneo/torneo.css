@@ -79,6 +79,16 @@
     justify-content: flex-end;
 }
 
+/* El enlace a la edición anterior, en la esquina superior derecha de la
+   portada, alineado con el borde del contenido. */
+.t27-anterior {
+    position: absolute;
+    top: 26px;
+    right: 20px;
+    padding: 10px 16px;
+    font-size: 0.82rem;
+}
+
 .t27-portada-edicion {
     display: flex;
     align-items: flex-end;
@@ -1097,19 +1107,41 @@
 }
 
 @media (max-width: 768px) {
-    .t27-portada-cuerpo {
-        padding: 56px 20px 44px;
-        min-height: 0;
+    /* En móvil la foto va entera encima del texto, sin superponerse: la
+       portada deja de ser un fondo y pasa a ser un bloque cuadrado con un
+       fundido al azul por abajo. El enlace a 2026 se queda en la esquina
+       superior derecha de la portada (el cuerpo deja de posicionarlo). */
+    .t27-portada-foto {
+        position: relative;
     }
 
     .t27-portada-foto img {
-        object-position: 60% 20%;
+        height: auto;
+        aspect-ratio: 1 / 1;
+        object-position: 50% 30%;
+    }
+
+    .t27-portada-foto::after {
+        background: linear-gradient(0deg, #0b1f4a 0%, rgba(11, 31, 74, 0) 28%);
+    }
+
+    .t27-portada-cuerpo {
+        position: static;
+        padding: 6px 20px 40px;
+        min-height: 0;
     }
 
     .t27-portada-edicion {
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+    }
+
+    .t27-anterior {
+        top: 16px;
+        right: 16px;
+        padding: 8px 12px;
+        font-size: 0.74rem;
     }
 
     .t27-botones {

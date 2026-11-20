@@ -188,7 +188,9 @@ export const GRAFICA_JS = String.raw`
   }
 
   // «POLID. MANUEL NOVO» → «Polid. Manuel Novo»; las siglas con punto se quedan.
-  var MENUDAS = ['de', 'del', 'la', 'las', 'los', 'y', 'e', 'el'];
+  // Sólo preposiciones y conjunciones: los artículos forman parte del
+  // nombre («La Carisa», «El Vallín») y van con mayúscula.
+  var MENUDAS = ['de', 'del', 'y', 'e'];
   function bonito(s){
     return String(s || '').toLowerCase().split(/(\s+)/).map(function(p, i){
       if (/^\s+$/.test(p) || !p) return p;

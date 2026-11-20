@@ -53,7 +53,7 @@ export async function isquad(ruta, datos) {
 // consulta a la caché cuenta. Por eso se guarda la semana entera de una vez
 // (dos accesos a la caché) en vez de cada consulta a la federación por
 // separado: así una semana normal se queda en unas 25.
-const CACHE_SEMANA = (desde) => new Request(`https://admin.balonmanovetusta.com/__cache/isquad/semana4/${TEMPORADA_ISQUAD}/${desde}`);
+const CACHE_SEMANA = (desde) => new Request(`https://admin.balonmanovetusta.com/__cache/isquad/semana5/${TEMPORADA_ISQUAD}/${desde}`);
 
 const trayectoria = async (id) =>
   ((await isquad('/ws/equipo', { id_equipo: id, id_temporada: TEMPORADA_ISQUAD })).equipo || {}).trayectoria || [];
@@ -71,7 +71,18 @@ async function pabellon(id) {
   const direccion = arreglarTexto(e.direccion);
   // La localidad es lo que va detrás del código postal: «33012 Oviedo, …».
   const localidad = ((direccion.match(/\b\d{5}\s+([^,]+)/) || [])[1] || '').trim();
-  return { nombre: arreglarTexto(e.nombre_estadio).trim(), localidad: localidadBonita(localidad) || '' };
+  return { nombre: nombreEstadio(e.nombre_estadio), localidad: localidadBonita(localidad) || '' };
+}
+
+// Algún pabellón viene con comillas escapadas, tal cual las guardó la
+// federación: «POLID. MPAL. LA CARISA \\"YAGO LAMELA\\"». Fuera las barras y,
+// si el nombre lleva algo entrecomillado, con comillas españolas.
+function nombreEstadio(s) {
+  return arreglarTexto(s)
+    .replace(/\\+/g, '')
+    .replace(/"([^"]+)"/g, '«$1»')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 // Algunos textos de la federación llegan con los bytes UTF-8 leídos como

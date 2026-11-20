@@ -1111,13 +1111,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // «GRUPO EGIDO BM PINTO» → «Grupo Egido BM Pinto»; «IES JOVELLANOS» →
         // «IES Jovellanos»; «C.P.GESTA» → «C.P.Gesta».
         var SIGLAS = ['ies', 'ceip', 'cp', 'cd', 'sd', 'sdc', 'sc', 'bm', 'ud', 'ad', 'cb', 'hc', 'bf', 'rgcc', 'ctd'];
-        var MENUDAS = ['de', 'del', 'la', 'las', 'los', 'el', 'y', 'e'];
+        // Preposiciones y conjunciones van en minúscula; los artículos, no:
+        // forman parte del nombre («La Carisa», «El Vallín»).
+        var MENUDAS = ['de', 'del', 'y', 'e'];
+        var ARTICULOS = ['el', 'la', 'los', 'las'];
         function bonito(s) {
             function trozo(t, primero) {
                 if (!t) return t;
+                if (ARTICULOS.indexOf(t) >= 0) return t.charAt(0).toUpperCase() + t.slice(1);
                 if (SIGLAS.indexOf(t) >= 0 || (t.length <= 2 && MENUDAS.indexOf(t) < 0)) return t.toUpperCase();
                 if (!primero && MENUDAS.indexOf(t) >= 0) return t;
-                return t.charAt(0).toUpperCase() + t.slice(1);
+                // La mayúscula va en la primera letra, aunque la palabra abra
+                // con comillas o paréntesis: «yago» → «Yago».
+                return t.replace(/^(["“«(]?)(.)/, function(_, a, b) { return a + b.toUpperCase(); });
             }
             return String(s || '').toLowerCase().replace(/\s+/g, ' ').trim().split(' ').map(function(w, i) {
                 // Guiones y puntos se respetan: «c.p.gesta» → «C.P.Gesta», «gonzalez-c.p.» → «Gonzalez-C.P.»
