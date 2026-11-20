@@ -199,6 +199,16 @@
       "url_streaming": null,
       "sede": "C.P.Gesta · Oviedo",
       "pabellon": "C.P.Gesta"
+    },
+    {
+      "fecha": "",
+      "jornada": "5",
+      "es_local": false,
+      "rival": "CP. HERMANOS ARREGUI",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
+      "url_streaming": null,
+      "sede": "Nuevo Polideportivo Municipal de Pola de Siero",
+      "pabellon": "Nuevo Polideportivo Municipal de Pola de Siero"
     }
   ]
 }

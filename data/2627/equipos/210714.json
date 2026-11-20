@@ -181,6 +181,16 @@
       "url_streaming": null,
       "sede": "Ceip Buenavista I · Oviedo",
       "pabellon": "Ceip Buenavista I"
+    },
+    {
+      "fecha": "",
+      "jornada": "6",
+      "es_local": false,
+      "rival": "C.P. PARQUE INFANTIL",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Lorenzo Novo Mier · Oviedo",
+      "pabellon": "Colegio Lorenzo Novo Mier"
     }
   ]
 }

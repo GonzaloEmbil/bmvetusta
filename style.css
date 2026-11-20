@@ -6179,3 +6179,11 @@ body {
 
 }
 
+/* Próximos partidos sin fecha asignada por la federación: «Fecha / por
+   definir», en gris y cursiva para que no se confunda con una fecha real. */
+.proximos-datetime.sin-fecha .proximos-date,
+.proximos-datetime.sin-fecha .proximos-time {
+    color: #8a8a8a;
+    font-style: italic;
+}
+

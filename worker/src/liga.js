@@ -256,10 +256,13 @@ export function formatDateForBanner(dateStr) {
  * Build calendario.json — next 3 pending Vetusta matches.
  */
 export function buildCalendario(matches, teamId = TEAM_ID) {
-  const pending = matches
-    .filter((m) => !isFinished(m) && matchHasVetusta(m, teamId) && hasValidDate(m))
-    .sort((a, b) => new Date(a.fecha) - new Date(b.fecha))
-    .slice(0, 3);
+  // Los tres próximos partidos (o los que queden): primero los que ya tienen
+  // fecha, por fecha; después, los que la federación aún no ha fechado, por
+  // jornada. Los sin fecha llevan `fecha` vacía y la web lo indica.
+  const pendientes = matches.filter((m) => !isFinished(m) && matchHasVetusta(m, teamId));
+  const conFecha = pendientes.filter(hasValidDate).sort((a, b) => new Date(String(a.fecha).replace(' ', 'T')) - new Date(String(b.fecha).replace(' ', 'T')));
+  const sinFecha = pendientes.filter((m) => !hasValidDate(m)).sort((a, b) => (Number(a.jornada) || 999) - (Number(b.jornada) || 999));
+  const pending = conFecha.concat(sinFecha).slice(0, 3);
 
   return pending.map((m) => {
     const esLocal = sideIsVetusta(m, 'local', teamId);
@@ -268,7 +271,7 @@ export function buildCalendario(matches, teamId = TEAM_ID) {
     const streaming = m.url_streaming && m.url_streaming.trim() !== '' ? m.url_streaming.trim() : null;
 
     return {
-      fecha: m.fecha,
+      fecha: hasValidDate(m) ? m.fecha : '',
       jornada: m.jornada,
       es_local: esLocal,
       rival: rival,

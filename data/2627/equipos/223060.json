@@ -237,6 +237,26 @@
       "url_streaming": null,
       "sede": "Moreda Natahoyo · Gijón",
       "pabellon": "Complejo Deportivo Moreda Natahoyo"
+    },
+    {
+      "fecha": "",
+      "jornada": "8",
+      "es_local": true,
+      "rival": "CONFIA BASE OVIEDO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Polid. Mpal. La Carisa «Yago Lamela» · Oviedo",
+      "pabellon": "Polid. Mpal. La Carisa «Yago Lamela»"
+    },
+    {
+      "fecha": "",
+      "jornada": "9",
+      "es_local": false,
+      "rival": "BALONMANO CIARES A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
+      "url_streaming": null,
+      "sede": "De La Tejerona · Gijón",
+      "pabellon": "Pabellon Municipal de La Tejerona"
     }
   ]
 }

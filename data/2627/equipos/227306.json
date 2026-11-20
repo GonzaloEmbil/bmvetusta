@@ -171,6 +171,26 @@
       "url_streaming": null,
       "sede": "Colegio Lorenzo Novo Mier · Oviedo",
       "pabellon": "Colegio Lorenzo Novo Mier"
+    },
+    {
+      "fecha": "",
+      "jornada": "5",
+      "es_local": true,
+      "rival": "C.P. LORENZO NOVO MIER",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Ceip Villafría de Otero · Oviedo",
+      "pabellon": "Ceip Villafría de Otero"
+    },
+    {
+      "fecha": "",
+      "jornada": "6",
+      "es_local": true,
+      "rival": "C.P. POETA ANGEL GONZALEZ-C.P. FOZANELDI",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Ceip Villafría de Otero · Oviedo",
+      "pabellon": "Ceip Villafría de Otero"
     }
   ]
 }

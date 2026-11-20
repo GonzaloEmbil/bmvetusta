@@ -233,6 +233,16 @@
       "url_streaming": null,
       "sede": "Colegio Lorenzo Novo Mier · Oviedo",
       "pabellon": "Colegio Lorenzo Novo Mier"
+    },
+    {
+      "fecha": "",
+      "jornada": "7",
+      "es_local": true,
+      "rival": "CONFIA BASE OVIEDO B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Florida Arena"
     }
   ]
 }

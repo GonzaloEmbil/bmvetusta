@@ -199,6 +199,26 @@
       "url_streaming": null,
       "sede": "Nuevo Polideportivo Municipal de Pola de Siero",
       "pabellon": "Nuevo Polideportivo Municipal de Pola de Siero"
+    },
+    {
+      "fecha": "",
+      "jornada": "5",
+      "es_local": true,
+      "rival": "CP SAN FELIX",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
+      "url_streaming": null,
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Florida Arena"
+    },
+    {
+      "fecha": "",
+      "jornada": "6",
+      "es_local": false,
+      "rival": "CP. GERMAN FDEZ RAMOS - CP GESTA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "url_streaming": null,
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Florida Arena"
     }
   ]
 }

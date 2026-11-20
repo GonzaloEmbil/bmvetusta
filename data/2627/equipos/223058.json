@@ -247,6 +247,16 @@
       "url_streaming": null,
       "sede": "Polid. Mpal. La Carisa «Yago Lamela» · Oviedo",
       "pabellon": "Polid. Mpal. La Carisa «Yago Lamela»"
+    },
+    {
+      "fecha": "",
+      "jornada": "8",
+      "es_local": false,
+      "rival": "DEPORTIVO ESTADIO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100954/square_70676d6f3136706f6c72.jpg",
+      "url_streaming": null,
+      "sede": "Colegio Martinez Blanco · Gijón",
+      "pabellon": "Pabellon Colegio Martinez Blanco"
     }
   ]
 }

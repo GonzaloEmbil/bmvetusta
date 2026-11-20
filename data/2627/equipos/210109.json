@@ -233,6 +233,16 @@
       "url_streaming": null,
       "sede": "Colegio Corazon de Maria · Gijón",
       "pabellon": "Polideportivo Colegio Corazon de Maria"
+    },
+    {
+      "fecha": "",
+      "jornada": "8",
+      "es_local": false,
+      "rival": "CONFIA BASE OVIEDO B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "url_streaming": null,
+      "sede": "De Vallobin · Oviedo",
+      "pabellon": "Polideportivo de Vallobin"
     }
   ],
   "goleadores": [

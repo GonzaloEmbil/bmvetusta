@@ -596,7 +596,8 @@ document.addEventListener('DOMContentLoaded', function() {
          * Format date string "2026-03-21 17:30:00" to Spanish display.
          */
         function formatDateSpanish(dateStr) {
-            if (!dateStr || dateStr.trim() === '') return { date: 'Por definir', time: '' };
+            // Sin fecha asignada por la federación: se dice así, en las dos líneas.
+            if (!dateStr || dateStr.trim() === '') return { date: 'Fecha', time: 'por definir', pendiente: true };
             var d = new Date(dateStr.replace(' ', 'T'));
             if (isNaN(d.getTime())) return { date: dateStr, time: '' };
 
@@ -611,7 +612,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             return {
                 date: dayName + ' ' + dayNum + ' ' + month,
-                time: hours + ':' + mins + 'h'
+                // La federación pone 00:00 cuando aún no hay hora.
+                time: hours === '00' && mins === '00' ? 'Hora por definir' : hours + ':' + mins + 'h'
             };
         }
 
@@ -708,7 +710,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
                         ((match.pabellon || match.sede) ? '<div class="proximos-sede" title="' + (match.pabellon || match.sede) + '">' + (match.pabellon || match.sede) + '</div>' : '') +
                     '</div>' +
-                    '<div class="proximos-datetime">' +
+                    '<div class="proximos-datetime' + (dt.pendiente ? ' sin-fecha' : '') + '">' +
                         '<span class="proximos-date">' + dt.date + '</span>' +
                         (dt.time ? '<span class="proximos-time">' + dt.time + '</span>' : '') +
                     '</div>' +

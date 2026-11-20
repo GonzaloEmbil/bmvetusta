@@ -209,6 +209,16 @@
       "url_streaming": null,
       "sede": "Colegio Lorenzo Novo Mier · Oviedo",
       "pabellon": "Colegio Lorenzo Novo Mier"
+    },
+    {
+      "fecha": "",
+      "jornada": "6",
+      "es_local": true,
+      "rival": "C.P.EL VALLIN C.P CAMPIELLO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
+      "url_streaming": null,
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Florida Arena"
     }
   ]
 }
