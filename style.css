@@ -5674,7 +5674,8 @@ body {
 
 /* Móvil: la misma tira bajo la cabecera, donde estaba el banner del
    próximo partido. Sin flechas (se pasa con el dedo), tarjetas algo más
-   estrechas para que asome la siguiente, y 12px hasta el carrusel. */
+   estrechas para que asome la siguiente, y hasta el carrusel los mismos
+   24px que hay entre el carrusel y el vídeo de la campaña. */
 @media (max-width: 768px) {
     .home-semana {
         display: block;
@@ -5695,7 +5696,7 @@ body {
     }
 
     .above-fold {
-        padding-top: 12px;
+        padding-top: 24px;
     }
 }
 
