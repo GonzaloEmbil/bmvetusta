@@ -5598,21 +5598,15 @@ body {
     text-overflow: ellipsis;
 }
 
-.st-hora {
-    flex: 0 0 auto;
-    font-size: 0.76rem;
-    font-weight: 800;
+/* La hora, seguida de la fecha y con su mismo estilo (sin negrita). */
+.st-hora,
+.st-final {
     font-variant-numeric: tabular-nums;
-    color: #111;
 }
 
-.st-final {
-    flex: 0 0 auto;
-    font-size: 0.66rem;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #999;
+.st-cab .st-directo {
+    display: inline-block;
+    vertical-align: 1px;
 }
 
 .st-equipo {
@@ -5641,6 +5635,18 @@ body {
     width: 18px;
     height: 18px;
     object-fit: contain;
+}
+
+/* El del club: amarillo sobre un círculo negro, un pelo más grande para
+   que el escudo no quede diminuto dentro del círculo. */
+.st-escudo.club {
+    flex-basis: 22px;
+    width: 22px;
+    height: 22px;
+    margin: -2px;
+    padding: 2px;
+    border-radius: 50%;
+    background: #000;
 }
 
 .st-nombre {
@@ -5725,8 +5731,8 @@ body {
    Foto a toda la tarjeta y el texto encima, sobre un degradado: la pastilla
    de la etiqueta y la fecha, el titular en Bebas Neue y la entradilla. Las
    flechas, redondas y dentro de la foto, aparecen al pasar el ratón; abajo,
-   una barra fina marca el avance automático y arriba a la derecha va el
-   contador. Las cajas de etiquetas llevan la misma pastilla y la fecha. */
+   una barra fina marca el avance automático. Las cajas de etiquetas llevan
+   la misma pastilla y la fecha. */
 .news-carousel-viewport {
     position: relative;
 }
@@ -5868,21 +5874,6 @@ body {
     to { width: 100%; }
 }
 
-.news-carousel-contador {
-    position: absolute;
-    top: 16px;
-    right: 18px;
-    z-index: 2;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.55);
-    color: #fff;
-    font-size: 0.68rem;
-    font-weight: 700;
-    letter-spacing: 1px;
-    font-variant-numeric: tabular-nums;
-    pointer-events: none;
-}
 
 .news-carousel {
     position: relative;
@@ -6049,10 +6040,5 @@ body {
         line-height: 1.4;
     }
 
-    .news-carousel-contador {
-        top: 12px;
-        right: 12px;
-        font-size: 0.62rem;
-    }
 }
 

@@ -1034,20 +1034,14 @@ document.addEventListener('DOMContentLoaded', function() {
             body.appendChild(sp);
         });
 
-        // Barra de progreso del avance automático y contador de noticias.
-        var barra = null, contador = null;
+        // Barra de progreso del avance automático.
+        var barra = null;
         if (viewport) {
             var progreso = document.createElement('div');
             progreso.className = 'news-carousel-progreso';
             barra = document.createElement('span');
             progreso.appendChild(barra);
             viewport.appendChild(progreso);
-            contador = document.createElement('div');
-            contador.className = 'news-carousel-contador';
-            viewport.appendChild(contador);
-        }
-        function pintarContador() {
-            if (contador) contador.textContent = (currentIndex + 1) + ' / ' + totalSlides;
         }
         function arrancarBarra() {
             if (!barra) return;
@@ -1090,7 +1084,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     d.classList.toggle('active', i === currentIndex);
                 });
             }
-            pintarContador();
             arrancarBarra();
             // Let the per-tag mini-carousels advance in lockstep with this one.
             document.dispatchEvent(new CustomEvent('newsCarouselChange', {
@@ -1131,7 +1124,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Start auto-play
-        pintarContador();
         startAutoPlay();
 
         // Pause on hover
@@ -1387,9 +1379,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 flechas();
                 return;
             }
-            // En la tira blanca el escudo del club va en negro.
-            var ESCUDO = 'src/assets/escudo_negro.png';
-            var MESES_CORTOS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+            // El escudo del club, en amarillo dentro de un círculo negro.
+            var ESCUDO = 'src/assets/escudo.png';
             // Nuestro lado se llama como su categoría; las escuelas, con el
             // colegio detrás («Alevín Villafría - Germán Fdez Ramos»).
             function nombreNuestro(categoria) {
@@ -1397,7 +1388,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             function equipo(nombre, escudo, nuestro, goles, gana) {
                 var img = nuestro
-                    ? '<img class="st-escudo" src="' + ESCUDO + '" alt="">'
+                    ? '<img class="st-escudo club" src="' + ESCUDO + '" alt="">'
                     : '<img class="st-escudo" src="' + VACIO + '"' + (escudo ? ' data-escudo="' + escapar(escudo) + '"' : '') + ' alt="">';
                 return '<div class="st-equipo' + (nuestro ? ' nuestro' : '') + (gana ? ' gana' : '') + '">' + img +
                     '<span class="st-nombre">' + escapar(nombre) + '</span>' +
@@ -1418,10 +1409,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // se juega, la hora pasa a ser la pastilla roja del directo.
                 var primera = !dos && (p.nuestro_local ? p.equipo_local : p.equipo_visitante) === 'Primera Nacional' && !jugado;
                 return '<div class="semana-tarjeta' + (jugado ? ' jugado' : '') + '"' + (primera ? ' data-primera="1" data-inicio="' + escapar(f) + '"' : '') + '>' +
-                    '<div class="st-cab">' +
-                        '<span class="st-fecha">' + DIAS[d.getDay()] + ', ' + d.getDate() + ' ' + MESES_CORTOS[d.getMonth()] + '.</span>' +
+                    // «Sábado, 21/11 · 10:00» (o «· Final» si ya se jugó). La hora
+                    // va en su propio span para que el directo pueda cambiarla.
+                    '<div class="st-cab"><span class="st-fecha">' +
+                        DIAS[d.getDay()] + ', ' + d.getDate() + '/' + (d.getMonth() + 1) + ' · ' +
                         (jugado ? '<span class="st-final">Final</span>' : '<span class="st-hora">' + horaTxt + '</span>') +
-                    '</div>' +
+                    '</span></div>' +
                     equipo(nombreLocal, p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
                     equipo(nombreVisitante, p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
                     (lugar ? '<div class="st-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
