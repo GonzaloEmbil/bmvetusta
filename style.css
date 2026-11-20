@@ -122,13 +122,10 @@ body {
     user-select: none;
 }
 
-/* Active nav link underline (desktop) */
+/* Página activa (escritorio): el enlace en amarillo, sin subrayado. */
 @media (min-width: 769px) {
     .nav > a.nav-active,
     .nav .nav-dropdown.nav-active .nav-dropdown-toggle {
-        text-decoration: underline;
-        text-underline-offset: 6px;
-        text-decoration-thickness: 2px;
         color: #FDED3A;
     }
 }
