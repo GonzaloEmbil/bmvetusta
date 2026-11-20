@@ -135,15 +135,29 @@ body {
     }
 }
 
-/* Tabletas apaisadas (769 a 999px): aún más junto y un poco más pequeño. */
+/* Tabletas apaisadas (769 a 999px): el menú deja de centrarse y se pega
+   al escudo, más junto y más pequeño, para no entrar en la cuña amarilla. */
 @media (min-width: 769px) and (max-width: 999px) {
     .nav {
-        gap: 16px;
+        gap: 14px;
+        left: 120px;
+        transform: none;
     }
 
     .nav a,
     .nav .nav-dropdown-toggle {
-        font-size: 13px;
+        font-size: 12.5px;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 849px) {
+    .nav {
+        gap: 11px;
+    }
+
+    .nav a,
+    .nav .nav-dropdown-toggle {
+        font-size: 11.5px;
     }
 }
 
