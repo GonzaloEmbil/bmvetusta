@@ -170,6 +170,39 @@ export function extractCity(address) {
 }
 
 /**
+ * Nombre de pabellón limpio, tal como lo da la federación pero sin las
+ * comillas escapadas que trae alguno («POLID. MPAL. LA CARISA \\"YAGO
+ * LAMELA\\"»): fuera las barras y lo entrecomillado, con comillas
+ * españolas. Lo usan también el área privada y la imagen para redes.
+ */
+export function limpiarPabellon(raw) {
+  return fixMojibake(String(raw || ''))
+    .replace(/\\+/g, '')
+    .replace(/"([^"]+)"/g, '«$1»')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+/**
+ * Pabellón en forma de título: «Polid. Mpal. La Carisa «Yago Lamela»».
+ * Como titleCase(), pero los artículos van con mayúscula (son parte del
+ * nombre: «La Carisa», «La Magdalena»), la mayúscula salta las comillas y
+ * paréntesis de apertura, y en las siglas con punto cada letra va en
+ * mayúscula («C.P. Gesta»).
+ */
+export function pabellonBonito(raw) {
+  const menudas = new Set(['de', 'del', 'y', 'e']);
+  return limpiarPabellon(raw)
+    .split(' ')
+    .map((w, i) => {
+      const lc = w.toLowerCase();
+      if (i > 0 && menudas.has(lc)) return lc;
+      return lc.replace(/(^|[.«"(\-])([a-záéíóúüñ])/g, (_, a, b) => a + b.toUpperCase());
+    })
+    .join(' ');
+}
+
+/**
  * Shorten a stadium name for the banner.
  *   "POLIDEPORTIVO MUNICIPAL FLORIDA ARENA" → "Florida Arena"
  */
@@ -189,11 +222,11 @@ export function shortVenueName(raw) {
     /^CENTRO\s+DEPORTIVO\s+/i,
     /^INSTALACIONES\s+DEPORTIVAS\s+/i,
   ];
-  let name = raw.trim();
+  let name = limpiarPabellon(raw);
   for (const re of prefixes) {
     name = name.replace(re, '');
   }
-  return titleCase(name.trim());
+  return pabellonBonito(name.trim());
 }
 
 /**
@@ -286,7 +319,7 @@ export async function conSedes(calendario, fetchStadium) {
       try {
         const stadium = await fetchStadium(p.id_estadio);
         p.sede = sedeDe(stadium);
-        p.pabellon = stadium && stadium.nombre_estadio ? titleCase(fixMojibake(stadium.nombre_estadio).trim()) : null;
+        p.pabellon = stadium && stadium.nombre_estadio ? pabellonBonito(stadium.nombre_estadio) : null;
       } catch (err) {
         console.warn(`   ⚠ pabellón ${p.id_estadio}: ${err.message}`);
       }

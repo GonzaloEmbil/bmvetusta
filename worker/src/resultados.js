@@ -22,7 +22,7 @@ export const TEMPORADA_ISQUAD = '2627';
 
 // La lista de equipos del club (id en la federación → nombre) está en liga.js,
 // compartida con la web pública; aquí se usa entera, juvenil incluido.
-import { EQUIPOS, localidadBonita } from './liga.js';
+import { EQUIPOS, localidadBonita, limpiarPabellon } from './liga.js';
 export { EQUIPOS };
 
 const CAB = {
@@ -71,19 +71,9 @@ async function pabellon(id) {
   const direccion = arreglarTexto(e.direccion);
   // La localidad es lo que va detrás del código postal: «33012 Oviedo, …».
   const localidad = ((direccion.match(/\b\d{5}\s+([^,]+)/) || [])[1] || '').trim();
-  return { nombre: nombreEstadio(e.nombre_estadio), localidad: localidadBonita(localidad) || '' };
+  return { nombre: limpiarPabellon(e.nombre_estadio), localidad: localidadBonita(localidad) || '' };
 }
 
-// Algún pabellón viene con comillas escapadas, tal cual las guardó la
-// federación: «POLID. MPAL. LA CARISA \\"YAGO LAMELA\\"». Fuera las barras y,
-// si el nombre lleva algo entrecomillado, con comillas españolas.
-function nombreEstadio(s) {
-  return arreglarTexto(s)
-    .replace(/\\+/g, '')
-    .replace(/"([^"]+)"/g, '«$1»')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
 
 // Algunos textos de la federación llegan con los bytes UTF-8 leídos como
 // latin-1 («GijÃ³n»). Se reinterpretan sólo si muestran la marca Ã/Â y si el
