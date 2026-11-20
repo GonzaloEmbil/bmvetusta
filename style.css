@@ -1721,6 +1721,11 @@ body {
         transition: transform 0.2s ease, opacity 0.2s ease;
     }
 
+    /* El dibujo de X deja un pelo de aire a su derecha: se compensa. */
+    .header-red:first-child svg {
+        margin-right: -1px;
+    }
+
     .header-red:hover,
     .header-derecha .header-privada:hover {
         transform: scale(1.15);
@@ -1738,7 +1743,6 @@ body {
         position: static;
         transform: none;
         padding: 0;
-        margin-left: 4px;
         background: none;
         box-shadow: none;
         border-radius: 0;
@@ -1753,9 +1757,14 @@ body {
         display: none;
     }
 
+    /* El dibujo del candado deja más aire a los lados que los de las redes
+       (su cuerpo va de 5 a 19 en una caja de 24): se recorta ese aire con
+       un margen negativo para que la distancia entre todos los iconos sea
+       la misma. */
     .header-derecha .header-privada svg {
-        width: 18px;
-        height: 18px;
+        width: 20px;
+        height: 20px;
+        margin: 0 -3px;
     }
 }
 
@@ -1770,6 +1779,12 @@ body {
     .header-red svg {
         width: 15px;
         height: 15px;
+    }
+
+    .header-derecha .header-privada svg {
+        width: 17px;
+        height: 17px;
+        margin: 0 -2.5px;
     }
 }
 
@@ -5653,13 +5668,19 @@ body {
     color: #222;
 }
 
+/* Las cuatro filas (fecha, local, visitante, lugar) miden lo mismo (18px)
+   y van separadas por el mismo hueco (el gap de la tarjeta), así que la
+   distancia de la fecha al local, del local al visitante y del visitante
+   al lugar es la misma. */
 .st-cab {
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 10px;
     min-width: 0;
+    height: 18px;
     font-size: 0.7rem;
+    line-height: 18px;
     color: #666;
 }
 
@@ -5686,6 +5707,7 @@ body {
     align-items: center;
     gap: 8px;
     min-width: 0;
+    height: 18px;
     font-size: 0.74rem;
     font-weight: 500;
     color: #333;
@@ -5712,10 +5734,10 @@ body {
 /* El del club: amarillo sobre un círculo negro, un pelo más grande para
    que el escudo no quede diminuto dentro del círculo. */
 .st-escudo.club {
-    flex-basis: 22px;
-    width: 22px;
-    height: 22px;
-    margin: -2px;
+    flex-basis: 20px;
+    width: 20px;
+    height: 20px;
+    margin: -1px;
     padding: 2px;
     border-radius: 50%;
     background: #000;
@@ -5793,7 +5815,9 @@ body {
 }
 
 .st-lugar {
+    height: 18px;
     font-size: 0.7rem;
+    line-height: 18px;
     color: #666;
     white-space: nowrap;
     overflow: hidden;

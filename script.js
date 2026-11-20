@@ -1211,12 +1211,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 im.onload = function() {
                     try {
                         var c = quitarFondo(im);
-                        if (!c || !c.toDataURL) {
+                        if (!c || !c.getContext) {
                             c = document.createElement('canvas');
                             c.width = im.naturalWidth; c.height = im.naturalHeight;
                             c.getContext('2d').drawImage(im, 0, 0);
                         }
-                        listo(c.toDataURL('image/png'));
+                        listo(aTamano(c).toDataURL('image/png'));
                     } catch (e) { listo(u); }
                 };
                 im.onerror = function() { listo(u); };
@@ -1224,6 +1224,48 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             return escudosPng[u];
         }
+        // El escudo, cuadrado y reducido por mitades (cada paso con suavizado
+        // de calidad) hasta el tamaño en el que se pinta en pantalla: 18px
+        // por la densidad de la pantalla, y como poco el doble. Así el
+        // navegador no tiene que encogerlo de golpe y no sale borroso.
+        function aTamano(c) {
+            var lado = Math.round(18 * Math.max(2, window.devicePixelRatio || 1));
+            var w = c.width, h = c.height, m = Math.max(w, h);
+            var cuadro = document.createElement('canvas');
+            cuadro.width = cuadro.height = m;
+            cuadro.getContext('2d').drawImage(c, (m - w) / 2, (m - h) / 2);
+            var actual = cuadro;
+            while (actual.width / 2 >= lado) {
+                var mitad = document.createElement('canvas');
+                mitad.width = mitad.height = Math.round(actual.width / 2);
+                var cx = mitad.getContext('2d');
+                cx.imageSmoothingEnabled = true; cx.imageSmoothingQuality = 'high';
+                cx.drawImage(actual, 0, 0, mitad.width, mitad.height);
+                actual = mitad;
+            }
+            if (actual.width === lado) return actual;
+            var fin = document.createElement('canvas');
+            fin.width = fin.height = lado;
+            var fx = fin.getContext('2d');
+            fx.imageSmoothingEnabled = true; fx.imageSmoothingQuality = 'high';
+            fx.drawImage(actual, 0, 0, lado, lado);
+            return fin;
+        }
+
+        // Los nombres que no caben en su línea bajan de tamaño (hasta 9px);
+        // si aun así no caben, se cortan con «…» y el nombre entero queda en
+        // el title.
+        function ajustarNombres() {
+            Array.prototype.forEach.call(lista.querySelectorAll('.st-nombre'), function(n) {
+                n.style.fontSize = '';
+                var t = parseFloat(getComputedStyle(n).fontSize);
+                while (n.scrollWidth > n.clientWidth + 0.5 && t > 9) {
+                    t -= 0.5;
+                    n.style.fontSize = t + 'px';
+                }
+            });
+        }
+
         function cargarEscudos() {
             Array.prototype.forEach.call(lista.querySelectorAll('img[data-escudo]'), function(img) {
                 var u = img.getAttribute('data-escudo');
@@ -1379,8 +1421,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 flechas();
                 return;
             }
-            // El escudo del club, en amarillo dentro de un círculo negro.
-            var ESCUDO = 'src/assets/escudo.png';
+            // El escudo del club, en amarillo dentro de un círculo negro: una
+            // versión pequeña (64px) con el trazo algo más grueso para que se
+            // lea a 16px.
+            var ESCUDO = 'src/assets/escudo_mini.png';
             // Nuestro lado se llama como su categoría; las escuelas, con el
             // colegio detrás («Alevín Villafría - Germán Fdez Ramos»).
             function nombreNuestro(categoria) {
@@ -1391,7 +1435,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     ? '<img class="st-escudo club" src="' + ESCUDO + '" alt="">'
                     : '<img class="st-escudo" src="' + VACIO + '"' + (escudo ? ' data-escudo="' + escapar(escudo) + '"' : '') + ' alt="">';
                 return '<div class="st-equipo' + (nuestro ? ' nuestro' : '') + (gana ? ' gana' : '') + '">' + img +
-                    '<span class="st-nombre">' + escapar(nombre) + '</span>' +
+                    '<span class="st-nombre" title="' + escapar(nombre) + '">' + escapar(nombre) + '</span>' +
                     (goles === null ? '' : '<span class="st-goles">' + goles + '</span>') +
                 '</div>';
             }
@@ -1423,6 +1467,8 @@ document.addEventListener('DOMContentLoaded', function() {
             lista.scrollLeft = 0;
             cargarEscudos();
             actualizarDirectoTira();
+            ajustarNombres();
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(ajustarNombres);
             flechas();
         }
 
@@ -1433,7 +1479,12 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
         lista.addEventListener('scroll', flechas, { passive: true });
-        window.addEventListener('resize', flechas);
+        var esperaNombres = null;
+        window.addEventListener('resize', function() {
+            flechas();
+            clearTimeout(esperaNombres);
+            esperaNombres = setTimeout(ajustarNombres, 150);
+        });
 
         function cargar() {
             if (cargado || getComputedStyle(caja).display === 'none') return;
