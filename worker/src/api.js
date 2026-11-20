@@ -32,7 +32,7 @@
  */
 
 import * as liga from './liga.js';
-import { isquad, semanaDelClub, lunesActual } from './resultados.js';
+import { isquad, semanaDelClub, lunesActual, escudo } from './resultados.js';
 
 const FRESCURA = 15 * 60 * 1000;
 const CADUCIDAD = 6 * 60 * 60 * 1000;
@@ -285,6 +285,10 @@ export async function rutasApi(request, env, ctx, url) {
   if (request.method !== 'GET' && request.method !== 'HEAD') return json({ error: 'método' }, 405);
 
   if (url.pathname === '/api/semana.json') return rutaSemana(env, ctx);
+
+  // Escudos de la federación servidos desde el propio dominio, para que la
+  // portada pueda quitarles el fondo y mostrarlos en PNG.
+  if (url.pathname === '/api/escudo') return escudo(url, true);
 
   const eq = /^\/api\/equipo\/(\d{4})\/(\d+)\.json$/.exec(url.pathname);
   if (eq) {

@@ -1134,6 +1134,174 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         function escapar(s) { return String(s || '').replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
+        // Los escudos de la federación son JPG con fondo blanco o negro. Se
+        // piden a través del propio dominio (/api/escudo), se les quita el
+        // fondo en un lienzo (lo mismo que hace la imagen para redes del área
+        // privada) y se muestran en PNG. Si algo falla, el JPG original.
+        var escudosPng = {};
+        function escudoPng(u) {
+            if (!escudosPng[u]) escudosPng[u] = new Promise(function(listo) {
+                var im = new Image();
+                im.onload = function() {
+                    try {
+                        var c = quitarFondo(im);
+                        if (!c || !c.toDataURL) {
+                            c = document.createElement('canvas');
+                            c.width = im.naturalWidth; c.height = im.naturalHeight;
+                            c.getContext('2d').drawImage(im, 0, 0);
+                        }
+                        listo(c.toDataURL('image/png'));
+                    } catch (e) { listo(u); }
+                };
+                im.onerror = function() { listo(u); };
+                im.src = '/api/escudo?u=' + encodeURIComponent(u);
+            });
+            return escudosPng[u];
+        }
+        function cargarEscudos() {
+            Array.prototype.forEach.call(lista.querySelectorAll('img[data-escudo]'), function(img) {
+                var u = img.getAttribute('data-escudo');
+                img.removeAttribute('data-escudo');
+                escudoPng(u).then(function(src) { img.src = src; });
+            });
+        }
+        function quitarFondo(img){
+          if (!img) return null;
+          var r = Math.min(1, 240 / Math.max(img.width, img.height));
+          var w = Math.max(1, Math.round(img.width * r)), h = Math.max(1, Math.round(img.height * r));
+          var c = document.createElement('canvas'); c.width = w; c.height = h;
+          var cx = c.getContext('2d');
+          cx.drawImage(img, 0, 0, w, h);
+          var datos;
+          try { datos = cx.getImageData(0, 0, w, h); } catch (e) { return img; }
+          var px = datos.data, n = w * h;
+          var DURO = 38, SUAVE = 140;
+          // Distancia de un píxel al blanco (1) o al negro (2).
+          function dist(i, ref){
+            var a = px[i * 4], b = px[i * 4 + 1], d = px[i * 4 + 2];
+            return ref === 1 ? 255 - Math.min(a, b, d) : Math.max(a, b, d);
+          }
+          function anillo(t){
+            var a = [];
+            for (var x = t; x < w - t; x++) { a.push(t * w + x, (h - 1 - t) * w + x); }
+            for (var y = t + 1; y < h - 1 - t; y++) { a.push(y * w + t, y * w + w - 1 - t); }
+            return a;
+          }
+          var transparente = anillo(0).some(function(i){ return px[i * 4 + 3] < 250; });
+          if (!transparente && w > 8 && h > 8) {
+            var fondo = new Uint8Array(n), cola = [], lisos = 0;
+            // Qué fondo podría ser cada píxel: 1 blanco, 2 negro, 0 ninguno.
+            var tipo = new Uint8Array(n);
+            for (var t = 0; t < n; t++) tipo[t] = dist(t, 1) < DURO ? 1 : dist(t, 2) < DURO ? 2 : 0;
+            // 3 = marco: se quita, pero no tiñe el filo.
+            anillo(0).concat(anillo(1)).forEach(function(i){ fondo[i] = 3; });
+            // Distancia de cada píxel de fondo al escudo, en píxeles. El relleno sólo
+            // avanza por donde hay más de HOLGURA, para no colarse por una rendija
+            // del contorno y vaciar el escudo por dentro (el blanco interior del de
+            // Atlético Valladolid, por ejemplo); luego crece HOLGURA píxeles para
+            // llegar hasta el borde del escudo.
+            var HOLGURA = 3, lejos = new Uint16Array(n), i, m, xx, yy;
+            for (i = 0; i < n; i++) lejos[i] = tipo[i] || fondo[i] ? 9999 : 0;
+            for (yy = 0; yy < h; yy++) for (xx = 0; xx < w; xx++) {
+              i = yy * w + xx; if (!lejos[i]) continue; m = lejos[i];
+              if (xx > 0) m = Math.min(m, lejos[i - 1] + 1);
+              if (yy > 0) {
+                m = Math.min(m, lejos[i - w] + 1);
+                if (xx > 0) m = Math.min(m, lejos[i - w - 1] + 1);
+                if (xx < w - 1) m = Math.min(m, lejos[i - w + 1] + 1);
+              }
+              lejos[i] = m;
+            }
+            for (yy = h - 1; yy >= 0; yy--) for (xx = w - 1; xx >= 0; xx--) {
+              i = yy * w + xx; if (!lejos[i]) continue; m = lejos[i];
+              if (xx < w - 1) m = Math.min(m, lejos[i + 1] + 1);
+              if (yy < h - 1) {
+                m = Math.min(m, lejos[i + w] + 1);
+                if (xx < w - 1) m = Math.min(m, lejos[i + w + 1] + 1);
+                if (xx > 0) m = Math.min(m, lejos[i + w - 1] + 1);
+              }
+              lejos[i] = m;
+            }
+            var borde = anillo(2);
+            borde.forEach(function(i){
+              if (fondo[i] || !tipo[i]) return;
+              lisos++;
+              if (lejos[i] > HOLGURA) { fondo[i] = tipo[i]; cola.push(i); }
+            });
+            if (lisos < borde.length * 0.6) return img;
+            function vecinos(i){
+              var x = i % w, v = [];
+              for (var dy = -1; dy <= 1; dy++) for (var dx = -1; dx <= 1; dx++) {
+                if ((dx || dy) && x + dx >= 0 && x + dx < w && i + dy * w >= 0 && i + dy * w < n) v.push(i + dy * w + dx);
+              }
+              return v;
+            }
+            // Relleno desde los bordes: cada píxel hereda el color de fondo del que viene.
+            for (var q = 0; q < cola.length; q++) {
+              vecinos(cola[q]).forEach(function(j){
+                if (fondo[j] || tipo[j] !== fondo[cola[q]] || lejos[j] <= HOLGURA) return;
+                fondo[j] = tipo[j]; cola.push(j);
+              });
+            }
+            var frente = cola.slice(), quitados = cola.length;
+            for (var vuelta = 0; vuelta < HOLGURA; vuelta++) {
+              var nuevo = [];
+              frente.forEach(function(p){
+                vecinos(p).forEach(function(j){
+                  if (fondo[j] || tipo[j] !== fondo[p]) return;
+                  fondo[j] = tipo[j]; nuevo.push(j);
+                });
+              });
+              quitados += nuevo.length; frente = nuevo;
+            }
+            if (quitados > n * 0.9) return img;
+            // El filo entre el escudo y el fondo se funde: transparencia parcial y
+            // se le quita el tinte del fondo, para que no quede un halo.
+            for (var k = 0; k < n; k++) {
+              if (fondo[k]) { px[k * 4 + 3] = 0; continue; }
+              var kx = k % w, junto = 0;
+              if (kx > 0 && fondo[k - 1]) junto = fondo[k - 1];
+              else if (kx < w - 1 && fondo[k + 1]) junto = fondo[k + 1];
+              else if (k >= w && fondo[k - w]) junto = fondo[k - w];
+              else if (k + w < n && fondo[k + w]) junto = fondo[k + w];
+              if (!junto || junto === 3) continue;
+              var d = dist(k, junto);
+              if (d >= SUAVE) continue;
+              var alfa = Math.max(0.05, (d - DURO) / (SUAVE - DURO));
+              for (var ch = 0; ch < 3; ch++) {
+                var val = px[k * 4 + ch];
+                val = junto === 1 ? 255 - (255 - val) / alfa : val / alfa;
+                px[k * 4 + ch] = Math.max(0, Math.min(255, Math.round(val)));
+              }
+              px[k * 4 + 3] = Math.round(255 * alfa);
+            }
+            cx.putImageData(datos, 0, 0);
+          }
+          // Recorte a lo que se ve.
+          var x0 = w, y0 = h, x1 = -1, y1 = -1;
+          for (var p = 0; p < n; p++) {
+            if (px[p * 4 + 3] < 24) continue;
+            var pxx = p % w, pyy = (p - pxx) / w;
+            if (pxx < x0) x0 = pxx; if (pxx > x1) x1 = pxx;
+            if (pyy < y0) y0 = pyy; if (pyy > y1) y1 = pyy;
+          }
+          if (x1 < 0) return img;
+          var recorte = document.createElement('canvas');
+          recorte.width = x1 - x0 + 1; recorte.height = y1 - y0 + 1;
+          recorte.getContext('2d').drawImage(c, x0, y0, recorte.width, recorte.height, 0, 0, recorte.width, recorte.height);
+          return recorte;
+        }
+
+        var VACIO = 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        var izq = caja.querySelector('.home-semana-flecha.izq');
+        var der = caja.querySelector('.home-semana-flecha.der');
+        // Cada flecha sólo aparece si se puede ir hacia su lado.
+        function flechas() {
+            var max = lista.scrollWidth - lista.clientWidth;
+            if (izq) izq.hidden = lista.scrollLeft <= 2;
+            if (der) der.hidden = lista.scrollLeft >= max - 2;
+        }
+
         function pintar(j) {
             // De mayor a menor categoría (orden = puesto del equipo en la
             // lista del club) y, a igual categoría, por fecha.
@@ -1142,6 +1310,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             if (!partidos.length) {
                 lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
+                flechas();
                 return;
             }
             // En la tira blanca el escudo del club va en negro.
@@ -1153,8 +1322,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 return String(categoria || '').split(' · ').join(' ');
             }
             function equipo(nombre, escudo, nuestro, goles, gana) {
-                return '<div class="st-equipo' + (nuestro ? ' nuestro' : '') + (gana ? ' gana' : '') + '">' +
-                    '<img class="st-escudo" src="' + escapar(escudo) + '" alt="" loading="lazy" decoding="async" onerror="this.style.visibility=\'hidden\'">' +
+                var img = nuestro
+                    ? '<img class="st-escudo" src="' + ESCUDO + '" alt="">'
+                    : '<img class="st-escudo" src="' + VACIO + '"' + (escudo ? ' data-escudo="' + escapar(escudo) + '"' : '') + ' alt="">';
+                return '<div class="st-equipo' + (nuestro ? ' nuestro' : '') + (gana ? ' gana' : '') + '">' + img +
                     '<span class="st-nombre">' + escapar(nombre) + '</span>' +
                     (goles === null ? '' : '<span class="st-goles">' + goles + '</span>') +
                 '</div>';
@@ -1173,18 +1344,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 // se juega, la hora pasa a ser la pastilla roja del directo.
                 var primera = !dos && (p.nuestro_local ? p.equipo_local : p.equipo_visitante) === 'Primera Nacional' && !jugado;
                 return '<div class="semana-tarjeta' + (jugado ? ' jugado' : '') + '"' + (primera ? ' data-primera="1" data-inicio="' + escapar(f) + '"' : '') + '>' +
-                    '<div class="st-cab"><strong>Balonmano Vetusta</strong> ' + DIAS[d.getDay()] + ', ' + d.getDate() + ' ' + MESES_CORTOS[d.getMonth()] + '.</div>' +
-                    '<div class="st-cuerpo">' +
-                        '<div class="st-equipos">' +
-                            equipo(nombreLocal, p.nuestro_local ? ESCUDO : p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
-                            equipo(nombreVisitante, p.nuestro_visitante ? ESCUDO : p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
-                        '</div>' +
-                        (jugado ? '' : '<span class="st-hora">' + horaTxt + '</span>') +
+                    '<div class="st-cab">' +
+                        '<span class="st-fecha">' + DIAS[d.getDay()] + ', ' + d.getDate() + ' ' + MESES_CORTOS[d.getMonth()] + '.</span>' +
+                        (jugado ? '<span class="st-final">Final</span>' : '<span class="st-hora">' + horaTxt + '</span>') +
                     '</div>' +
+                    equipo(nombreLocal, p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
+                    equipo(nombreVisitante, p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
                     (lugar ? '<div class="st-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
                 '</div>';
             }).join('');
+            lista.scrollLeft = 0;
+            cargarEscudos();
             actualizarDirectoTira();
+            flechas();
         }
 
         // Las flechas desplazan la tira una pantalla de tarjetas.
@@ -1193,6 +1365,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 lista.scrollBy({ left: +b.getAttribute('data-dir') * Math.max(250, lista.clientWidth - 250), behavior: 'smooth' });
             });
         });
+        lista.addEventListener('scroll', flechas, { passive: true });
+        window.addEventListener('resize', flechas);
 
         function cargar() {
             if (cargado || getComputedStyle(caja).display === 'none') return;

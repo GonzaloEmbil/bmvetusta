@@ -111,7 +111,10 @@ function sumarDias(dia, n) {
 // mandan cabeceras CORS en la descarga, y un <canvas> que dibuja una imagen de
 // otro sitio sin ellas ya no se puede exportar. Pasando por aquí son «del
 // mismo sitio» y la imagen para redes se descarga sin problema.
-async function escudo(url) {
+// También lo usa la web pública (/api/escudo, publico = true) para convertir
+// los escudos en PNG sin fondo en el navegador: pasando por el mismo dominio
+// el lienzo no queda contaminado.
+export async function escudo(url, publico = false) {
   const u = url.searchParams.get('u') || '';
   if (!/^https:\/\/balonmano\.isquad\.es\/images\/[\w\/.-]+\.(?:jpe?g|png|gif|webp)$/i.test(u)) {
     return new Response('', { status: 400 });
@@ -127,7 +130,7 @@ async function escudo(url) {
     await cache.put(clave, r.clone());
   }
   return new Response(r.body, {
-    headers: { 'Content-Type': r.headers.get('Content-Type'), 'Cache-Control': 'private, max-age=86400', 'X-Content-Type-Options': 'nosniff' },
+    headers: { 'Content-Type': r.headers.get('Content-Type'), 'Cache-Control': (publico ? 'public' : 'private') + ', max-age=86400', 'X-Content-Type-Options': 'nosniff' },
   });
 }
 
