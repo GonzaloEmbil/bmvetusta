@@ -5479,7 +5479,7 @@ body {
    de todos los equipos del club, de mayor a menor categoría, pegadas unas
    a otras y separadas por una línea fina. Se desplaza en horizontal
    (rueda, arrastre o flechas superpuestas a cada lado, que sólo aparecen
-   si se puede ir hacia ese lado). Sólo en escritorio: en móvil no existe.
+   si se puede ir hacia ese lado; en móvil, con el dedo).
    La rellena script.js. Altura fija para que la medida del «above the
    fold» no cambie cuando llegan los datos. */
 .home-semana {
@@ -5667,6 +5667,33 @@ body {
 .st-equipo.gana .st-goles {
     color: #000;
     font-weight: 900;
+}
+
+/* Móvil: la misma tira bajo la cabecera, donde estaba el banner del
+   próximo partido. Sin flechas (se pasa con el dedo), tarjetas algo más
+   estrechas para que asome la siguiente, y 12px hasta el carrusel. */
+@media (max-width: 768px) {
+    .home-semana {
+        display: block;
+        position: relative;
+        height: 100px;
+        background: #fff;
+        border-bottom: 1px solid #e3e3e3;
+    }
+
+    .home-semana-flecha,
+    .home-semana-flecha:not([hidden]) {
+        display: none;
+    }
+
+    .semana-tarjeta {
+        flex-basis: 240px;
+        padding: 8px 14px;
+    }
+
+    .above-fold {
+        padding-top: 12px;
+    }
 }
 
 /* Mientras se juega el partido del primer equipo con directo: la pastilla

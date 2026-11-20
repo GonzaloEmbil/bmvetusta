@@ -1453,11 +1453,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     lista.innerHTML = '<p class="home-semana-vacio">No se han podido cargar los partidos.</p>';
                 });
         }
+        // La tira se ve en todos los tamaños (en móvil sustituye al antiguo
+        // banner del próximo partido), así que se carga siempre.
         cargar();
-        if (window.matchMedia) {
-            var mq = window.matchMedia('(min-width: 769px)');
-            if (mq.addEventListener) mq.addEventListener('change', cargar); else if (mq.addListener) mq.addListener(cargar);
-        }
     })();
 
     // ── Banner del próximo partido ──
