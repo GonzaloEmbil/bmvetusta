@@ -5690,3 +5690,339 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* ── Carrusel de noticias: diseño ──────────────────────────────────────────
+   Foto a toda la tarjeta y el texto encima, sobre un degradado: la pastilla
+   de la etiqueta y la fecha, el titular en Bebas Neue y la entradilla. Las
+   flechas, redondas y dentro de la foto, aparecen al pasar el ratón; abajo,
+   una barra fina marca el avance automático y arriba a la derecha va el
+   contador. Las cajas de etiquetas llevan la misma pastilla y la fecha. */
+.news-carousel-viewport {
+    position: relative;
+}
+
+.news-carousel-slide {
+    position: relative;
+    display: block;
+    border: 0;
+    background: #111;
+}
+
+.news-carousel-slide:hover {
+    border-color: transparent;
+}
+
+.news-carousel-slide .news-carousel-slide-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.news-carousel-slide-image img {
+    transition: transform 0.6s ease;
+}
+
+.news-carousel-slide:hover .news-carousel-slide-image img {
+    transform: scale(1.03);
+}
+
+.news-carousel-slide .news-carousel-slide-image::after {
+    top: 0;
+    height: auto;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.94) 0%, rgba(0, 0, 0, 0.72) 30%, rgba(0, 0, 0, 0.18) 60%, rgba(0, 0, 0, 0) 78%);
+}
+
+/* Las noticias sin foto llevan el escudo de relleno: va arriba, para que
+   el texto no lo tape. */
+.news-carousel-slide-image img[style*="contain"] {
+    padding: 34px 34px 200px !important;
+}
+
+@media (max-width: 768px) {
+    .news-carousel-slide-image img[style*="contain"] {
+        padding: 22px 22px 150px !important;
+    }
+}
+
+.news-carousel-slide .news-carousel-slide-content {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    max-width: 860px;
+    padding: 28px 34px 32px;
+}
+
+.news-carousel-slide-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.news-carousel-slide .news-carousel-slide-date {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.72rem;
+}
+
+.news-carousel-slide .news-carousel-slide-title {
+    margin: 0 0 10px;
+    min-height: 0;
+    font-family: 'Bebas Neue', 'Impact', 'Arial Black', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.9rem, 2.5vw, 2.7rem);
+    line-height: 1;
+    letter-spacing: 0.4px;
+    color: #fff;
+    -webkit-line-clamp: 3;
+}
+
+.news-carousel-slide .news-carousel-slide-excerpt {
+    min-height: 0;
+    max-width: 680px;
+    color: #d2d2d2;
+    font-size: 0.92rem;
+}
+
+.nc-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.62rem;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.14);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+.nc-tag.primer-equipo {
+    background: #FDED3A;
+    border-color: #FDED3A;
+    color: #000;
+}
+
+.nc-tag.cantera {
+    background: #fff;
+    border-color: #fff;
+    color: #000;
+}
+
+.news-carousel-progreso {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.12);
+    pointer-events: none;
+}
+
+.news-carousel-progreso span {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: #FDED3A;
+}
+
+@keyframes ncProgreso {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.news-carousel-contador {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgba(0, 0, 0, 0.55);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+    pointer-events: none;
+}
+
+.news-carousel {
+    position: relative;
+}
+
+.news-carousel .news-carousel-arrow {
+    position: absolute;
+    top: 50%;
+    z-index: 3;
+    width: 44px;
+    height: 44px;
+    padding: 0 0 3px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+    font-size: 1.7rem;
+    line-height: 1;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.news-carousel .news-carousel-prev {
+    left: 16px;
+}
+
+.news-carousel .news-carousel-next {
+    right: 16px;
+}
+
+.news-carousel:hover .news-carousel-arrow,
+.news-carousel .news-carousel-arrow:focus-visible {
+    opacity: 1;
+}
+
+.news-carousel .news-carousel-arrow:hover {
+    background: #FDED3A;
+    border-color: #FDED3A;
+    color: #000;
+    transform: translateY(-50%);
+}
+
+/* Cajas de etiquetas: la misma pastilla, la fecha corta y un filo que se
+   enciende en amarillo al pasar el ratón; la foto se acerca un poco. */
+.tag-carousel-track {
+    border: 1px solid #262626;
+    background: #1b1b1b;
+}
+
+.tag-carousel-track:hover {
+    border-color: #FDED3A;
+}
+
+.tag-card-thumb {
+    transition: transform 0.5s ease;
+}
+
+.tag-card:hover .tag-card-thumb {
+    transform: scale(1.05);
+}
+
+.tag-card-body .news-tag {
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-size: 0.58rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    line-height: 1.3;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    color: #fff;
+}
+
+.tag-card-body .news-tag-primer-equipo {
+    background: #FDED3A;
+    border-color: #FDED3A;
+    color: #000;
+}
+
+.tag-card-body .news-tag-cantera {
+    background: #fff;
+    border-color: #fff;
+    color: #000;
+}
+
+.tag-card-fecha {
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: #8a8a8a;
+}
+
+@container (max-width: 200px) {
+    .tag-card-body .news-tag {
+        font-size: 0.52rem;
+        padding: 2px 7px;
+    }
+
+    .tag-card-fecha {
+        font-size: 0.6rem;
+    }
+}
+
+/* Escritorio: sin la columna de la flecha (ahora va dentro de la foto), el
+   carrusel y las cajas ganan ese ancho y quedan alineados. Con la fecha
+   debajo, el titular de las cajas va a tres líneas para no cortarse. */
+@media (min-width: 769px) {
+    .fold-row > .tag-carousels .tag-carousel-track .tag-card-title {
+        -webkit-line-clamp: 3;
+    }
+
+    .fold-row {
+        grid-template-columns: var(--map-col) minmax(0, 1fr);
+    }
+
+    .fold-row > .news-carousel-section .news-carousel {
+        position: relative;
+    }
+
+    .fold-row > .news-carousel-section .news-carousel-next {
+        top: 50%;
+        right: 16px;
+        transform: translateY(-50%);
+    }
+
+    .fold-row > .tag-carousels {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1279px) {
+    .fold-row {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/* Móvil: la tarjeta, casi cuadrada, con el texto encima de la foto. */
+@media (max-width: 768px) {
+    .news-carousel-slide {
+        aspect-ratio: 1 / 1.02;
+    }
+
+    .news-carousel-slide .news-carousel-slide-content {
+        padding: 16px 16px 20px;
+    }
+
+    .news-carousel-slide-meta {
+        gap: 10px;
+        margin-bottom: 8px;
+    }
+
+    .news-carousel-slide .news-carousel-slide-date {
+        font-size: 0.64rem;
+    }
+
+    .news-carousel-slide .news-carousel-slide-title {
+        font-size: 1.75rem;
+        margin-bottom: 6px;
+    }
+
+    .news-carousel-slide .news-carousel-slide-excerpt {
+        font-size: 0.8rem;
+        line-height: 1.4;
+    }
+
+    .news-carousel-contador {
+        top: 12px;
+        right: 12px;
+        font-size: 0.62rem;
+    }
+}
+

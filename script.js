@@ -992,6 +992,75 @@ document.addEventListener('DOMContentLoaded', function() {
         const autoPlayInterval = window.innerWidth <= 768 ? 8000 : 10000;
         let autoPlayTimer;
 
+        // ── Detalles visuales ──
+        // Cada diapositiva lleva la pastilla de su etiqueta (la de su tarjeta
+        // en las cajas de etiquetas) junto a la fecha, y cada tarjeta de las
+        // cajas, la fecha corta de su noticia.
+        var MESES_C = { enero: 'ene', febrero: 'feb', marzo: 'mar', abril: 'abr', mayo: 'may', junio: 'jun', julio: 'jul', agosto: 'ago', septiembre: 'sep', octubre: 'oct', noviembre: 'nov', diciembre: 'dic' };
+        function fechaCorta(t) {
+            var m = /^(\d+) de ([a-záéíóú]+) de (\d{4})$/i.exec(String(t || '').trim());
+            return m ? m[1] + ' ' + (MESES_C[m[2].toLowerCase()] || m[2].slice(0, 3)) + '. ' + m[3] : t;
+        }
+        var etiquetas = {}, fechas = {};
+        document.querySelectorAll('.tag-card').forEach(function(c) {
+            var t = c.querySelector('.news-tag');
+            if (!t) return;
+            var clase = (t.className.match(/news-tag-([a-z-]+)/) || [])[1] || '';
+            etiquetas[c.getAttribute('href')] = { clase: clase, texto: t.textContent };
+        });
+        slides.forEach(function(sl) {
+            var cont = sl.querySelector('.news-carousel-slide-content');
+            var fecha = sl.querySelector('.news-carousel-slide-date');
+            if (!cont || !fecha) return;
+            fechas[sl.getAttribute('href')] = fecha.textContent;
+            var meta = document.createElement('div');
+            meta.className = 'news-carousel-slide-meta';
+            var e = etiquetas[sl.getAttribute('href')];
+            if (e) {
+                var pill = document.createElement('span');
+                pill.className = 'nc-tag ' + e.clase;
+                pill.textContent = e.texto;
+                meta.appendChild(pill);
+            }
+            cont.insertBefore(meta, fecha);
+            meta.appendChild(fecha);
+        });
+        document.querySelectorAll('.tag-card').forEach(function(c) {
+            var f = fechas[c.getAttribute('href')], body = c.querySelector('.tag-card-body');
+            if (!f || !body) return;
+            var sp = document.createElement('span');
+            sp.className = 'tag-card-fecha';
+            sp.textContent = fechaCorta(f);
+            body.appendChild(sp);
+        });
+
+        // Barra de progreso del avance automático y contador de noticias.
+        var barra = null, contador = null;
+        if (viewport) {
+            var progreso = document.createElement('div');
+            progreso.className = 'news-carousel-progreso';
+            barra = document.createElement('span');
+            progreso.appendChild(barra);
+            viewport.appendChild(progreso);
+            contador = document.createElement('div');
+            contador.className = 'news-carousel-contador';
+            viewport.appendChild(contador);
+        }
+        function pintarContador() {
+            if (contador) contador.textContent = (currentIndex + 1) + ' / ' + totalSlides;
+        }
+        function arrancarBarra() {
+            if (!barra) return;
+            barra.style.animation = 'none';
+            void barra.offsetWidth;
+            barra.style.animation = 'ncProgreso ' + autoPlayInterval + 'ms linear forwards';
+        }
+        function pararBarra() {
+            if (!barra) return;
+            barra.style.animation = 'none';
+            barra.style.width = '0';
+        }
+
         // Create dots — the homepage has no dots container (navigation is by
         // arrows only), so this is optional.
         if (dotsContainer) {
@@ -1021,6 +1090,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     d.classList.toggle('active', i === currentIndex);
                 });
             }
+            pintarContador();
+            arrancarBarra();
             // Let the per-tag mini-carousels advance in lockstep with this one.
             document.dispatchEvent(new CustomEvent('newsCarouselChange', {
                 detail: { index: currentIndex }
@@ -1051,6 +1122,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         function startAutoPlay() {
             autoPlayTimer = setInterval(nextSlide, autoPlayInterval);
+            arrancarBarra();
         }
 
         function resetAutoPlay() {
@@ -1059,12 +1131,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Start auto-play
+        pintarContador();
         startAutoPlay();
 
         // Pause on hover
         if (viewport) {
             viewport.addEventListener('mouseenter', function() {
                 clearInterval(autoPlayTimer);
+                pararBarra();
             });
             viewport.addEventListener('mouseleave', function() {
                 startAutoPlay();
