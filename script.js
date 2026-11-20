@@ -1135,10 +1135,6 @@ document.addEventListener('DOMContentLoaded', function() {
         function escapar(s) { return String(s || '').replace(/[&<>"]/g, function(c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
 
         function pintar(j) {
-            // Una tarjeta por partido, en orden cronológico (la fecha llega
-            // como «AAAA-MM-DD HH:MM:SS», así que ordena bien como texto):
-            // la categoría, el local y el visitante con su escudo y, abajo,
-            // el día, la hora (o los goles si ya se jugó) y el pabellón.
             // De mayor a menor categoría (orden = puesto del equipo en la
             // lista del club) y, a igual categoría, por fecha.
             var partidos = (j.partidos || []).slice().sort(function(a, b) {
@@ -1148,12 +1144,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
                 return;
             }
-            var ESCUDO = 'src/assets/escudo.png';
-            var DIAS_CORTOS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
-            // «Alevín · Villafría - Germán Fdez Ramos» → ['Alevín', 'Villafría - Germán Fdez Ramos']
-            function partes(categoria) {
-                var t = String(categoria || '').split(' · ');
-                return { cat: t[0] || '', escuela: t.slice(1).join(' · ') };
+            // En la tira blanca el escudo del club va en negro.
+            var ESCUDO = 'src/assets/escudo_negro.png';
+            var MESES_CORTOS = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+            // Nuestro lado se llama como su categoría; las escuelas, con el
+            // colegio detrás («Alevín Villafría - Germán Fdez Ramos»).
+            function nombreNuestro(categoria) {
+                return String(categoria || '').split(' · ').join(' ');
             }
             function equipo(nombre, escudo, nuestro, goles, gana) {
                 return '<div class="st-equipo' + (nuestro ? ' nuestro' : '') + (gana ? ' gana' : '') + '">' +
@@ -1167,35 +1164,24 @@ document.addEventListener('DOMContentLoaded', function() {
                 var d = new Date(+partesFecha[0], +partesFecha[1] - 1, +partesFecha[2]);
                 var jugado = p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null;
                 var dos = p.nuestro_local && p.nuestro_visitante;
-                var categoria, nombreLocal, nombreVisitante;
-                if (dos) {
-                    // Dos escuelas del club: la categoría común y cada colegio.
-                    var a = partes(p.equipo_local), b = partes(p.equipo_visitante);
-                    categoria = a.cat || p.equipo;
-                    nombreLocal = a.escuela || bonito(p.local);
-                    nombreVisitante = b.escuela || bonito(p.visitante);
-                } else {
-                    // Una escuela («Benjamín · Amor de Dios») lleva el colegio
-                    // como nombre; los equipos del club, «Vetusta».
-                    var mio = partes(p.nuestro_local ? p.equipo_local : p.equipo_visitante);
-                    categoria = mio.cat || p.equipo;
-                    nombreLocal = p.nuestro_local ? (mio.escuela || 'Vetusta') : bonito(p.local);
-                    nombreVisitante = p.nuestro_visitante ? (mio.escuela || 'Vetusta') : bonito(p.visitante);
-                }
+                var nombreLocal = p.nuestro_local ? nombreNuestro(p.equipo_local || p.equipo) : bonito(p.local);
+                var nombreVisitante = p.nuestro_visitante ? nombreNuestro(p.equipo_visitante || p.equipo) : bonito(p.visitante);
                 var gl = jugado ? p.goles_local : null, gv = jugado ? p.goles_visitante : null;
                 var lugar = bonito(p.pabellon);
+                var horaTxt = hora && hora !== '00:00' ? hora : 'Por definir';
                 // La tarjeta del primer equipo guarda la hora de inicio: mientras
-                // se juega, la pastilla de la hora pasa a ser la del directo.
-                var primera = !dos && categoria === 'Primera Nacional' && !jugado;
+                // se juega, la hora pasa a ser la pastilla roja del directo.
+                var primera = !dos && (p.nuestro_local ? p.equipo_local : p.equipo_visitante) === 'Primera Nacional' && !jugado;
                 return '<div class="semana-tarjeta' + (jugado ? ' jugado' : '') + '"' + (primera ? ' data-primera="1" data-inicio="' + escapar(f) + '"' : '') + '>' +
-                    '<div class="st-cat" title="' + escapar(categoria) + '">' + escapar(categoria) + '</div>' +
-                    equipo(nombreLocal, p.nuestro_local ? ESCUDO : p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
-                    equipo(nombreVisitante, p.nuestro_visitante ? ESCUDO : p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
-                    '<div class="st-pie">' +
-                        '<span class="st-fecha">' + DIAS_CORTOS[d.getDay()] + ' ' + d.getDate() + '</span>' +
-                        (jugado ? '<span class="st-hora fin">Final</span>' : '<span class="st-hora">' + (hora && hora !== '00:00' ? hora : 'Hora por definir') + '</span>') +
-                        (lugar ? '<span class="st-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</span>' : '') +
+                    '<div class="st-cab"><strong>Balonmano Vetusta</strong> ' + DIAS[d.getDay()] + ', ' + d.getDate() + ' ' + MESES_CORTOS[d.getMonth()] + '.</div>' +
+                    '<div class="st-cuerpo">' +
+                        '<div class="st-equipos">' +
+                            equipo(nombreLocal, p.nuestro_local ? ESCUDO : p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
+                            equipo(nombreVisitante, p.nuestro_visitante ? ESCUDO : p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
+                        '</div>' +
+                        (jugado ? '' : '<span class="st-hora">' + horaTxt + '</span>') +
                     '</div>' +
+                    (lugar ? '<div class="st-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
                 '</div>';
             }).join('');
             actualizarDirectoTira();

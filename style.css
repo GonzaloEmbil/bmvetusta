@@ -5475,11 +5475,12 @@ body {
 }
 
 /* ── Tira «Partidos de la semana» de la portada ───────────────────────────
-   Bajo la cabecera, a todo el ancho: una tarjeta blanca por partido de
-   todos los equipos del club, de mayor a menor categoría, que se desplaza
-   en horizontal (rueda, arrastre o flechas). Sólo en escritorio: en móvil
-   no existe. La rellena script.js. Altura fija para que la medida del
-   «above the fold» no cambie cuando llegan los datos. */
+   Bajo la cabecera, a todo el ancho y en blanco: una tarjeta por partido
+   de todos los equipos del club, de mayor a menor categoría, pegadas unas
+   a otras y separadas por una línea fina. Se desplaza en horizontal
+   (rueda, arrastre o flechas). Sólo en escritorio: en móvil no existe. La
+   rellena script.js. Altura fija para que la medida del «above the fold»
+   no cambie cuando llegan los datos. */
 .home-semana {
     display: none;
 }
@@ -5488,9 +5489,9 @@ body {
     .home-semana {
         display: flex;
         align-items: stretch;
-        height: 136px;
-        background: #000;
-        border-bottom: 1px solid #1a1a1a;
+        height: 112px;
+        background: #fff;
+        border-bottom: 1px solid #e3e3e3;
     }
 }
 
@@ -5499,8 +5500,6 @@ body {
     min-width: 0;
     display: flex;
     align-items: stretch;
-    gap: 10px;
-    padding: 14px 10px 14px 24px;
     overflow-x: auto;
     overflow-y: hidden;
     scroll-snap-type: x proximity;
@@ -5515,7 +5514,8 @@ body {
 .home-semana-vacio {
     align-self: center;
     margin: 0;
-    color: #8a8a8a;
+    padding: 0 24px;
+    color: #777;
     font-size: 0.85rem;
 }
 
@@ -5524,16 +5524,18 @@ body {
     display: flex;
     align-items: center;
     gap: 6px;
-    padding: 0 24px 0 14px;
+    padding: 0 16px 0 12px;
+    border-left: 1px solid #e3e3e3;
+    background: #fff;
 }
 
 .home-semana-flecha {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
-    border: 1px solid #333;
-    background: #151515;
-    color: #fff;
+    border: 1px solid #ddd;
+    background: #fff;
+    color: #222;
     font-size: 1.3rem;
     line-height: 1;
     cursor: pointer;
@@ -5546,33 +5548,49 @@ body {
     color: #000;
 }
 
-/* Cada partido, en una tarjeta blanca: la categoría arriba; los dos
-   equipos, local y visitante, con su escudo (el nuestro en negrita); y
-   abajo el día, la hora en una pastilla amarilla (o «Final» y los goles
-   junto a cada equipo si ya se jugó) y el pabellón. */
+/* Cada partido: arriba «Balonmano Vetusta» y el día; luego los dos
+   equipos, local y visitante, con su escudo y el nombre en mayúsculas (el
+   nuestro, que se llama como su categoría, en negrita), y a la derecha la
+   hora (o los goles de cada uno si ya se jugó); abajo, el pabellón. */
 .semana-tarjeta {
-    flex: 0 0 250px;
+    flex: 0 0 300px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 5px;
-    padding: 10px 14px;
-    background: #fff;
-    border-radius: 10px;
+    gap: 4px;
+    padding: 8px 16px;
+    border-right: 1px solid #e3e3e3;
     scroll-snap-align: start;
     min-width: 0;
-    color: #111;
+    color: #222;
 }
 
-.st-cat {
-    font-size: 0.64rem;
-    font-weight: 800;
-    letter-spacing: 1.2px;
-    text-transform: uppercase;
-    color: #111;
+.st-cab {
+    font-size: 0.7rem;
+    color: #666;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+}
+
+.st-cab strong {
+    color: #222;
+    font-weight: 700;
+}
+
+.st-cuerpo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.st-equipos {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .st-equipo {
@@ -5580,9 +5598,9 @@ body {
     align-items: center;
     gap: 8px;
     min-width: 0;
-    font-size: 0.8rem;
-    font-weight: 600;
-    color: #555;
+    font-size: 0.74rem;
+    font-weight: 500;
+    color: #333;
 }
 
 .st-equipo.nuestro {
@@ -5600,6 +5618,7 @@ body {
 .st-nombre {
     flex: 1 1 auto;
     min-width: 0;
+    text-transform: uppercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -5609,6 +5628,7 @@ body {
     flex: 0 0 auto;
     min-width: 18px;
     text-align: right;
+    font-weight: 600;
     font-variant-numeric: tabular-nums;
     color: #888;
 }
@@ -5618,45 +5638,23 @@ body {
     font-weight: 900;
 }
 
-.st-pie {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 2px;
-    min-width: 0;
-    font-size: 0.68rem;
-    color: #777;
-}
-
-.st-fecha {
-    flex: 0 0 auto;
-    font-weight: 800;
-    color: #111;
-}
-
 .st-hora {
     flex: 0 0 auto;
-    padding: 2px 7px;
-    border-radius: 4px;
-    background: #FDED3A;
-    color: #000;
-    font-weight: 800;
+    font-size: 0.76rem;
+    font-weight: 700;
     font-variant-numeric: tabular-nums;
-}
-
-.st-hora.fin {
-    background: #e9e9e9;
-    color: #333;
+    color: #222;
 }
 
 /* Mientras se juega el partido del primer equipo con directo: la pastilla
-   roja del streaming, que late como la del banner, enlazando al directo. */
+   roja del streaming, que late, enlazando al directo. */
 .st-directo {
     flex: 0 0 auto;
-    padding: 2px 9px;
+    padding: 3px 9px;
     border-radius: 999px;
     background: #e3261f;
     color: #fff;
+    font-size: 0.64rem;
     font-weight: 800;
     letter-spacing: 1.5px;
     text-transform: uppercase;
@@ -5669,8 +5667,8 @@ body {
 }
 
 .st-lugar {
-    flex: 1 1 auto;
-    min-width: 0;
+    font-size: 0.7rem;
+    color: #666;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
