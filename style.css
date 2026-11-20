@@ -5629,8 +5629,14 @@ body {
 }
 
 .st-equipo.nuestro {
-    color: #000;
+    color: #20247c;
     font-weight: 800;
+}
+
+/* Los goles del club, del mismo azul que su nombre. */
+.st-equipo.nuestro .st-goles,
+.st-equipo.nuestro.gana .st-goles {
+    color: #20247c;
 }
 
 .st-escudo {
