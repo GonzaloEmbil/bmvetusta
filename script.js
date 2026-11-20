@@ -1137,12 +1137,13 @@ document.addEventListener('DOMContentLoaded', function() {
         function pintar(j) {
             // Una tarjeta por partido, en orden cronológico (la fecha llega
             // como «AAAA-MM-DD HH:MM:SS», así que ordena bien como texto):
-            // arriba la categoría y el día y la hora; en medio, los escudos
-            // con el VS (o el marcador si ya se jugó), local a la izquierda
-            // como en el banner del próximo partido; abajo, el pabellón.
+            // la categoría, el local y el visitante con su escudo y, abajo,
+            // el día, la hora (o los goles si ya se jugó) y el pabellón.
             var partidos = (j.partidos || []).slice().sort(function(a, b) {
                 return String(a.fecha).localeCompare(String(b.fecha));
             });
+            var cuenta = document.getElementById('home-semana-cuenta');
+            if (cuenta) cuenta.textContent = partidos.length ? partidos.length + (partidos.length === 1 ? ' partido' : ' partidos') : '';
             if (!partidos.length) {
                 lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
                 return;
@@ -1154,58 +1155,54 @@ document.addEventListener('DOMContentLoaded', function() {
                 var t = String(categoria || '').split(' · ');
                 return { cat: t[0] || '', escuela: t.slice(1).join(' · ') };
             }
-            function lado(clase, escudo, nombre, nuestro) {
-                return '<div class="st-lado ' + clase + (nuestro ? ' nuestro' : '') + '">' +
+            function equipo(nombre, escudo, nuestro, goles, gana) {
+                return '<div class="st-equipo' + (nuestro ? ' nuestro' : '') + (gana ? ' gana' : '') + '">' +
                     '<img class="st-escudo" src="' + escapar(escudo) + '" alt="" loading="lazy" decoding="async" onerror="this.style.visibility=\'hidden\'">' +
-                    '<span class="st-nombre">' + escapar(nombre) + '</span></div>';
+                    '<span class="st-nombre">' + escapar(nombre) + '</span>' +
+                    (goles === null ? '' : '<span class="st-goles">' + goles + '</span>') +
+                '</div>';
             }
             lista.innerHTML = partidos.map(function(p) {
                 var f = String(p.fecha || ''), partesFecha = f.slice(0, 10).split('-'), hora = f.slice(11, 16);
                 var d = new Date(+partesFecha[0], +partesFecha[1] - 1, +partesFecha[2]);
-                var cuando = DIAS_CORTOS[d.getDay()] + ' ' + d.getDate() + (hora && hora !== '00:00' ? ' · ' + hora : '');
                 var jugado = p.estado === 'Finalizado' && p.goles_local !== null && p.goles_visitante !== null;
                 var dos = p.nuestro_local && p.nuestro_visitante;
                 var categoria, nombreLocal, nombreVisitante;
                 if (dos) {
-                    // Dos escuelas del club: la categoría común arriba y cada
-                    // colegio bajo su escudo.
+                    // Dos escuelas del club: la categoría común y cada colegio.
                     var a = partes(p.equipo_local), b = partes(p.equipo_visitante);
                     categoria = a.cat || p.equipo;
                     nombreLocal = a.escuela || bonito(p.local);
                     nombreVisitante = b.escuela || bonito(p.visitante);
                 } else {
-                    // Arriba sólo la categoría; una escuela («Benjamín ·
-                    // Amor de Dios») lleva el colegio bajo su escudo, y los
-                    // equipos del club, «Vetusta».
+                    // Una escuela («Benjamín · Amor de Dios») lleva el colegio
+                    // como nombre; los equipos del club, «Vetusta».
                     var mio = partes(p.nuestro_local ? p.equipo_local : p.equipo_visitante);
                     categoria = mio.cat || p.equipo;
                     nombreLocal = p.nuestro_local ? (mio.escuela || 'Vetusta') : bonito(p.local);
                     nombreVisitante = p.nuestro_visitante ? (mio.escuela || 'Vetusta') : bonito(p.visitante);
                 }
-                var centro;
-                if (jugado) {
-                    var nuestros = p.nuestro_local ? p.goles_local : p.goles_visitante;
-                    var suyos = p.nuestro_local ? p.goles_visitante : p.goles_local;
-                    var clase = dos ? 'borr' : nuestros > suyos ? 'si' : nuestros < suyos ? 'no' : 'borr';
-                    centro = '<span class="st-centro marcador ' + clase + '">' + p.goles_local + '–' + p.goles_visitante + '</span>';
-                } else {
-                    centro = '<span class="st-centro">VS</span>';
-                }
-                var lugar = bonito(p.pabellon) + (p.localidad ? ' · ' + p.localidad : '');
+                var gl = jugado ? p.goles_local : null, gv = jugado ? p.goles_visitante : null;
+                var lugar = bonito(p.pabellon);
                 return '<div class="semana-tarjeta' + (jugado ? ' jugado' : '') + '">' +
-                        '<div class="st-cab">' +
-                            '<span class="st-cat" title="' + escapar(categoria) + '">' + escapar(categoria) + '</span>' +
-                            '<span class="st-cuando">' + escapar(cuando) + '</span>' +
-                        '</div>' +
-                        '<div class="st-duelo">' +
-                            lado('local', p.nuestro_local ? ESCUDO : p.escudo_local, nombreLocal, p.nuestro_local) +
-                            centro +
-                            lado('visitante', p.nuestro_visitante ? ESCUDO : p.escudo_visitante, nombreVisitante, p.nuestro_visitante) +
-                        '</div>' +
-                        (lugar ? '<div class="st-pie" title="' + escapar(lugar) + '">' + escapar(lugar) + '</div>' : '') +
-                    '</div>';
+                    '<div class="st-cat" title="' + escapar(categoria) + '">' + escapar(categoria) + '</div>' +
+                    equipo(nombreLocal, p.nuestro_local ? ESCUDO : p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
+                    equipo(nombreVisitante, p.nuestro_visitante ? ESCUDO : p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
+                    '<div class="st-pie">' +
+                        '<span class="st-fecha">' + DIAS_CORTOS[d.getDay()] + ' ' + d.getDate() + '</span>' +
+                        (jugado ? '<span class="st-hora fin">Final</span>' : '<span class="st-hora">' + (hora && hora !== '00:00' ? hora : 'Hora por definir') + '</span>') +
+                        (lugar ? '<span class="st-lugar" title="' + escapar(lugar) + '">' + escapar(lugar) + '</span>' : '') +
+                    '</div>' +
+                '</div>';
             }).join('');
         }
+
+        // Las flechas desplazan la tira una pantalla de tarjetas.
+        Array.prototype.forEach.call(caja.querySelectorAll('.home-semana-flecha'), function(b) {
+            b.addEventListener('click', function() {
+                lista.scrollBy({ left: +b.getAttribute('data-dir') * Math.max(250, lista.clientWidth - 250), behavior: 'smooth' });
+            });
+        });
 
         function cargar() {
             if (cargado || getComputedStyle(caja).display === 'none') return;
@@ -1220,7 +1217,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         cargar();
         if (window.matchMedia) {
-            var mq = window.matchMedia('(min-width: 1440px)');
+            var mq = window.matchMedia('(min-width: 769px)');
             if (mq.addEventListener) mq.addEventListener('change', cargar); else if (mq.addListener) mq.addListener(cargar);
         }
     })();

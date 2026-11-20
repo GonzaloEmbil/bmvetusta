@@ -122,6 +122,31 @@ body {
     user-select: none;
 }
 
+/* Con seis entradas, en pantallas de 769 a 1199px el menú va más apretado
+   para no pisar la cuña amarilla de la derecha. */
+@media (min-width: 769px) and (max-width: 1199px) {
+    .nav {
+        gap: 24px;
+    }
+
+    .nav a,
+    .nav .nav-dropdown-toggle {
+        font-size: 14px;
+    }
+}
+
+/* Tabletas apaisadas (769 a 999px): aún más junto y un poco más pequeño. */
+@media (min-width: 769px) and (max-width: 999px) {
+    .nav {
+        gap: 16px;
+    }
+
+    .nav a,
+    .nav .nav-dropdown-toggle {
+        font-size: 13px;
+    }
+}
+
 /* Página activa (escritorio): el enlace en amarillo, sin subrayado. */
 @media (min-width: 769px) {
     .nav > a.nav-active,
@@ -5435,102 +5460,128 @@ body {
     }
 }
 
-/* ── Recuadro «Esta semana» de la portada ──────────────────────────────────
-   Los partidos de la semana de todos los equipos del club, a la derecha del
-   carrusel y a la altura de la animación del carnet. Sólo en escritorio
-   ancho: con cuatro columnas, por debajo de 1440px el carrusel quedaría
-   demasiado estrecho; ahí (y en móvil) no existe. Lo rellena script.js. */
+/* ── Tira «Partidos de la semana» de la portada ───────────────────────────
+   Bajo el banner del próximo partido, a todo el ancho: una tarjeta por
+   partido de todos los equipos del club, en orden cronológico, que se
+   desplaza en horizontal (rueda, arrastre o flechas). Sólo en escritorio:
+   en móvil no existe. La rellena script.js. Altura fija para que la
+   medida del «above the fold» no cambie cuando llegan los datos. */
 .home-semana {
     display: none;
 }
 
-@media (min-width: 1440px) {
-    .fold-row {
-        /* El carnet a la izquierda, algo más estrecho que sin recuadro, y a
-           la derecha el recuadro de partidos en una columna aún más
-           estrecha: lo justo para una tarjeta (escudo, nombre a dos líneas,
-           pastilla, nombre, escudo). El carrusel se queda con el resto. */
-        --map-col: clamp(330px, 24vw, 480px);
-        --semana-col: clamp(300px, 20vw, 380px);
-        grid-template-columns: var(--map-col) minmax(0, 1fr) var(--arrow-col) var(--semana-col);
-    }
-
-    .fold-row > .home-semana {
+@media (min-width: 769px) {
+    .home-semana {
         display: flex;
-        flex-direction: column;
-        grid-column: 4;
-        grid-row: 1 / 3;
-        min-height: 0;
-        background: #1c1c1c;
-        border: 1px solid #262626;
-        border-radius: 12px;
-        padding: 14px 14px 10px;
-        overflow: hidden;
+        align-items: stretch;
+        height: 128px;
+        background: #0b0b0b;
+        border-bottom: 1px solid #1f1f1f;
     }
+}
 
-    /* La flecha «›» sigue a 10px del carrusel, ahora con el recuadro detrás. */
-    .fold-row > .news-carousel-section .news-carousel-next {
-        right: calc(var(--fold-pad) + var(--semana-col) + 2 * var(--fold-gap) - 10px);
-    }
+.home-semana-cab {
+    flex: 0 0 150px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 18px 0 24px;
+    border-right: 1px solid #1f1f1f;
+    background: #0b0b0b;
 }
 
 .home-semana-titulo {
-    margin: 0;
-    padding: 0 0 14px;
-    border-bottom: 1px solid #2a2a2a;
-    text-align: center;
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.74rem;
+    font-weight: 800;
     letter-spacing: 2px;
+    line-height: 1.35;
     text-transform: uppercase;
-    color: #fff;
+    color: #FDED3A;
+}
+
+.home-semana-cuenta {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #6f6f6f;
 }
 
 .home-semana-lista {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
     flex: 1 1 auto;
-    min-height: 0;
-    padding: 12px 2px 4px 0;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: #333 transparent;
-    /* Las tarjetas se miden contra la lista (ver la variante compacta). */
-    container-type: inline-size;
+    min-width: 0;
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+}
+
+.home-semana-lista::-webkit-scrollbar {
+    display: none;
 }
 
 .home-semana-vacio {
-    margin: 16px 0 0;
+    align-self: center;
+    margin: 0;
+    padding: 0 24px;
     color: #8a8a8a;
     font-size: 0.85rem;
 }
 
-/* Una tarjeta por partido, como un banner del próximo partido en pequeño:
-   arriba la categoría (amarillo) y el día y la hora; en medio los escudos
-   con el nombre al lado, local a la izquierda y visitante a la derecha, y
-   entre ellos la pastilla «VS» (o el marcador, en verde/rojo/gris, si ya se
-   jugó); abajo el pabellón y la localidad. En orden cronológico, sin
-   epígrafes de día: cada tarjeta lleva el suyo. */
-.semana-tarjeta {
+.home-semana-nav {
     flex: 0 0 auto;
-    padding: 9px 12px 8px;
-    background: #232323;
-    border: 1px solid #2c2c2c;
-    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 0 18px 0 14px;
+    border-left: 1px solid #1f1f1f;
+    background: #0b0b0b;
 }
 
-.st-cab {
+.home-semana-flecha {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid #333;
+    background: #151515;
+    color: #fff;
+    font-size: 1.3rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.home-semana-flecha:hover {
+    background: #FDED3A;
+    border-color: #FDED3A;
+    color: #000;
+}
+
+/* Cada partido: la categoría en amarillo; los dos equipos, local y
+   visitante, con su escudo (el nuestro en blanco y negrita, el rival en
+   gris claro); y abajo el día, la hora en una pastilla amarilla (o los
+   goles junto a cada equipo si ya se jugó) y el pabellón. */
+.semana-tarjeta {
+    flex: 0 0 250px;
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 10px;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    padding: 10px 18px;
+    border-right: 1px solid #1f1f1f;
+    scroll-snap-align: start;
+    min-width: 0;
+}
+
+.semana-tarjeta:last-child {
+    border-right: 0;
 }
 
 .st-cat {
-    min-width: 0;
-    font-size: 0.64rem;
-    font-weight: 700;
+    font-size: 0.66rem;
+    font-weight: 800;
     letter-spacing: 1.2px;
     text-transform: uppercase;
     color: #FDED3A;
@@ -5539,122 +5590,84 @@ body {
     text-overflow: ellipsis;
 }
 
-.st-cuando {
-    flex: 0 0 auto;
-    font-size: 0.72rem;
-    font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    color: #fff;
-    white-space: nowrap;
-}
-
-.st-duelo {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
-    align-items: center;
-    gap: 8px;
-    margin-top: 8px;
-}
-
-.st-lado {
+.st-equipo {
     display: flex;
     align-items: center;
     gap: 8px;
     min-width: 0;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #bdbdbd;
 }
 
-.st-lado.visitante {
-    flex-direction: row-reverse;
-    text-align: right;
+.st-equipo.nuestro {
+    color: #fff;
+    font-weight: 700;
 }
 
 .st-escudo {
-    flex: 0 0 auto;
-    width: 30px;
-    height: 30px;
+    flex: 0 0 18px;
+    width: 18px;
+    height: 18px;
     object-fit: contain;
 }
 
 .st-nombre {
+    flex: 1 1 auto;
     min-width: 0;
-    font-size: 0.76rem;
-    font-weight: 500;
-    line-height: 1.25;
-    color: #cfcfcf;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-    overflow: hidden;
-}
-
-.st-lado.nuestro .st-nombre {
-    font-weight: 700;
-    color: #fff;
-}
-
-.st-centro {
-    flex: 0 0 auto;
-    padding: 3px 8px;
-    border-radius: 5px;
-    background: #FDED3A;
-    color: #000;
-    font-size: 0.62rem;
-    font-weight: 800;
-    letter-spacing: 1px;
-    font-variant-numeric: tabular-nums;
-    white-space: nowrap;
-}
-
-.st-centro.marcador {
-    font-size: 0.78rem;
-    letter-spacing: 0;
-}
-
-.st-centro.si { background: #58d68d; }
-.st-centro.no { background: #ff7b7b; }
-.st-centro.borr { background: #cfcfcf; }
-
-.st-pie {
-    margin-top: 7px;
-    font-size: 0.68rem;
-    line-height: 1.3;
-    color: #8a8a8a;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-/* Lista estrecha (el recuadro mide 300px hasta unos 1500px de pantalla):
-   escudos y pastilla algo más pequeños y menos aire para que los nombres
-   largos quepan en tres líneas sin cortarse. */
-@container (max-width: 310px) {
-    .semana-tarjeta {
-        padding: 8px 10px 7px;
-    }
+.st-goles {
+    flex: 0 0 auto;
+    min-width: 18px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    color: #8a8a8a;
+}
 
-    .st-duelo {
-        gap: 6px;
-        margin-top: 6px;
-    }
+.st-equipo.gana .st-goles {
+    color: #fff;
+    font-weight: 800;
+}
 
-    .st-lado {
-        gap: 6px;
-    }
+.st-pie {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 2px;
+    min-width: 0;
+    font-size: 0.68rem;
+    color: #8a8a8a;
+}
 
-    .st-escudo {
-        width: 26px;
-        height: 26px;
-    }
+.st-fecha {
+    flex: 0 0 auto;
+    font-weight: 700;
+    color: #cfcfcf;
+}
 
-    .st-nombre {
-        font-size: 0.7rem;
-    }
+.st-hora {
+    flex: 0 0 auto;
+    padding: 2px 7px;
+    border-radius: 4px;
+    background: #FDED3A;
+    color: #000;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+}
 
-    .st-centro {
-        padding: 2px 6px;
-    }
+.st-hora.fin {
+    background: #2b2b2b;
+    color: #cfcfcf;
+}
 
-    .st-pie {
-        margin-top: 6px;
-    }
+.st-lugar {
+    flex: 1 1 auto;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
