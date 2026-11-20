@@ -1172,8 +1172,8 @@
         line-height: 1.5;
     }
 
-    .t27-portada-datos li:nth-child(2) { grid-row: 1; }
-    .t27-portada-datos li:nth-child(3) { grid-row: 2; }
+    .t27-portada-datos li:nth-child(2) { grid-row: 1; margin-bottom: 10px; }
+    .t27-portada-datos li:nth-child(3) { grid-row: 2; margin-bottom: 10px; }
     .t27-portada-datos li:nth-child(4) { grid-row: 3; margin-bottom: 1px; }
 
     /* Las fechas, a todo el ancho, con la línea que antes llevaba la lista. */
