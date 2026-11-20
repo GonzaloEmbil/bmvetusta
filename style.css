@@ -5615,9 +5615,9 @@ body {
     font-size: 0.85rem;
 }
 
-/* Las flechas: sin círculo, un chevron en el morado de los equipos del
-   club, sobre un fundido blanco que difumina las tarjetas en ese borde
-   para que la flecha no se monte encima de escudos y nombres. */
+/* Las flechas: sin círculo ni fondo, un chevron en el morado de los
+   equipos del club. Un filo blanco muy fino lo separa de lo que pase por
+   debajo. */
 .home-semana-flecha {
     position: absolute;
     top: 0;
@@ -5629,13 +5629,9 @@ body {
     width: 52px;
     padding: 0;
     border: 0;
-    background: linear-gradient(to right, #fff 0%, #fff 45%, rgba(255, 255, 255, 0) 100%);
+    background: none;
     color: #20247c;
     cursor: pointer;
-}
-
-.home-semana-flecha.der {
-    background: linear-gradient(to left, #fff 0%, #fff 45%, rgba(255, 255, 255, 0) 100%);
 }
 
 .home-semana-flecha svg {
@@ -5646,6 +5642,7 @@ body {
     stroke-width: 3;
     stroke-linecap: round;
     stroke-linejoin: round;
+    filter: drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff);
     transition: transform 0.2s ease;
 }
 

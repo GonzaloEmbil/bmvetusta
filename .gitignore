@@ -25,3 +25,11 @@ node_modules/
 # Exportaciones de abonados: contienen datos personales (DNI, menores).
 # El *.csv de arriba ya las cubre, pero se deja explícito por si se cambia.
 abonados*.csv
+
+# IV Torneo Nacional 2027: la página está oculta (sólo en local) hasta que
+# se decida publicarla. Para volver a subirla, quitar estas líneas y
+# añadir los archivos con git add.
+torneo/index.html
+torneo/torneo.css
+src/assets/torneo2027/
+dossier/Dossier-IV-Torneo-BM-Vetusta-2027.pdf
