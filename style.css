@@ -5615,30 +5615,50 @@ body {
     font-size: 0.85rem;
 }
 
+/* Las flechas: sin círculo, un chevron en el morado de los equipos del
+   club, sobre un fundido blanco que difumina las tarjetas en ese borde
+   para que la flecha no se monte encima de escudos y nombres. */
 .home-semana-flecha {
     position: absolute;
-    top: 50%;
+    top: 0;
+    bottom: 0;
     z-index: 2;
-    width: 34px;
-    height: 34px;
-    margin-top: -17px;
-    border-radius: 50%;
-    border: 1px solid #ddd;
-    background: rgba(255, 255, 255, 0.96);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
-    color: #222;
-    font-size: 1.35rem;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    padding: 0;
+    border: 0;
+    background: linear-gradient(to right, #fff 0%, #fff 45%, rgba(255, 255, 255, 0) 100%);
+    color: #20247c;
     cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-}
-
-.home-semana-flecha.izq {
-    left: 10px;
 }
 
 .home-semana-flecha.der {
-    right: 10px;
+    background: linear-gradient(to left, #fff 0%, #fff 45%, rgba(255, 255, 255, 0) 100%);
+}
+
+.home-semana-flecha svg {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.2s ease;
+}
+
+.home-semana-flecha.izq {
+    left: 0;
+    justify-content: flex-start;
+    padding-left: 8px;
+}
+
+.home-semana-flecha.der {
+    right: 0;
+    justify-content: flex-end;
+    padding-right: 8px;
 }
 
 .home-semana-flecha[hidden] {
@@ -5646,9 +5666,20 @@ body {
 }
 
 .home-semana-flecha:hover {
-    background: #FDED3A;
-    border-color: #FDED3A;
-    color: #000;
+    color: #0f1258;
+}
+
+.home-semana-flecha.izq:hover svg {
+    transform: translateX(-2px) scale(1.1);
+}
+
+.home-semana-flecha.der:hover svg {
+    transform: translateX(2px) scale(1.1);
+}
+
+.home-semana-flecha:focus-visible {
+    outline: 2px solid #20247c;
+    outline-offset: -4px;
 }
 
 /* Cada partido: arriba el día y, en la misma fila a la derecha, la hora
@@ -5767,8 +5798,7 @@ body {
 }
 
 /* Móvil: la misma tira bajo la cabecera, donde estaba el banner del
-   próximo partido. Se pasa con el dedo o con las flechas (algo más
-   pequeñas), tarjetas algo más estrechas para que asome la siguiente, y
+   próximo partido. Se pasa con el dedo o con las flechas, tarjetas algo más estrechas para que asome la siguiente, y
    hasta el carrusel los mismos 24px que hay entre el carrusel y el vídeo
    de la campaña. */
 @media (max-width: 768px) {
@@ -5781,18 +5811,20 @@ body {
     }
 
     .home-semana-flecha {
-        width: 30px;
-        height: 30px;
-        margin-top: -15px;
-        font-size: 1.2rem;
+        width: 44px;
     }
 
     .home-semana-flecha.izq {
-        left: 6px;
+        padding-left: 4px;
     }
 
     .home-semana-flecha.der {
-        right: 6px;
+        padding-right: 4px;
+    }
+
+    .home-semana-flecha svg {
+        width: 26px;
+        height: 26px;
     }
 
     .semana-tarjeta {
