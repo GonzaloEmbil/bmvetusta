@@ -1120,8 +1120,8 @@
 
     .t27-portada-foto img {
         height: auto;
-        aspect-ratio: 1 / 0.92;
-        object-position: 50% 25%;
+        aspect-ratio: 1 / 0.82;
+        object-position: 50% 22%;
     }
 
     .t27-portada-foto::after {
@@ -1144,7 +1144,7 @@
         column-gap: 14px;
         align-items: end;
         padding: 0 20px 40px;
-        margin-top: -28px;
+        margin-top: -46px;
         min-height: 0;
     }
 
