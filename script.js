@@ -1139,11 +1139,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // como «AAAA-MM-DD HH:MM:SS», así que ordena bien como texto):
             // la categoría, el local y el visitante con su escudo y, abajo,
             // el día, la hora (o los goles si ya se jugó) y el pabellón.
+            // De mayor a menor categoría (orden = puesto del equipo en la
+            // lista del club) y, a igual categoría, por fecha.
             var partidos = (j.partidos || []).slice().sort(function(a, b) {
-                return String(a.fecha).localeCompare(String(b.fecha));
+                return (a.orden - b.orden) || String(a.fecha).localeCompare(String(b.fecha));
             });
-            var cuenta = document.getElementById('home-semana-cuenta');
-            if (cuenta) cuenta.textContent = partidos.length ? partidos.length + (partidos.length === 1 ? ' partido' : ' partidos') : '';
             if (!partidos.length) {
                 lista.innerHTML = '<p class="home-semana-vacio">Ningún equipo del club juega esta semana.</p>';
                 return;
@@ -1184,7 +1184,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 var gl = jugado ? p.goles_local : null, gv = jugado ? p.goles_visitante : null;
                 var lugar = bonito(p.pabellon);
-                return '<div class="semana-tarjeta' + (jugado ? ' jugado' : '') + '">' +
+                // La tarjeta del primer equipo guarda la hora de inicio: mientras
+                // se juega, la pastilla de la hora pasa a ser la del directo.
+                var primera = !dos && categoria === 'Primera Nacional' && !jugado;
+                return '<div class="semana-tarjeta' + (jugado ? ' jugado' : '') + '"' + (primera ? ' data-primera="1" data-inicio="' + escapar(f) + '"' : '') + '>' +
                     '<div class="st-cat" title="' + escapar(categoria) + '">' + escapar(categoria) + '</div>' +
                     equipo(nombreLocal, p.nuestro_local ? ESCUDO : p.escudo_local, p.nuestro_local, gl, jugado && gl > gv) +
                     equipo(nombreVisitante, p.nuestro_visitante ? ESCUDO : p.escudo_visitante, p.nuestro_visitante, gv, jugado && gv > gl) +
@@ -1195,6 +1198,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     '</div>' +
                 '</div>';
             }).join('');
+            actualizarDirectoTira();
         }
 
         // Las flechas desplazan la tira una pantalla de tarjetas.
@@ -1228,7 +1232,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // no hace falta pedirlo aparte; cargarBannerAparte() queda para cuando el
     // paquete no lo trae o no llega. En las demás páginas no hay banner y no
     // se pide nada.
+    var proximoPrimera = null;   // el próximo partido del primer equipo (con su directo)
     function pintarBanner(match) {
+        proximoPrimera = match || null;
+        actualizarDirectoTira();
         var banner = document.getElementById('match-banner');
         var bannerLink = document.getElementById('match-banner-link');
         if (!banner) return;
@@ -1298,8 +1305,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     setInterval(actualizarDirectoBanner, 60000);
 
+    // Lo mismo en la tira de partidos de la semana: mientras se juega el
+    // partido del primer equipo y hay directo, su pastilla de la hora pasa a
+    // ser la roja del streaming, con el enlace al directo.
+    function actualizarDirectoTira() {
+        var tarjeta = document.querySelector('.semana-tarjeta[data-primera]');
+        if (!tarjeta) return;
+        var pastilla = tarjeta.querySelector('.st-hora, .st-directo');
+        if (!pastilla) return;
+        var url = proximoPrimera && proximoPrimera.url_streaming;
+        var live = !!url && enDirecto(tarjeta.getAttribute('data-inicio'));
+        if (live && !pastilla.classList.contains('st-directo')) {
+            var a = document.createElement('a');
+            a.className = 'st-directo';
+            a.href = url; a.target = '_blank'; a.rel = 'noopener noreferrer';
+            a.textContent = 'Streaming';
+            a.setAttribute('data-hora', pastilla.textContent);
+            pastilla.parentNode.replaceChild(a, pastilla);
+        } else if (!live && pastilla.classList.contains('st-directo')) {
+            var h = document.createElement('span');
+            h.className = 'st-hora';
+            h.textContent = pastilla.getAttribute('data-hora') || '';
+            pastilla.parentNode.replaceChild(h, pastilla);
+        }
+    }
+    window.actualizarDirectoTira = actualizarDirectoTira;
+    setInterval(actualizarDirectoTira, 60000);
+
     function cargarBannerAparte() {
-        if (!document.getElementById('match-banner')) return;
+        if (!document.getElementById('match-banner') && !document.getElementById('home-semana')) return;
 
         // Determine base path to data/ depending on page depth
         var scriptTags = document.querySelectorAll('script[src*="script.js"]');

@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-53">
+    <link rel="stylesheet" href="style.css?v=campana-54">
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -60,35 +60,13 @@
         </a>
     </header>
 
-    <!-- Banner próximo partido (populated dynamically from data/proximo-partido.json) -->
-    <section class="match-banner" id="match-banner">
-        <a id="match-banner-link" class="match-banner-inner" href="#" target="_blank" rel="noopener noreferrer" style="text-decoration:none;color:inherit;">
-            <div class="match-team match-team-home">
-                <img id="match-home-badge" src="" alt="Local" class="match-team-badge">
-                <span class="match-team-name match-team-name-full" id="match-home-name-full"></span>
-                <span class="match-team-name match-team-name-short" id="match-home-name-short"></span>
-            </div>
-            <div class="match-center">
-                <span class="match-center-line1" id="match-venue"></span>
-                <span class="match-center-line2" id="match-datetime"></span>
-            </div>
-            <div class="match-team match-team-away">
-                <span class="match-team-name match-team-name-full" id="match-away-name-full"></span>
-                <span class="match-team-name match-team-name-short" id="match-away-name-short"></span>
-                <img id="match-away-badge" src="" alt="Visitante" class="match-team-badge">
-            </div>
-        </a>
-    </section>
-
-    <!-- Partidos de la semana: una tira a todo el ancho bajo el banner, con
-         una tarjeta por partido de todos los equipos del club, en orden
-         cronológico. La rellena script.js desde /api/semana.json (respaldo
-         en data/2627/semana.json). Sólo en escritorio; en móvil no existe. -->
+    <!-- Partidos de la semana: una tira a todo el ancho bajo la cabecera,
+         con una tarjeta por partido de todos los equipos del club, de mayor
+         a menor categoría. La rellena script.js desde /api/semana.json
+         (respaldo en data/2627/semana.json); la de Primera Nacional lleva
+         la pastilla roja del directo mientras se juega. Sólo en escritorio;
+         en móvil no existe. -->
     <section class="home-semana" id="home-semana" aria-label="Partidos de esta semana">
-        <div class="home-semana-cab">
-            <span class="home-semana-titulo">Partidos de<br>la semana</span>
-            <span class="home-semana-cuenta" id="home-semana-cuenta"></span>
-        </div>
         <div class="home-semana-lista" id="home-semana-lista"></div>
         <div class="home-semana-nav">
             <button type="button" class="home-semana-flecha" data-dir="-1" aria-label="Partidos anteriores">&#8249;</button>
@@ -1810,7 +1788,7 @@
         </div>
     </footer>
 
-    <script src="script.js?v=campana-53"></script>
+    <script src="script.js?v=campana-54"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No
