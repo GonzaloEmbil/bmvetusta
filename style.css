@@ -4266,13 +4266,10 @@ body {
         margin: 24px auto 0;
     }
 
-    /* Tag carousels: full-width stack under the main carousel */
-    /* margin-top = hueco carrusel→primer recuadro (12px), el mismo que el
-       gap entre recuadros. */
+    /* En móvil sólo va el carrusel principal: las tres cajas de etiquetas
+       no se muestran. */
     .tag-carousels {
-        width: 90%;
-        max-width: 360px;
-        margin: 12px auto 0;
+        display: none;
     }
 
     /* Toda la columna respira igual: 24px entre bloque y bloque. Cada hueco
