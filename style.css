@@ -150,6 +150,15 @@ body {
     }
 }
 
+/* De 1000 a 1149px, centrado todavía rozaba la cuña: también pegado al
+   escudo, con el tamaño y la separación de este tramo. */
+@media (min-width: 1000px) and (max-width: 1149px) {
+    .nav {
+        left: 150px;
+        transform: none;
+    }
+}
+
 @media (min-width: 769px) and (max-width: 849px) {
     .nav {
         gap: 11px;
@@ -1686,26 +1695,89 @@ body {
 
 /* Escritorio estrecho: el menú, centrado, llega hasta la franja amarilla y
    el candado centrado en ella chocaría con «PATROCINIOS»; se arrima al borde. */
-@media (min-width: 769px) and (max-width: 899px) {
-    .header-privada {
-        right: 62px;
-    }
-}
 
-/* Escritorio: sólo el candado, en un círculo negro sobre la franja amarilla
-   (el aria-label lo nombra). */
+
+/* Escritorio: sobre la franja amarilla, las redes sociales y, a su lado,
+   el candado del área privada (el aria-label lo nombra), todo en negro y
+   sin fondo. El grupo va centrado en la franja, donde antes iba el botón. */
 @media (min-width: 769px) {
-    .header-privada {
-        padding: 11px;
+    .header-derecha {
+        position: absolute;
+        top: 50%;
+        right: 130px;
+        transform: translate(50%, -50%);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+    }
+
+    .header-red,
+    .header-derecha .header-privada {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        text-decoration: none;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+    }
+
+    .header-red:hover,
+    .header-derecha .header-privada:hover {
+        transform: scale(1.15);
+        opacity: 0.75;
+    }
+
+    .header-red:focus-visible,
+    .header-derecha .header-privada:focus-visible {
+        outline: 2px solid #000;
+        outline-offset: 3px;
+        border-radius: 4px;
+    }
+
+    .header-derecha .header-privada {
+        position: static;
+        transform: none;
+        padding: 0;
+        margin-left: 4px;
+        background: none;
+        box-shadow: none;
+        border-radius: 0;
+    }
+
+    .header-derecha .header-privada:hover {
+        background: none;
+        box-shadow: none;
     }
 
     .header-privada span {
         display: none;
     }
 
-    .header-privada svg {
-        width: 16px;
-        height: 16px;
+    .header-derecha .header-privada svg {
+        width: 18px;
+        height: 18px;
+    }
+}
+
+/* En escritorio estrecho la franja se queda corta para cinco iconos: más
+   juntos y arrimados al borde. */
+@media (min-width: 769px) and (max-width: 999px) {
+    .header-derecha {
+        right: 110px;
+        gap: 12px;
+    }
+
+    .header-red svg {
+        width: 15px;
+        height: 15px;
+    }
+}
+
+/* En móvil el grupo no existe: el área privada va en el menú y las redes,
+   en el pie. */
+@media (max-width: 768px) {
+    .header-derecha {
+        display: none;
     }
 }
 
