@@ -5767,9 +5767,10 @@ body {
 }
 
 /* Móvil: la misma tira bajo la cabecera, donde estaba el banner del
-   próximo partido. Sin flechas (se pasa con el dedo), tarjetas algo más
-   estrechas para que asome la siguiente, y hasta el carrusel los mismos
-   24px que hay entre el carrusel y el vídeo de la campaña. */
+   próximo partido. Se pasa con el dedo o con las flechas (algo más
+   pequeñas), tarjetas algo más estrechas para que asome la siguiente, y
+   hasta el carrusel los mismos 24px que hay entre el carrusel y el vídeo
+   de la campaña. */
 @media (max-width: 768px) {
     .home-semana {
         display: block;
@@ -5779,9 +5780,19 @@ body {
         border-bottom: 1px solid #e3e3e3;
     }
 
-    .home-semana-flecha,
-    .home-semana-flecha:not([hidden]) {
-        display: none;
+    .home-semana-flecha {
+        width: 30px;
+        height: 30px;
+        margin-top: -15px;
+        font-size: 1.2rem;
+    }
+
+    .home-semana-flecha.izq {
+        left: 6px;
+    }
+
+    .home-semana-flecha.der {
+        right: 6px;
     }
 
     .semana-tarjeta {
