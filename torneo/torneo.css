@@ -925,7 +925,7 @@
 
 .t27-contacto {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr);
     gap: 32px;
     align-items: center;
 }
@@ -1183,8 +1183,7 @@
     .t27-fotos2,
     .t27-mapa,
     .t27-ocio-grid,
-    .t27-precio-grid,
-    .t27-contacto {
+    .t27-precio-grid {
         grid-template-columns: minmax(0, 1fr);
     }
 
