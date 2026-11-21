@@ -34,14 +34,32 @@ document.addEventListener('DOMContentLoaded', function() {
     })();
 
     // Loading screen
+    // Pantalla de carga: se quita en cuanto lo de arriba está listo, no cuando
+    // ha bajado la página entera (antes esperaba al evento load, es decir, a
+    // todas las imágenes, también las que no se ven: varios segundos en
+    // móvil). «Listo» es el HTML ya montado (estamos en DOMContentLoaded) y,
+    // si la hay, la foto de la noticia visible del carrusel. Como mucho se
+    // espera 1,5 s por esa foto; el evento load queda de red de seguridad.
     const loadingScreen = document.getElementById('loading-screen');
     if (loadingScreen) {
-        window.addEventListener('load', () => {
+        let quitada = false;
+        const quitar = () => {
+            if (quitada) return;
+            quitada = true;
             loadingScreen.classList.add('fade-out');
             loadingScreen.addEventListener('transitionend', () => {
                 loadingScreen.style.display = 'none';
             });
-        });
+        };
+        const foto = document.querySelector('.news-carousel-slide.active img');
+        if (!foto || foto.complete) {
+            quitar();
+        } else {
+            foto.addEventListener('load', quitar);
+            foto.addEventListener('error', quitar);
+            setTimeout(quitar, 1500);
+        }
+        window.addEventListener('load', quitar);
     }
     
     // REGLA PERMANENTE: El borde superior de las imágenes del carrusel de equipos
