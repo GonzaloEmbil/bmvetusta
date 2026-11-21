@@ -7,10 +7,28 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="../src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="../src/assets/apple-touch-icon.png">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="preload" href="../src/assets/fonts/inter.woff2" as="font" type="font/woff2" crossorigin>
     <style>
+        /* Tipografías propias, servidas desde la web (antes venían de Google Fonts,
+           que añadía una hoja y dos dominios más antes del primer pintado). Bebas
+           Neue, un solo grosor; Inter, variable: todos los grosores de 100 a 900
+           en un archivo. Ambas cubren tildes, eñes y comillas españolas. */
+        @font-face {
+            font-family: 'Bebas Neue';
+            src: url('../src/assets/fonts/bebas-neue.woff2') format('woff2');
+            font-weight: 400;
+            font-style: normal;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Inter';
+            src: url('../src/assets/fonts/inter.woff2') format('woff2');
+            font-weight: 100 900;
+            font-style: normal;
+            font-display: swap;
+        }
+
         *, *::before, *::after { box-sizing: border-box; }
         html, body { margin: 0; padding: 0; }
 

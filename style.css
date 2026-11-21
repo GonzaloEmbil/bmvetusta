@@ -1,3 +1,23 @@
+/* Tipografías propias, servidas desde la web (antes venían de Google Fonts,
+   que añadía una hoja y dos dominios más antes del primer pintado). Bebas
+   Neue, un solo grosor; Inter, variable: todos los grosores de 100 a 900
+   en un archivo. Ambas cubren tildes, eñes y comillas españolas. */
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('src/assets/fonts/bebas-neue.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('src/assets/fonts/inter.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;

@@ -5,6 +5,18 @@
    trámite: fondo blanco, sin navegación y sin nada que distraiga.
    ═══════════════════════════════════════════════════════════════════════ */
 
+/* Tipografías propias, servidas desde la web (antes venían de Google Fonts,
+   que añadía una hoja y dos dominios más antes del primer pintado). Inter,
+   variable: todos los grosores de 100 a 900 en un archivo; cubre tildes,
+   eñes y comillas españolas. */
+@font-face {
+    font-family: 'Inter';
+    src: url('../src/assets/fonts/inter.woff2') format('woff2');
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
+
 *, *::before, *::after { box-sizing: border-box; }
 
 :root {
