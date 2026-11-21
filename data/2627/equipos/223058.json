@@ -73,14 +73,14 @@
       "nombre": "JUANFERSA GIJON A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
-      "PJ": 4,
-      "PG": 4,
+      "PJ": 5,
+      "PG": 5,
       "PE": 0,
       "PP": 0,
-      "GF": 117,
-      "GC": 48,
-      "DIF": 69,
-      "puntos": 8
+      "GF": 165,
+      "GC": 76,
+      "DIF": 89,
+      "puntos": 10
     },
     {
       "posicion": 2,
@@ -101,27 +101,27 @@
       "nombre": "CTD CONFIA BASE OVIEDO A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
-      "PJ": 4,
-      "PG": 3,
+      "PJ": 5,
+      "PG": 4,
       "PE": 0,
       "PP": 1,
-      "GF": 135,
-      "GC": 103,
-      "DIF": 32,
-      "puntos": 6
+      "GF": 171,
+      "GC": 129,
+      "DIF": 42,
+      "puntos": 8
     },
     {
       "posicion": 4,
       "nombre": "REAL GRUPO DE CULTURA COVADONGA A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
       "es_vetusta": false,
-      "PJ": 5,
+      "PJ": 6,
       "PG": 3,
       "PE": 0,
-      "PP": 2,
-      "GF": 167,
-      "GC": 149,
-      "DIF": 18,
+      "PP": 3,
+      "GF": 195,
+      "GC": 197,
+      "DIF": -2,
       "puntos": 6
     },
     {
@@ -129,13 +129,13 @@
       "nombre": "AUTO-CENTER PRINCIPADO A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 2,
       "PE": 0,
-      "PP": 2,
-      "GF": 123,
-      "GC": 113,
-      "DIF": 10,
+      "PP": 3,
+      "GF": 149,
+      "GC": 149,
+      "DIF": 0,
       "puntos": 4
     },
     {
@@ -168,34 +168,44 @@
     },
     {
       "posicion": 8,
-      "nombre": "DEPORTIVO ESTADIO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100954/square_70676d6f3136706f6c72.jpg",
+      "nombre": "CODEMA",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
       "es_vetusta": false,
-      "PJ": 4,
-      "PG": 0,
+      "PJ": 6,
+      "PG": 1,
       "PE": 0,
-      "PP": 4,
-      "GF": 93,
-      "GC": 149,
-      "DIF": -56,
-      "puntos": 0
+      "PP": 5,
+      "GF": 113,
+      "GC": 194,
+      "DIF": -81,
+      "puntos": 2
     },
     {
       "posicion": 9,
-      "nombre": "CODEMA",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
+      "nombre": "DEPORTIVO ESTADIO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100954/square_70676d6f3136706f6c72.jpg",
       "es_vetusta": false,
       "PJ": 5,
       "PG": 0,
       "PE": 0,
       "PP": 5,
-      "GF": 78,
-      "GC": 160,
-      "DIF": -82,
+      "GF": 127,
+      "GC": 184,
+      "DIF": -57,
       "puntos": 0
     }
   ],
   "resultados": [
+    {
+      "fecha": "2026-11-21 10:00:00",
+      "jornada": "6",
+      "es_local": false,
+      "rival": "CTD CONFIA BASE OVIEDO A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "goles_vetusta": 26,
+      "goles_rival": 36,
+      "resultado": "D"
+    },
     {
       "fecha": "2026-11-14 13:45:00",
       "jornada": "5",
@@ -215,29 +225,9 @@
       "goles_vetusta": 22,
       "goles_rival": 33,
       "resultado": "D"
-    },
-    {
-      "fecha": "2026-11-07 12:45:00",
-      "jornada": "4",
-      "es_local": false,
-      "rival": "IES CORVERA",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
-      "goles_vetusta": 40,
-      "goles_rival": 26,
-      "resultado": "V"
     }
   ],
   "calendario": [
-    {
-      "fecha": "2026-11-21 10:00:00",
-      "jornada": "6",
-      "es_local": false,
-      "rival": "CTD CONFIA BASE OVIEDO A",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "url_streaming": null,
-      "sede": "De Vallobin · Oviedo",
-      "pabellon": "Polideportivo de Vallobin"
-    },
     {
       "fecha": "2026-11-28 10:00:00",
       "jornada": "7",
@@ -257,6 +247,16 @@
       "url_streaming": null,
       "sede": "Colegio Martinez Blanco · Gijón",
       "pabellon": "Pabellon Colegio Martinez Blanco"
+    },
+    {
+      "fecha": "",
+      "jornada": "9",
+      "es_local": true,
+      "rival": "CODEMA",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
+      "url_streaming": null,
+      "sede": "Polid. Mpal. La Carisa «Yago Lamela» · Oviedo",
+      "pabellon": "Polid. Mpal. La Carisa «Yago Lamela»"
     }
   ]
 }

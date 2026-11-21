@@ -73,45 +73,59 @@
       "nombre": "JUANFERSA GIJON A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 4,
-      "PE": 0,
+      "PE": 1,
       "PP": 0,
       "GF": 122,
       "GC": 60,
       "DIF": 62,
-      "puntos": 8
+      "puntos": 9
     },
     {
       "posicion": 2,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 3,
+      "PE": 2,
+      "PP": 0,
+      "GF": 152,
+      "GC": 108,
+      "DIF": 44,
+      "puntos": 8
+    },
+    {
+      "posicion": 3,
       "nombre": "H. LA ESTACION-I.E.S. CRISTO DEL SOCORRO A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 3,
-      "PE": 1,
+      "PE": 2,
       "PP": 0,
       "GF": 110,
       "GC": 78,
       "DIF": 32,
-      "puntos": 7
-    },
-    {
-      "posicion": 3,
-      "nombre": "REAL GRUPO DE CULTURA COVADONGA A",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-      "es_vetusta": false,
-      "PJ": 4,
-      "PG": 2,
-      "PE": 2,
-      "PP": 0,
-      "GF": 117,
-      "GC": 83,
-      "DIF": 34,
-      "puntos": 6
+      "puntos": 8
     },
     {
       "posicion": 4,
+      "nombre": "AUTO-CENTER PRINCIPADO A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 5,
+      "PG": 2,
+      "PE": 1,
+      "PP": 2,
+      "GF": 135,
+      "GC": 148,
+      "DIF": -13,
+      "puntos": 5
+    },
+    {
+      "posicion": 5,
       "nombre": "BOSCO ATLETICA A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
@@ -125,31 +139,17 @@
       "puntos": 4
     },
     {
-      "posicion": 5,
-      "nombre": "AUTO-CENTER PRINCIPADO A",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
-      "es_vetusta": true,
-      "PJ": 4,
-      "PG": 1,
-      "PE": 1,
-      "PP": 2,
-      "GF": 100,
-      "GC": 119,
-      "DIF": -19,
-      "puntos": 3
-    },
-    {
       "posicion": 6,
       "nombre": "CTD CONFIA  BASE OVIEDO  A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 1,
       "PE": 0,
-      "PP": 3,
-      "GF": 102,
-      "GC": 122,
-      "DIF": -20,
+      "PP": 4,
+      "GF": 127,
+      "GC": 157,
+      "DIF": -30,
       "puntos": 2
     },
     {
@@ -157,13 +157,13 @@
       "nombre": "I.E.S CORVERA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 1,
       "PE": 0,
-      "PP": 3,
-      "GF": 103,
-      "GC": 142,
-      "DIF": -39,
+      "PP": 4,
+      "GF": 132,
+      "GC": 177,
+      "DIF": -45,
       "puntos": 2
     },
     {
@@ -183,6 +183,16 @@
   ],
   "resultados": [
     {
+      "fecha": "2026-11-21 11:30:00",
+      "jornada": "5",
+      "es_local": false,
+      "rival": "I.E.S CORVERA ",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
+      "goles_vetusta": 35,
+      "goles_rival": 29,
+      "resultado": "V"
+    },
+    {
       "fecha": "2026-11-14 10:00:00",
       "jornada": "4",
       "es_local": true,
@@ -201,29 +211,9 @@
       "goles_vetusta": 21,
       "goles_rival": 28,
       "resultado": "D"
-    },
-    {
-      "fecha": "2026-10-24 10:00:00",
-      "jornada": "2",
-      "es_local": true,
-      "rival": "BOSCO ATLETICA A",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "goles_vetusta": 33,
-      "goles_rival": 28,
-      "resultado": "V"
     }
   ],
   "calendario": [
-    {
-      "fecha": "2026-11-21 11:30:00",
-      "jornada": "5",
-      "es_local": false,
-      "rival": "I.E.S CORVERA ",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
-      "url_streaming": null,
-      "sede": "Toso Muñiz · Sobre las Vegas",
-      "pabellon": "Polideportivo Toso Muñiz"
-    },
     {
       "fecha": "2026-11-28 12:00:00",
       "jornada": "6",

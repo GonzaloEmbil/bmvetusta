@@ -98,20 +98,34 @@
     },
     {
       "posicion": 3,
-      "nombre": "C.D. VILLA DE LUANCO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "nombre": "CONFIA BASE OVIEDO B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 3,
       "PE": 0,
-      "PP": 1,
-      "GF": 116,
-      "GC": 92,
-      "DIF": 24,
+      "PP": 2,
+      "GF": 153,
+      "GC": 137,
+      "DIF": 16,
       "puntos": 6
     },
     {
       "posicion": 4,
+      "nombre": "C.D. VILLA DE LUANCO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 3,
+      "PE": 0,
+      "PP": 2,
+      "GF": 143,
+      "GC": 121,
+      "DIF": 22,
+      "puntos": 6
+    },
+    {
+      "posicion": 5,
       "nombre": "SC SYNERKOS CASTRILLON",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
       "es_vetusta": false,
@@ -125,7 +139,7 @@
       "puntos": 5
     },
     {
-      "posicion": 5,
+      "posicion": 6,
       "nombre": "REAL GRUPO DE CULTURA COVADONGA B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
       "es_vetusta": false,
@@ -137,20 +151,6 @@
       "GC": 146,
       "DIF": 4,
       "puntos": 5
-    },
-    {
-      "posicion": 6,
-      "nombre": "CONFIA BASE OVIEDO B",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "es_vetusta": false,
-      "PJ": 4,
-      "PG": 2,
-      "PE": 0,
-      "PP": 2,
-      "GF": 124,
-      "GC": 110,
-      "DIF": 14,
-      "puntos": 4
     },
     {
       "posicion": 7,

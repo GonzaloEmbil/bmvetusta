@@ -84,6 +84,20 @@
     },
     {
       "posicion": 2,
+      "nombre": "B.M LA CALZADA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 4,
+      "PE": 0,
+      "PP": 1,
+      "GF": 137,
+      "GC": 106,
+      "DIF": 31,
+      "puntos": 8
+    },
+    {
+      "posicion": 3,
       "nombre": "CODEMA A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
       "es_vetusta": false,
@@ -94,20 +108,6 @@
       "GF": 126,
       "GC": 101,
       "DIF": 25,
-      "puntos": 6
-    },
-    {
-      "posicion": 3,
-      "nombre": "B.M LA CALZADA A",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
-      "es_vetusta": false,
-      "PJ": 4,
-      "PG": 3,
-      "PE": 0,
-      "PP": 1,
-      "GF": 104,
-      "GC": 85,
-      "DIF": 19,
       "puntos": 6
     },
     {
@@ -171,13 +171,13 @@
       "nombre": "AUTO-CENTER PRINCIPADO",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
-      "PJ": 5,
+      "PJ": 6,
       "PG": 1,
       "PE": 0,
-      "PP": 4,
-      "GF": 129,
-      "GC": 160,
-      "DIF": -31,
+      "PP": 5,
+      "GF": 150,
+      "GC": 193,
+      "DIF": -43,
       "puntos": 2
     },
     {
@@ -197,6 +197,16 @@
   ],
   "resultados": [
     {
+      "fecha": "2026-11-21 11:00:00",
+      "jornada": "6",
+      "es_local": false,
+      "rival": "B.M LA CALZADA A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
+      "goles_vetusta": 21,
+      "goles_rival": 33,
+      "resultado": "D"
+    },
+    {
       "fecha": "2026-11-14 12:30:00",
       "jornada": "5",
       "es_local": true,
@@ -215,29 +225,9 @@
       "goles_vetusta": 22,
       "goles_rival": 26,
       "resultado": "D"
-    },
-    {
-      "fecha": "2026-10-31 13:15:00",
-      "jornada": "3",
-      "es_local": true,
-      "rival": "AZOR ATLETICA AVILESINA",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "goles_vetusta": 40,
-      "goles_rival": 25,
-      "resultado": "V"
     }
   ],
   "calendario": [
-    {
-      "fecha": "2026-11-21 11:00:00",
-      "jornada": "6",
-      "es_local": false,
-      "rival": "B.M LA CALZADA A",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/75/square_3670763367306c6b6c77.jpg",
-      "url_streaming": null,
-      "sede": "Moreda Natahoyo · Gijón",
-      "pabellon": "Complejo Deportivo Moreda Natahoyo"
-    },
     {
       "fecha": "",
       "jornada": "8",
@@ -253,6 +243,16 @@
       "jornada": "9",
       "es_local": false,
       "rival": "BALONMANO CIARES A",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
+      "url_streaming": null,
+      "sede": "De La Tejerona · Gijón",
+      "pabellon": "Pabellon Municipal de La Tejerona"
+    },
+    {
+      "fecha": "",
+      "jornada": "10",
+      "es_local": false,
+      "rival": "BALONMANO GIJON  A",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
       "url_streaming": null,
       "sede": "De La Tejerona · Gijón",
