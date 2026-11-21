@@ -101,28 +101,28 @@
       "nombre": "JUANFERSA GIJON C",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 3,
-      "PE": 0,
+      "PE": 1,
       "PP": 1,
-      "GF": 143,
-      "GC": 91,
+      "GF": 173,
+      "GC": 121,
       "DIF": 52,
-      "puntos": 6
+      "puntos": 7
     },
     {
       "posicion": 4,
       "nombre": "CONFIA BASE OVIEDO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 3,
-      "PE": 0,
+      "PE": 1,
       "PP": 1,
-      "GF": 164,
-      "GC": 130,
+      "GF": 194,
+      "GC": 160,
       "DIF": 34,
-      "puntos": 6
+      "puntos": 7
     },
     {
       "posicion": 5,

@@ -70,31 +70,31 @@
   "clasificacion": [
     {
       "posicion": 1,
-      "nombre": "C.P JUAN RDEZ. MUÑIZ - CP VENTANIELLES",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
-      "es_vetusta": true,
+      "nombre": "C.P. LORENZO NOVO MIER",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "es_vetusta": false,
       "PJ": 2,
       "PG": 2,
       "PE": 0,
       "PP": 0,
-      "GF": 56,
-      "GC": 30,
-      "DIF": 26,
+      "GF": 59,
+      "GC": 21,
+      "DIF": 38,
       "puntos": 4
     },
     {
       "posicion": 2,
-      "nombre": "C.P. LORENZO NOVO MIER",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "es_vetusta": false,
-      "PJ": 1,
-      "PG": 1,
+      "nombre": "C.P JUAN RDEZ. MUÑIZ - CP VENTANIELLES",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "es_vetusta": true,
+      "PJ": 3,
+      "PG": 2,
       "PE": 0,
-      "PP": 0,
-      "GF": 34,
-      "GC": 16,
-      "DIF": 18,
-      "puntos": 2
+      "PP": 1,
+      "GF": 61,
+      "GC": 55,
+      "DIF": 6,
+      "puntos": 4
     },
     {
       "posicion": 3,
@@ -141,6 +141,16 @@
   ],
   "resultados": [
     {
+      "fecha": "2026-11-21 10:00:00",
+      "jornada": "3",
+      "es_local": true,
+      "rival": "C.P. LORENZO NOVO MIER",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "goles_vetusta": 5,
+      "goles_rival": 25,
+      "resultado": "D"
+    },
+    {
       "fecha": "2026-11-14 12:30:00",
       "jornada": "2",
       "es_local": false,
@@ -163,16 +173,6 @@
   ],
   "calendario": [
     {
-      "fecha": "2026-11-21 10:00:00",
-      "jornada": "3",
-      "es_local": true,
-      "rival": "C.P. LORENZO NOVO MIER",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "url_streaming": null,
-      "sede": "De Ventanielles · Oviedo",
-      "pabellon": "Polideportivo de Ventanielles"
-    },
-    {
       "fecha": "2026-11-28 12:10:00",
       "jornada": "4",
       "es_local": false,
@@ -191,6 +191,16 @@
       "url_streaming": null,
       "sede": "Colegio Lorenzo Novo Mier · Oviedo",
       "pabellon": "Colegio Lorenzo Novo Mier"
+    },
+    {
+      "fecha": "",
+      "jornada": "7",
+      "es_local": true,
+      "rival": "CP VILLAFRIA - CP GERMAN FDEZ RAMOS - AMOR DE DIOS",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
+      "url_streaming": null,
+      "sede": "De Ventanielles · Oviedo",
+      "pabellon": "Polideportivo de Ventanielles"
     }
   ]
 }

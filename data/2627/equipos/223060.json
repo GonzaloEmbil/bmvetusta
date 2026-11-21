@@ -74,13 +74,13 @@
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
       "es_vetusta": false,
       "PJ": 5,
-      "PG": 4,
-      "PE": 1,
+      "PG": 5,
+      "PE": 0,
       "PP": 0,
-      "GF": 156,
-      "GC": 89,
-      "DIF": 67,
-      "puntos": 9
+      "GF": 185,
+      "GC": 98,
+      "DIF": 87,
+      "puntos": 10
     },
     {
       "posicion": 2,
@@ -187,12 +187,12 @@
       "es_vetusta": false,
       "PJ": 6,
       "PG": 0,
-      "PE": 1,
-      "PP": 5,
-      "GF": 68,
-      "GC": 163,
-      "DIF": -95,
-      "puntos": 1
+      "PE": 0,
+      "PP": 6,
+      "GF": 77,
+      "GC": 192,
+      "DIF": -115,
+      "puntos": 0
     }
   ],
   "resultados": [

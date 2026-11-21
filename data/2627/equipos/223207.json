@@ -102,13 +102,13 @@
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
       "PJ": 5,
-      "PG": 2,
-      "PE": 1,
+      "PG": 3,
+      "PE": 0,
       "PP": 2,
-      "GF": 95,
-      "GC": 103,
-      "DIF": -8,
-      "puntos": 5
+      "GF": 132,
+      "GC": 124,
+      "DIF": 8,
+      "puntos": 6
     },
     {
       "posicion": 4,
@@ -131,12 +131,12 @@
       "es_vetusta": true,
       "PJ": 5,
       "PG": 1,
-      "PE": 1,
-      "PP": 3,
-      "GF": 82,
-      "GC": 99,
-      "DIF": -17,
-      "puntos": 3
+      "PE": 0,
+      "PP": 4,
+      "GF": 103,
+      "GC": 136,
+      "DIF": -33,
+      "puntos": 2
     },
     {
       "posicion": 6,
@@ -160,9 +160,9 @@
       "es_local": false,
       "rival": "CONFIA  BASE OVIEDO B",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "goles_vetusta": 0,
-      "goles_rival": 0,
-      "resultado": "E"
+      "goles_vetusta": 21,
+      "goles_rival": 37,
+      "resultado": "D"
     },
     {
       "fecha": "2026-11-14 11:15:00",

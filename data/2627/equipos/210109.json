@@ -73,17 +73,31 @@
       "nombre": "ATLETICA BOSCO - HORIZONTE B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
-      "PJ": 5,
+      "PJ": 6,
       "PG": 4,
-      "PE": 0,
+      "PE": 1,
       "PP": 1,
       "GF": 167,
       "GC": 132,
       "DIF": 35,
-      "puntos": 8
+      "puntos": 9
     },
     {
       "posicion": 2,
+      "nombre": "C.D. VILLA DE LUANCO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 6,
+      "PG": 3,
+      "PE": 1,
+      "PP": 2,
+      "GF": 143,
+      "GC": 121,
+      "DIF": 22,
+      "puntos": 7
+    },
+    {
+      "posicion": 3,
       "nombre": "GRUAS DANIEL&ADAM CODEMA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
       "es_vetusta": false,
@@ -97,7 +111,7 @@
       "puntos": 6
     },
     {
-      "posicion": 3,
+      "posicion": 4,
       "nombre": "CONFIA BASE OVIEDO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
@@ -111,35 +125,7 @@
       "puntos": 6
     },
     {
-      "posicion": 4,
-      "nombre": "C.D. VILLA DE LUANCO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
-      "es_vetusta": false,
-      "PJ": 5,
-      "PG": 3,
-      "PE": 0,
-      "PP": 2,
-      "GF": 143,
-      "GC": 121,
-      "DIF": 22,
-      "puntos": 6
-    },
-    {
       "posicion": 5,
-      "nombre": "SC SYNERKOS CASTRILLON",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
-      "es_vetusta": false,
-      "PJ": 5,
-      "PG": 2,
-      "PE": 1,
-      "PP": 2,
-      "GF": 154,
-      "GC": 136,
-      "DIF": 18,
-      "puntos": 5
-    },
-    {
-      "posicion": 6,
       "nombre": "REAL GRUPO DE CULTURA COVADONGA B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
       "es_vetusta": false,
@@ -153,35 +139,59 @@
       "puntos": 5
     },
     {
-      "posicion": 7,
+      "posicion": 6,
       "nombre": "ROYAL PREMIUM GIJON B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
-      "PJ": 5,
+      "PJ": 6,
       "PG": 2,
-      "PE": 0,
+      "PE": 1,
       "PP": 3,
       "GF": 141,
       "GC": 156,
       "DIF": -15,
-      "puntos": 4
+      "puntos": 5
+    },
+    {
+      "posicion": 7,
+      "nombre": "SC SYNERKOS CASTRILLON",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 2,
+      "PE": 1,
+      "PP": 2,
+      "GF": 154,
+      "GC": 136,
+      "DIF": 18,
+      "puntos": 5
     },
     {
       "posicion": 8,
       "nombre": "AUTO-CENTER PRINCIPADO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
-      "PJ": 5,
+      "PJ": 6,
       "PG": 0,
-      "PE": 0,
+      "PE": 1,
       "PP": 5,
       "GF": 81,
       "GC": 163,
       "DIF": -82,
-      "puntos": 0
+      "puntos": 1
     }
   ],
   "resultados": [
+    {
+      "fecha": "2026-11-21 20:00:00",
+      "jornada": "6",
+      "es_local": true,
+      "rival": "ROYAL PREMIUM GIJON B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
+      "goles_vetusta": 0,
+      "goles_rival": 0,
+      "resultado": "E"
+    },
     {
       "fecha": "2026-11-14 16:00:00",
       "jornada": "5",
@@ -201,29 +211,9 @@
       "goles_vetusta": 18,
       "goles_rival": 32,
       "resultado": "D"
-    },
-    {
-      "fecha": "2026-10-24 20:00:00",
-      "jornada": "3",
-      "es_local": true,
-      "rival": "SC SYNERKOS CASTRILLON",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
-      "goles_vetusta": 13,
-      "goles_rival": 34,
-      "resultado": "D"
     }
   ],
   "calendario": [
-    {
-      "fecha": "2026-11-21 20:00:00",
-      "jornada": "6",
-      "es_local": true,
-      "rival": "ROYAL PREMIUM GIJON B",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-      "url_streaming": null,
-      "sede": "Florida Arena · Oviedo",
-      "pabellon": "Polideportivo Municipal Florida Arena"
-    },
     {
       "fecha": "2026-11-28 18:00:00",
       "jornada": "7",
@@ -243,6 +233,16 @@
       "url_streaming": null,
       "sede": "De Vallobin · Oviedo",
       "pabellon": "Polideportivo de Vallobin"
+    },
+    {
+      "fecha": "",
+      "jornada": "9",
+      "es_local": true,
+      "rival": "C.D. VILLA DE LUANCO",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "url_streaming": null,
+      "sede": "Florida Arena · Oviedo",
+      "pabellon": "Polideportivo Municipal Florida Arena"
     }
   ],
   "goleadores": [

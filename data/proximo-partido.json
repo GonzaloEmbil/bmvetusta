@@ -1,21 +1,21 @@
 {
-  "fecha": "2026-11-21 18:00:00",
-  "fecha_display": "Sáb 21 Nov · 18:00h",
+  "fecha": "2026-11-28 18:00:00",
+  "fecha_display": "Sáb 28 Nov · 18:00h",
   "fecha_por_definir": false,
-  "jornada": "10",
-  "es_local": true,
+  "jornada": "11",
+  "es_local": false,
   "local": {
+    "nombre": "Clinisord la Salle Maravillas",
+    "nombre_corto": "Salle Maravillas",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
+    "es_vetusta": false
+  },
+  "visitante": {
     "nombre": "Balonmano Vetusta",
     "nombre_corto": "BM Vetusta",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
     "es_vetusta": true
   },
-  "visitante": {
-    "nombre": "Bathco Bm. Torrelavega",
-    "nombre_corto": "Bm. Torrelavega",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "es_vetusta": false
-  },
-  "sede": "Florida Arena · Oviedo",
-  "url_streaming": "https://www.youtube.com/watch?v=MRS_0aUgAhM&list=PLff6MHUti9M8&index=2"
+  "sede": "Col. La Salle Sagrado Corazon (Madrid) · Madrid",
+  "url_streaming": null
 }

@@ -1,15 +1,5 @@
 [
   {
-    "fecha": "2026-11-21 18:00:00",
-    "jornada": "10",
-    "es_local": true,
-    "rival": "BATHCO BM. TORRELAVEGA",
-    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/117/square_73726e3132697065736b.jpg",
-    "url_streaming": "https://www.youtube.com/watch?v=MRS_0aUgAhM&list=PLff6MHUti9M8&index=2",
-    "sede": "Florida Arena · Oviedo",
-    "pabellon": "Polideportivo Municipal Florida Arena"
-  },
-  {
     "fecha": "2026-11-28 18:00:00",
     "jornada": "11",
     "es_local": false,
@@ -28,5 +18,15 @@
     "url_streaming": null,
     "sede": "Florida Arena · Oviedo",
     "pabellon": "Polideportivo Municipal Florida Arena"
+  },
+  {
+    "fecha": "2026-12-12 20:00:00",
+    "jornada": "13",
+    "es_local": false,
+    "rival": "CONGESA XXI SALAMANCA",
+    "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
+    "url_streaming": null,
+    "sede": "P.M. Rio Tormes · Salamanca",
+    "pabellon": "P.M. Rio Tormes"
   }
 ]
