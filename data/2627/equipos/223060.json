@@ -73,14 +73,14 @@
       "nombre": "BALONMANO GIJON  A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 4,
-      "PE": 0,
+      "PE": 1,
       "PP": 0,
       "GF": 156,
       "GC": 89,
       "DIF": 67,
-      "puntos": 8
+      "puntos": 9
     },
     {
       "posicion": 2,
@@ -112,6 +112,20 @@
     },
     {
       "posicion": 4,
+      "nombre": "BALONMANO CIARES A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 3,
+      "PE": 0,
+      "PP": 2,
+      "GF": 145,
+      "GC": 132,
+      "DIF": 13,
+      "puntos": 6
+    },
+    {
+      "posicion": 5,
       "nombre": "SIERO D.B.-VILLANUEVA A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/409/square_736d6d696e6131636467.jpg",
       "es_vetusta": false,
@@ -125,32 +139,18 @@
       "puntos": 5
     },
     {
-      "posicion": 5,
+      "posicion": 6,
       "nombre": "OVIEDO BF - CTD LOBAS ALIMERKA A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/74/square_3934767737726137786a.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 2,
       "PE": 1,
-      "PP": 1,
-      "GF": 97,
-      "GC": 91,
-      "DIF": 6,
-      "puntos": 5
-    },
-    {
-      "posicion": 6,
-      "nombre": "BALONMANO CIARES A",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/73/square_746a386e6a6663323967.jpg",
-      "es_vetusta": false,
-      "PJ": 4,
-      "PG": 2,
-      "PE": 0,
       "PP": 2,
-      "GF": 115,
-      "GC": 113,
-      "DIF": 2,
-      "puntos": 4
+      "GF": 116,
+      "GC": 121,
+      "DIF": -5,
+      "puntos": 5
     },
     {
       "posicion": 7,
@@ -185,14 +185,14 @@
       "nombre": "AZOR ATLETICA AVILESINA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
-      "PJ": 5,
+      "PJ": 6,
       "PG": 0,
-      "PE": 0,
+      "PE": 1,
       "PP": 5,
       "GF": 68,
       "GC": 163,
       "DIF": -95,
-      "puntos": 0
+      "puntos": 1
     }
   ],
   "resultados": [

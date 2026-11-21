@@ -87,14 +87,14 @@
       "nombre": "BOSCO ATLETICA B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
-      "PJ": 4,
-      "PG": 4,
+      "PJ": 5,
+      "PG": 5,
       "PE": 0,
       "PP": 0,
-      "GF": 137,
-      "GC": 86,
-      "DIF": 51,
-      "puntos": 8
+      "GF": 166,
+      "GC": 103,
+      "DIF": 63,
+      "puntos": 10
     },
     {
       "posicion": 3,
@@ -157,13 +157,13 @@
       "nombre": "AUTO-CENTER PRINCIPADO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 0,
       "PE": 0,
-      "PP": 4,
-      "GF": 72,
-      "GC": 118,
-      "DIF": -46,
+      "PP": 5,
+      "GF": 89,
+      "GC": 147,
+      "DIF": -58,
       "puntos": 0
     },
     {
@@ -183,6 +183,16 @@
   ],
   "resultados": [
     {
+      "fecha": "2026-11-21 13:15:00",
+      "jornada": "5",
+      "es_local": false,
+      "rival": "BOSCO ATLETICA B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "goles_vetusta": 17,
+      "goles_rival": 29,
+      "resultado": "D"
+    },
+    {
       "fecha": "2026-11-14 10:00:00",
       "jornada": "4",
       "es_local": true,
@@ -201,29 +211,9 @@
       "goles_vetusta": 24,
       "goles_rival": 25,
       "resultado": "D"
-    },
-    {
-      "fecha": "2026-10-24 10:00:00",
-      "jornada": "2",
-      "es_local": true,
-      "rival": "BOSCO ATLETICA C",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "goles_vetusta": 18,
-      "goles_rival": 23,
-      "resultado": "D"
     }
   ],
   "calendario": [
-    {
-      "fecha": "2026-11-21 13:15:00",
-      "jornada": "5",
-      "es_local": false,
-      "rival": "BOSCO ATLETICA B",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "url_streaming": null,
-      "sede": "Colegio Santo Angel - Salesianos Aviles · Avilés",
-      "pabellon": "Colegio Santo Angel - Salesianos Aviles"
-    },
     {
       "fecha": "2026-11-28 11:10:00",
       "jornada": "6",

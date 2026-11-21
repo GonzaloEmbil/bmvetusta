@@ -101,14 +101,14 @@
       "nombre": "CONFIA  BASE OVIEDO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 2,
-      "PE": 0,
+      "PE": 1,
       "PP": 2,
       "GF": 95,
       "GC": 103,
       "DIF": -8,
-      "puntos": 4
+      "puntos": 5
     },
     {
       "posicion": 4,
@@ -129,14 +129,14 @@
       "nombre": "AUTO-CENTER PRINCIPADO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 1,
-      "PE": 0,
+      "PE": 1,
       "PP": 3,
       "GF": 82,
       "GC": 99,
       "DIF": -17,
-      "puntos": 2
+      "puntos": 3
     },
     {
       "posicion": 6,
@@ -154,6 +154,16 @@
     }
   ],
   "resultados": [
+    {
+      "fecha": "2026-11-21 13:30:00",
+      "jornada": "5",
+      "es_local": false,
+      "rival": "CONFIA  BASE OVIEDO B",
+      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
+      "goles_vetusta": 0,
+      "goles_rival": 0,
+      "resultado": "E"
+    },
     {
       "fecha": "2026-11-14 11:15:00",
       "jornada": "4",
@@ -173,28 +183,7 @@
       "goles_vetusta": 22,
       "goles_rival": 12,
       "resultado": "V"
-    },
-    {
-      "fecha": "2026-10-24 11:15:00",
-      "jornada": "2",
-      "es_local": false,
-      "rival": "JUANFERSA GIJON D",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-      "goles_vetusta": 25,
-      "goles_rival": 32,
-      "resultado": "D"
     }
   ],
-  "calendario": [
-    {
-      "fecha": "2026-11-21 13:30:00",
-      "jornada": "5",
-      "es_local": false,
-      "rival": "CONFIA  BASE OVIEDO B",
-      "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
-      "url_streaming": null,
-      "sede": "Colegio Lorenzo Novo Mier · Oviedo",
-      "pabellon": "Colegio Lorenzo Novo Mier"
-    }
-  ]
+  "calendario": []
 }
