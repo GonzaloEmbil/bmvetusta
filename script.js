@@ -556,6 +556,29 @@ document.addEventListener('DOMContentLoaded', function() {
         return ahora >= inicio - 60 * 60000 && ahora <= inicio + 3 * 60 * 60000;
     }
 
+    // ── Escudos de la federación ──
+    // La federación los sirve en JPG enormes (hasta 3.000 px y 1 MB) y aquí
+    // se pintan a 18–40 px. scripts/escudos.py (lo ejecuta la Action con los
+    // datos) deja en src/assets/escudos/ dos miniaturas de 96 px de cada uno,
+    // con el nombre sacado de la URL: .jpg con su fondo, para los paneles
+    // oscuros de la liga, y .png sin fondo, para la tira blanca de la semana.
+    // Si una miniatura aún no existe, se usa la imagen original.
+    var RAIZ_WEB = (function() {
+        var s = document.querySelector('script[src*="script.js"]');
+        return s && /^\.\.\//.test(s.getAttribute('src') || '') ? '../' : '';
+    })();
+    function escudoLocal(u, ext) {
+        var m = /^https:\/\/balonmano\.isquad\.es\/images\/afiliacion_clubs\/(\d+)\/(?:square_)?(\w+)\.(?:jpe?g|png|gif|webp)$/i.exec(u || '');
+        return m ? RAIZ_WEB + 'src/assets/escudos/' + m[1] + '_' + m[2] + '.' + (ext || 'jpg') : null;
+    }
+    function imgEscudo(u, clase, porDefecto) {
+        var atr = ' alt="" class="' + clase + '" loading="lazy" decoding="async">';
+        if (!u) return porDefecto ? '<img src="' + porDefecto + '"' + atr : '';
+        var local = escudoLocal(u, 'jpg');
+        if (!local) return '<img src="' + u + '"' + atr;
+        return '<img src="' + local + '" data-orig="' + u + '" onerror="this.onerror=null;this.src=this.getAttribute(\'data-orig\')"' + atr;
+    }
+
     function conRespaldo(api, estatico) {
         var control = typeof AbortController !== 'undefined' ? new AbortController() : null;
         var tope = control ? setTimeout(function() { control.abort(); }, 5000) : null;
@@ -640,7 +663,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 tr.innerHTML =
                     '<td class="st-pos">' + team.posicion + '</td>' +
                     '<td><div class="st-team-cell">' +
-                        (team.escudo ? '<img src="' + team.escudo + '" alt="" class="st-team-badge" loading="lazy">' : '') +
+                        (team.escudo ? imgEscudo(team.escudo, 'st-team-badge') : '') +
                         '<span class="st-team-name">' + (team.nombre || '') + '</span>' +
                     '</div></td>' +
                     '<td>' + team.PJ + '</td>' +
@@ -704,7 +727,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 card.innerHTML =
                     '<div class="proximos-jornada">J<span>' + (match.jornada || '') + '</span></div>' +
-                    '<img src="' + (match.escudo_rival || 'src/assets/escudo.png') + '" alt="" class="proximos-badge" loading="lazy">' +
+                    imgEscudo(match.escudo_rival, 'proximos-badge', 'src/assets/escudo.png') +
                     '<div class="proximos-info">' +
                         '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
                         '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
@@ -750,7 +773,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 card.innerHTML =
                     '<div class="proximos-jornada">J<span>' + (match.jornada || '') + '</span></div>' +
-                    '<img src="' + (match.escudo_rival || 'src/assets/escudo.png') + '" alt="" class="proximos-badge" loading="lazy">' +
+                    imgEscudo(match.escudo_rival, 'proximos-badge', 'src/assets/escudo.png') +
                     '<div class="proximos-info">' +
                         '<div class="proximos-rival">' + (match.rival || 'Rival') + '</div>' +
                         '<div class="proximos-localidad ' + localidadClass + '">' + localidad + '</div>' +
@@ -1268,11 +1291,19 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         }
 
+        // La miniatura PNG sin fondo de scripts/escudos.py; si no existe
+        // todavía, la original pasada por el lienzo (escudoPng).
         function cargarEscudos() {
             Array.prototype.forEach.call(lista.querySelectorAll('img[data-escudo]'), function(img) {
                 var u = img.getAttribute('data-escudo');
                 img.removeAttribute('data-escudo');
-                escudoPng(u).then(function(src) { img.src = src; });
+                var local = escudoLocal(u, 'png');
+                if (!local) { escudoPng(u).then(function(src) { img.src = src; }); return; }
+                img.addEventListener('error', function fallo() {
+                    img.removeEventListener('error', fallo);
+                    escudoPng(u).then(function(src) { img.src = src; });
+                });
+                img.src = local;
             });
         }
         function quitarFondo(img){
