@@ -102,31 +102,45 @@
     "nombre": "CLINISORD LA SALLE MARAVILLAS",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100757/square_3131346b3933316d3868.jpg",
     "es_vetusta": false,
-    "PJ": 9,
-    "PG": 4,
+    "PJ": 10,
+    "PG": 5,
     "PE": 0,
     "PP": 5,
-    "GF": 254,
-    "GC": 269,
-    "DIF": -15,
-    "puntos": 8
+    "GF": 286,
+    "GC": 292,
+    "DIF": -6,
+    "puntos": 10
   },
   {
     "posicion": 9,
-    "nombre": "GRUPO EGIDO BM PINTO",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "nombre": "REAL GRUPO DE CULTURA COVADONGA",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
     "es_vetusta": false,
-    "PJ": 9,
+    "PJ": 10,
     "PG": 4,
-    "PE": 0,
+    "PE": 1,
     "PP": 5,
-    "GF": 246,
-    "GC": 258,
-    "DIF": -12,
-    "puntos": 8
+    "GF": 324,
+    "GC": 329,
+    "DIF": -5,
+    "puntos": 9
   },
   {
     "posicion": 10,
+    "nombre": "GRUPO EGIDO BM PINTO",
+    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/295/square_34627175737039666437.jpg",
+    "es_vetusta": false,
+    "PJ": 10,
+    "PG": 4,
+    "PE": 0,
+    "PP": 6,
+    "GF": 273,
+    "GC": 290,
+    "DIF": -17,
+    "puntos": 8
+  },
+  {
+    "posicion": 11,
     "nombre": "LAFUENTE PEREDA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100625/square_34397965676d386c7565.jpg",
     "es_vetusta": false,
@@ -140,7 +154,7 @@
     "puntos": 8
   },
   {
-    "posicion": 11,
+    "posicion": 12,
     "nombre": "RECOLETAS SALUD ARROYO CABERO EDIFICACIONES",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/807/square_6d686d673264306d316f.jpg",
     "es_vetusta": false,
@@ -151,20 +165,6 @@
     "GF": 316,
     "GC": 321,
     "DIF": -5,
-    "puntos": 7
-  },
-  {
-    "posicion": 12,
-    "nombre": "REAL GRUPO DE CULTURA COVADONGA",
-    "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-    "es_vetusta": false,
-    "PJ": 9,
-    "PG": 3,
-    "PE": 1,
-    "PP": 5,
-    "GF": 292,
-    "GC": 302,
-    "DIF": -10,
     "puntos": 7
   },
   {
@@ -214,13 +214,13 @@
     "nombre": "CONGESA XXI SALAMANCA",
     "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/135/square_366a6b36366f3834316a.jpg",
     "es_vetusta": false,
-    "PJ": 9,
+    "PJ": 10,
     "PG": 0,
     "PE": 0,
-    "PP": 9,
-    "GF": 188,
-    "GC": 326,
-    "DIF": -138,
+    "PP": 10,
+    "GF": 211,
+    "GC": 358,
+    "DIF": -147,
     "puntos": 0
   }
 ]

@@ -74,30 +74,16 @@
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
       "PJ": 6,
-      "PG": 4,
-      "PE": 1,
+      "PG": 5,
+      "PE": 0,
       "PP": 1,
-      "GF": 167,
-      "GC": 132,
-      "DIF": 35,
-      "puntos": 9
+      "GF": 203,
+      "GC": 164,
+      "DIF": 39,
+      "puntos": 10
     },
     {
       "posicion": 2,
-      "nombre": "C.D. VILLA DE LUANCO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
-      "es_vetusta": false,
-      "PJ": 6,
-      "PG": 3,
-      "PE": 1,
-      "PP": 2,
-      "GF": 143,
-      "GC": 121,
-      "DIF": 22,
-      "puntos": 7
-    },
-    {
-      "posicion": 3,
       "nombre": "GRUAS DANIEL&ADAM CODEMA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100597/square_6579386c666867797561.jpg",
       "es_vetusta": false,
@@ -111,7 +97,7 @@
       "puntos": 6
     },
     {
-      "posicion": 4,
+      "posicion": 3,
       "nombre": "CONFIA BASE OVIEDO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/439/square_7868636d337739673532.jpg",
       "es_vetusta": false,
@@ -122,6 +108,20 @@
       "GF": 153,
       "GC": 137,
       "DIF": 16,
+      "puntos": 6
+    },
+    {
+      "posicion": 4,
+      "nombre": "C.D. VILLA DE LUANCO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 6,
+      "PG": 3,
+      "PE": 0,
+      "PP": 3,
+      "GF": 175,
+      "GC": 157,
+      "DIF": 18,
       "puntos": 6
     },
     {
