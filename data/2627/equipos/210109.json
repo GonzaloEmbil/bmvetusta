@@ -126,34 +126,20 @@
     },
     {
       "posicion": 5,
-      "nombre": "REAL GRUPO DE CULTURA COVADONGA B",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
-      "es_vetusta": false,
-      "PJ": 5,
-      "PG": 2,
-      "PE": 1,
-      "PP": 2,
-      "GF": 150,
-      "GC": 146,
-      "DIF": 4,
-      "puntos": 5
-    },
-    {
-      "posicion": 6,
       "nombre": "ROYAL PREMIUM GIJON B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
       "es_vetusta": false,
       "PJ": 6,
-      "PG": 2,
-      "PE": 1,
+      "PG": 3,
+      "PE": 0,
       "PP": 3,
-      "GF": 141,
-      "GC": 156,
-      "DIF": -15,
-      "puntos": 5
+      "GF": 171,
+      "GC": 179,
+      "DIF": -8,
+      "puntos": 6
     },
     {
-      "posicion": 7,
+      "posicion": 6,
       "nombre": "SC SYNERKOS CASTRILLON",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/101379/square_6f746772313074686573.jpg",
       "es_vetusta": false,
@@ -167,18 +153,32 @@
       "puntos": 5
     },
     {
+      "posicion": 7,
+      "nombre": "REAL GRUPO DE CULTURA COVADONGA B",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/70/square_646e366b316534346e76.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 2,
+      "PE": 1,
+      "PP": 2,
+      "GF": 150,
+      "GC": 146,
+      "DIF": 4,
+      "puntos": 5
+    },
+    {
       "posicion": 8,
       "nombre": "AUTO-CENTER PRINCIPADO B",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
       "PJ": 6,
       "PG": 0,
-      "PE": 1,
-      "PP": 5,
-      "GF": 81,
-      "GC": 163,
-      "DIF": -82,
-      "puntos": 1
+      "PE": 0,
+      "PP": 6,
+      "GF": 104,
+      "GC": 193,
+      "DIF": -89,
+      "puntos": 0
     }
   ],
   "resultados": [
@@ -188,9 +188,9 @@
       "es_local": true,
       "rival": "ROYAL PREMIUM GIJON B",
       "escudo_rival": "https://balonmano.isquad.es/images/afiliacion_clubs/488/square_32383967706436617972.jpg",
-      "goles_vetusta": 0,
-      "goles_rival": 0,
-      "resultado": "E"
+      "goles_vetusta": 23,
+      "goles_rival": 30,
+      "resultado": "D"
     },
     {
       "fecha": "2026-11-14 16:00:00",
@@ -247,18 +247,25 @@
   ],
   "goleadores": [
     {
+      "nombre": "CAMBLOR GOMEZ, ADRIAN",
+      "goles": 16,
+      "partidos": 6,
+      "media": 2.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_61376538383966366338383966313737.jpg"
+    },
+    {
+      "nombre": "MONTAÑO MONTES, SANTIAGO",
+      "goles": 12,
+      "partidos": 5,
+      "media": 2.4,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a736a6266706f646138.jpg"
+    },
+    {
       "nombre": "MENENDEZ FERNANDEZ, DANIEL",
       "goles": 12,
       "partidos": 4,
       "media": 3,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_73786c6c707566756330.jpg"
-    },
-    {
-      "nombre": "CAMBLOR GOMEZ, ADRIAN",
-      "goles": 12,
-      "partidos": 5,
-      "media": 2.4,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_61376538383966366338383966313737.jpg"
     },
     {
       "nombre": "FERNANDEZ GARCIA, MARCOS",
@@ -268,11 +275,11 @@
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6c7274316c39676f326b.jpg"
     },
     {
-      "nombre": "MONTAÑO MONTES, SANTIAGO",
-      "goles": 8,
-      "partidos": 4,
-      "media": 2,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_6a736a6266706f646138.jpg"
+      "nombre": "LOPEZ GIRALDO, SEBASTIAN",
+      "goles": 11,
+      "partidos": 3,
+      "media": 3.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_33623836333865393166393131653034.jpg"
     },
     {
       "nombre": "PANIAGUA GARCIA, JAVIER",
@@ -282,11 +289,11 @@
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3739656d7633646f7770.jpg"
     },
     {
-      "nombre": "LOPEZ GIRALDO, SEBASTIAN",
+      "nombre": "FRANCISCO PALACIO, DARIO",
       "goles": 7,
       "partidos": 2,
       "media": 3.5,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_33623836333865393166393131653034.jpg"
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
     },
     {
       "nombre": "LORCA ARIAS, PEDRO",
@@ -296,6 +303,20 @@
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_66796b6c6e3334397877.jpg"
     },
     {
+      "nombre": "GOMEZ ESPINA, MARCOS",
+      "goles": 5,
+      "partidos": 3,
+      "media": 1.7,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_69356d6f397775656472.jpg"
+    },
+    {
+      "nombre": "SOLIS GONZALEZ, JOSE ALBERTO",
+      "goles": 4,
+      "partidos": 2,
+      "media": 2,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64766531336635646471.jpg"
+    },
+    {
       "nombre": "FERNANDEZ CASO, PABLO",
       "goles": 3,
       "partidos": 3,
@@ -303,18 +324,11 @@
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_656d6a36786732713572.jpg"
     },
     {
-      "nombre": "SOLIS GONZALEZ, JOSE ALBERTO",
+      "nombre": "FUENTES FUERTES, HUGO",
       "goles": 3,
-      "partidos": 1,
-      "media": 3,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_64766531336635646471.jpg"
-    },
-    {
-      "nombre": "GOMEZ ESPINA, MARCOS",
-      "goles": 2,
       "partidos": 2,
-      "media": 1,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_69356d6f397775656472.jpg"
+      "media": 1.5,
+      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_68f6adcaccd7d.jpg"
     },
     {
       "nombre": "VILLAMIL ALCIVAR, JOSEPH FRANCISCO",
@@ -324,25 +338,11 @@
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_3735373069317335786e.jpg"
     },
     {
-      "nombre": "FRANCISCO PALACIO, DARIO",
-      "goles": 2,
-      "partidos": 1,
-      "media": 2,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_663976713936646a6a69.jpg"
-    },
-    {
       "nombre": "SANCHEZ DE POSADA ORIHUELA, LUIS",
       "goles": 2,
       "partidos": 1,
       "media": 2,
       "foto": "https://balonmano.isquad.es/images/afiliacion/foto/square_33686b65743575397368.jpg"
-    },
-    {
-      "nombre": "FUENTES FUERTES, HUGO",
-      "goles": 1,
-      "partidos": 1,
-      "media": 1,
-      "foto": "https://balonmano.isquad.es/images/afiliacion/imagen_68f6adcaccd7d.jpg"
     },
     {
       "nombre": "MARTINEZ NAVARRO , IGNACIO",
