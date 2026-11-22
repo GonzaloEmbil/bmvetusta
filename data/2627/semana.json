@@ -175,9 +175,9 @@
       "escudo_visitante": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "nuestro_local": false,
       "nuestro_visitante": true,
-      "goles_local": null,
-      "goles_visitante": null,
-      "estado": "Pendiente",
+      "goles_local": 15,
+      "goles_visitante": 14,
+      "estado": "Finalizado",
       "pabellon": "COLEGIO LORENZO NOVO MIER",
       "localidad": "Oviedo"
     },
