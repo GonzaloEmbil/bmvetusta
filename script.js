@@ -1824,23 +1824,73 @@ document.addEventListener('DOMContentLoaded', function() {
     if (!videos.length) return;
     if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
+    var aLaVista = [];        // los que están en pantalla (o a punto)
+    var esperandoToque = false;
+
     function arrancar(v) {
         if (!v.getAttribute('src')) v.src = v.dataset.src;
         v.muted = true;                  // sin esto los navegadores no dejan arrancarlo solo
+        if (!v.paused) return;
         var p = v.play();
-        if (p && p.catch) p.catch(function () { /* modo ahorro: se queda el fotograma */ });
+        if (p && p.catch) p.catch(function () {
+            // El iPhone en modo de ahorro de batería (o con la reproducción
+            // automática desactivada) no deja arrancar un vídeo solo, pero sí
+            // dentro de un toque: se reintenta en el siguiente.
+            alSiguienteToque();
+        });
     }
 
+    function reanudar() {
+        if (document.hidden) return;
+        aLaVista.forEach(arrancar);
+    }
+
+    function alSiguienteToque() {
+        if (esperandoToque) return;
+        esperandoToque = true;
+        function alTocar() {
+            esperandoToque = false;
+            document.removeEventListener('touchend', alTocar, true);
+            document.removeEventListener('click', alTocar, true);
+            reanudar();
+        }
+        document.addEventListener('touchend', alTocar, { capture: true, passive: true });
+        document.addEventListener('click', alTocar, true);
+    }
+
+    // Safari pausa los vídeos al cambiar de app, bloquear el móvil o volver
+    // a la página desde el historial, y al regresar no los reanuda; como la
+    // animación sigue en pantalla, el observador no vuelve a avisar y se
+    // quedaba congelada. Se reanudan aquí.
+    document.addEventListener('visibilitychange', reanudar);
+    window.addEventListener('pageshow', reanudar);
+    window.addEventListener('focus', reanudar);
+
+    videos.forEach(function (v) {
+        // Por si el bucle falla (algún Safari se para al final en vez de
+        // volver al principio).
+        v.addEventListener('ended', function () {
+            v.currentTime = 0;
+            if (aLaVista.indexOf(v) >= 0) arrancar(v);
+        });
+    });
+
     if (!('IntersectionObserver' in window)) {
-        videos.forEach(arrancar);
+        videos.forEach(function (v) { aLaVista.push(v); arrancar(v); });
         return;
     }
     // Un vídeo oculto con display:none nunca cruza el viewport, así que la
     // versión que no toca en cada tamaño de pantalla no llega a descargarse.
     var obs = new IntersectionObserver(function (entradas) {
         entradas.forEach(function (e) {
-            if (e.isIntersecting) arrancar(e.target);
-            else if (!e.target.paused) e.target.pause();
+            var v = e.target, i = aLaVista.indexOf(v);
+            if (e.isIntersecting) {
+                if (i < 0) aLaVista.push(v);
+                arrancar(v);
+            } else {
+                if (i >= 0) aLaVista.splice(i, 1);
+                if (!v.paused) v.pause();
+            }
         });
     }, { rootMargin: '300px 0px' });
     videos.forEach(function (v) { obs.observe(v); });
