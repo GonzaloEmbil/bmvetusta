@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="../src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="../src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="../style.css?v=campana-75">
+    <link rel="stylesheet" href="../style.css?v=campana-76">
     <style>
         /* Fundación slideshow — cycles 3 photos every 5s with a fade.
            aspect-ratio 2.2/1 makes the container as wide-and-short as
@@ -176,22 +176,16 @@
                 </table>
             </div>
 
-            <!-- Máximos goleadores del primer equipo, sumando temporadas:
-                 Primera Nacional (la temporada en curso llega del worker) y
-                 Copa Principado. Lo rellena el script de abajo desde
-                 data/historia-goleadores.json. -->
+            <!-- Máximos goleadores del primer equipo: una sola clasificación
+                 que suma, por jugador, Primera Nacional (la temporada en curso
+                 llega del worker) y Copa Principado. Lo rellena el script de
+                 abajo desde data/historia-goleadores.json. -->
             <h2 class="historia-subtitle">Máximos goleadores</h2>
-            <div class="historia-goleadores">
-                <div class="historia-table-wrapper hg-bloque">
-                    <h3 class="hg-titulo">Primera Nacional <span class="hg-desde" id="hg-primera-desde"></span></h3>
-                    <div id="hg-primera"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></div>
-                </div>
-                <div class="historia-table-wrapper hg-bloque">
-                    <h3 class="hg-titulo">Copa Principado <span class="hg-desde" id="hg-copa-desde"></span></h3>
-                    <div id="hg-copa"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></div>
-                </div>
+            <div class="historia-table-wrapper hg-bloque">
+                <h3 class="hg-titulo">Primera Nacional y Copa Principado <span class="hg-desde" id="hg-desde"></span></h3>
+                <div id="hg-lista"><div class="liga-loading"><div class="liga-loading-spinner"></div></div></div>
             </div>
-            <p class="historia-note hg-nota">Goles del primer equipo según las actas de la federación, que recogen desde la temporada 2021/2022.</p>
+            <p class="historia-note hg-nota">Goles del primer equipo en Primera Nacional y Copa Principado según las actas de la federación, que recogen desde la temporada 2021/2022.</p>
         </section>
     </main>
 
@@ -231,7 +225,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="../script.js?v=campana-75"></script>
+    <script data-cfasync="false" src="../script.js?v=campana-76"></script>
     <script>
     (function() {
         // La tabla sale del JSON estático que genera la Action de GitHub.
@@ -344,14 +338,16 @@
     </script>
 
     <script>
-    // Máximos goleadores. Las temporadas cerradas vienen sumadas en
-    // data/historia-goleadores.json (lo genera la Action); la temporada en
-    // curso se pide al worker (los mismos goleadores de la portada) y se
-    // suma aquí, con el JSON estático de la temporada como respaldo. La
-    // Copa Principado se juega en agosto, así que va entera en el JSON.
+    // Máximos goleadores: una sola clasificación con Primera Nacional y Copa
+    // Principado sumadas por jugador. Las temporadas cerradas de Primera y
+    // todas las Copas vienen sumadas en data/historia-goleadores.json (lo
+    // genera la Action); la temporada en curso de Primera se pide al worker
+    // (los mismos goleadores de la portada) y se suma aquí, con el JSON
+    // estático de la temporada como respaldo. La Copa se juega en agosto y
+    // septiembre, así que va entera en el JSON.
     (function() {
         var TEMPORADA = { code: '2627', label: '2026/2027' };
-        var TOPE = 10;
+        var TOPE = 15;
         var cacheBust = '?v=' + Date.now();
 
         function clave(n) { return String(n || '').replace(/\s+,/g, ',').replace(/\s+/g, ' ').trim().toUpperCase(); }
@@ -365,20 +361,26 @@
             var todo = (propio + ' ' + apellidos).trim().split(/\s+/).map(cap).join(' ');
             return todo.charAt(0).toUpperCase() + todo.slice(1);
         }
+        // «2021/2022» se ordena bien como texto.
+        function anterior(a, b) { return !a ? b : !b ? a : (a < b ? a : b); }
 
-        function pintar(id, lista) {
-            var cont = document.getElementById(id);
+        function pintar(lista) {
+            var cont = document.getElementById('hg-lista');
             if (!cont) return;
             if (!lista.length) { cont.innerHTML = '<p class="hg-vacio">Sin datos.</p>'; return; }
             cont.innerHTML = lista.slice(0, TOPE).map(function(p, i) {
-                var media = p.partidos ? Math.round(p.goles / p.partidos * 10) / 10 : 0;
+                var goles = p.liga + p.copa;
+                var media = p.partidos ? String(Math.round(goles / p.partidos * 10) / 10).replace('.', ',') : '0';
                 var temps = p.temporadas.length + (p.temporadas.length === 1 ? ' temporada' : ' temporadas');
                 return '<div class="hg-fila">' +
                     '<span class="hg-pos">' + (i + 1) + '</span>' +
                     (p.foto ? '<img class="hg-foto" src="' + escapar(p.foto) + '" alt="" loading="lazy" decoding="async">' : '<span class="hg-foto hg-foto-vacia"></span>') +
                     '<span class="hg-jugador"><span class="hg-nombre">' + escapar(nombre(p.nombre)) + '</span>' +
-                    '<span class="hg-datos">' + p.partidos + ' partidos · ' + media + ' goles/partido · ' + temps + '</span></span>' +
-                    '<span class="hg-goles"><span class="hg-goles-num">' + p.goles + '</span><span class="hg-goles-txt">goles</span></span>' +
+                    // Espacios duros dentro de cada dato: en móvil la línea
+                    // sólo se parte por los puntos.
+                    '<span class="hg-datos">' + p.partidos + '&nbsp;partidos · ' + media + '&nbsp;goles/partido · ' + temps.replace(' ', '&nbsp;') + '</span></span>' +
+                    '<span class="hg-goles"><span class="hg-goles-num">' + goles + '</span>' +
+                    '<span class="hg-goles-txt"><span>' + p.liga + ' liga</span><span class="hg-sep"> · </span><span>' + p.copa + ' copa</span></span></span>' +
                 '</div>';
             }).join('');
         }
@@ -397,26 +399,32 @@
         Promise.all([historico, actual]).then(function(res) {
             var h = res[0], ahora = res[1];
             if (!h) {
-                ['hg-primera', 'hg-copa'].forEach(function(id) { var c = document.getElementById(id); if (c) c.innerHTML = '<p class="hg-vacio">No se han podido cargar los datos.</p>'; });
+                var c = document.getElementById('hg-lista');
+                if (c) c.innerHTML = '<p class="hg-vacio">No se han podido cargar los datos.</p>';
                 return;
             }
-            // Primera: cerradas + temporada en curso.
+            // Por jugador: goles de liga y de copa por separado, y partidos y
+            // temporadas de las dos competiciones juntas.
             var mapa = {};
-            (h.primera.goleadores || []).forEach(function(p) { mapa[clave(p.nombre)] = { nombre: p.nombre, goles: p.goles, partidos: p.partidos, temporadas: p.temporadas.slice(), foto: p.foto }; });
-            ahora.forEach(function(p) {
-                var k = clave(p.nombre);
-                var e = mapa[k] || (mapa[k] = { nombre: k, goles: 0, partidos: 0, temporadas: [], foto: null });
-                e.goles += p.goles || 0; e.partidos += p.partidos || 0;
-                if (e.temporadas.indexOf(TEMPORADA.label) < 0) e.temporadas.push(TEMPORADA.label);
-                if (p.foto) e.foto = p.foto;
-            });
-            var primera = Object.keys(mapa).map(function(k) { return mapa[k]; })
-                .sort(function(a, b) { return b.goles - a.goles || a.partidos - b.partidos || a.nombre.localeCompare(b.nombre); });
-            pintar('hg-primera', primera);
-            pintar('hg-copa', h.copa.goleadores || []);
-            var dp = document.getElementById('hg-primera-desde'), dc = document.getElementById('hg-copa-desde');
-            if (dp && h.primera.desde) dp.textContent = 'desde ' + h.primera.desde;
-            if (dc && h.copa.desde) dc.textContent = 'desde ' + h.copa.desde;
+            function sumar(lista, campo, temporada) {
+                (lista || []).forEach(function(p) {
+                    var k = clave(p.nombre);
+                    var e = mapa[k] || (mapa[k] = { nombre: k, liga: 0, copa: 0, partidos: 0, temporadas: [], foto: null });
+                    e[campo] += p.goles || 0;
+                    e.partidos += p.partidos || 0;
+                    (p.temporadas || [temporada]).forEach(function(t) { if (t && e.temporadas.indexOf(t) < 0) e.temporadas.push(t); });
+                    if (p.foto && (!e.foto || campo === 'liga')) e.foto = p.foto;
+                });
+            }
+            sumar(h.copa && h.copa.goleadores, 'copa');
+            sumar(h.primera && h.primera.goleadores, 'liga');
+            sumar(ahora, 'liga', TEMPORADA.label);   // la foto más reciente, la de esta temporada
+            var lista = Object.keys(mapa).map(function(k) { return mapa[k]; })
+                .sort(function(a, b) { return (b.liga + b.copa) - (a.liga + a.copa) || a.partidos - b.partidos || a.nombre.localeCompare(b.nombre); });
+            pintar(lista);
+            var desde = anterior(h.primera && h.primera.desde, h.copa && h.copa.desde);
+            var d = document.getElementById('hg-desde');
+            if (d && desde) d.textContent = 'desde ' + desde;
         });
     })();
     </script>

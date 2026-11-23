@@ -3134,17 +3134,10 @@ body {
     -webkit-overflow-scrolling: touch;
 }
 
-/* Máximos goleadores: dos bloques en fila (Primera Nacional y Copa
-   Principado), cada uno con la lista en el molde de los goleadores de la
-   portada: puesto, foto redonda, nombre con partidos y media, y los goles
-   en amarillo a la derecha. */
-.historia-goleadores {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    align-items: start;
-}
-
+/* Máximos goleadores: una sola lista (Primera Nacional y Copa Principado
+   sumadas) en el molde de los goleadores de la portada: puesto, foto
+   redonda, nombre con partidos y media, y a la derecha el total en amarillo
+   con el desglose liga · copa debajo. */
 .hg-bloque {
     overflow: hidden;
 }
@@ -3239,7 +3232,7 @@ body {
 
 .hg-goles-num {
     display: block;
-    font-size: 1rem;
+    font-size: 1.15rem;
     font-weight: 800;
     line-height: 1;
     color: #FDED3A;
@@ -3247,11 +3240,12 @@ body {
 
 .hg-goles-txt {
     display: block;
-    margin-top: 2px;
-    font-size: 0.55rem;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    color: #555;
+    margin-top: 3px;
+    font-size: 0.6rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+    color: #777;
 }
 
 .hg-vacio {
@@ -3267,15 +3261,20 @@ body {
 }
 
 @media (max-width: 768px) {
-    .historia-goleadores {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 16px;
-    }
-
     /* En móvil el nombre completo no cabe en una línea: se parte. */
     .hg-nombre {
         white-space: normal;
         line-height: 1.25;
+    }
+
+    /* El desglose liga · copa, en dos líneas cortas bajo el total, para
+       dejar sitio al nombre. */
+    .hg-goles-txt span {
+        display: block;
+    }
+
+    .hg-goles-txt .hg-sep {
+        display: none;
     }
 }
 
