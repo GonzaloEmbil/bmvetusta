@@ -1818,11 +1818,11 @@ document.addEventListener('DOMContentLoaded', function() {
 // sin sonido, en bucle y sin controles. El archivo no se descarga hasta que
 // la animación está a punto de verse —en móvil suele quedar lejos, y en
 // escritorio la de la portada ni se muestra—, y se pausa al salir de pantalla
-// para no gastar batería. Quien pide menos movimiento ve el fotograma fijo.
+// para no gastar batería. Se anima también con «Reducir movimiento» activado
+// en el sistema: así lo ha decidido el club para la campaña de abonados.
 (function () {
     var videos = document.querySelectorAll('video.anim-auto');
     if (!videos.length) return;
-    if (window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     var aLaVista = [];        // los que están en pantalla (o a punto)
     var esperandoToque = false;
