@@ -87,14 +87,14 @@
       "nombre": "BOSCO ATLETICA A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
       "es_vetusta": false,
-      "PJ": 4,
-      "PG": 4,
+      "PJ": 5,
+      "PG": 5,
       "PE": 0,
       "PP": 0,
-      "GF": 125,
-      "GC": 63,
-      "DIF": 62,
-      "puntos": 8
+      "GF": 154,
+      "GC": 72,
+      "DIF": 82,
+      "puntos": 10
     },
     {
       "posicion": 3,
@@ -140,20 +140,6 @@
     },
     {
       "posicion": 6,
-      "nombre": "C.D. V. DE LUANCO-N.CARREÑO",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
-      "es_vetusta": false,
-      "PJ": 5,
-      "PG": 2,
-      "PE": 0,
-      "PP": 3,
-      "GF": 128,
-      "GC": 153,
-      "DIF": -25,
-      "puntos": 4
-    },
-    {
-      "posicion": 7,
       "nombre": "IES CORVERA",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100870/square_3731616b71617475796e.jpg",
       "es_vetusta": false,
@@ -164,6 +150,20 @@
       "GF": 128,
       "GC": 156,
       "DIF": -28,
+      "puntos": 4
+    },
+    {
+      "posicion": 7,
+      "nombre": "C.D. V. DE LUANCO-N.CARREÑO",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100552/square_68707638733039386339.jpg",
+      "es_vetusta": false,
+      "PJ": 6,
+      "PG": 2,
+      "PE": 0,
+      "PP": 4,
+      "GF": 137,
+      "GC": 182,
+      "DIF": -45,
       "puntos": 4
     },
     {

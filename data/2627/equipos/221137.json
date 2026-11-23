@@ -112,6 +112,20 @@
     },
     {
       "posicion": 4,
+      "nombre": "BOSCO ATLETICA A",
+      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
+      "es_vetusta": false,
+      "PJ": 5,
+      "PG": 3,
+      "PE": 0,
+      "PP": 2,
+      "GF": 155,
+      "GC": 120,
+      "DIF": 35,
+      "puntos": 6
+    },
+    {
+      "posicion": 5,
       "nombre": "AUTO-CENTER PRINCIPADO A",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/2898/square_35723432687275366a39.jpg",
       "es_vetusta": true,
@@ -123,20 +137,6 @@
       "GC": 148,
       "DIF": -13,
       "puntos": 5
-    },
-    {
-      "posicion": 5,
-      "nombre": "BOSCO ATLETICA A",
-      "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/69/square_6d6b7235397562793961.jpg",
-      "es_vetusta": false,
-      "PJ": 4,
-      "PG": 2,
-      "PE": 0,
-      "PP": 2,
-      "GF": 128,
-      "GC": 113,
-      "DIF": 15,
-      "puntos": 4
     },
     {
       "posicion": 6,
@@ -171,13 +171,13 @@
       "nombre": "CLUB NAUTICO CARREÑO",
       "escudo": "https://balonmano.isquad.es/images/afiliacion_clubs/100973/square_77776f3076356f343364.jpg",
       "es_vetusta": false,
-      "PJ": 4,
+      "PJ": 5,
       "PG": 0,
       "PE": 0,
-      "PP": 4,
-      "GF": 57,
-      "GC": 122,
-      "DIF": -65,
+      "PP": 5,
+      "GF": 64,
+      "GC": 149,
+      "DIF": -85,
       "puntos": 0
     }
   ],

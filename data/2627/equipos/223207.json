@@ -60,6 +60,12 @@
   ],
   "grupos": [
     {
+      "id": "1040600",
+      "nombre": "Fase Intermedia · Cruces 2ª División",
+      "competicion": "Juegos Deportivos del Principado Infantil Masculino · Fase Intermedia · Cruces 2ª División",
+      "actual": false
+    },
+    {
       "id": "1040598",
       "nombre": "Primera Fase · 2ª División · Grupo A",
       "competicion": "Juegos Deportivos del Principado Infantil Masculino · Primera Fase · 2ª División · Grupo A",
