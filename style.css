@@ -1717,8 +1717,9 @@ body {
     flex: 0 0 auto;
 }
 
-/* La tarjeta del menú móvil no existe en el menú de escritorio. */
-.nav .nav-privada {
+/* La fila de redes y candado del menú móvil no existe en el menú de
+   escritorio: allí van en la franja amarilla (.header-derecha). */
+.nav .nav-redes {
     display: none;
 }
 
@@ -1998,22 +1999,66 @@ body {
         background: #FDED3A;
     }
 
-    /* Área privada: fuera del header, dentro del menú. Tarjeta con borde
-       amarillo y candado, para que se distinga de las secciones públicas. */
+    /* Al final del menú, las redes sociales y el candado del área privada
+       (el aria-label lo nombra) en negro sobre una tarjeta amarilla: lo mismo
+       que la franja amarilla del header de escritorio. */
     .header-privada {
         display: none;
     }
 
-    .nav > a.nav-privada {
+    .nav > .nav-redes {
         display: flex;
-        gap: 12px;
-        background: transparent;
-        border: 1px solid rgba(253, 237, 58, 0.45);
-        color: #FDED3A;
+        flex: 0 0 auto;
+        align-items: center;
+        justify-content: center;
+        gap: 34px;
+        min-height: 62px;
+        margin-top: 6px;
+        background: #FDED3A;
+        border-radius: 14px;
     }
 
-    .nav > a.nav-privada:active {
-        background: rgba(253, 237, 58, 0.08);
+    /* Mismos selectores (y uno más) que el :hover neutralizado de arriba,
+       para que el toque no deje los iconos en blanco. */
+    .nav .nav-redes a,
+    .nav .nav-redes a:hover {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        /* Zona de toque de 44px aunque el icono mida 22. */
+        min-width: 44px;
+        min-height: 44px;
+        margin: 0 -11px;
+        color: #000;
+        transform: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav .nav-redes a:active {
+        opacity: 0.6;
+    }
+
+    .nav .nav-redes a svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    /* El dibujo de X deja un pelo de aire a su derecha: se compensa. */
+    .nav .nav-redes a:first-child svg {
+        margin-right: -1px;
+    }
+
+    /* El candado deja más aire a los lados que los de las redes (su cuerpo va
+       de 5 a 19 en una caja de 24): un poco más grande y arrimado a LinkedIn,
+       para que la distancia entre todos los iconos sea la misma. */
+    .nav .nav-redes a.nav-redes-privada,
+    .nav .nav-redes a.nav-redes-privada:hover {
+        margin-left: -14px;
+    }
+
+    .nav .nav-redes a.nav-redes-privada svg {
+        width: 26px;
+        height: 26px;
     }
 
     /* ── CLUB: tarjeta desplegable ── */
