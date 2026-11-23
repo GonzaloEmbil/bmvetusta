@@ -1,4 +1,11 @@
+// Cloudflare Rocket Loader, activo en la zona, vuelve a disparar
+// DOMContentLoaded y load cuando termina con los scripts que aún gestiona.
+// Este archivo ya no pasa por él (data-cfasync="false") y arranca solo, así
+// que sin esta guarda todo se iniciaba dos veces: el menú hamburguesa se
+// abría y cerraba en el mismo toque, el carrusel doblaba sus temporizadores…
 document.addEventListener('DOMContentLoaded', function() {
+    if (window.__bmvIniciado) return;
+    window.__bmvIniciado = true;
     console.log('Página cargada correctamente');
 
     // Highlight active nav link based on current page (desktop underline)
@@ -126,7 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         setTimeout(adjustCarouselPosition, 300);
         setTimeout(adjustCarouselPosition, 800);
         setTimeout(adjustCarouselPosition, 2000);
-    });
+    }, { once: true });
 
     // Re-run on resize (debounced)
     window.addEventListener('resize', debouncedAdjust);
@@ -302,10 +309,12 @@ document.addEventListener('DOMContentLoaded', function() {
     injectSponsorsCarousel();
 
     // Iniciar carruseles infinitos al cargar
+    // { once: true }: Rocket Loader repite el evento load y los carruseles
+    // se montarían dos veces.
     window.addEventListener('load', function() {
         setupInfiniteCarousel();
         setupSponsorsCarousel();
-    });
+    }, { once: true });
     
     // Menú hamburguesa
     const hamburger = document.querySelector('.hamburger');
