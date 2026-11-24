@@ -1805,6 +1805,16 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Vídeo de la campaña: el iframe aparece sobre su miniatura cuando
+    // YouTube termina de cargar (onload en el HTML). Si el aviso no llega
+    // (bloqueadores, redes lentas), se muestra igualmente a los 8 s para que
+    // nunca quede una miniatura que no responde.
+    setTimeout(function () {
+        document.querySelectorAll('.home-video iframe, .abono-video iframe').forEach(function (f) {
+            f.classList.add('cargado');
+        });
+    }, 8000);
+
     // Start scroll animations after loading screen fades out
     var loadingDone = document.getElementById('loading-screen');
     if (loadingDone) {

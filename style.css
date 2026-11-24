@@ -5360,6 +5360,45 @@ body {
     border: 0;
 }
 
+/* Vídeo de la campaña (portada en móvil y Abónate): mientras carga el
+   reproductor de YouTube, que en el móvil tarda unos segundos, el iframe
+   queda transparente sobre la miniatura del vídeo con un botón de play.
+   Safari pintaba ese rato el iframe en blanco. Al cargar (onload del iframe,
+   o a los 8 s desde script.js si no avisa) aparece encima el reproductor,
+   con la misma miniatura y su botón en el mismo sitio. */
+.home-video,
+.abono-video {
+    position: relative;
+    overflow: hidden;
+    background: #000 url('src/assets/video-campana-2627.jpg') center / cover no-repeat;
+}
+
+.home-video::before,
+.abono-video::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 68px;
+    height: 48px;
+    margin: -24px 0 0 -34px;
+    border-radius: 12px;
+    background: rgba(255, 0, 0, 0.9) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 68 48'%3E%3Cpath d='M27 15v18l15-9z' fill='%23fff'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+
+.home-video iframe,
+.abono-video iframe {
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.home-video iframe.cargado,
+.abono-video iframe.cargado {
+    opacity: 1;
+}
+
 /* 2. Cartel: vertical (4:5), centrado y con ancho contenido para que
       no se convierta en un scroll interminable en escritorio */
 .abono-poster {
