@@ -1827,8 +1827,15 @@ document.addEventListener('DOMContentLoaded', function() {
     var aLaVista = [];        // los que están en pantalla (o a punto)
     var esperandoToque = false;
 
+    // Descarga: el archivo se pide antes de que se vea, para que esté listo.
+    function cargar(v) {
+        if (v.getAttribute('src')) return;
+        v.preload = 'auto';
+        v.src = v.dataset.src;
+    }
+
     function arrancar(v) {
-        if (!v.getAttribute('src')) v.src = v.dataset.src;
+        cargar(v);
         v.muted = true;                  // sin esto los navegadores no dejan arrancarlo solo
         if (!v.paused) return;
         var p = v.play();
@@ -1879,9 +1886,20 @@ document.addEventListener('DOMContentLoaded', function() {
         videos.forEach(function (v) { aLaVista.push(v); arrancar(v); });
         return;
     }
+    // Dos observadores: uno descarga el vídeo cuando está a 300 px de verse y
+    // otro lo arranca sólo cuando ya asoma en pantalla. El iPhone no deja
+    // arrancar solo un vídeo que aún no se ve (rechaza el play()), y como el
+    // de la portada se pedía 300 px antes, se quedaba quieto hasta tocar la
+    // pantalla. Con varios umbrales, el de visibilidad avisa varias veces
+    // mientras el vídeo entra, y cada aviso es un nuevo intento.
     // Un vídeo oculto con display:none nunca cruza el viewport, así que la
     // versión que no toca en cada tamaño de pantalla no llega a descargarse.
-    var obs = new IntersectionObserver(function (entradas) {
+    var cerca = new IntersectionObserver(function (entradas) {
+        entradas.forEach(function (e) {
+            if (e.isIntersecting) { cargar(e.target); cerca.unobserve(e.target); }
+        });
+    }, { rootMargin: '300px 0px' });
+    var vista = new IntersectionObserver(function (entradas) {
         entradas.forEach(function (e) {
             var v = e.target, i = aLaVista.indexOf(v);
             if (e.isIntersecting) {
@@ -1892,6 +1910,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (!v.paused) v.pause();
             }
         });
-    }, { rootMargin: '300px 0px' });
-    videos.forEach(function (v) { obs.observe(v); });
+    }, { threshold: [0, 0.25, 0.5, 0.75, 1] });
+    videos.forEach(function (v) { cerca.observe(v); vista.observe(v); });
 })();
