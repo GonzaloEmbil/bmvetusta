@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="style.css?v=campana-81">
+    <link rel="stylesheet" href="style.css?v=campana-82">
     <link rel="preload" href="src/assets/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
 </head>
 <body>
@@ -1269,15 +1269,15 @@
                 <div class="home-video">
                     <iframe src="https://www.youtube-nocookie.com/embed/cFKJLLbQ0Co" title="Campaña de abonados 2026/2027 del Balonmano Vetusta" loading="lazy" onload="var f=this;setTimeout(function(){f.classList.add('cargado')},300)" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                 </div>
-                <!-- Sólo en escritorio. Imagen animada (AVIF), que se mueve sola
-                     sin depender de las reglas de reproducción automática de
-                     vídeo; carga diferida, y en móvil está oculta y no llega a
-                     descargarse. Sin AVIF se ve el fotograma fijo (JPG). -->
+                <!-- Sólo en escritorio. Se ve como una imagen animada (sin sonido,
+                     en bucle, sin controles) y no se descarga hasta que está a la
+                     vista; en móvil está oculta y no llega a descargarse. -->
                 <a href="./abonate/" class="home-anim-arriba" aria-label="Hazte abonado de la temporada 2026/2027">
-                    <picture>
-                        <source srcset="src/assets/animacioncarnet2627.avif" type="image/avif">
-                        <img class="anim-carnet" src="src/assets/animacioncarnet2627.jpg" alt="" width="720" height="1280" loading="lazy" decoding="async">
-                    </picture>
+                    <video class="anim-auto" muted loop playsinline preload="none"
+                           poster="src/assets/animacioncarnet2627.jpg"
+                           data-src="src/assets/animacioncarnet2627.mp4"
+                           disablepictureinpicture disableremoteplayback
+                           aria-hidden="true"></video>
                 </a>
             </div><!-- /home-tournament-stack -->
             </div><!-- /fold-row -->
@@ -1675,16 +1675,15 @@
         </a>
 
         <!-- Animación del carnet de abonado, sólo en móvil y debajo del mapa.
-             Imagen animada (AVIF) y no vídeo: el iPhone con ahorro de batería
-             (o dentro de Instagram, WhatsApp…) no deja arrancar un vídeo
-             solo y se quedaba quieta hasta tocar la pantalla; una imagen se
-             mueve siempre. Carga diferida; en escritorio está oculta y no
-             llega a descargarse. Sin AVIF se ve el fotograma fijo (JPG). -->
+             Se ve como una imagen animada (sin sonido, en bucle, sin
+             controles) y no se descarga hasta que está a punto de verse; en
+             escritorio está oculta y no llega a descargarse. -->
         <a href="./abonate/" class="home-anim-movil" aria-label="Hazte abonado de la temporada 2026/2027">
-            <picture>
-                <source srcset="src/assets/animacioncarnet2627.avif" type="image/avif">
-                <img class="anim-carnet" src="src/assets/animacioncarnet2627.jpg" alt="" width="720" height="1280" loading="lazy" decoding="async">
-            </picture>
+            <video class="anim-auto" muted loop playsinline preload="none"
+                   poster="src/assets/animacioncarnet2627.jpg"
+                   data-src="src/assets/animacioncarnet2627.mp4"
+                   disablepictureinpicture disableremoteplayback
+                   aria-hidden="true"></video>
         </a>
         </div><!-- /home-posters-row -->
 
@@ -1905,7 +1904,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="script.js?v=campana-81"></script>
+    <script data-cfasync="false" src="script.js?v=campana-82"></script>
 
     <script>
     // Tag mini-carousels: crossfade through each tag's latest news. No

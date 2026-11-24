@@ -15,7 +15,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="../src/assets/favicon.png">
     <link rel="icon" type="image/png" sizes="128x128" href="../src/assets/favicon-128.png">
     <link rel="apple-touch-icon" href="../src/assets/apple-touch-icon.png">
-    <link rel="stylesheet" href="../style.css?v=campana-81">
+    <link rel="stylesheet" href="../style.css?v=campana-82">
     <!-- Open Graph: el enlace se va a compartir en redes, que salga el cartel -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="Únete a la #FamiliaVetusta · Campaña de abonados 2026/2027">
@@ -110,16 +110,17 @@
                     </a>
                 </figure>
 
-                <!-- Animación del carnet: imagen animada (AVIF), que se mueve
-                     sola sin depender de las reglas de reproducción automática
-                     de vídeo (el iPhone con ahorro de batería no deja arrancar
-                     un vídeo sin tocar la pantalla). Sin AVIF se ve el
-                     fotograma fijo del anverso (JPG). -->
+                <!-- Animación del carnet. Sin controles, en bucle y sin sonido:
+                     se ve como una imagen animada, no como un vídeo que haya
+                     que reproducir. No se descarga hasta que asoma en pantalla
+                     (data-src); mientras, y para quien tenga activado reducir
+                     movimiento, se ve el fotograma fijo del anverso. -->
                 <div class="abono-anim">
-                    <picture>
-                        <source srcset="../src/assets/animacioncarnet2627.avif" type="image/avif">
-                        <img class="anim-carnet" src="../src/assets/animacioncarnet2627.jpg" alt="Animación del carnet de abonado de la temporada 2026/2027" width="720" height="1280" loading="lazy" decoding="async">
-                    </picture>
+                    <video class="anim-auto" muted loop playsinline preload="none"
+                           poster="../src/assets/animacioncarnet2627.jpg"
+                           data-src="../src/assets/animacioncarnet2627.mp4"
+                           disablepictureinpicture disableremoteplayback
+                           aria-label="Animación del carnet de abonado de la temporada 2026/2027"></video>
                 </div>
             </div>
 
@@ -162,7 +163,7 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="../script.js?v=campana-81"></script>
+    <script data-cfasync="false" src="../script.js?v=campana-82"></script>
     <script>
     // Escritorio ancho (>= 1200px): tríptico que cabe entero en la primera
     // pantalla. Animación del carnet | botón + vídeo | cartel, los tres
