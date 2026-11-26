@@ -33,3 +33,8 @@ torneo/index.html
 torneo/torneo.css
 src/assets/torneo2027/
 dossier/Dossier-IV-Torneo-BM-Vetusta-2027.pdf
+
+# Juego «Contraataque»: prototipo, sólo en local hasta que se decida
+# publicarlo (y si va oculto o enlazado). Para subirlo, quitar esta línea
+# y añadir la carpeta con git add.
+juego/
