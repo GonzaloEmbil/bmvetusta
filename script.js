@@ -1486,7 +1486,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // lea a 16px.
             var ESCUDO = 'src/assets/escudo_mini.png';
             // Nuestro lado se llama como su categoría; las escuelas, con el
-            // colegio detrás («Alevín Villafría - Germán Fdez Ramos»).
+            // colegio detrás («Alevín Villafría - Germán Fdez. Ramos»).
             function nombreNuestro(categoria) {
                 return String(categoria || '').split(' · ').join(' ');
             }

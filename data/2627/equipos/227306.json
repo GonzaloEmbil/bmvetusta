@@ -1,7 +1,7 @@
 {
   "equipo": {
     "id": "227306",
-    "nombre": "Alevín · Villafría - Germán Fdez Ramos - Amor de Dios"
+    "nombre": "Alevín · Villafría - Germán Fdez. Ramos - Amor de Dios"
   },
   "temporada": "2627",
   "equipos": [
@@ -39,7 +39,7 @@
     },
     {
       "id": "227306",
-      "nombre": "Alevín · Villafría - Germán Fdez Ramos - Amor de Dios"
+      "nombre": "Alevín · Villafría - Germán Fdez. Ramos - Amor de Dios"
     },
     {
       "id": "210714",
@@ -55,7 +55,7 @@
     },
     {
       "id": "227367",
-      "nombre": "Benjamín · Germán Fdez Ramos - Gesta"
+      "nombre": "Benjamín · Germán Fdez. Ramos - Gesta"
     }
   ],
   "grupos": [

@@ -55,12 +55,12 @@ export const EQUIPOS = [
   { id: '223207', nombre: 'Infantil Masculino B', web: true },
   // Las escuelas: en la federación van con los nombres de los colegios y el
   // escudo del club. Los prebenjamines no tienen competición todavía.
-  { id: '227306', nombre: 'Alevín · Villafría - Germán Fdez Ramos - Amor de Dios', web: true },
+  { id: '227306', nombre: 'Alevín · Villafría - Germán Fdez. Ramos - Amor de Dios', web: true },
   { id: '210714', nombre: 'Alevín · Juan Rdez. Muñiz - Ventanielles', web: true },
   { id: '227276', nombre: 'Benjamín · Amor de Dios', web: true },
   { id: '227279', nombre: 'Benjamín · Villafría - Carmen Ruiz Tilve', web: true },
-  { id: '227367', nombre: 'Benjamín · Germán Fdez Ramos - Gesta', web: true },
-  { id: '227277', nombre: 'Prebenjamín · Germán Fdz Ramos', web: false },
+  { id: '227367', nombre: 'Benjamín · Germán Fdez. Ramos - Gesta', web: true },
+  { id: '227277', nombre: 'Prebenjamín · Germán Fdez. Ramos', web: false },
   { id: '227278', nombre: 'Prebenjamín · Gesta - Ventanielles', web: false },
 ];
 
