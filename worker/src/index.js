@@ -489,7 +489,17 @@ export default {
       const cols = ['id', 'titular_id', 'parentesco', 'creado', 'modalidad', 'pago',
         'importe', 'pagado', 'nombre', 'dni', 'nacimiento', 'telefono', 'email',
         'localidad', 'imagen', 'comunicaciones', 'tutor'];
-      const escapar = (v) => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
+      // Entrecomillar protege el FORMATO (comas, saltos de línea), pero no
+      // impide que Excel o Google Sheets ejecuten como fórmula una celda que
+      // empiece por = + - @ (o tabulador/retorno). Como el nombre, la
+      // localidad o el parentesco los escribe quien rellena el alta, un
+      // apóstrofo delante fuerza a leerlos como texto (no se muestra en la
+      // hoja) y desactiva la inyección de fórmulas.
+      const escapar = (v) => {
+        let s = String(v == null ? '' : v);
+        if (/^[=+\-@\t\r]/.test(s)) s = "'" + s;
+        return `"${s.replace(/"/g, '""')}"`;
+      };
       const csv = [cols.join(';')]
         .concat((results || []).map((r) => cols.map((c) => escapar(r[c])).join(';')))
         .join('\r\n');

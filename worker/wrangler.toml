@@ -68,9 +68,14 @@ ACCESS_EQUIPO = "balonmanovetusta.cloudflareaccess.com,purple-dew-ca4c.cloudflar
 # falla cerrado a propósito. Se copia del panel de la aplicación (Application
 # Audience Tag).
 ACCESS_AUD = "1682a850cc47f07a3b6fb7e01436b4782026d8d1dd2acc2578776c6c81b264d1"
-# Segunda lista, además de la política de Access. Si allí se colase alguien
-# por un error de configuración, aquí se para.
-ACCESS_CORREOS = "gonzalomembil@gmail.com,gmembil@gmail.com,gonzalo.martinez@bookline.ai,balonmanovetusta@gmail.com,heviaembilmaria93@gmail.com,onaitz@gmail.com"
+# Segunda lista de correos autorizados, además de la política de Access: si
+# allí se colase alguien por un error de configuración, aquí se para.
+# NO va aquí (el repositorio es público y sería la lista exacta de a quién
+# hacer phishing para entrar al panel). Se guarda como secreto de Cloudflare:
+#   npx wrangler secret put ACCESS_CORREOS --config worker/wrangler.toml
+# El código la lee igual con env.ACCESS_CORREOS. OJO: el secreto debe existir
+# ANTES del próximo `wrangler deploy`; si no, esta segunda cerradura se queda
+# vacía y solo protege Access.
 
 # Programador: cada cinco minutos mira si hay campañas cuya hora ha llegado.
 [triggers]
